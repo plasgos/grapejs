@@ -1,0 +1,89 @@
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInDown {
+  animation: fade-in-down var(--animation-duration, 1s) ease-out forwards;
+}
+
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeInLeft {
+  animation: fade-in-left var(--animation-duration, 1s) ease-out;
+}
+
+@keyframes fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fadeInRight {
+  animation: fade-in-right var(--animation-duration, 1s) ease-out;
+}
+
+.custom-duration {
+  animation-duration: var(--animation-duration) !important;
+}
+
+@keyframes expand-width-fill-in {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--target-width, 100%);
+  }
+}
+
+.expandWidthFillIn {
+  animation: expand-width-fill-in var(--animation-duration, 1s) ease-out;
+}
+
+@keyframes expand-width-fill-out {
+  from {
+    width: 100%;
+  }
+  to {
+    width: var(--target-width, 100%);
+  }
+}
+
+.expandWidthFillOut {
+  animation: expand-width-fill-out var(--animation-duration, 1s) ease-out;
+}
+
+/* Animasi bounce */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0); /* Posisi awal dan akhir */
+  }
+  50% {
+    transform: translateY(10px); /* Gerakan ke bawah */
+  }
+}
+
+.infiniteBounce {
+  animation: bounce 1s infinite ease-in-out;
+}

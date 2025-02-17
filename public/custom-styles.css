@@ -1,0 +1,7 @@
+.custom-btn {
+  border-radius: 20px;
+  padding: 10px;
+}
+.custom-btn:hover {
+  opacity: 0.6 !important;
+}
