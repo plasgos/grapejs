@@ -5,6 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function CustomBlockManager({
   mapCategoryBlocks,
@@ -12,10 +14,14 @@ export default function CustomBlockManager({
   dragStop,
   searchBlock,
 }) {
+  const [openCategories, setOpenCategories] = useState([]);
+
   const filteredBlocks = Array.from(mapCategoryBlocks).reduce(
     (acc, [category, blocks]) => {
-      const filtered = blocks.filter((block) =>
-        block.getLabel().toLowerCase().includes(searchBlock.toLowerCase())
+      const filtered = blocks.filter(
+        (block) =>
+          block.getLabel().toLowerCase().includes(searchBlock.toLowerCase()) ||
+          category.toLowerCase().includes(searchBlock.toLowerCase())
       );
       if (filtered.length > 0) {
         acc.set(category, filtered);
@@ -25,6 +31,22 @@ export default function CustomBlockManager({
     new Map()
   );
 
+  // Inisialisasi semua kategori terbuka pada render pertama
+  useEffect(() => {
+    const allCategories = Array.from(mapCategoryBlocks.keys());
+    setOpenCategories(allCategories); // Semua kategori dibuka saat pertama kali render
+  }, [mapCategoryBlocks]);
+
+  useEffect(() => {
+    if (searchBlock) {
+      const categoriesToOpen = Array.from(filteredBlocks.keys());
+      setOpenCategories(categoriesToOpen);
+    } else {
+      const allCategories = Array.from(mapCategoryBlocks.keys());
+      setOpenCategories(allCategories);
+    }
+  }, [searchBlock]);
+
   return (
     <div className="gjs-custom-block-manager text-left px-5  pb-5">
       {Array.from(filteredBlocks).length > 0 ? (
@@ -32,10 +54,10 @@ export default function CustomBlockManager({
           {Array.from(filteredBlocks).map(([category, blocks]) => (
             <div key={category}>
               <Accordion
-                defaultValue="Custom Widgets"
                 key={category}
-                type="single"
-                collapsible
+                type="multiple"
+                value={openCategories}
+                onValueChange={setOpenCategories}
               >
                 <AccordionItem value={`${category}`}>
                   <AccordionTrigger className="!no-underline">

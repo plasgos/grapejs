@@ -1,5 +1,6 @@
 import EditorContentShowcase from "./editor-block/editor-showcase-content";
 import EditorCTA from "./editor-block/EditorCTA";
+import EditorModalPopup from "./editor-block/modal-popup";
 
 const ComponentStyleEditor = ({ selectedComponent }) => {
   return (
@@ -10,6 +11,10 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
 
       {selectedComponent.get("type") === "content-showcase" && (
         <EditorContentShowcase selectedComponent={selectedComponent} />
+      )}
+
+      {selectedComponent.get("type") === "modal-popup" && (
+        <EditorModalPopup selectedComponent={selectedComponent} />
       )}
     </div>
   );

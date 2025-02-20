@@ -22,6 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   handleAddWatermark,
   injectTailwindCss,
+  onAddingAnimateCss,
   updateCanvasComponents,
 } from "./MainWebEditor";
 
@@ -102,6 +103,9 @@ const Sidebar = ({
 
           injectTailwindCss(editor);
           handleAddWatermark(editor);
+
+          onAddingAnimateCss(editor);
+
           updateCanvasComponents(editor, setCanvasComponents);
 
           // Tampilkan toast sukses

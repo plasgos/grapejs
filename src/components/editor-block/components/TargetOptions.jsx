@@ -134,6 +134,7 @@ const TargetOptions = ({
       globalOptions.scrollTarget[0].value
   );
   const [popupValue, setPopupValue] = useState(undefined);
+  console.log("🚀 ~ popupValue:", popupValue);
   const [localPageValue, setLocalPageValue] = useState(
     currentContent?.target?.options?.value ||
       localPageTargetOptions[0].options[0].value
@@ -248,6 +249,15 @@ const TargetOptions = ({
     handleContentChange(contentId, "target", updatedComponent);
   };
 
+  const handleChangePopup = (value) => {
+    const updatedComponent = produce(currentContent.target, (draft) => {
+      draft.options.type = "popup";
+      draft.options.value = value;
+    });
+
+    handleContentChange(contentId, "target", updatedComponent);
+  };
+
   useEffect(() => {
     if (currentContent) {
       const currentglobalOptions = editorModel.get("globalOptions");
@@ -292,7 +302,6 @@ const TargetOptions = ({
         setSelectedActionMode(currentContent.target.options.type);
         setScrollTargetValue(currentContent.target.options.value);
       } else if (selectedClickAction === "navigate") {
-        setLocalPageValue(currentContent.target.options.type);
         setLocalPageValue(currentContent.target.options.value);
       }
     }
@@ -558,8 +567,9 @@ const TargetOptions = ({
                       value={scrollTargetValue}
                       defaultValue={scrollTargetValue}
                       onValueChange={(value) => {
-                        setScrollTargetValue(value);
                         handleChangeScrollTargetValue(value);
+                        setScrollTargetValue(value);
+                        value;
                       }}
                     >
                       <SelectTrigger className="w-full">
@@ -579,6 +589,7 @@ const TargetOptions = ({
                     <Select
                       value={popupValue}
                       onValueChange={(value) => {
+                        handleChangePopup(value);
                         setPopupValue(value);
                       }}
                     >
@@ -589,7 +600,7 @@ const TargetOptions = ({
                       <SelectContent>
                         {globalOptions.popup.length > 0 ? (
                           globalOptions.popup.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
+                            <SelectItem key={opt.id} value={opt.id}>
                               {opt.label}
                             </SelectItem>
                           ))

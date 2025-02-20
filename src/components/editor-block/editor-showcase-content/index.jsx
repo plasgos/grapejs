@@ -24,7 +24,7 @@ const EditorContentShowcase = ({ selectedComponent }) => {
     useChangeContents(selectedComponent);
   const [editItem, setEditItem] = useState("");
 
-  console.log("🚀 ~ EditorContentShowcase ~ contents:", contents[0]);
+  console.log("🚀 ~ EditorContentShowcase ~ contents:", contents);
 
   const handleFileUpload = (id) => {
     onChangeFileUpload(id, handleContentChange);

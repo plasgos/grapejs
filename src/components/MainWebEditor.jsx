@@ -3,6 +3,7 @@ import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import { renderToStaticMarkup } from "react-dom/server";
 import "../index.css";
+import "animate.css";
 
 import { createRoot } from "react-dom/client";
 import Watermark from "./Watermark";
@@ -17,7 +18,22 @@ import Sidebar from "./Sidebar";
 
 import plasgosPlugin from "@/plugins";
 import animateCSS from "animate.css/animate.min.css?inline";
-// Simpan root instance agar tidak dibuat ulang
+
+export const onAddingAnimateCss = (editor) => {
+  const frame = editor.Canvas.getFrameEl();
+  const frameDoc = frame?.contentDocument;
+
+  if (frameDoc) {
+    // Cek apakah animate.css sudah ada
+    if (!frameDoc.querySelector("#animate-css")) {
+      const style = frameDoc.createElement("style");
+      style.id = "animate-css";
+      style.innerHTML = animateCSS;
+      frameDoc.head.appendChild(style);
+    }
+  }
+};
+
 const rootMap = new Map();
 
 export const handleAddWatermark = (editor) => {
@@ -70,6 +86,7 @@ export const getAllComponents = (editor) => {
     id: comp.getId(),
     name: comp.get("tagName") || `Component ${index + 1}`,
     model: comp,
+    category: comp.get("category"),
   }));
 };
 
@@ -90,6 +107,17 @@ export const injectTailwindCss = (editor) => {
   const tailwindStyle = document.createElement("link");
   tailwindStyle.rel = "stylesheet";
   tailwindStyle.href = "/src/index.css";
+  head.appendChild(tailwindStyle);
+};
+
+export const injectCustomAnimate = (editor) => {
+  const canvasDoc = editor.Canvas.getFrameEl().contentDocument;
+  const head = canvasDoc.head;
+
+  // Ambil file Tailwind dari yang sudah ada di project
+  const tailwindStyle = document.createElement("link");
+  tailwindStyle.rel = "stylesheet";
+  tailwindStyle.href = "/animation.css";
   head.appendChild(tailwindStyle);
 };
 
@@ -133,16 +161,14 @@ const MainWebEditor = () => {
     handleAddWatermark(editor);
     handleFocusDropComponent(editor);
     onCustomToolbar(editor);
-    onAddingAnimateCss(editor);
 
     editor.on("load", () => {
       injectTailwindCss(editor);
-    });
-
-    editor.on("load", () => {
+      onAddingAnimateCss(editor);
       updateCanvasComponents(editor, setCanvasComponents);
       handleAddWatermark(editor);
     });
+
     editor.on("component:add", () => {
       updateCanvasComponents(editor, setCanvasComponents);
       handleAddWatermark(editor);
@@ -219,21 +245,43 @@ const MainWebEditor = () => {
 
       // Set global options
       editorModel.set("globalOptions", intialStateGlobalData);
+
+      console.log("STORE", editorModel.get("globalOptions"));
     });
 
     overrideDeleteCommand(editor);
     overrideCopyCommand(editor);
-    // onScrollBottom(editor);
   };
 
   const overrideDeleteCommand = (editor) => {
     // Override fungsi delete default
     editor.Commands.add("core:component-delete", {
       run(editor) {
+        const editorModel = editor.getModel();
+
+        const globalOptions = editorModel.get("globalOptions");
+
         const selected = editor.getSelected();
+        console.log("🚀 ~ run ~ selected:", selected);
         if (selected) {
-          selected.remove(); // Hapus komponen
-          editor.select(editor.getWrapper()); // Pilih wrapper setelah dihapus
+          if (selected.get("type") === "modal-popup") {
+            console.log("REMOVE POPUP");
+
+            editorModel.set("globalOptions", {
+              ...globalOptions,
+              popup: globalOptions.popup.filter(
+                (opt) => opt.id !== selected.get("customComponent").popupId
+              ),
+            });
+
+            console.log("STOREzzz", editorModel.get("globalOptions"));
+
+            selected.remove();
+          } else {
+            selected.remove();
+          }
+
+          editor.select(editor.getWrapper());
         }
       },
     });
@@ -275,6 +323,25 @@ const MainWebEditor = () => {
   const onCustomToolbar = (editor) => {
     editor.on("component:selected", (component) => {
       const wrapper = editor.getWrapper();
+
+      // Kondisikan jika komponen yang dipilih adalah modal-popup
+      if (component.get("type") === "modal-popup") {
+        // Menampilkan hanya toolbar delete pada modal-popup
+        const customToolbar = [
+          {
+            id: "custom-tool-2",
+            attributes: {
+              title: "Remove",
+            },
+            label: renderToStaticMarkup(<FaTrashAlt />),
+            command: "core:component-delete", // Perintah custom delete
+          },
+        ];
+
+        // Menambahkan toolbar custom (hanya delete) ke komponen modal-popup
+        component.set("toolbar", customToolbar);
+        return;
+      }
 
       // Cek apakah komponen yang dipilih adalah wrapper atau tidak
       if (component === wrapper) {
@@ -366,23 +433,6 @@ const MainWebEditor = () => {
         // Logika perintah untuk tool custom 2
         console.log("Custom Tool 2 activated!");
       },
-    });
-  };
-
-  const onAddingAnimateCss = (editor) => {
-    editor.on("load", () => {
-      const frame = editor.Canvas.getFrameEl();
-      const frameDoc = frame?.contentDocument;
-
-      if (frameDoc) {
-        // Cek apakah animate.css sudah ada
-        if (!frameDoc.querySelector("#animate-css")) {
-          const style = frameDoc.createElement("style");
-          style.id = "animate-css";
-          style.innerHTML = animateCSS;
-          frameDoc.head.appendChild(style);
-        }
-      }
     });
   };
 
