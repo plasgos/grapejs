@@ -60,7 +60,7 @@ const ContentShowcase = ({ section, editor }) => {
                     aspectRatio,
                   }}
                   className={`w-full object-contain my-3 ${
-                    content.target.options.type ? "cursor-pointer" : ""
+                    content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
                   onClick={() => onActionClickTarget(content?.target)}
                   effect="blur"
@@ -89,7 +89,7 @@ const ContentShowcase = ({ section, editor }) => {
                     aspectRatio,
                   }}
                   className={`w-full object-contain my-3 ${
-                    content.target.options.type ? "cursor-pointer" : ""
+                    content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
                   onClick={() => onActionClickTarget(content?.target, editor)}
                   effect="blur"
@@ -118,7 +118,7 @@ const ContentShowcase = ({ section, editor }) => {
                     aspectRatio,
                   }}
                   className={`w-full object-contain my-3 ${
-                    content.target.options.type ? "cursor-pointer" : ""
+                    content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
                   onClick={() => onActionClickTarget(content?.target)}
                   effect="blur"

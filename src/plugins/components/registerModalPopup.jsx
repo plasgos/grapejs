@@ -77,6 +77,17 @@ export const registerModalPopup = (editor) => {
           this.renderReactComponent
         );
 
+        const editorModel = editor.getModel();
+        this.listenTo(
+          editorModel,
+          "change:globalOptions",
+          this.handleGlobalOptionsChange
+        );
+
+        this.renderReactComponent();
+      },
+
+      handleGlobalOptionsChange() {
         this.renderReactComponent();
       },
 
@@ -85,10 +96,13 @@ export const registerModalPopup = (editor) => {
           this.root = createRoot(this.el); // Hanya buat satu instance root
         }
 
+        // const globalOptions = editor.getModel().get("globalOptions");
+
         this.root.render(
           <ModalPopup
             section={this.model.get("customComponent")}
             editor={editor}
+            // globalOptions={globalOptions}
           />
         );
       },

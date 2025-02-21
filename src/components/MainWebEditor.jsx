@@ -245,8 +245,6 @@ const MainWebEditor = () => {
 
       // Set global options
       editorModel.set("globalOptions", intialStateGlobalData);
-
-      console.log("STORE", editorModel.get("globalOptions"));
     });
 
     overrideDeleteCommand(editor);

@@ -7,7 +7,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 const ModalPopup = ({ section, editor }) => {
   const editorModel = editor.getModel();
-  const globalOptionsPopup = editorModel.get("globalOptions").popup;
+  const globalOptions = editorModel.get("globalOptions");
 
   const { popupId, typeOpen } = section;
   const [isOpen, setIsOpen] = useState(false);
@@ -16,10 +16,35 @@ const ModalPopup = ({ section, editor }) => {
   const onCLose = () => {
     setisDelayAnimate(true);
 
-    setTimeout(() => {
-      setIsOpen(false);
-      setisDelayAnimate(false);
-    }, 300);
+    if (typeOpen === "onClick" && globalOptions.popup.length > 0) {
+      const selectedPopup = globalOptions.popup.find(
+        (popup) => popup.id === popupId
+      );
+
+      if (selectedPopup) {
+        editorModel.set("globalOptions", {
+          ...globalOptions,
+          popup: globalOptions.popup.map((item) =>
+            item.id === selectedPopup.id
+              ? {
+                  ...item,
+                  isShown: false,
+                }
+              : item
+          ),
+        });
+      }
+
+      setTimeout(() => {
+        setIsOpen(false);
+        setisDelayAnimate(false);
+      }, 300);
+    } else {
+      setTimeout(() => {
+        setIsOpen(false);
+        setisDelayAnimate(false);
+      }, 300);
+    }
   };
 
   useEffect(() => {
@@ -29,8 +54,8 @@ const ModalPopup = ({ section, editor }) => {
       setTimeout(() => {
         setIsOpen(true);
       }, 3000);
-    } else if (typeOpen === "onClick" && globalOptionsPopup.length > 0) {
-      const selectedPopup = globalOptionsPopup.find(
+    } else if (typeOpen === "onClick" && globalOptions.popup.length > 0) {
+      const selectedPopup = globalOptions.popup.find(
         (popup) => popup.id === popupId
       );
 
@@ -38,7 +63,9 @@ const ModalPopup = ({ section, editor }) => {
         setIsOpen(true);
       }
     }
-  }, [globalOptionsPopup, popupId, typeOpen]);
+  }, [globalOptions.popup, popupId, typeOpen]);
+
+  const currentPopup = globalOptions.popup.find((item) => item.id === popupId);
 
   return (
     <>
@@ -65,7 +92,7 @@ const ModalPopup = ({ section, editor }) => {
               section={section}
             >
               <div className="flex justify-center items-center bg-white rounded-xl p-5">
-                <p className="w-full text-center">MODAL</p>
+                <p className="w-full text-center">MODAL {currentPopup.value}</p>
               </div>
             </ContainerView>
           </div>
