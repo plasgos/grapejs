@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/popover";
 
 export const parseRGBA = (rgba) => {
+  console.log("🚀 ~ parseRGBA ~ rgba:", rgba);
   // Default value jika parsing gagal
   const defaultResult = {
     r: "0", // Default red value

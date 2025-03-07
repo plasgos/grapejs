@@ -14,6 +14,10 @@ import ColorPicker from "../components/ColorPicker";
 import SelectFontFamily from "../components/SelectFontFamily";
 import SelectFontSize from "../components/SelectFontSize";
 import SelectTextAligment from "../components/SelectTextAligment";
+import {
+  aspectRatioOptions,
+  maxColumnOptions,
+} from "@/components/SelectOptions";
 
 const imagePositionOptions = [
   { value: "top", label: "Top", icon: <TbBoxAlignTopFilled size={24} /> },
@@ -27,42 +31,6 @@ const imagePositionOptions = [
     label: "Bottom",
     icon: <TbBoxAlignBottomFilled size={24} />,
   },
-];
-
-const aspectRatioOptions = [
-  {
-    label: "Kotak",
-    options: [{ value: 1 / 1, label: "1:1" }],
-  },
-  {
-    label: "Melebar",
-    options: [
-      { value: 5 / 4, label: "5:4" },
-      { value: 4 / 3, label: "4:3" },
-      { value: 5 / 3, label: "5:3" },
-      { value: 2 / 1, label: "2:1" },
-    ],
-  },
-  {
-    label: "Potret",
-    options: [
-      { value: 4 / 5, label: "4:5" },
-      { value: 3 / 4, label: "3:4" },
-      { value: 3 / 5, label: "3:5" },
-      { value: 1 / 2, label: "1:2" },
-    ],
-  },
-];
-
-const maxColumnOptions = [
-  {
-    value: "2",
-    label: "2",
-  },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
 ];
 
 const StylesTab = ({ selectedComponent }) => {

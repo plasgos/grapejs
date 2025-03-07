@@ -1,18 +1,27 @@
 import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
 
-const ContainerView = ({ children, section, id }) => {
+const ContainerView = ({
+  children,
+  section,
+  id,
+  customStyles,
+  customClassName,
+}) => {
   const stylesBg = useBackgroundStyles(section);
   return (
     <div
+      className={`${customClassName}`}
       id={id}
       style={{
         paddingTop: stylesBg.paddingTop,
         paddingBottom: stylesBg.paddingBottom,
         backgroundColor:
-          section?.background?.bgType === "bgColor" &&
-          section?.background?.bgColor,
+          section?.background?.bgType === "bgColor"
+            ? section?.background?.bgColor
+            : "transparent",
         position: "relative",
         zIndex: 1,
+        ...customStyles,
       }}
     >
       {section?.background?.bgType === "image" ? (

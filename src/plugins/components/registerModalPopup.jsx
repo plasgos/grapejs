@@ -1,7 +1,3 @@
-import products1 from "@/assets/products1.webp";
-import products2 from "@/assets/products2.webp";
-import products3 from "@/assets/products3.webp";
-import { generateId } from "@/lib/utils";
 import ModalPopup from "@/view/modal-popup";
 import { createRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
@@ -33,20 +29,22 @@ export const registerModalPopup = (editor) => {
         attributes: {},
         category: "Floating Widgets",
         blockLabel: "Modal Popup",
+        blockIcon: <VscMultipleWindows size={20} />,
         customComponent: {
           scrollTarget: undefined,
           popupId: "",
-          typeOpen: "onClick",
-          contents: [{}],
+          isPreviewModal: false,
+          popupModalOption: {
+            typeOpen: "onClick",
+            delayDuration: 3000,
+          },
+          contents: [],
           wrapperStyle: {
             popupName: "popup-01",
             rounded: 10,
             isPopupShown: true,
-            width: 500,
-            shownOnWhen: {
-              value: "immediately",
-              isShown: true,
-            },
+            width: 700,
+            appearEffect: "animate__fadeInUp",
           },
 
           background: {

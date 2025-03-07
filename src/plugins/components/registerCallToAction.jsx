@@ -6,7 +6,7 @@ import { MdOutlineCallToAction } from "react-icons/md";
 export const registerCallToAction = (editor, canvasFrame) => {
   editor.BlockManager.add("call-to-action", {
     label: "Call To Action",
-    category: "Custom Widgets",
+    category: "Contents",
     content: { type: "call-to-action" },
     activate: true,
     media: renderToString(<MdOutlineCallToAction size={40} />),
@@ -23,6 +23,8 @@ export const registerCallToAction = (editor, canvasFrame) => {
         hoverable: true,
         attributes: {},
         blockLabel: "Call To Action",
+        category: "Contents",
+        blockIcon: <MdOutlineCallToAction size={20} />,
         isDragging: false,
         customComponent: {
           scrollTarget: undefined,
@@ -51,7 +53,6 @@ export const registerCallToAction = (editor, canvasFrame) => {
               },
             },
             animation: {
-              // type: "animate__fadeInLeftBig",
               type: null,
               duration: 1,
               isReplay: false,

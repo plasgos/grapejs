@@ -105,7 +105,6 @@ const clickActionOptions = [
 
 const TargetOptions = ({ content, handleContentChange }) => {
   const [target, setTarget] = useState(content.target);
-  console.log("🚀 ~ target:", target);
   const editor = useEditor();
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");

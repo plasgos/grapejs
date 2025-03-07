@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { FaTrashAlt } from "react-icons/fa";
 
-const SortableItem = ({ item, setIsDragging }) => {
+const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
   const editor = useEditor();
 
   const {
@@ -30,7 +30,7 @@ const SortableItem = ({ item, setIsDragging }) => {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: item.id });
+  } = useSortable({ id: item.id, disabled: isFloatingComponent });
 
   useEffect(() => {
     setIsDragging(isDragging);
@@ -98,12 +98,19 @@ const SortableItem = ({ item, setIsDragging }) => {
       action: "Select",
       command: handleSelect,
       icon: <MdOutlineFilterCenterFocus />,
+      isDisable: false,
     },
-    { action: "Copy", command: handleCopy, icon: <IoCopyOutline /> },
+    {
+      action: "Copy",
+      command: handleCopy,
+      icon: <IoCopyOutline />,
+      isDisable: isFloatingComponent ? true : false,
+    },
     {
       action: "Remove",
       command: handleDelete,
       icon: <FaTrashAlt color="red" />,
+      isDisable: false,
     },
   ];
 
@@ -112,7 +119,9 @@ const SortableItem = ({ item, setIsDragging }) => {
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className={`py-2 px-2 bg-white shadow cursor-move  rounded-xl relative ${
+      className={`py-2 px-2 bg-white shadow ${
+        isFloatingComponent ? "cursor-not-allowed" : "cursor-move "
+      } rounded-xl relative ${
         isDragging ? "z-20 bg-purple-200 ring-2 ring-purple-700" : ""
       }`}
       style={{
@@ -132,40 +141,51 @@ const SortableItem = ({ item, setIsDragging }) => {
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="pl-5 font-semibold text-sm">
-          <p>{item.model?.attributes?.blockLabel}</p>
+        <div className="pl-5 flex items-center gap-x-2">
+          {item.model.attributes.blockIcon}
+
+          <div className=" font-semibold text-sm">
+            <p>{item.model?.attributes?.blockLabel}</p>
+          </div>
         </div>
 
         <div className="flex gap-x-1">
-          {commandNavigation.map((navigate) => (
-            <TooltipProvider key={navigate.action} delayDuration={300}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    className="p-1.5"
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate.command();
-                    }}
-                    variant="ghost"
-                  >
-                    {navigate.icon}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{navigate.action}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          ))}
+          {commandNavigation
+            .filter((naviagtions) => !naviagtions.isDisable)
+            .map((navigate) => (
+              <TooltipProvider key={navigate.action} delayDuration={300}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      className="p-1.5"
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate.command();
+                      }}
+                      variant="ghost"
+                    >
+                      {navigate.icon}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{navigate.action}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ))}
         </div>
       </div>
     </div>
   );
 };
 
-const Navigator = ({ components, onReorder, setIsDragging }) => {
+const Navigator = ({
+  components,
+  onReorder,
+  setIsDragging,
+  isFloatingComponent,
+}) => {
   const editor = useEditor();
 
   const handleDragStart = (event) => {
@@ -206,12 +226,20 @@ const Navigator = ({ components, onReorder, setIsDragging }) => {
     <DndContext
       collisionDetection={closestCenter}
       onDragStart={(event) => {
-        handleDragStart(event);
+        if (!isFloatingComponent) {
+          handleDragStart(event);
+        }
       }}
       onDragEnd={(event) => {
-        handleDragEnd(event);
+        if (!isFloatingComponent) {
+          handleDragEnd(event);
+        }
       }}
-      onDragOver={(event) => onReorder(event, editor)}
+      onDragOver={(event) => {
+        if (!isFloatingComponent) {
+          onReorder(event, editor, isFloatingComponent);
+        }
+      }}
     >
       <SortableContext
         items={components}
@@ -224,6 +252,7 @@ const Navigator = ({ components, onReorder, setIsDragging }) => {
                 key={item.id}
                 item={item}
                 setIsDragging={setIsDragging}
+                isFloatingComponent={isFloatingComponent}
               />
             ))
           ) : (

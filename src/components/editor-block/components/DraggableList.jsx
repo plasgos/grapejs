@@ -6,6 +6,9 @@ import {
 } from "@/components/ui/tooltip";
 import { produce } from "immer";
 
+import { createElement } from "react";
+import * as Icons from "react-icons/fa";
+
 import {
   Accordion,
   AccordionContent,
@@ -145,8 +148,16 @@ const SortableItem = ({
             />
           ) : null}
 
+          {item.iconBtn.icon ? (
+            <div>
+              {createElement(Icons[item.iconBtn?.icon], {
+                size: 24,
+              })}
+            </div>
+          ) : null}
+
           <div className=" font-semibold text-sm  max-w-36">
-            <p className="truncate">{item.title}</p>
+            <p className="truncate">{item?.title}</p>
           </div>
         </div>
 

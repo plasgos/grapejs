@@ -19,6 +19,7 @@ import {
   Underline,
 } from "ckeditor5";
 const LICENSE_KEY = "GPL";
+
 import "ckeditor5/ckeditor5.css";
 import { Label } from "../../ui/label";
 

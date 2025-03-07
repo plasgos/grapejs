@@ -62,7 +62,7 @@ const ContentShowcase = ({ section, editor }) => {
                   className={`w-full object-contain my-3 ${
                     content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
-                  onClick={() => onActionClickTarget(content?.target)}
+                  onClick={() => onActionClickTarget(content?.target, editor)}
                   effect="blur"
                   wrapperProps={{
                     style: { transitionDelay: "1s" },
@@ -120,7 +120,7 @@ const ContentShowcase = ({ section, editor }) => {
                   className={`w-full object-contain my-3 ${
                     content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
-                  onClick={() => onActionClickTarget(content?.target)}
+                  onClick={() => onActionClickTarget(content?.target, editor)}
                   effect="blur"
                   wrapperProps={{
                     style: { transitionDelay: "1s" },

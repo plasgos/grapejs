@@ -129,7 +129,11 @@ const MainWebEditor = () => {
 
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleReorder = (event, editor) => {
+  const handleReorder = (event, editor, isFloatingComponent) => {
+    if (isFloatingComponent) {
+      return;
+    }
+
     const { active, over } = event;
 
     if (!over || active.id === over.id) return;
@@ -271,8 +275,6 @@ const MainWebEditor = () => {
                 (opt) => opt.id !== selected.get("customComponent").popupId
               ),
             });
-
-            console.log("STOREzzz", editorModel.get("globalOptions"));
 
             selected.remove();
           } else {

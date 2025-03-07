@@ -9,13 +9,13 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 
-const SelectOptions = ({ label, options, value, onChange }) => {
+const SelectOptions = ({ asChild, label, options, value, onChange }) => {
   // Cek apakah `options` memiliki `label` (menandakan grouping)
   const isGrouped = options.some((opt) => opt.options);
 
   return (
-    <div className="space-y-2">
-      <Label>{label}</Label>
+    <div className="space-y-2 w-full">
+      <Label className={`${asChild && "font-normal"}`}>{label}</Label>
 
       <Select value={value} onValueChange={(value) => onChange(value)}>
         <SelectTrigger className="w-full bg-white">

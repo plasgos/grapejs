@@ -260,6 +260,7 @@ const Navbar = ({
                         components={floatingComponents}
                         onReorder={onReorder}
                         setIsDragging={setIsDragging}
+                        isFloatingComponent
                       />
                     </div>
                   </TabsContent>

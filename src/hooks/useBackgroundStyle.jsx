@@ -3,16 +3,16 @@ import { useMemo } from "react";
 export const useBackgroundStyles = (content) => {
   return useMemo(() => {
     const paddingTop = content.background?.paddingTop
-      ? `calc(16px + ${content.background?.paddingTop}px)`
+      ? `calc(0px + ${content.background?.paddingTop}px)`
       : content.background?.paddingY
-      ? `calc(16px + ${content.background?.paddingY}px)`
-      : "16px";
+      ? `calc(0px + ${content.background?.paddingY}px)`
+      : "0px";
 
     const paddingBottom = content.background?.paddingBottom
-      ? `calc(16px + ${content.background?.paddingBottom}px)`
+      ? `calc(0px + ${content.background?.paddingBottom}px)`
       : content.background?.paddingY
-      ? `calc(16px + ${content.background?.paddingY}px)`
-      : "16px";
+      ? `calc(0px + ${content.background?.paddingY}px)`
+      : "0px";
 
     const backgroundImgStyle = {
       position: "absolute",
