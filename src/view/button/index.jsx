@@ -6,6 +6,7 @@ import ContainerView from "@/components/ContainerView";
 
 const ViewButton = ({ section, editor }) => {
   const { contents } = section;
+  console.log("🚀 ~ ViewButton ~ contents:", contents);
   const { position, align } = section.wrapperStyle;
 
   return (
