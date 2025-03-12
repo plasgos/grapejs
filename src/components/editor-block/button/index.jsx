@@ -14,7 +14,6 @@ import { generateId } from "@/lib/utils";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import TransiitonEditor from "../components/TransiitonEditor";
 
 import { Label } from "@/components/ui/label";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
@@ -25,6 +24,7 @@ import IconPicker from "../components/IconPicker";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { TbMinusVertical } from "react-icons/tb";
 import { btnPostionOptions } from "../hero-section";
+import BackgroundEditor from "../components/BackgroundEditor";
 const buttonPosition = [
   { value: "flex-row", label: "Row", icon: <MdOutlineHorizontalRule /> },
   { value: "flex-col", label: "Column", icon: <TbMinusVertical /> },
@@ -157,7 +157,7 @@ const EditorButton = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutBackground withoutStyles withoutTransition>
+    <TabsEditor withoutStyles withoutTransition>
       <TabsContent
         className="px-4 pb-5 animate__animated animate__fadeInLeft"
         value="content"
@@ -237,8 +237,11 @@ const EditorButton = ({ selectedComponent }) => {
         </div>
       </TabsContent>
 
-      <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+      <TabsContent
+        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        value="background"
+      >
+        <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

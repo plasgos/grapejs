@@ -19,6 +19,23 @@ import Sidebar from "./Sidebar";
 import plasgosPlugin from "@/plugins";
 import animateCSS from "animate.css/animate.min.css?inline";
 
+import swiperCSS from "swiper/swiper-bundle.css?inline";
+
+export const onAddingSwiperCss = (editor) => {
+  const frame = editor.Canvas.getFrameEl();
+  const frameDoc = frame?.contentDocument;
+
+  if (frameDoc) {
+    // Cek apakah Swiper CSS sudah ada
+    if (!frameDoc.querySelector("#swiper-css")) {
+      const style = frameDoc.createElement("style");
+      style.id = "swiper-css";
+      style.innerHTML = swiperCSS;
+      frameDoc.head.appendChild(style);
+    }
+  }
+};
+
 export const onAddingAnimateCss = (editor) => {
   const frame = editor.Canvas.getFrameEl();
   const frameDoc = frame?.contentDocument;
@@ -169,6 +186,7 @@ const MainWebEditor = () => {
     editor.on("load", () => {
       injectTailwindCss(editor);
       onAddingAnimateCss(editor);
+      onAddingSwiperCss(editor);
       updateCanvasComponents(editor, setCanvasComponents);
       handleAddWatermark(editor);
     });

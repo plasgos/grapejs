@@ -7,6 +7,7 @@ import { registerHeroSection } from "./components/registerHeroSection";
 import { registerImage } from "./components/registerImage";
 import { registerListImages } from "./components/registerListImages";
 import { registerModalPopup } from "./components/registerModalPopup";
+import { registerSliderImages } from "./components/registerSliderImages";
 import { registerVideo } from "./components/registerVideo";
 import { registerVideoText } from "./components/registerVideoText";
 
@@ -24,6 +25,7 @@ const plasgosPlugin = (editor) => {
     registerFloatingButtonCircle(editor);
     registerFloatingButton(editor);
     registerButton(editor);
+    registerSliderImages(editor);
   });
 };
 

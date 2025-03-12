@@ -7,6 +7,7 @@ import EditorHeroSection from "./editor-block/hero-section";
 import EditorImage from "./editor-block/image";
 import EditorListImages from "./editor-block/list-images";
 import EditorModalPopup from "./editor-block/modal-popup";
+import EditorSliderImages from "./editor-block/slider-images";
 import EditorVideo from "./editor-block/video";
 import EditorVideoText from "./editor-block/video-text-banner";
 
@@ -52,6 +53,10 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
 
       {selectedComponent.get("type") === "button-content" && (
         <EditorButton selectedComponent={selectedComponent} />
+      )}
+
+      {selectedComponent.get("type") === "slider-images" && (
+        <EditorSliderImages selectedComponent={selectedComponent} />
       )}
     </div>
   );

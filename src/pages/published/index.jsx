@@ -4,6 +4,7 @@ import {
   injectCustomAnimate,
   injectTailwindCss,
   onAddingAnimateCss,
+  onAddingSwiperCss,
 } from "@/components/MainWebEditor";
 import plasgosPlugin from "@/plugins";
 import GjsEditor, { Canvas } from "@grapesjs/react";
@@ -39,6 +40,7 @@ const PublishedPage = () => {
       injectTailwindCss(editor);
       handleAddWatermark(editor);
       onAddingAnimateCss(editor);
+      onAddingSwiperCss(editor);
       injectCustomAnimate(editor);
 
       // Ambil semua komponen di dalam canvas

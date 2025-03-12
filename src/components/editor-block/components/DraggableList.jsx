@@ -36,6 +36,7 @@ const SortableItem = ({
   setContents,
   selectedComponent,
   setEditItem,
+  withoutFocusItem,
 }) => {
   const {
     attributes,
@@ -105,12 +106,19 @@ const SortableItem = ({
       action: "Select",
       command: handleFocusItem,
       icon: <MdOutlineFilterCenterFocus />,
+      isDisable: withoutFocusItem ? true : false,
     },
-    { action: "Edit", command: handleEdit, icon: <TbEdit /> },
+    {
+      action: "Edit",
+      command: handleEdit,
+      icon: <TbEdit />,
+      isDisable: false,
+    },
     {
       action: "Remove",
       command: handleRemoveItem,
       icon: <FaTrashAlt color="red" />,
+      isDisable: false,
     },
   ];
 
@@ -148,11 +156,17 @@ const SortableItem = ({
             />
           ) : null}
 
-          {item.iconBtn.icon ? (
+          {item?.iconBtn?.icon ? (
             <div>
               {createElement(Icons[item.iconBtn?.icon], {
                 size: 24,
               })}
+            </div>
+          ) : null}
+
+          {item?.stylesBtn?.title ? (
+            <div>
+              <p className="truncate">{item?.stylesBtn?.title}</p>
             </div>
           ) : null}
 
@@ -162,28 +176,30 @@ const SortableItem = ({
         </div>
 
         <div className="">
-          {commandNavigation.map((navigate) => (
-            <TooltipProvider key={navigate.action} delayDuration={300}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    className="p-1.5"
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate.command();
-                    }}
-                    variant="ghost"
-                  >
-                    {navigate.icon}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{navigate.action}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          ))}
+          {commandNavigation
+            .filter((naviagtions) => !naviagtions.isDisable)
+            .map((navigate) => (
+              <TooltipProvider key={navigate.action} delayDuration={300}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      className="p-1.5"
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate.command();
+                      }}
+                      variant="ghost"
+                    >
+                      {navigate.icon}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{navigate.action}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ))}
         </div>
       </div>
     </div>
@@ -198,6 +214,7 @@ const DraggableList = ({
   setEditItem,
   editItem,
   renderContents,
+  withoutFocusItem,
 }) => {
   const itemRefs = useRef({}); // Ref untuk setiap item
 
@@ -300,6 +317,7 @@ const DraggableList = ({
                       setContents={setContents}
                       selectedComponent={selectedComponent}
                       setEditItem={setEditItem}
+                      withoutFocusItem={withoutFocusItem}
                     />
                     <AccordionContent className="bg-white p-2 rounded-b-lg  ">
                       <div className="flex flex-col gap-y-3">

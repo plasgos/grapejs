@@ -1,18 +1,23 @@
-import ViewButton from "@/view/button";
+import slider1 from "@/assets/slider1.jpg";
+import slider2 from "@/assets/slider2.jpg";
+import slider3 from "@/assets/slider3.jpg";
+import slider4 from "@/assets/slider4.jpg";
 import { createRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
-import { TbSquareRoundedLetterBFilled } from "react-icons/tb";
 
-export const registerButton = (editor) => {
-  editor.BlockManager.add("button-content", {
-    label: "Button",
+import ViewSliderImages from "@/view/slider-images";
+import { TfiLayoutSliderAlt } from "react-icons/tfi";
+
+export const registerSliderImages = (editor) => {
+  editor.BlockManager.add("slider-images", {
+    label: "Slider Images",
     category: "Contents",
-    content: { type: "button-content" },
+    content: { type: "slider-images" },
     activate: true,
-    media: renderToString(<TbSquareRoundedLetterBFilled size={40} />),
+    media: renderToString(<TfiLayoutSliderAlt size={40} />),
   });
 
-  editor.Components.addType("button-content", {
+  editor.Components.addType("slider-images", {
     model: {
       defaults: {
         tagName: "div",
@@ -28,68 +33,62 @@ export const registerButton = (editor) => {
         noResize: true, // Nonaktifkan perubahan ukuran
         attributes: {},
         category: "Contents",
-        blockLabel: "Button",
-        blockIcon: <TbSquareRoundedLetterBFilled size={20} />,
+        blockLabel: "Slider Images",
+        blockIcon: <TfiLayoutSliderAlt size={20} />,
         customComponent: {
           scrollTarget: undefined,
           contents: [
             {
-              id: "button-01",
-              stylesBtn: {
-                title: "Get Started",
-                btnColor: "",
-                textColor: "",
-                size: "default",
-                variant: "default",
-                rounded: 10,
-
-                shadow: "",
-              },
-              iconBtn: {
-                icon: "",
-                color: "rgba(0,0,0,0,1)",
-                size: 24,
-                position: "right",
-              },
+              id: "slider-01",
+              image: slider1,
+              alt: "",
               target: {
                 actionType: "link",
                 options: {
                   type: null,
                 },
               },
-              isFocused: false,
             },
             {
-              id: "button-02",
-              stylesBtn: {
-                title: "Start Demo",
-                btnColor: "rgb(228 223 223 ,1)",
-                textColor: "",
-                size: "default",
-                variant: "outline",
-                shadow: "",
-                rounded: 10,
-              },
-              iconBtn: {
-                icon: "",
-                color: "rgba(0,0,0,0,1)",
-                size: 24,
-                position: "right",
-              },
+              id: "slider-02",
+              image: slider2,
+              alt: "",
               target: {
                 actionType: "link",
                 options: {
                   type: null,
                 },
               },
-              isFocused: false,
+            },
+            {
+              id: "slider-03",
+              image: slider3,
+              alt: "",
+              target: {
+                actionType: "link",
+                options: {
+                  type: null,
+                },
+              },
+            },
+            {
+              id: "slider-04",
+              image: slider4,
+              alt: "",
+              target: {
+                actionType: "link",
+                options: {
+                  type: null,
+                },
+              },
             },
           ],
           wrapperStyle: {
-            space: 20,
-            position: "flex-row",
-            align: "justify-center",
-            shadow: "shadow",
+            aspectRatio: 5 / 2,
+            autoSlide: null,
+            transitions: "scroll",
+            width: 800,
+            variant: "full-slider",
           },
           background: {
             bgType: null,
@@ -119,17 +118,6 @@ export const registerButton = (editor) => {
           this.renderReactComponent
         );
 
-        const editorModel = editor.getModel();
-        this.listenTo(
-          editorModel,
-          "change:globalOptions",
-          this.handleGlobalOptionsChange
-        );
-
-        this.renderReactComponent();
-      },
-
-      handleGlobalOptionsChange() {
         this.renderReactComponent();
       },
 
@@ -138,13 +126,10 @@ export const registerButton = (editor) => {
           this.root = createRoot(this.el); // Hanya buat satu instance root
         }
 
-        // const globalOptions = editor.getModel().get("globalOptions");
-
         this.root.render(
-          <ViewButton
+          <ViewSliderImages
             section={this.model.get("customComponent")}
             editor={editor}
-            // globalOptions={globalOptions}
           />
         );
       },
