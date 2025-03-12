@@ -1,5 +1,6 @@
 import ContainerView from "@/components/ContainerView";
 import DateCountDown from "./DateCountDown";
+import DurationCountdown from "./DurationCountdown";
 
 const ViewCountDown = ({ section }) => {
   const { contents } = section;
@@ -12,6 +13,14 @@ const ViewCountDown = ({ section }) => {
           <div key={content.id} className="p-5">
             {content.type === "date-time" && (
               <DateCountDown
+                styles={section.wrapperStyle}
+                content={content}
+                finish={section.finish}
+              />
+            )}
+
+            {content.type === "duration" && (
+              <DurationCountdown
                 styles={section.wrapperStyle}
                 content={content}
                 finish={section.finish}

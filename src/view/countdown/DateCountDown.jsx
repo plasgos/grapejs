@@ -11,6 +11,19 @@ const getTimeMinutes = (time) => ((time % hourSeconds) / minuteSeconds) | 0;
 const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 const getTimeDays = (time) => (time / daySeconds) | 0;
 
+export const FinishedContent = ({ text, textShadow }) => {
+  return (
+    <div className={`w-full`}>
+      <div
+        style={{
+          textShadow: textShadow,
+        }}
+        dangerouslySetInnerHTML={{ __html: text }}
+      />
+    </div>
+  );
+};
+
 const DateCountDown = ({ styles, content, finish }) => {
   const {
     daysColor,
@@ -22,11 +35,21 @@ const DateCountDown = ({ styles, content, finish }) => {
     variant,
   } = styles || {};
 
-  const { isFinished, text, textShadow, fontSize, textColor } = finish;
+  const { isFinished, text, textShadow } = finish;
 
   const { date, month, years, hours, minutes } = content.datePicked;
 
   const [remainingTime, setRemainingTime] = useState(0);
+
+  const [isPreviewFinished, setIsPreviewFinished] = useState(false);
+
+  useEffect(() => {
+    if (isFinished) {
+      setIsPreviewFinished(true);
+    } else {
+      setIsPreviewFinished(false);
+    }
+  }, [isFinished]);
 
   useEffect(() => {
     const now = moment(); // Waktu sekarang
@@ -95,6 +118,10 @@ const DateCountDown = ({ styles, content, finish }) => {
 
   const dynamicFontSize = (size / initialSize) * initialFontSize * 0.6;
 
+  if (isPreviewFinished) {
+    return <FinishedContent text={text} textShadow={textShadow} />;
+  }
+
   const renderTime = (dimension, time) => {
     let label;
     switch (dimension) {
@@ -128,7 +155,7 @@ const DateCountDown = ({ styles, content, finish }) => {
     <div>
       {variant === "basic" && (
         <div>
-          {remainingTime > 0 && !isFinished ? (
+          {remainingTime > 0 ? (
             <div className="flex flex-wrap justify-center items-center gap-3">
               <div
                 style={{
@@ -187,23 +214,14 @@ const DateCountDown = ({ styles, content, finish }) => {
               </div>
             </div>
           ) : (
-            <div className={`w-full flex items-center  font-semibold text-lg`}>
-              <div
-                className={`${fontSize} `}
-                style={{
-                  color: textColor,
-                  textShadow: textShadow,
-                }}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
-            </div>
+            <FinishedContent text={text} textShadow={textShadow} />
           )}
         </div>
       )}
 
       {variant === "digital" && (
         <div className="flex flex-wrap justify-center items-center gap-3">
-          {remainingTime > 0 && !isFinished ? (
+          {remainingTime > 0 ? (
             <div className="flex flex-wrap justify-center items-center gap-3">
               <div
                 style={{
@@ -266,23 +284,14 @@ const DateCountDown = ({ styles, content, finish }) => {
               </div>
             </div>
           ) : (
-            <div className={`w-full flex items-center  font-semibold text-lg`}>
-              <div
-                className={`${fontSize} `}
-                style={{
-                  color: textColor,
-                  textShadow: textShadow,
-                }}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
-            </div>
+            <FinishedContent text={text} textShadow={textShadow} />
           )}
         </div>
       )}
 
       {variant === "circle" && (
         <div>
-          {remainingTime > 0 && !isFinished ? (
+          {remainingTime > 0 ? (
             <div className="flex flex-wrap justify-center items-center gap-3">
               <>
                 {remainingTime >= daySeconds && (
@@ -373,14 +382,7 @@ const DateCountDown = ({ styles, content, finish }) => {
               </>
             </div>
           ) : (
-            <div className={`w-full`}>
-              <div
-                style={{
-                  textShadow: textShadow,
-                }}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
-            </div>
+            <FinishedContent text={text} textShadow={textShadow} />
           )}
         </div>
       )}

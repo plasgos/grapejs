@@ -22,7 +22,7 @@ export const registerVideoText = (editor) => {
         highlightable: true,
         hoverable: true,
         attributes: {},
-        blockLabel: "Video",
+        blockLabel: "Video Text Banner",
         category: "Contents",
         blockIcon: <BiSolidVideos size={20} />,
         isDragging: false,

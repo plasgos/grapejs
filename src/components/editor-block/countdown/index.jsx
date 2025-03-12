@@ -20,6 +20,7 @@ import { useState } from "react";
 import TextEditor from "../components/TextEditor";
 import DatePicker from "react-datepicker";
 import { CalendarMinus2 } from "lucide-react";
+import { textShadowOptions } from "@/components/SelectOptions";
 
 const modeOptions = [
   { value: "countdown", label: "Countdown" },
@@ -268,6 +269,13 @@ const EditorCountdown = ({ selectedComponent }) => {
             </>
           ) : (
             <>
+              <SelectOptions
+                label="Text Shadow"
+                options={textShadowOptions}
+                value={finished.textShadow}
+                onChange={(value) => handleFinishedChange("textShadow", value)}
+              />
+
               <TextEditor
                 label="Content"
                 value={finished.text}

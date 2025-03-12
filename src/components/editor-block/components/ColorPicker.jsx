@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { SketchPicker } from "react-color";
 import { Label } from "@/components/ui/label";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SketchPicker } from "react-color";
 
 import {
   Popover,
@@ -10,7 +9,6 @@ import {
 } from "@/components/ui/popover";
 
 export const parseRGBA = (rgba) => {
-  console.log("🚀 ~ parseRGBA ~ rgba:", rgba);
   // Default value jika parsing gagal
   const defaultResult = {
     r: "0", // Default red value

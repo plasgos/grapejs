@@ -114,6 +114,26 @@ const Navbar = ({
       const editorModel = editor.getModel();
       const projectData = editor.getProjectData();
 
+      //disable preview finished mode countdown
+      if (projectData?.pages && Array.isArray(projectData.pages)) {
+        projectData.pages.forEach((page) => {
+          if (page.frames && Array.isArray(page.frames)) {
+            page.frames.forEach((frame) => {
+              if (frame.component && frame.component.components) {
+                frame.component.components.forEach((component) => {
+                  if (
+                    component.type === "countdown" &&
+                    component.customComponent?.finish
+                  ) {
+                    component.customComponent.finish.isFinished = false;
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+
       projectData.globalOptions = editorModel.get("globalOptions");
 
       const jsonString = JSON.stringify(projectData, null, 2);

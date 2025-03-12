@@ -1,12 +1,8 @@
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import { PiAlignRightSimpleFill } from "react-icons/pi";
-import { SlSizeFullscreen } from "react-icons/sl";
-import { TbLayoutDistributeVerticalFilled } from "react-icons/tb";
-import SelectCircle from "../components/SelectCircle";
 
-import SelectOptions from "../components/SelectOptions";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import SelectOptions from "../components/SelectOptions";
 
 const aspectRatioSliderImageOptions = [
   {
@@ -57,39 +53,12 @@ const transitionOptions = [
   { value: "flip", label: "Flip" },
 ];
 
-const imageVariants = [
-  {
-    value: "fullPage",
-    label: "Full Page",
-    icon: <SlSizeFullscreen size={24} />,
-  },
-  {
-    value: "centerPage",
-    label: "Center Page",
-    icon: <PiAlignRightSimpleFill size={24} />,
-  },
-  {
-    value: "contentPage",
-    label: "Content Page",
-    icon: <TbLayoutDistributeVerticalFilled size={24} />,
-  },
-];
-
 const StylesTab = ({ selectedComponent }) => {
   const { wrapperStyle, handleStylesChange } =
     useChangeWrapperStyles(selectedComponent);
 
   return (
     <div className="flex flex-col gap-y-5 mt-5 p-5 bg-white rounded-lg">
-      <SelectCircle
-        label="Variant"
-        options={imageVariants}
-        value={wrapperStyle.variant}
-        onClick={(value) => {
-          handleStylesChange("variant", value);
-        }}
-      />
-
       <SelectOptions
         label="Image Ratio"
         options={aspectRatioSliderImageOptions}

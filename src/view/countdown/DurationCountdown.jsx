@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { FinishedContent } from "./DateCountDown";
 
 const minuteSeconds = 60;
 const hourSeconds = 3600;
@@ -10,9 +11,10 @@ const getTimeMinutes = (time) => ((time % hourSeconds) / minuteSeconds) | 0;
 const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 const getTimeDays = (time) => (time / daySeconds) | 0;
 
-const DurationCountdown = ({ content }) => {
-  const { group } = content.variant;
-  const { hours, minutes } = content.content.duration;
+const DurationCountdown = ({ styles, content, finish }) => {
+  const [isPreviewFinished, setIsPreviewFinished] = useState(false);
+
+  const { hours, minutes } = content.duration;
 
   const {
     daysColor,
@@ -21,9 +23,10 @@ const DurationCountdown = ({ content }) => {
     secondsColor,
     size,
     dividerColor,
-  } = content?.variant?.style || {};
+    variant,
+  } = styles || {};
 
-  const { isFinished, text, textShadow, fontSize, textColor } = content.finish;
+  const { isFinished, text, textShadow } = finish;
 
   const startTime = Date.now() / 1000;
   const endTime = startTime + hours * hourSeconds + minutes * minuteSeconds;
@@ -41,35 +44,6 @@ const DurationCountdown = ({ content }) => {
   };
 
   const dynamicFontSize = (size / initialSize) * initialFontSize * 0.6;
-
-  const renderTime = (dimension, time) => {
-    let label;
-    switch (dimension) {
-      case "days":
-        label = "Hari";
-        break;
-      case "hours":
-        label = "Jam";
-        break;
-      case "minutes":
-        label = "Menit";
-        break;
-      case "seconds":
-        label = "Detik";
-        break;
-      default:
-        label = dimension; // Jika dimension tidak dikenal, tampilkan nama aslinya
-        break;
-    }
-    return (
-      <div className="tw-flex tw-flex-col tw-items-center">
-        <div style={{ fontSize: dynamicFontSize }} className="tw-font-semibold">
-          {time}
-        </div>
-        <div style={{ fontSize: dynamicFontSize }}>{label}</div>
-      </div>
-    );
-  };
 
   const [remainingTime, setRemainingTime] = useState(endTime - startTime);
 
@@ -100,27 +74,69 @@ const DurationCountdown = ({ content }) => {
 
   const { daysView, hoursView, minutesView, secondsView } =
     formatTime(remainingTime);
+
+  useEffect(() => {
+    if (isFinished) {
+      setIsPreviewFinished(true);
+    } else {
+      setIsPreviewFinished(false);
+    }
+  }, [isFinished]);
+
+  if (isPreviewFinished) {
+    return <FinishedContent text={text} textShadow={textShadow} />;
+  }
+
+  const renderTime = (dimension, time) => {
+    let label;
+    switch (dimension) {
+      case "days":
+        label = "Hari";
+        break;
+      case "hours":
+        label = "Jam";
+        break;
+      case "minutes":
+        label = "Menit";
+        break;
+      case "seconds":
+        label = "Detik";
+        break;
+      default:
+        label = dimension; // Jika dimension tidak dikenal, tampilkan nama aslinya
+        break;
+    }
+    return (
+      <div className="flex flex-col items-center">
+        <div style={{ fontSize: dynamicFontSize }} className="font-semibold">
+          {time}
+        </div>
+        <div style={{ fontSize: dynamicFontSize }}>{label}</div>
+      </div>
+    );
+  };
+
   return (
     <>
-      {group === "Full Text" && (
+      {variant === "basic" && (
         <div>
           {remainingTime > 0 && !isFinished ? (
-            <div className="tw-flex tw-flex-wrap tw-justify-center tw-items-center tw-gap-3">
+            <div className="flex flex-wrap justify-center items-center gap-3">
               <div
                 style={{
                   fontSize: size,
                   color: dividerColor,
                 }}
-                className="tw-flex tw-items-center tw-gap-2  tw-font-bold"
+                className="flex items-center gap-2  font-bold"
               >
                 {daysView > 0 && (
-                  <div className={`tw-font-bold `}>
+                  <div className={`font-bold `}>
                     <span
                       style={{
                         fontSize: size,
                         color: daysColor,
                       }}
-                      className={`tw-font-bold `}
+                      className={`font-bold `}
                     >
                       {daysView} Hari
                     </span>{" "}
@@ -128,13 +144,13 @@ const DurationCountdown = ({ content }) => {
                   </div>
                 )}
                 {hoursView > 0 && (
-                  <div className={`tw-font-bold `}>
+                  <div className={`font-bold `}>
                     <span
                       style={{
                         fontSize: size,
                         color: hoursColor,
                       }}
-                      className={`tw-font-bold `}
+                      className={`font-bold `}
                     >
                       {hoursView} Jam
                     </span>{" "}
@@ -146,7 +162,7 @@ const DurationCountdown = ({ content }) => {
                     fontSize: size,
                     color: minutesColor,
                   }}
-                  className={`tw-font-bold `}
+                  className={`font-bold `}
                 >
                   {minutesView} Menit
                 </span>{" "}
@@ -156,48 +172,37 @@ const DurationCountdown = ({ content }) => {
                     fontSize: size,
                     color: secondsColor,
                   }}
-                  className={`tw-font-bold `}
+                  className={`font-bold `}
                 >
                   {secondsView} Detik
                 </span>
               </div>
             </div>
           ) : (
-            <div
-              className={`tw-w-full tw-flex tw-items-center  tw-font-semibold tw-text-lg`}
-            >
-              <div
-                className={`${fontSize} `}
-                style={{
-                  color: textColor,
-                  textShadow: textShadow,
-                }}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
-            </div>
+            <FinishedContent text={text} textShadow={textShadow} />
           )}
         </div>
       )}
 
-      {group === "Digital" && (
-        <div className="tw-flex tw-flex-wrap tw-justify-center tw-items-center tw-gap-3">
+      {variant === "digital" && (
+        <div className="flex flex-wrap justify-center items-center gap-3">
           {remainingTime > 0 && !isFinished ? (
-            <div className="tw-flex tw-flex-wrap tw-justify-center tw-items-center tw-gap-3">
+            <div className="flex flex-wrap justify-center items-center gap-3">
               <div
                 style={{
                   fontSize: size,
                   color: dividerColor,
                 }}
-                className="tw-flex tw-items-center  tw-font-bold"
+                className="flex items-center  font-bold"
               >
                 {daysView > 0 && (
-                  <div className="tw-mr-2">
+                  <div className="mr-2">
                     <span
                       style={{
                         fontSize: size,
                         color: daysColor,
                       }}
-                      className={`tw-font-bold `}
+                      className={`font-bold `}
                     >
                       {daysView} Hari
                     </span>{" "}
@@ -210,7 +215,7 @@ const DurationCountdown = ({ content }) => {
                       fontSize: size,
                       color: hoursColor,
                     }}
-                    className={`tw-font-bold `}
+                    className={`font-bold `}
                   >
                     {hoursView === 0
                       ? "00"
@@ -223,7 +228,7 @@ const DurationCountdown = ({ content }) => {
                     fontSize: size,
                     color: minutesColor,
                   }}
-                  className={`tw-font-bold `}
+                  className={`font-bold `}
                 >
                   {minutesView === 0
                     ? "00"
@@ -235,7 +240,7 @@ const DurationCountdown = ({ content }) => {
                     fontSize: size,
                     color: secondsColor,
                   }}
-                  className={`tw-font-bold `}
+                  className={`font-bold `}
                 >
                   {secondsView === 0
                     ? "00"
@@ -244,26 +249,15 @@ const DurationCountdown = ({ content }) => {
               </div>
             </div>
           ) : (
-            <div
-              className={`tw-w-full tw-flex tw-items-center  tw-font-semibold tw-text-lg`}
-            >
-              <div
-                className={`${fontSize} `}
-                style={{
-                  color: textColor,
-                  textShadow: textShadow,
-                }}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
-            </div>
+            <FinishedContent text={text} textShadow={textShadow} />
           )}
         </div>
       )}
 
-      {group === "Circle" && (
+      {variant === "circle" && (
         <div>
           {remainingTime > 0 && !isFinished ? (
-            <div className="tw-flex tw-flex-wrap tw-justify-center tw-items-center tw-gap-3">
+            <div className="flex flex-wrap justify-center items-center gap-3">
               <>
                 {remainingTime >= daySeconds && (
                   <CountdownCircleTimer
@@ -353,18 +347,7 @@ const DurationCountdown = ({ content }) => {
               </>
             </div>
           ) : (
-            <div
-              className={`tw-w-full tw-flex tw-items-center  tw-font-semibold tw-text-lg`}
-            >
-              <div
-                className={`${fontSize} `}
-                style={{
-                  color: textColor,
-                  textShadow: textShadow,
-                }}
-                dangerouslySetInnerHTML={{ __html: text }}
-              />
-            </div>
+            <FinishedContent text={text} textShadow={textShadow} />
           )}
         </div>
       )}
