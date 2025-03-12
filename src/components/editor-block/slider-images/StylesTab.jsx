@@ -5,6 +5,8 @@ import { TbLayoutDistributeVerticalFilled } from "react-icons/tb";
 import SelectCircle from "../components/SelectCircle";
 
 import SelectOptions from "../components/SelectOptions";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 const aspectRatioSliderImageOptions = [
   {
@@ -51,7 +53,6 @@ const transitionOptions = [
   { value: "fade", label: "Fade" },
   { value: "cube", label: "Cube" },
   { value: "coverflow", label: "Coverflow" },
-  { value: "cards", label: "Cards" },
   { value: "creative", label: "Creative" },
   { value: "flip", label: "Flip" },
 ];
@@ -111,6 +112,25 @@ const StylesTab = ({ selectedComponent }) => {
         value={wrapperStyle.transitions}
         onChange={(value) => handleStylesChange("transitions", value)}
       />
+
+      <div className="flex justify-between items-center">
+        <Label className="font-normal">Navigation</Label>
+        <Switch
+          checked={wrapperStyle.navigation}
+          onCheckedChange={(checked) =>
+            handleStylesChange("navigation", checked)
+          }
+        />
+      </div>
+      <div className="flex justify-between items-center">
+        <Label className="font-normal">Pagination</Label>
+        <Switch
+          checked={wrapperStyle.pagination}
+          onCheckedChange={(checked) =>
+            handleStylesChange("pagination", checked)
+          }
+        />
+      </div>
     </div>
   );
 };

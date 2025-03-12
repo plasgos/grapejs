@@ -16,7 +16,7 @@ const SelectCircle = ({ asChild, options, label, value, onClick }) => {
 
   return (
     <div className="space-y-5">
-      <Label className={`${asChild && "font-normal"}`}>{label}</Label>
+      <Label className={`${asChild ? "font-normal" : ""}`}>{label}</Label>
       <div className={`grid ${columnClass} gap-x-3 my-3  `}>
         {options.map((opt, index) => {
           const isSelected = opt.value === value;

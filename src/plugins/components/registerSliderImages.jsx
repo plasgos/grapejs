@@ -89,6 +89,8 @@ export const registerSliderImages = (editor) => {
             transitions: "scroll",
             width: 800,
             variant: "full-slider",
+            pagination: false,
+            navigation: true,
           },
           background: {
             bgType: null,

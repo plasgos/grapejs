@@ -1,12 +1,14 @@
 import { registerButton } from "./components/registerButton";
 import { registerCallToAction } from "./components/registerCallToAction";
 import { registerContentShowcase } from "./components/registerContentShowcase";
+import { registerCountdown } from "./components/registerCountdown";
 import { registerFloatingButton } from "./components/registerFloatingButton";
 import { registerFloatingButtonCircle } from "./components/registerFloatingButtonCircle";
 import { registerHeroSection } from "./components/registerHeroSection";
 import { registerImage } from "./components/registerImage";
 import { registerListImages } from "./components/registerListImages";
 import { registerModalPopup } from "./components/registerModalPopup";
+import { registerQuote } from "./components/registerQuote";
 import { registerSliderImages } from "./components/registerSliderImages";
 import { registerVideo } from "./components/registerVideo";
 import { registerVideoText } from "./components/registerVideoText";
@@ -26,6 +28,8 @@ const plasgosPlugin = (editor) => {
     registerFloatingButton(editor);
     registerButton(editor);
     registerSliderImages(editor);
+    registerQuote(editor);
+    registerCountdown(editor);
   });
 };
 

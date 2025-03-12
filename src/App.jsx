@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CanvasProvider } from "./components/CanvasProvider";
 import MainWebEditor from "./components/MainWebEditor";
 import PublishedPage from "./pages/published";
+import "react-datepicker/dist/react-datepicker.css";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 function App() {

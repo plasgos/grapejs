@@ -1,4 +1,5 @@
 import EditorButton from "./editor-block/button";
+import EditorCountdown from "./editor-block/countdown";
 import EditorContentShowcase from "./editor-block/editor-showcase-content";
 import EditorCTA from "./editor-block/EditorCTA";
 import EditorFloatingButton from "./editor-block/floating-button";
@@ -7,6 +8,7 @@ import EditorHeroSection from "./editor-block/hero-section";
 import EditorImage from "./editor-block/image";
 import EditorListImages from "./editor-block/list-images";
 import EditorModalPopup from "./editor-block/modal-popup";
+import EditorQuote from "./editor-block/quote";
 import EditorSliderImages from "./editor-block/slider-images";
 import EditorVideo from "./editor-block/video";
 import EditorVideoText from "./editor-block/video-text-banner";
@@ -57,6 +59,13 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
 
       {selectedComponent.get("type") === "slider-images" && (
         <EditorSliderImages selectedComponent={selectedComponent} />
+      )}
+
+      {selectedComponent.get("type") === "quotes" && (
+        <EditorQuote selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "countdown" && (
+        <EditorCountdown selectedComponent={selectedComponent} />
       )}
     </div>
   );
