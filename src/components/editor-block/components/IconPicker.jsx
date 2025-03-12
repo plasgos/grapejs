@@ -34,7 +34,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const IconPicker = ({ label, onSelectIcon, value }) => {
+const IconPicker = ({
+  label,
+  onSelectIcon,
+  value,
+  withoutIconSize,
+  withoutIconPosition,
+  withoutRemove,
+}) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [sketchPickerColor, setSketchPickerColor] = useState(
     parseRGBA(value?.color)
@@ -180,47 +187,55 @@ const IconPicker = ({ label, onSelectIcon, value }) => {
                     </DropdownMenuPortal>
                   </DropdownMenuSub>
 
-                  <DropdownMenuItem onClick={(e) => e.preventDefault()}>
-                    <RangeInputSlider
-                      label="Icon Size"
-                      value={value?.size}
-                      min={14}
-                      max={100}
-                      onChange={(value) => {
-                        onSelectIcon("size", value);
+                  {!withoutIconSize && (
+                    <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                      <RangeInputSlider
+                        label="Icon Size"
+                        value={value?.size}
+                        min={14}
+                        max={100}
+                        onChange={(value) => {
+                          onSelectIcon("size", value);
+                        }}
+                      />
+                    </DropdownMenuItem>
+                  )}
+
+                  {!withoutIconPosition && (
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.preventDefault();
                       }}
-                    />
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                    className="cursor-pointer flex justify-between"
-                  >
-                    <Label>Icon Position</Label>
-                    <RadioGroup
-                      value={value?.position}
-                      onValueChange={(value) => onSelectIcon("position", value)}
-                      defaultValue="right"
+                      className="cursor-pointer flex justify-between"
                     >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="left" id="left" />
-                        <Label htmlFor="left">Left</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="right" id="right" />
-                        <Label htmlFor="right">Right</Label>
-                      </div>
-                    </RadioGroup>
-                  </DropdownMenuItem>
+                      <Label>Icon Position</Label>
+                      <RadioGroup
+                        value={value?.position}
+                        onValueChange={(value) =>
+                          onSelectIcon("position", value)
+                        }
+                        defaultValue="right"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="left" id="left" />
+                          <Label htmlFor="left">Left</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="right" id="right" />
+                          <Label htmlFor="right">Right</Label>
+                        </div>
+                      </RadioGroup>
+                    </DropdownMenuItem>
+                  )}
 
-                  <DropdownMenuItem
-                    onClick={() => onSelectIcon("icon", "")}
-                    className="cursor-pointer justify-end"
-                  >
-                    <FaTrashCan /> Remove Icon
-                  </DropdownMenuItem>
+                  {!withoutRemove && (
+                    <DropdownMenuItem
+                      onClick={() => onSelectIcon("icon", "")}
+                      className="cursor-pointer justify-end"
+                    >
+                      <FaTrashCan /> Remove Icon
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

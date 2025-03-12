@@ -3,7 +3,14 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
-const RangeInputSlider = ({ min = 0, max = 100, onChange, label, value }) => {
+const RangeInputSlider = ({
+  asChild,
+  min = 0,
+  max = 100,
+  onChange,
+  label,
+  value,
+}) => {
   const [currentValue, setCurrentValue] = useState(value);
 
   const handleSliderChange = (newValue) => {
@@ -33,7 +40,9 @@ const RangeInputSlider = ({ min = 0, max = 100, onChange, label, value }) => {
 
   return (
     <div className="w-full">
-      {label && <Label>{label}</Label>}
+      {label && (
+        <Label className={`${asChild && "font-normal"}`}>{label}</Label>
+      )}
 
       <div className="flex items-center gap-3">
         {/* Slider dengan sinkronisasi nilai */}

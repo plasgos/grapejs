@@ -4,7 +4,7 @@ import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ContentShowcase = ({ section, canvas }) => {
+const ContentShowcase = ({ section, editor }) => {
   const { contents } = section;
   const {
     column,
@@ -60,9 +60,9 @@ const ContentShowcase = ({ section, canvas }) => {
                     aspectRatio,
                   }}
                   className={`w-full object-contain my-3 ${
-                    content.target.options.type ? "cursor-pointer" : ""
+                    content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
-                  onClick={() => onActionClickTarget(content?.target, canvas)}
+                  onClick={() => onActionClickTarget(content?.target, editor)}
                   effect="blur"
                   wrapperProps={{
                     style: { transitionDelay: "1s" },
@@ -89,9 +89,9 @@ const ContentShowcase = ({ section, canvas }) => {
                     aspectRatio,
                   }}
                   className={`w-full object-contain my-3 ${
-                    content.target.options.type ? "cursor-pointer" : ""
+                    content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
-                  onClick={() => onActionClickTarget(content?.target, canvas)}
+                  onClick={() => onActionClickTarget(content?.target, editor)}
                   effect="blur"
                   wrapperProps={{
                     style: { transitionDelay: "1s" },
@@ -118,9 +118,9 @@ const ContentShowcase = ({ section, canvas }) => {
                     aspectRatio,
                   }}
                   className={`w-full object-contain my-3 ${
-                    content.target.options.type ? "cursor-pointer" : ""
+                    content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
-                  onClick={() => onActionClickTarget(content?.target, canvas)}
+                  onClick={() => onActionClickTarget(content?.target, editor)}
                   effect="blur"
                   wrapperProps={{
                     style: { transitionDelay: "1s" },

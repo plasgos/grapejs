@@ -1,4 +1,7 @@
-export const onActionClickTarget = (target) => {
+export const onActionClickTarget = (target, editor) => {
+  const editorModel = editor.getModel();
+  const globalOptions = editorModel.get("globalOptions");
+
   if (
     target?.actionType === "link" &&
     target?.options?.type === "url" &&
@@ -52,24 +55,28 @@ export const onActionClickTarget = (target) => {
           });
         }
       }
-    } else {
-      // Fallback jika iframe tidak ditemukan
-      if (targetId === "scrollToTop") {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      } else {
-        const element = document.getElementById(targetId);
+    }
+  } else if (
+    target?.actionType === "action" &&
+    target?.options?.type === "popup" &&
+    target?.options?.value
+  ) {
+    const selectedPopup = globalOptions.popup.find(
+      (popup) => popup.id === target?.options?.value
+    );
 
-        if (element) {
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-            inline: "nearest",
-          });
-        }
-      }
+    if (selectedPopup) {
+      editorModel.set("globalOptions", {
+        ...globalOptions,
+        popup: globalOptions.popup.map((item) =>
+          item.id === selectedPopup.id
+            ? {
+                ...item,
+                isShown: true,
+              }
+            : item
+        ),
+      });
     }
   }
 };
