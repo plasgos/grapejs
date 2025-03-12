@@ -10,7 +10,7 @@ import { generateId } from "@/lib/utils";
 export const registerContentShowcase = (editor, canvasFrame) => {
   editor.BlockManager.add("content-showcase", {
     label: "Content Showcase",
-    category: "Custom Widgets",
+    category: "Contents",
     content: { type: "content-showcase" },
     activate: true,
     media: renderToString(<HiMiniViewColumns size={40} />),
@@ -27,6 +27,8 @@ export const registerContentShowcase = (editor, canvasFrame) => {
         hoverable: true,
         attributes: {},
         blockLabel: "Content Showcase",
+        category: "Contents",
+        blockIcon: <HiMiniViewColumns size={20} />,
         customComponent: {
           scrollTarget: undefined,
           contents: [

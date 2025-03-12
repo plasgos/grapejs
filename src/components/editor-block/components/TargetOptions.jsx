@@ -28,7 +28,6 @@ import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 
 import { ChevronsUpDown } from "lucide-react";
-import { useEffect } from "react";
 import { Button } from "../../ui/button";
 import { Textarea } from "../../ui/textarea";
 
@@ -40,7 +39,8 @@ import { RiWhatsappFill } from "react-icons/ri";
 import { useEditor } from "@grapesjs/react";
 
 import { CgChevronDoubleRight } from "react-icons/cg";
-import { useMemo } from "react";
+import SelectCircle from "./SelectCircle";
+import { useEffect } from "react";
 
 const localPageTargetOptions = [
   { label: "Utama", options: [{ value: "home", label: "Home" }] },
@@ -73,7 +73,7 @@ const localPageTargetOptions = [
   },
 ];
 
-const optionsTarget = [
+const optionsTargetLink = [
   {
     label: "Tidak ada link",
     options: [{ value: null, label: "Tidak ada link" }],
@@ -94,213 +94,192 @@ const actionModeOptions = [
 ];
 
 const clickActionOptions = [
-  { value: "link", label: "Link" },
-  { value: "action", label: "Action" },
-  { value: "navigate", label: "Navigate" },
+  { value: "link", label: "Link", icon: <FaLink size={24} /> },
+  { value: "action", label: "Action", icon: <MdOutlineAdsClick size={24} /> },
+  {
+    value: "navigate",
+    label: "Navigate",
+    icon: <IoNavigateSharp size={24} />,
+  },
 ];
 
-const TargetOptions = ({
-  selectedComponent,
-  contentId,
-  handleContentChange,
-}) => {
-  const initialComponent = selectedComponent?.get("customComponent");
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getContentById = (id) =>
-    initialComponent.contents.find((content) => content.id === id) || {};
-
-  const currentContent = useMemo(
-    () => getContentById(contentId),
-    [contentId, getContentById]
-  );
-
+const TargetOptions = ({ content, handleContentChange }) => {
+  const [target, setTarget] = useState(content.target);
   const editor = useEditor();
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
-  const [selectedClickAction, setSelectedClickAction] = useState(
-    currentContent?.target?.actionType || "link"
-  );
-  const [selectedTarget, setSelectedTarget] = useState(
-    currentContent?.target?.options?.type || optionsTarget[0].options[0].value
-  );
-
-  const [selectedActionMode, setSelectedActionMode] = useState(
-    currentContent?.target?.options?.type || actionModeOptions[0].value
-  );
-
-  const [scrollTargetValue, setScrollTargetValue] = useState(
-    currentContent?.target?.options?.value ||
-      globalOptions.scrollTarget[0].value
-  );
-  const [popupValue, setPopupValue] = useState(undefined);
-  const [localPageValue, setLocalPageValue] = useState(
-    currentContent?.target?.options?.value ||
-      localPageTargetOptions[0].options[0].value
-  );
 
   const [toggleOptions, setToggleOptions] = useState(false);
-  const [urlValue, setUrlValue] = useState("");
-  const [isOpenNewTabUrl, setIsOpenNewTabUrl] = useState(false);
-  const [waNumber, setWaNumber] = useState("");
-  const [message, setMessage] = useState("");
-  const [isOpenNewTabWa, setIsOpenNewTabWa] = useState(false);
-
-  const handleChangeTargetLink = (key, value) => {
-    const updatedComponent = produce(currentContent.target, (draft) => {
-      if (key === "type") {
-        if (value === null) {
-          draft.options = { type: null };
-        } else {
-          draft.options.type = value;
-        }
-      } else {
-        draft.options[key] = value;
-      }
-    });
-
-    // Update state atau prop dengan data yang telah diubah
-    handleContentChange(contentId, "target", updatedComponent);
-  };
 
   const handelChangeClickAction = (value) => {
-    if (selectedClickAction === value) return;
-    const updatedComponent = produce(currentContent.target, (draft) => {
-      if (value === "link") {
-        draft.actionType = value;
-        draft.options = {
+    if (target.actionType === value) return;
+
+    const getTargetValues = (type) => {
+      const baseValues = {
+        actionType: "link",
+        options: {
           type: null,
-        };
-      } else if (value === "action") {
-        draft.actionType = value;
-        draft.options = {
-          type: "scrollTarget",
-          value: "scrollToTop",
-        };
-      } else {
-        draft.actionType = value;
-        draft.options = {
-          type: "localPages",
-          value: "home",
-        };
-      }
+        },
+      };
+
+      const typeConfigs = {
+        link: baseValues,
+        action: {
+          actionType: "action",
+          options: {
+            type: "scrollTarget",
+            value: "scrollToTop",
+          },
+        },
+        navigate: {
+          actionType: "navigate",
+          options: {
+            type: "localPages",
+            value: "home",
+          },
+        },
+      };
+
+      return typeConfigs[type] || baseValues;
+    };
+
+    const updatedComponent = produce(content.target, () => {
+      return getTargetValues(value);
     });
 
-    // Panggil handleContentChange untuk memperbarui data
-    handleContentChange(contentId, "target", updatedComponent);
-
-    if (value === "link") {
-      setSelectedTarget(null);
-    }
+    setTarget(getTargetValues(value));
+    handleContentChange(content.id, "target", updatedComponent);
   };
 
-  const handleChangeActionModeType = (key, value) => {
-    const updatedComponent = produce(currentContent.target, (draft) => {
-      if (value === "popup") {
-        draft.options[key] = value;
-        draft.options.value = "";
-      } else {
-        draft.options[key] = value;
-      }
-    });
-
-    handleContentChange(contentId, "target", updatedComponent);
-  };
-
-  useEffect(() => {
-    if (
-      selectedClickAction === "action" &&
-      selectedActionMode === "scrollTarget" &&
-      globalOptions.scrollTarget.length === 1
-    ) {
-      setScrollTargetValue("scrollToTop");
-
-      const updatedComponent = produce(currentContent.target, (draft) => {
-        draft.options.value = "scrollToTop";
+  const handleChangeActionModeType = (value) => {
+    if (value === "popup" && globalOptions.popup.length >= 1) {
+      const updatedComponentType = produce(content.target, (draft) => {
+        draft.options.type = "popup";
+        draft.options.value = globalOptions.popup[0].id;
       });
 
-      handleContentChange(contentId, "target", updatedComponent);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    contentId,
-    currentContent,
-    globalOptions.scrollTarget.length,
-    selectedActionMode,
-    selectedClickAction,
-  ]);
+      handleContentChange(content.id, "target", updatedComponentType);
 
-  const handleChangeLocalPageValue = (value) => {
-    const updatedComponent = produce(currentContent.target, (draft) => {
-      draft.options.type = "localPages";
+      setTarget((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          type: "popup",
+          value: globalOptions.popup[0].id,
+        },
+      }));
+    } else if (
+      value === "scrollTarget" &&
+      globalOptions.scrollTarget.length >= 1
+    ) {
+      const updatedComponentType = produce(content.target, (draft) => {
+        draft.options.type = "scrollTarget";
+        draft.options.value = globalOptions.scrollTarget[0].value;
+      });
+
+      handleContentChange(content.id, "target", updatedComponentType);
+
+      setTarget((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          type: "scrollTarget",
+          value: globalOptions.scrollTarget[0].value,
+        },
+      }));
+    }
+  };
+
+  const handleChangeTargetOptions = (type, value) => {
+    const updatedComponent = produce(content.target, (draft) => {
+      draft.options.type = type;
       draft.options.value = value;
     });
 
-    handleContentChange(contentId, "target", updatedComponent);
+    setTarget((prev) => ({
+      ...prev,
+      options: {
+        ...prev.options,
+        type,
+        value,
+      },
+    }));
+    handleContentChange(content.id, "target", updatedComponent);
   };
 
-  const handleChangeScrollTargetValue = (value) => {
-    const updatedComponent = produce(currentContent.target, (draft) => {
-      draft.options.type = "scrollTarget";
-      draft.options.value = value;
+  const handleSelectTypeLink = (value) => {
+    const getTypeLinkValues = (type) => {
+      const baseValues = {
+        type: null,
+      };
+
+      const typeConfigs = {
+        null: baseValues,
+        url: {
+          type: "url",
+          link: "",
+          isOpenNewTab: false,
+        },
+        whatsapp: {
+          type: "whatsapp",
+          phoneNumber: "",
+          message: "",
+          isOpenNewTab: false,
+        },
+      };
+
+      return typeConfigs[type] || baseValues;
+    };
+
+    const updatedComponent = produce(content.target, (draft) => {
+      draft.options = getTypeLinkValues(value);
     });
 
-    handleContentChange(contentId, "target", updatedComponent);
+    setTarget((prev) => ({
+      ...prev,
+      options: getTypeLinkValues(value),
+    }));
+    handleContentChange(content.id, "target", updatedComponent);
+  };
+
+  const handleChangeTargetLink = (key, value) => {
+    const updatedComponent = produce(content.target, (draft) => {
+      if (value === null) {
+        draft.options = { type: null };
+      } else {
+        draft.options[key] = value;
+      }
+    });
+
+    if (value === null) {
+      setTarget({
+        actionType: "link",
+        options: {
+          type: null,
+        },
+      });
+    } else {
+      setTarget((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          [key]: value,
+        },
+      }));
+    }
+
+    handleContentChange(content.id, "target", updatedComponent);
   };
 
   useEffect(() => {
-    if (currentContent) {
-      const currentglobalOptions = editorModel.get("globalOptions");
-      const isTargetValueExist =
-        selectedClickAction === "action" &&
-        currentglobalOptions.scrollTarget.length > 1 &&
-        !currentglobalOptions.scrollTarget.some(
-          (target) => scrollTargetValue === target.value
-        );
-
-      if (isTargetValueExist) {
-        const updatedComponent = produce(currentContent.target, (draft) => {
-          draft.actionType = "link";
-          draft.options = {
-            type: null,
-          };
-        });
-
-        handleContentChange(contentId, "target", updatedComponent);
-      }
+    if (target.options.type) {
+      setToggleOptions(true);
     }
-  }, [
-    contentId,
-    currentContent,
-    editorModel,
-    handleContentChange,
-    scrollTargetValue,
-    selectedClickAction,
-  ]);
-
-  useEffect(() => {
-    if (currentContent) {
-      setSelectedTarget(currentContent.target.options.type || null);
-      setUrlValue(currentContent.target.options.link || "");
-      setWaNumber(currentContent.target.options.phoneNumber || "");
-      setMessage(currentContent.target.options.message || "");
-      setIsOpenNewTabUrl(currentContent.target.options.isOpenNewTab || false);
-      setIsOpenNewTabWa(currentContent.target.options.isOpenNewTab || false);
-
-      setSelectedClickAction(currentContent.target.actionType);
-      if (selectedClickAction === "action") {
-        setSelectedActionMode(currentContent.target.options.type);
-        setScrollTargetValue(currentContent.target.options.value);
-      } else if (selectedClickAction === "navigate") {
-        setLocalPageValue(currentContent.target.options.type);
-        setLocalPageValue(currentContent.target.options.value);
-      }
-    }
-  }, [selectedClickAction, currentContent]);
+  }, [target.options.type]);
 
   return (
     <Accordion
-      defaultValue={currentContent.target.options.type ? "item-1" : ""}
+      defaultValue={content.target?.options?.type ? "item-1" : ""}
       type="single"
       collapsible
     >
@@ -310,78 +289,19 @@ const TargetOptions = ({
         </AccordionTrigger>
         <AccordionContent className=" bg-white rounded p-2 ">
           <div>
-            {/* <Label>Click Action</Label> */}
-            <div className="grid grid-cols-3    ">
-              {clickActionOptions.map((opt, index) => {
-                const isSelected = opt.value === selectedClickAction;
+            <SelectCircle
+              options={clickActionOptions}
+              value={target.actionType}
+              onClick={(value) => {
+                handelChangeClickAction(value);
+              }}
+            />
 
-                return (
-                  <div key={index} className="text-center cursor-pointer">
-                    <div
-                      onClick={() => {
-                        setSelectedClickAction(opt.value);
-                        handelChangeClickAction(opt.value);
-                      }}
-                      className={`flex justify-center items-center rounded-full  h-10 w-10 place-self-center 
-                   ${
-                     isSelected
-                       ? "ring-offset-[3px] ring-[3px] ring-purple-600 bg-[#FFF4EA]"
-                       : "hover:ring-offset-2 ring-2 ring-slate-200 hover:ring-purple-300 hover:bg-[#FFF4EA] bg-muted "
-                   }  
-                   `}
-                    >
-                      <div
-                        className={`${
-                          selectedClickAction !== "link"
-                            ? "text-slate-300"
-                            : "text-purple-600"
-                        }`}
-                      >
-                        {opt.value === "link" && <FaLink size={24} />}
-                      </div>
-
-                      <div
-                        className={`${
-                          selectedClickAction !== "action"
-                            ? "text-slate-300"
-                            : "text-purple-600"
-                        }`}
-                      >
-                        {opt.value === "action" && (
-                          <MdOutlineAdsClick size={24} />
-                        )}
-                      </div>
-
-                      <div
-                        className={`${
-                          selectedClickAction !== "navigate"
-                            ? "text-slate-300"
-                            : "text-purple-600"
-                        }`}
-                      >
-                        {opt.value === "navigate" && (
-                          <IoNavigateSharp size={24} className="mr-1" />
-                        )}
-                      </div>
-                    </div>
-
-                    <p
-                      className={`text-sm text-nowrap my-2 ${
-                        isSelected ? "" : "text-slate-400"
-                      }`}
-                    >
-                      {opt.label}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-
-            {selectedClickAction === "link" && (
+            {target.actionType === "link" && (
               <div className="">
                 <div className="flex items-center gap-x-2">
                   <Collapsible
-                    open={selectedTarget && toggleOptions}
+                    open={target.options.type && toggleOptions}
                     onOpenChange={setToggleOptions}
                     className="w-full"
                   >
@@ -389,19 +309,18 @@ const TargetOptions = ({
                       <div className="space-y-2 w-full mx-1">
                         <Label className="text-xs">Type</Label>
                         <Select
-                          value={selectedTarget}
-                          defaultValue={optionsTarget[0].options[0].value}
+                          value={target.options.type}
+                          defaultValue={optionsTargetLink[0].options[0].value}
                           onValueChange={(value) => {
-                            setSelectedTarget(value);
                             setToggleOptions(true);
-                            handleChangeTargetLink("type", value);
+                            handleSelectTypeLink(value);
                           }}
                         >
                           <SelectTrigger className="">
                             <SelectValue placeholder="" />
                           </SelectTrigger>
                           <SelectContent>
-                            {optionsTarget.map((opt, index) => (
+                            {optionsTargetLink.map((opt, index) => (
                               <SelectGroup key={index}>
                                 <SelectLabel>{opt.label}</SelectLabel>
                                 {opt.options.map((subOpt) => (
@@ -429,7 +348,7 @@ const TargetOptions = ({
                         </Select>
                       </div>
 
-                      {selectedTarget && (
+                      {target.options.type && (
                         <CollapsibleTrigger asChild>
                           <Button variant="ghost" size="sm" className="mt-7">
                             <ChevronsUpDown className="h-4 w-4" />
@@ -440,13 +359,12 @@ const TargetOptions = ({
                     </div>
 
                     <CollapsibleContent className=" mt-2 p-2 shadow-lg rounded-md mb-1">
-                      {selectedTarget === "url" && (
+                      {target.options.type === "url" && (
                         <div className="flex flex-col gap-y-4">
                           <Label>URL</Label>
                           <Input
-                            value={urlValue}
+                            value={target.options?.link || ""}
                             onChange={(e) => {
-                              setUrlValue(e.target.value);
                               handleChangeTargetLink("link", e.target.value);
                             }}
                           />
@@ -454,9 +372,8 @@ const TargetOptions = ({
                           <div className="flex items-center justify-between ">
                             <Label>Open link in new tab</Label>
                             <Switch
-                              checked={isOpenNewTabUrl}
+                              checked={target.options?.isOpenNewTab || false}
                               onCheckedChange={(checked) => {
-                                setIsOpenNewTabUrl(checked);
                                 handleChangeTargetLink("isOpenNewTab", checked);
                               }}
                             />
@@ -464,15 +381,14 @@ const TargetOptions = ({
                         </div>
                       )}
 
-                      {selectedTarget === "whatsapp" && (
+                      {target.options.type === "whatsapp" && (
                         <div className="flex flex-col gap-y-4">
                           <div>
                             <Label>Whatsapp Number</Label>
                             <Input
-                              value={waNumber}
+                              value={target.options?.phoneNumber || ""}
                               className="mt-2"
                               onChange={(e) => {
-                                setWaNumber(e.target.value);
                                 handleChangeTargetLink(
                                   "phoneNumber",
                                   e.target.value
@@ -484,10 +400,9 @@ const TargetOptions = ({
                           <div>
                             <Label>Message</Label>
                             <Textarea
-                              value={message}
+                              value={target.options?.message || ""}
                               className="mt-2"
                               onChange={(e) => {
-                                setMessage(e.target.value);
                                 handleChangeTargetLink(
                                   "message",
                                   e.target.value
@@ -499,9 +414,8 @@ const TargetOptions = ({
                           <div className="flex items-center justify-between mb-1 ">
                             <Label>Open link in new tab</Label>
                             <Switch
-                              checked={isOpenNewTabWa}
+                              checked={target.options?.isOpenNewTab || false}
                               onCheckedChange={(checked) => {
-                                setIsOpenNewTabWa(checked);
                                 handleChangeTargetLink("isOpenNewTab", checked);
                               }}
                             />
@@ -514,16 +428,15 @@ const TargetOptions = ({
               </div>
             )}
 
-            {selectedClickAction === "action" && (
+            {target.actionType === "action" && (
               <div className="flex items-center w-full gap-x-3">
                 <div className="space-y-2 w-full mx-1">
                   <Label className="text-xs">Type</Label>
                   <Select
-                    value={selectedActionMode}
+                    value={target.options.type}
                     defaultValue={actionModeOptions[0].value}
                     onValueChange={(value) => {
-                      setSelectedActionMode(value);
-                      handleChangeActionModeType("type", value);
+                      handleChangeActionModeType(value);
                     }}
                   >
                     <SelectTrigger className="w-full">
@@ -553,13 +466,11 @@ const TargetOptions = ({
                 <div className="space-y-1 w-full">
                   <Label className="text-xs">Target</Label>
 
-                  {selectedActionMode === "scrollTarget" && (
+                  {target.options.type === "scrollTarget" && (
                     <Select
-                      value={scrollTargetValue}
-                      defaultValue={scrollTargetValue}
+                      value={target.options.value}
                       onValueChange={(value) => {
-                        setScrollTargetValue(value);
-                        handleChangeScrollTargetValue(value);
+                        handleChangeTargetOptions("scrollTarget", value);
                       }}
                     >
                       <SelectTrigger className="w-full">
@@ -575,11 +486,11 @@ const TargetOptions = ({
                     </Select>
                   )}
 
-                  {selectedActionMode === "popup" && (
+                  {target.options.type === "popup" && (
                     <Select
-                      value={popupValue}
+                      value={target.options.value}
                       onValueChange={(value) => {
-                        setPopupValue(value);
+                        handleChangeTargetOptions("popup", value);
                       }}
                     >
                       <SelectTrigger className="w-full">
@@ -589,7 +500,7 @@ const TargetOptions = ({
                       <SelectContent>
                         {globalOptions.popup.length > 0 ? (
                           globalOptions.popup.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
+                            <SelectItem key={opt.id} value={opt.id}>
                               {opt.label}
                             </SelectItem>
                           ))
@@ -603,15 +514,14 @@ const TargetOptions = ({
               </div>
             )}
 
-            {selectedClickAction === "navigate" && (
+            {target.actionType === "navigate" && (
               <div className="space-y-2 w-full mx-1">
                 <Label className="text-xs">Local Page</Label>
 
                 <Select
-                  value={localPageValue}
+                  value={target.options.value}
                   onValueChange={(value) => {
-                    handleChangeLocalPageValue(value);
-                    setLocalPageValue(value);
+                    handleChangeTargetOptions("localPages", value);
                   }}
                 >
                   <SelectTrigger className="w-full">

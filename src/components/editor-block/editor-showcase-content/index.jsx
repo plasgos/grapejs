@@ -22,9 +22,10 @@ import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 const EditorContentShowcase = ({ selectedComponent }) => {
   const { contents, setContents, handleContentChange } =
     useChangeContents(selectedComponent);
+
   const [editItem, setEditItem] = useState("");
 
-  console.log("🚀 ~ EditorContentShowcase ~ contents:", contents[0]);
+  console.log("🚀 ~ EditorContentShowcase ~ contents:", contents);
 
   const handleFileUpload = (id) => {
     onChangeFileUpload(id, handleContentChange);
@@ -74,8 +75,7 @@ const EditorContentShowcase = ({ selectedComponent }) => {
         />
 
         <TargetOptions
-          selectedComponent={selectedComponent}
-          contentId={item.id}
+          content={item}
           handleContentChange={handleContentChange}
         />
 

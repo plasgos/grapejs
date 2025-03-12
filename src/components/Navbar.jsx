@@ -1,8 +1,8 @@
 import { useEditor } from "@grapesjs/react";
-import { renderToString } from "react-dom/server";
 import { DevicesProvider } from "@grapesjs/react";
 import { FaMobileAlt, FaRegEye, FaTabletAlt } from "react-icons/fa";
 import { IoDesktopOutline } from "react-icons/io5";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
   Popover,
@@ -42,7 +42,6 @@ const Navbar = ({
     tablet: <FaTabletAlt />,
     mobilePortrait: <FaMobileAlt />,
   };
-
   const { UndoManager, Commands } = editor;
   const cmdButtons = [
     {
@@ -98,8 +97,6 @@ const Navbar = ({
 
   const handlePublish = () => {
     const wrapper = editor.getWrapper();
-    console.log("🚀 ~ handlePublish ~ wrapper:", wrapper);
-
     const allComponents = editor.getComponents();
 
     // Hapus style tambahan dari semua komponen
@@ -125,6 +122,14 @@ const Navbar = ({
       navigate("/published");
     }, 100);
   };
+
+  const mainComponents = components.filter(
+    (comp) => !comp.model.get("category")?.toLowerCase().includes("floating")
+  );
+
+  const floatingComponents = components.filter((comp) =>
+    comp.model.get("category")?.toLowerCase().includes("floating")
+  );
 
   return (
     <div className={`${isPreview ? "hidden" : "block"}`}>
@@ -179,10 +184,11 @@ const Navbar = ({
                             <TooltipTrigger
                               key={i}
                               onClick={() => {
-                                setTimeout(() => {
-                                  editor.refresh(); // Memaksa reflow & repaint canvas
-                                }, 50);
                                 select(deviceItem.id);
+
+                                setTimeout(() => {
+                                  editor.refresh();
+                                }, 50);
                               }}
                               className={` hover:bg-accent hover:text-accent-foreground p-2 rounded-md ${
                                 selected === deviceItem.id
@@ -216,7 +222,7 @@ const Navbar = ({
                   Navigator <BiSolidLayer />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="p-0 relative right-2 bg-neutral-100 w-[300px] ">
+              <PopoverContent className="p-0 relative right-2 bg-neutral-100 w-[350px] ">
                 <div className="flex items-center justify-between p-2 bg-white rounded">
                   <p className="font-semibold">Navigator</p>
 
@@ -230,13 +236,35 @@ const Navbar = ({
 
                 <hr className="text-slate-500 w-full" />
 
-                <div className="p-3 max-h-[700px] overflow-y-auto overflow-x-hidden max-w-full">
-                  <Navigator
-                    components={components}
-                    onReorder={onReorder}
-                    setIsDragging={setIsDragging}
-                  />
-                </div>
+                <Tabs defaultValue="components" className="w-full">
+                  <TabsList>
+                    <TabsTrigger className="w-full" value="components">
+                      Components
+                    </TabsTrigger>
+                    <TabsTrigger className="w-full" value="Floating Components">
+                      Floating Components
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="components">
+                    <div className="p-3 max-h-[700px] overflow-y-auto overflow-x-hidden max-w-full">
+                      <Navigator
+                        components={mainComponents}
+                        onReorder={onReorder}
+                        setIsDragging={setIsDragging}
+                      />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="Floating Components">
+                    <div className="p-3 max-h-[700px] overflow-y-auto overflow-x-hidden max-w-full">
+                      <Navigator
+                        components={floatingComponents}
+                        onReorder={onReorder}
+                        setIsDragging={setIsDragging}
+                        isFloatingComponent
+                      />
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </PopoverContent>
             </Popover>
             <Button onClick={handlePublish} className="ml-3">
