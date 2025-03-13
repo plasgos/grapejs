@@ -5,29 +5,21 @@ import BackgroundEditor from "../components/BackgroundEditor";
 import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
-import products4 from "@/assets/products4.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useChangeContents } from "@/hooks/useChangeContents";
 import { generateId } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../components/DraggableList";
-import ImageUploader from "../components/ImageUploader";
-import TargetOptions from "../components/TargetOptions";
-import TextEditor from "../components/TextEditor";
-import { useChangeContents } from "@/hooks/useChangeContents";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import IconPicker from "../components/IconPicker";
 
-const EditorContentShowcase = ({ selectedComponent }) => {
+const EditorFeatureHighlights = ({ selectedComponent }) => {
   const { contents, setContents, handleContentChange } =
     useChangeContents(selectedComponent);
 
   const [editItem, setEditItem] = useState("");
-
-  const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleContentChange);
-  };
 
   const handleAddContent = () => {
     setEditItem("");
@@ -36,15 +28,12 @@ const EditorContentShowcase = ({ selectedComponent }) => {
 
     const newContent = {
       id: newId,
-      title: "Strategi Efektif Meningkatkan Penjualan Produk",
-      description:
-        "Temukan strategi terbaik untuk meningkatkan penjualan produk Anda, mulai dari optimasi pemasaran digital hingga membangun hubungan yang kuat dengan pelanggan.",
-      image: products4,
-      target: {
-        actionType: "link",
-        options: {
-          type: null,
-        },
+      title: "Kualitas Premium, Hasil Tanpa Kompromi.",
+      iconBtn: {
+        icon: "FaCheckCircle",
+        color: "rgba(126,211,33,1)",
+        size: 24,
+        position: "left",
       },
       isFocused: false,
     };
@@ -64,19 +53,41 @@ const EditorContentShowcase = ({ selectedComponent }) => {
   const renderContents = (item) => {
     const selectedContent = contents.find((content) => content.id === item.id);
 
+    const handleSelectIcon = (key, value) => {
+      setContents((prevContens) =>
+        prevContens.map((content) =>
+          content.id === selectedContent.id
+            ? {
+                ...content,
+                iconBtn: {
+                  ...content.iconBtn,
+                  [key]: value,
+                },
+              }
+            : content
+        )
+      );
+
+      selectedComponent?.set(
+        "customComponent",
+        produce(selectedComponent?.get("customComponent"), (draft) => {
+          draft.contents = draft.contents.map((content) =>
+            content.id === selectedContent.id
+              ? {
+                  ...content,
+                  iconBtn: {
+                    ...content.iconBtn,
+                    [key]: value,
+                  },
+                }
+              : content
+          );
+        })
+      );
+    };
+
     return (
       <>
-        <ImageUploader
-          label="Image"
-          handleFileUpload={() => handleFileUpload(item.id)}
-          image={selectedContent.image}
-        />
-
-        <TargetOptions
-          content={item}
-          handleContentChange={handleContentChange}
-        />
-
         <div className="space-y-2">
           <Label>Title</Label>
           <Input
@@ -88,12 +99,10 @@ const EditorContentShowcase = ({ selectedComponent }) => {
           />
         </div>
 
-        <TextEditor
-          label="Description"
-          value={selectedContent.description}
-          onChange={(value) => {
-            handleContentChange(item.id, "description", value);
-          }}
+        <IconPicker
+          label="Icon"
+          onSelectIcon={(key, value) => handleSelectIcon(key, value)}
+          value={selectedContent.iconBtn}
         />
       </>
     );
@@ -144,4 +153,4 @@ const EditorContentShowcase = ({ selectedComponent }) => {
   );
 };
 
-export default EditorContentShowcase;
+export default EditorFeatureHighlights;

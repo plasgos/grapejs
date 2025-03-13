@@ -1,16 +1,26 @@
 import ContainerView from "@/components/ContainerView";
 import DateCountDown from "./DateCountDown";
 import DurationCountdown from "./DurationCountdown";
+import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 
 const ViewCountDown = ({ section }) => {
-  const { contents } = section;
-  console.log("🚀 ~ ViewCountDown ~ section:", section);
+  const { contents, animation } = section;
+
+  const { elementRef, getClassName, duration } =
+    useAnimatedVisibility(animation);
 
   return (
     <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
       {contents.map((content) => {
         return (
-          <div key={content.id} className="p-5">
+          <div
+            ref={elementRef}
+            style={{
+              "--animation-duration": `${duration}s`,
+            }}
+            key={content.id}
+            className={`p-5 ${getClassName()}`}
+          >
             {content.type === "date-time" && (
               <DateCountDown
                 styles={section.wrapperStyle}

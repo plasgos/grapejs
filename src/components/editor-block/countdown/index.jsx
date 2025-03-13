@@ -21,6 +21,7 @@ import TextEditor from "../components/TextEditor";
 import DatePicker from "react-datepicker";
 import { CalendarMinus2 } from "lucide-react";
 import { textShadowOptions } from "@/components/SelectOptions";
+import TransiitonEditor from "../components/TransiitonEditor";
 
 const modeOptions = [
   { value: "countdown", label: "Countdown" },
@@ -173,7 +174,7 @@ const EditorCountdown = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <TabsEditor>
       <TabsContent
         className="px-4 pb-5 animate__animated animate__fadeInLeft"
         value="content"
@@ -291,6 +292,10 @@ const EditorCountdown = ({ selectedComponent }) => {
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
+      </TabsContent>
+
+      <TabsContent className="px-4 pb-5" value="transition">
+        <TransiitonEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent

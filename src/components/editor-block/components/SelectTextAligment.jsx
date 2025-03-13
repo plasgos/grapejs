@@ -10,23 +10,21 @@ const options = [
 
 const SelectTextAligment = ({ asChild, value, onChange }) => {
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <Label className={`${asChild && "font-normal"}`}>Aligment</Label>
-        <div className="flex items-center gap-x-2">
-          {options.map((item) => (
-            <Button
-              key={item.value}
-              onClick={() => {
-                onChange(item.value);
-              }}
-              variant={item.value === value ? "" : "outline"}
-              size="sm"
-            >
-              {item.icon}
-            </Button>
-          ))}
-        </div>
+    <div className="flex justify-between items-center">
+      <Label className={`${asChild && "font-normal"}`}>Aligment</Label>
+      <div className="flex items-center gap-x-2">
+        {options.map((item) => (
+          <Button
+            key={item.value}
+            onClick={() => {
+              onChange(item.value);
+            }}
+            variant={item.value === value ? "" : "outline"}
+            size="sm"
+          >
+            {item.icon}
+          </Button>
+        ))}
       </div>
     </div>
   );

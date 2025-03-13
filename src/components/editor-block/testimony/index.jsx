@@ -5,29 +5,23 @@ import BackgroundEditor from "../components/BackgroundEditor";
 import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
-import products4 from "@/assets/products4.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useChangeContents } from "@/hooks/useChangeContents";
 import { generateId } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../components/DraggableList";
-import ImageUploader from "../components/ImageUploader";
-import TargetOptions from "../components/TargetOptions";
 import TextEditor from "../components/TextEditor";
-import { useChangeContents } from "@/hooks/useChangeContents";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import avatar5 from "@/assets/avatar5.jpg";
+import { FaStar } from "react-icons/fa";
 
-const EditorContentShowcase = ({ selectedComponent }) => {
+const EditorTestimony = ({ selectedComponent }) => {
   const { contents, setContents, handleContentChange } =
     useChangeContents(selectedComponent);
 
   const [editItem, setEditItem] = useState("");
-
-  const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleContentChange);
-  };
 
   const handleAddContent = () => {
     setEditItem("");
@@ -36,16 +30,12 @@ const EditorContentShowcase = ({ selectedComponent }) => {
 
     const newContent = {
       id: newId,
-      title: "Strategi Efektif Meningkatkan Penjualan Produk",
+      image: avatar5,
+      name: "David",
+      profetion: "Freelancer",
       description:
-        "Temukan strategi terbaik untuk meningkatkan penjualan produk Anda, mulai dari optimasi pemasaran digital hingga membangun hubungan yang kuat dengan pelanggan.",
-      image: products4,
-      target: {
-        actionType: "link",
-        options: {
-          type: null,
-        },
-      },
+        "Harga terjangkau dengan kualitas yang sangat baik. 100% puas!",
+      stars: 4,
       isFocused: false,
     };
 
@@ -66,34 +56,49 @@ const EditorContentShowcase = ({ selectedComponent }) => {
 
     return (
       <>
-        <ImageUploader
-          label="Image"
-          handleFileUpload={() => handleFileUpload(item.id)}
-          image={selectedContent.image}
-        />
-
-        <TargetOptions
-          content={item}
-          handleContentChange={handleContentChange}
-        />
-
         <div className="space-y-2">
-          <Label>Title</Label>
+          <Label>Name</Label>
           <Input
-            value={selectedContent.title || ""}
+            value={selectedContent.name || ""}
             onChange={(e) => {
               const value = e.target.value;
-              handleContentChange(item.id, "title", value);
+              handleContentChange(item.id, "name", value);
             }}
           />
         </div>
 
+        <div className="space-y-2">
+          <Label>Profetion</Label>
+          <Input
+            placeholder="Customer"
+            value={selectedContent.profetion || ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              handleContentChange(item.id, "profetion", value);
+            }}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Stars</Label>
+
+          <div className="flex  gap-x-2">
+            {[...Array(5)].map((_, index) => (
+              <FaStar
+                onClick={() => handleContentChange(item.id, "stars", index + 1)}
+                className={`cursor-pointer text-3xl hover:scale-125 hover:transition-all ease-in-out`}
+                key={index}
+                color={index < selectedContent.stars ? "#ffd250" : "#ccc"}
+              />
+            ))}
+          </div>
+        </div>
+
         <TextEditor
-          label="Description"
-          value={selectedContent.description}
-          onChange={(value) => {
-            handleContentChange(item.id, "description", value);
-          }}
+          label="Content"
+          value={contents[0].description}
+          onChange={(value) =>
+            handleContentChange(item.id, "description", value)
+          }
         />
       </>
     );
@@ -144,4 +149,4 @@ const EditorContentShowcase = ({ selectedComponent }) => {
   );
 };
 
-export default EditorContentShowcase;
+export default EditorTestimony;

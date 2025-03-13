@@ -173,6 +173,12 @@ const SortableItem = ({
           <div className=" font-semibold text-sm  max-w-36">
             <p className="truncate">{item?.title}</p>
           </div>
+
+          {item.name && (
+            <div className=" font-semibold text-sm  max-w-36">
+              <p className="truncate">{item?.name}</p>
+            </div>
+          )}
         </div>
 
         <div className="">

@@ -93,6 +93,12 @@ export const registerCountdown = (editor) => {
             secondsColor: "rgba(33, 131, 128,1)",
             size: 20,
           },
+          animation: {
+            type: null,
+            duration: 1,
+            delay: null,
+            isReplay: false,
+          },
         },
       },
     },

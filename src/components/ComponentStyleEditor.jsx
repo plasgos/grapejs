@@ -2,6 +2,8 @@ import EditorButton from "./editor-block/button";
 import EditorCountdown from "./editor-block/countdown";
 import EditorContentShowcase from "./editor-block/editor-showcase-content";
 import EditorCTA from "./editor-block/EditorCTA";
+import EditorFAQ from "./editor-block/faq";
+import EditorFeatureHighlights from "./editor-block/feature-highlights";
 import EditorFloatingButton from "./editor-block/floating-button";
 import EditorFloatingButtonCircle from "./editor-block/floating-button-circle";
 import EditorHeroSection from "./editor-block/hero-section";
@@ -10,6 +12,7 @@ import EditorListImages from "./editor-block/list-images";
 import EditorModalPopup from "./editor-block/modal-popup";
 import EditorQuote from "./editor-block/quote";
 import EditorSliderImages from "./editor-block/slider-images";
+import EditorTestimony from "./editor-block/testimony";
 import EditorVideo from "./editor-block/video";
 import EditorVideoText from "./editor-block/video-text-banner";
 
@@ -66,6 +69,16 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       )}
       {selectedComponent.get("type") === "countdown" && (
         <EditorCountdown selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "feature-highlights" && (
+        <EditorFeatureHighlights selectedComponent={selectedComponent} />
+      )}
+
+      {selectedComponent.get("type") === "faq" && (
+        <EditorFAQ selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "testimony" && (
+        <EditorTestimony selectedComponent={selectedComponent} />
       )}
     </div>
   );
