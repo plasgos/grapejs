@@ -12,10 +12,17 @@ import SelectFontSize from "../components/SelectFontSize";
 
 import { CgChevronDown, CgChevronDownR } from "react-icons/cg";
 import SelectCircle from "../components/SelectCircle";
+import SelectOptions from "../components/SelectOptions";
 
 const variantOptions = [
   { value: "basic", label: "Basic", icon: <CgChevronDown /> },
   { value: "card", label: "Card", icon: <CgChevronDownR /> },
+];
+
+const layoutVariants = [
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
 ];
 
 const StylesTab = ({ selectedComponent }) => {
@@ -24,16 +31,16 @@ const StylesTab = ({ selectedComponent }) => {
 
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="w-full bg-white p-3 rounded-lg">
-        <SelectCircle
-          label="Variant"
-          options={variantOptions}
-          value={wrapperStyle.variant}
-          onClick={(value) => handleStylesChange("variant", value)}
-        />
-      </div>
-
       <div className="w-full flex flex-col gap-y-3 bg-white p-3 rounded-lg">
+        <ColorPicker
+          asChild
+          label="Background Color"
+          value={wrapperStyle.bgColor}
+          onChange={(value) => {
+            handleStylesChange("bgColor", value);
+          }}
+        />
+
         <ColorPicker
           asChild
           label="Border Color"
@@ -49,6 +56,15 @@ const StylesTab = ({ selectedComponent }) => {
           value={wrapperStyle.starsColor}
           onChange={(value) => {
             handleStylesChange("starsColor", value);
+          }}
+        />
+
+        <ColorPicker
+          asChild
+          label="Quote Color"
+          value={wrapperStyle.quoteColor}
+          onChange={(value) => {
+            handleStylesChange("quoteColor", value);
           }}
         />
       </div>

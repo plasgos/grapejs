@@ -44,28 +44,16 @@ const ViewSliderImages = ({ section, editor }) => {
             navigation={navigation}
             pagination={pagination}
             grabCursor={true}
-            modules={
-              delay
-                ? [
-                    Navigation,
-                    EffectFade,
-                    EffectCoverflow,
-                    EffectCreative,
-                    EffectCube,
-                    EffectFlip,
-                    Autoplay,
-                    Pagination,
-                  ]
-                : [
-                    Navigation,
-                    EffectFade,
-                    EffectCoverflow,
-                    EffectCreative,
-                    EffectCube,
-                    EffectFlip,
-                    Pagination,
-                  ]
-            }
+            modules={[
+              Navigation,
+              EffectFade,
+              EffectCoverflow,
+              EffectCreative,
+              EffectCube,
+              EffectFlip,
+              Autoplay,
+              Pagination,
+            ]}
             autoplay={
               delay
                 ? {

@@ -2,6 +2,7 @@ import { registerButton } from "./components/registerButton";
 import { registerCallToAction } from "./components/registerCallToAction";
 import { registerContentShowcase } from "./components/registerContentShowcase";
 import { registerCountdown } from "./components/registerCountdown";
+import { registerDivider } from "./components/registerDivider";
 import { registerFAQ } from "./components/registerFAQ";
 import { registerFeatureHighlights } from "./components/registerFeatureHighlights";
 import { registerFloatingButton } from "./components/registerFloatingButton";
@@ -36,6 +37,7 @@ const plasgosPlugin = (editor) => {
     registerFeatureHighlights(editor);
     registerFAQ(editor);
     registerTestimony(editor);
+    registerDivider(editor);
   });
 };
 

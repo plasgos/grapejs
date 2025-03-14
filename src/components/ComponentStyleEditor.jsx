@@ -1,5 +1,6 @@
 import EditorButton from "./editor-block/button";
 import EditorCountdown from "./editor-block/countdown";
+import EditorDivider from "./editor-block/divider";
 import EditorContentShowcase from "./editor-block/editor-showcase-content";
 import EditorCTA from "./editor-block/EditorCTA";
 import EditorFAQ from "./editor-block/faq";
@@ -79,6 +80,9 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       )}
       {selectedComponent.get("type") === "testimony" && (
         <EditorTestimony selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "divider" && (
+        <EditorDivider selectedComponent={selectedComponent} />
       )}
     </div>
   );

@@ -26,6 +26,7 @@ export const useChangeWrapperStyles = (selectedComponent) => {
 
   return {
     wrapperStyle,
+    setWrapperStyle,
     handleStylesChange,
   };
 };

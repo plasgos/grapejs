@@ -16,10 +16,25 @@ import DraggableList from "../components/DraggableList";
 import TextEditor from "../components/TextEditor";
 import avatar5 from "@/assets/avatar5.jpg";
 import { FaStar } from "react-icons/fa";
+import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
+import { Switch } from "@/components/ui/switch";
+import SelectOptions from "../components/SelectOptions";
+import ImageUploader from "../components/ImageUploader";
+import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+
+const layoutVariants = [
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+];
 
 const EditorTestimony = ({ selectedComponent }) => {
   const { contents, setContents, handleContentChange } =
     useChangeContents(selectedComponent);
+
+  const { wrapperStyle, handleStylesChange } =
+    useChangeWrapperStyles(selectedComponent);
 
   const [editItem, setEditItem] = useState("");
 
@@ -54,8 +69,18 @@ const EditorTestimony = ({ selectedComponent }) => {
   const renderContents = (item) => {
     const selectedContent = contents.find((content) => content.id === item.id);
 
+    const handleFileUpload = (id) => {
+      onChangeFileUpload(id, handleContentChange);
+    };
+
     return (
       <>
+        <ImageUploader
+          label="Image"
+          handleFileUpload={() => handleFileUpload(item.id)}
+          image={selectedContent.image}
+        />
+
         <div className="space-y-2">
           <Label>Name</Label>
           <Input
@@ -112,6 +137,45 @@ const EditorTestimony = ({ selectedComponent }) => {
       >
         <div className="flex flex-col gap-y-5 py-1">
           <SectionAddScrollTargetId selectedComponent={selectedComponent} />
+
+          <div className="flex flex-col gap-y-5 bg-white rounded-lg p-3">
+            <SelectOptions
+              label="Layout Variant"
+              options={layoutVariants}
+              value={wrapperStyle.variant}
+              onChange={(value) => handleStylesChange("variant", value)}
+            />
+
+            <div className="flex justify-between items-center">
+              <Label className="font-normal">With Slider</Label>
+              <Switch
+                checked={wrapperStyle.withSlider}
+                onCheckedChange={(checked) =>
+                  handleStylesChange("withSlider", checked)
+                }
+              />
+            </div>
+
+            {wrapperStyle.withSlider && (
+              <div className="flex justify-between items-center">
+                <Label className="font-normal">Auot Play</Label>
+                <Switch
+                  checked={wrapperStyle.autoPlaySlider}
+                  onCheckedChange={(checked) =>
+                    handleStylesChange("autoPlaySlider", checked)
+                  }
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="w-full flex flex-col gap-y-5 p-3 bg-white rounded-lg">
+            <TextEditor
+              label="Header"
+              value={wrapperStyle.header}
+              onChange={(value) => handleStylesChange("header", value)}
+            />
+          </div>
 
           <DraggableList
             contents={contents}

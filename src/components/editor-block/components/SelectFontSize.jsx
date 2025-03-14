@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 
 const options = [
-  10, 11, 12, 13, 14, 15, 16, 20, 24, 32, 36, 40, 48, 64, 96, 128,
+  10, 11, 12, 13, 14, 15, 16, 18, 20, 24, 32, 36, 40, 48, 64, 96, 128,
 ];
 
 const SelectFontSize = ({ asChild, label, value, onChange }) => {

@@ -33,6 +33,7 @@ import RangeInputSlider from "./RangeInputSlider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BsAlignCenter, BsAlignEnd, BsAlignStart } from "react-icons/bs";
 
 const IconPicker = ({
   label,
@@ -41,6 +42,7 @@ const IconPicker = ({
   withoutIconSize,
   withoutIconPosition,
   withoutRemove,
+  withCenterPosition,
 }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [sketchPickerColor, setSketchPickerColor] = useState(
@@ -48,6 +50,17 @@ const IconPicker = ({
   );
 
   const iconList = Object.keys(Icons);
+
+  const iconPostionOptions = [
+    { value: "left", label: "Left", icon: <BsAlignStart />, isDisabled: false },
+    {
+      value: "center",
+      label: "Center",
+      icon: <BsAlignCenter />,
+      isDisabled: withCenterPosition ? false : true,
+    },
+    { value: "right", label: "Right", icon: <BsAlignEnd />, isDisabled: false },
+  ];
 
   const [filteredIcons, setFilteredIcons] = useState(Object.keys(Icons));
 
@@ -209,22 +222,25 @@ const IconPicker = ({
                       className="cursor-pointer flex justify-between"
                     >
                       <Label>Icon Position</Label>
-                      <RadioGroup
-                        value={value?.position}
-                        onValueChange={(value) =>
-                          onSelectIcon("position", value)
-                        }
-                        defaultValue="right"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="left" id="left" />
-                          <Label htmlFor="left">Left</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="right" id="right" />
-                          <Label htmlFor="right">Right</Label>
-                        </div>
-                      </RadioGroup>
+
+                      <div className="flex gap-x-2">
+                        {iconPostionOptions
+                          .filter((icon) => !icon.isDisabled)
+                          .map((opt) => (
+                            <Button
+                              key={opt.value}
+                              onClick={() => {
+                                onSelectIcon("position", opt.value);
+                              }}
+                              variant={
+                                opt.value === value.position ? "" : "outline"
+                              }
+                              size="sm"
+                            >
+                              {opt.icon}
+                            </Button>
+                          ))}
+                      </div>
                     </DropdownMenuItem>
                   )}
 

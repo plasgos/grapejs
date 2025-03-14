@@ -71,7 +71,7 @@ export const registerFAQ = (editor) => {
             fontFamily: "Roboto",
             fontSize: 16,
             textAligment: "justify-center",
-            borderColor: "rgba(128, 128, 128, 0.5)",
+            borderColor: "rgba(115, 115, 115, 0.5)",
             iconColor: "rgb(46, 30, 24,1)",
           },
           background: {
