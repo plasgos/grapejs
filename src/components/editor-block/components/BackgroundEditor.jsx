@@ -513,331 +513,332 @@ const BackgroundEditor = ({ selectedComponent }) => {
   };
 
   return (
-    <div className="w-full my-5 flex flex-col gap-y-5">
-      <SelectCircle
-        label="Background Type"
-        options={bgTypeOptions}
-        value={background.bgType}
-        onClick={(value) => {
-          handleChangeBgType(value);
-        }}
-      />
+    <div className="w-full my-4 flex flex-col gap-y-5">
+      <div className="w-full bg-white p-3 rounded-lg">
+        <SelectCircle
+          label="Background Type"
+          options={bgTypeOptions}
+          value={background.bgType}
+          onClick={(value) => {
+            handleChangeBgType(value);
+          }}
+        />
+        <div className="">
+          <div className=" pb-2 border-b mb-5">
+            <Label>Options</Label>
+          </div>
 
-      <div className="">
-        <div className="my-2 pb-2 border-b">
-          <Label>Options</Label>
-        </div>
+          {background.bgType === "bgColor" && (
+            <>
+              <div className="grid grid-cols-6 gap-4">
+                {solidColorOptions.map((color) => {
+                  const handleSelectColor = () => {
+                    handleChangeBackground("bgColor", color);
+                  };
 
-        {background.bgType === "bgColor" && (
-          <>
-            <div className="grid grid-cols-6 gap-4">
-              {solidColorOptions.map((color) => {
-                const handleSelectColor = () => {
-                  handleChangeBackground("bgColor", color);
-                };
+                  const isSelectedColor = color === background.bgColor;
 
-                const isSelectedColor = color === background.bgColor;
+                  return (
+                    <div key={color}>
+                      <SolidColorsCircle
+                        color={color}
+                        onClick={handleSelectColor}
+                        isSelected={isSelectedColor}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
 
-                return (
-                  <div key={color}>
-                    <SolidColorsCircle
-                      color={color}
-                      onClick={handleSelectColor}
-                      isSelected={isSelectedColor}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+              <div className="my-5 flex justify-between items-center">
+                <div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" className="px-[26px]">
+                        More Colours <IoIosColorPalette />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0 w-full relative -right-3">
+                      <SketchPicker
+                        className="custom-sketch-picker"
+                        color={background.bgColor}
+                        onChange={(color) => {
+                          handleChangeBackground("bgColor", color.hex);
+                        }}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
 
-            <div className="my-5 flex justify-between items-center">
-              <div>
+                <div>
+                  <SolidColorsCircle
+                    isSelected={isCustomSolidColorSelected}
+                    onClick={() => {}}
+                    color={isCustomSolidColorSelected ? background.bgColor : ""}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {background.bgType === "gradients" && (
+            <>
+              <div className="grid grid-cols-6 gap-4">
+                {gradientOptions.map((gradient, index) => {
+                  const handleClick = () => {
+                    handleChangeBackground("fromColor", gradient.from);
+                    handleChangeBackground("toColor", gradient.to);
+                  };
+
+                  const isSelected =
+                    gradient.from === background.fromColor &&
+                    gradient.to === background.toColor;
+                  return (
+                    <div key={index}>
+                      <GradientsCircle
+                        isSelected={isSelected}
+                        onClick={handleClick}
+                        key={index}
+                        fromColor={gradient.from}
+                        toColor={gradient.to}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="my-5 flex justify-between items-center">
+                <div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline">
+                        Custom Gradient <IoIosColorPalette />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-[310px] space-y-2 relative -right-3">
+                      <DropdownMenuLabel>Options</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger className="font-semibold">
+                          <div className="flex items-center justify-between w-full">
+                            <p>From Color</p>
+
+                            <IoIosRadioButtonOn
+                              className="ml-auto"
+                              style={{ color: background.fromColor }}
+                            />
+                          </div>
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                          <DropdownMenuSubContent>
+                            <SketchPicker
+                              className="custom-sketch-picker"
+                              color={background.fromColor}
+                              onChange={(color) => {
+                                handleChangeBackground("fromColor", color.hex);
+                              }}
+                            />
+                          </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                      </DropdownMenuSub>
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger className="font-semibold">
+                          <div className="flex items-center justify-between w-full">
+                            <p>To Color</p>
+
+                            <IoIosRadioButtonOn
+                              className="ml-auto"
+                              style={{ color: background.toColor }}
+                            />
+                          </div>
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                          <DropdownMenuSubContent>
+                            <SketchPicker
+                              className="custom-sketch-picker"
+                              color={background.toColor}
+                              onChange={(color) => {
+                                handleChangeBackground("toColor", color.hex);
+                              }}
+                            />
+                          </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                      </DropdownMenuSub>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                        className="cursor-pointer flex justify-between"
+                      >
+                        <Label>Direction</Label>
+
+                        <div className="flex items-center gap-x-2">
+                          {directionGradientOptions.map((item) => (
+                            <Button
+                              key={item.value}
+                              onClick={() => {
+                                handleChangeBackground("direction", item.value);
+                              }}
+                              variant={
+                                item.value === background.direction
+                                  ? ""
+                                  : "outline"
+                              }
+                              size="sm"
+                            >
+                              {item.icon}
+                            </Button>
+                          ))}
+                        </div>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.preventDefault();
+                        }}
+                        className="cursor-pointer flex justify-between"
+                      >
+                        <Label>Flip</Label>
+
+                        <Button
+                          onClick={() => {
+                            const newIsRevert = !background.isRevert;
+                            handleChangeBackground("isRevert", newIsRevert);
+                          }}
+                          variant={background.isRevert ? "" : "outline"}
+                          aria-label="Toggle Flip"
+                          size="sm"
+                        >
+                          <RiFlipHorizontalFill className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                <div>
+                  <GradientsCircle
+                    isSelected={isCustomGradientSelected}
+                    onClick={() => {}}
+                    fromColor={
+                      isCustomGradientSelected ? background.fromColor : ""
+                    }
+                    toColor={isCustomGradientSelected ? background.toColor : ""}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {background.bgType === "pattern" && (
+            <>
+              <div className="grid grid-cols-2 gap-3">
+                {patterns.slice(0, 4).map((item, index) => {
+                  const handleSelectPattern = () => {
+                    handleChangeBackground("pattern", item.img);
+                  };
+
+                  const isSelected = item.img === background.pattern;
+
+                  return (
+                    <div key={index}>
+                      <PatternBoxWithScrollTracking
+                        img={item.img}
+                        isSelected={isSelected}
+                        onClick={handleSelectPattern}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="w-full flex justify-center my-5">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="px-[26px]">
-                      More Colours <IoIosColorPalette />
+                      More Pattern <MdOutlineReadMore />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="p-0 w-full relative -right-3">
-                    <SketchPicker
-                      className="custom-sketch-picker"
-                      color={background.bgColor}
-                      onChange={(color) => {
-                        handleChangeBackground("bgColor", color.hex);
-                      }}
-                    />
+                  <PopoverContent className=" w-[300px] h-[400px] overflow-y-auto relative -right-3">
+                    <div className="grid grid-cols-2 gap-3">
+                      {patterns.map((item, index) => {
+                        const handleSelectPattern = () => {
+                          handleChangeBackground("pattern", item.img);
+                        };
+
+                        const isSelected = item.img === background.pattern;
+
+                        return (
+                          <div key={index}>
+                            <PatternBoxWithScrollTracking
+                              img={item.img}
+                              isSelected={isSelected}
+                              onClick={handleSelectPattern}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
                   </PopoverContent>
                 </Popover>
               </div>
+            </>
+          )}
 
-              <div>
-                <SolidColorsCircle
-                  isSelected={isCustomSolidColorSelected}
-                  onClick={() => {}}
-                  color={isCustomSolidColorSelected ? background.bgColor : ""}
-                />
+          {background.bgType === "image" && (
+            <>
+              <div className="mb-2 ">
+                <div
+                  style={{
+                    backgroundColor: "#F5F5F5",
+                    width: "100%",
+                    overflow: "hidden",
+                  }}
+                  className="mx-auto mb-3 border rounded-md  "
+                >
+                  <img
+                    style={{ objectFit: "contain", width: "100%", height: 120 }}
+                    src={background.bgImage || bgDefaultImage}
+                    alt="img"
+                  />
+                </div>
+
+                <Button
+                  className="w-full"
+                  onClick={handleFileUpload}
+                  variant="outline"
+                >
+                  Upload
+                </Button>
               </div>
-            </div>
-          </>
-        )}
-
-        {background.bgType === "gradients" && (
-          <>
-            <div className="grid grid-cols-6 gap-4">
-              {gradientOptions.map((gradient, index) => {
-                const handleClick = () => {
-                  handleChangeBackground("fromColor", gradient.from);
-                  handleChangeBackground("toColor", gradient.to);
-                };
-
-                const isSelected =
-                  gradient.from === background.fromColor &&
-                  gradient.to === background.toColor;
-                return (
-                  <div key={index}>
-                    <GradientsCircle
-                      isSelected={isSelected}
-                      onClick={handleClick}
-                      key={index}
-                      fromColor={gradient.from}
-                      toColor={gradient.to}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="my-5 flex justify-between items-center">
-              <div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline">
-                      Custom Gradient <IoIosColorPalette />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[310px] space-y-2 relative -right-3">
-                    <DropdownMenuLabel>Options</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuSub>
-                      <DropdownMenuSubTrigger className="font-semibold">
-                        <div className="flex items-center justify-between w-full">
-                          <p>From Color</p>
-
-                          <IoIosRadioButtonOn
-                            className="ml-auto"
-                            style={{ color: background.fromColor }}
-                          />
-                        </div>
-                      </DropdownMenuSubTrigger>
-                      <DropdownMenuPortal>
-                        <DropdownMenuSubContent>
-                          <SketchPicker
-                            className="custom-sketch-picker"
-                            color={background.fromColor}
-                            onChange={(color) => {
-                              handleChangeBackground("fromColor", color.hex);
-                            }}
-                          />
-                        </DropdownMenuSubContent>
-                      </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuSub>
-                      <DropdownMenuSubTrigger className="font-semibold">
-                        <div className="flex items-center justify-between w-full">
-                          <p>To Color</p>
-
-                          <IoIosRadioButtonOn
-                            className="ml-auto"
-                            style={{ color: background.toColor }}
-                          />
-                        </div>
-                      </DropdownMenuSubTrigger>
-                      <DropdownMenuPortal>
-                        <DropdownMenuSubContent>
-                          <SketchPicker
-                            className="custom-sketch-picker"
-                            color={background.toColor}
-                            onChange={(color) => {
-                              handleChangeBackground("toColor", color.hex);
-                            }}
-                          />
-                        </DropdownMenuSubContent>
-                      </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                      className="cursor-pointer flex justify-between"
-                    >
-                      <Label>Direction</Label>
-
-                      <div className="flex items-center gap-x-2">
-                        {directionGradientOptions.map((item) => (
-                          <Button
-                            key={item.value}
-                            onClick={() => {
-                              handleChangeBackground("direction", item.value);
-                            }}
-                            variant={
-                              item.value === background.direction
-                                ? ""
-                                : "outline"
-                            }
-                            size="sm"
-                          >
-                            {item.icon}
-                          </Button>
-                        ))}
-                      </div>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                      className="cursor-pointer flex justify-between"
-                    >
-                      <Label>Flip</Label>
-
-                      <Button
-                        onClick={() => {
-                          const newIsRevert = !background.isRevert;
-                          handleChangeBackground("isRevert", newIsRevert);
-                        }}
-                        variant={background.isRevert ? "" : "outline"}
-                        aria-label="Toggle Flip"
-                        size="sm"
-                      >
-                        <RiFlipHorizontalFill className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              <div>
-                <GradientsCircle
-                  isSelected={isCustomGradientSelected}
-                  onClick={() => {}}
-                  fromColor={
-                    isCustomGradientSelected ? background.fromColor : ""
-                  }
-                  toColor={isCustomGradientSelected ? background.toColor : ""}
-                />
-              </div>
-            </div>
-          </>
-        )}
-
-        {background.bgType === "pattern" && (
-          <>
-            <div className="grid grid-cols-2 gap-3">
-              {patterns.slice(0, 4).map((item, index) => {
-                const handleSelectPattern = () => {
-                  handleChangeBackground("pattern", item.img);
-                };
-
-                const isSelected = item.img === background.pattern;
-
-                return (
-                  <div key={index}>
-                    <PatternBoxWithScrollTracking
-                      img={item.img}
-                      isSelected={isSelected}
-                      onClick={handleSelectPattern}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="w-full flex justify-center my-5">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="px-[26px]">
-                    More Pattern <MdOutlineReadMore />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className=" w-[300px] h-[400px] overflow-y-auto relative -right-3">
-                  <div className="grid grid-cols-2 gap-3">
-                    {patterns.map((item, index) => {
-                      const handleSelectPattern = () => {
-                        handleChangeBackground("pattern", item.img);
-                      };
-
-                      const isSelected = item.img === background.pattern;
-
-                      return (
-                        <div key={index}>
-                          <PatternBoxWithScrollTracking
-                            img={item.img}
-                            isSelected={isSelected}
-                            onClick={handleSelectPattern}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
-          </>
-        )}
-
-        {background.bgType === "image" && (
-          <>
-            <div className="mb-2 ">
-              <div
-                style={{
-                  backgroundColor: "#F5F5F5",
-                  width: "100%",
-                  overflow: "hidden",
+              <RangeInputSlider
+                label="Blur"
+                value={background.blur}
+                min={0}
+                max={40}
+                onChange={(value) => {
+                  handleChangeBackground("blur", value);
                 }}
-                className="mx-auto mb-3 border rounded-md  "
-              >
-                <img
-                  style={{ objectFit: "contain", width: "100%", height: 120 }}
-                  src={background.bgImage || bgDefaultImage}
-                  alt="img"
-                />
-              </div>
+              />
 
-              <Button
-                className="w-full"
-                onClick={handleFileUpload}
-                variant="outline"
-              >
-                Upload
-              </Button>
-            </div>
-            <RangeInputSlider
-              label="Blur"
-              value={background.blur}
-              min={0}
-              max={40}
-              onChange={(value) => {
-                handleChangeBackground("blur", value);
-              }}
-            />
-
-            <RangeInputSlider
-              label="Opacity"
-              value={background.opacity}
-              min={-50}
-              max={50}
-              onChange={(value) => {
-                handleChangeBackground("opacity", value);
-              }}
-            />
-          </>
-        )}
-        <PaddingOptionsEditor
-          background={background}
-          handleChangePaddingOptions={handleChangePaddingOptions}
-          handleChangeBackground={handleChangeBackground}
-          isNoneBg={background.bgType === null ? true : false}
-        />
+              <RangeInputSlider
+                label="Opacity"
+                value={background.opacity}
+                min={-50}
+                max={50}
+                onChange={(value) => {
+                  handleChangeBackground("opacity", value);
+                }}
+              />
+            </>
+          )}
+          <PaddingOptionsEditor
+            background={background}
+            handleChangePaddingOptions={handleChangePaddingOptions}
+            handleChangeBackground={handleChangeBackground}
+            isNoneBg={background.bgType === null ? true : false}
+          />
+        </div>
       </div>
     </div>
   );

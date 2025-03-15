@@ -8,12 +8,18 @@ import ColorPicker from "../components/ColorPicker";
 import RangeInputSlider from "../components/RangeInputSlider";
 import IconPicker from "../components/IconPicker";
 import { produce } from "immer";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 const borderStyleOptions = [
   { value: "solid", label: "Solid" },
-  { value: "dashed", label: "Dashed" },
   { value: "dotted", label: "Dotted" },
+  { value: "dashed", label: "Dashed" },
   { value: "double", label: "Double" },
+  { value: "groove", label: "Groove" },
+  { value: "ridge", label: "Ridge" },
+  { value: "inset", label: "Inset" },
+  { value: "outset", label: "Outset" },
 ];
 
 const EditorDivider = ({ selectedComponent }) => {
@@ -61,14 +67,6 @@ const EditorDivider = ({ selectedComponent }) => {
             onChange={(color) => handleStylesChange("color", color)}
           />
 
-          {wrapperStyle.variant === "double" && (
-            <ColorPicker
-              label="Color Double"
-              value={wrapperStyle.color2}
-              onChange={(color) => handleStylesChange("color2", color)}
-            />
-          )}
-
           <RangeInputSlider
             label="Height"
             value={wrapperStyle.height}
@@ -77,47 +75,30 @@ const EditorDivider = ({ selectedComponent }) => {
             max={100}
           />
 
-          <RangeInputSlider
-            label="Width"
-            value={wrapperStyle.width}
-            onChange={(value) => handleStylesChange("width", value)}
-            min={1}
-            max={100}
-          />
+          <div className="flex justify-between items-center">
+            <Label className="font-normal">Full Width</Label>
+            <Switch
+              checked={wrapperStyle.fullWidth}
+              onCheckedChange={(checked) =>
+                handleStylesChange("fullWidth", checked)
+              }
+            />
+          </div>
 
-          {wrapperStyle.variant === "double" && (
-            <>
-              <RangeInputSlider
-                label="Height 2"
-                value={wrapperStyle.height2}
-                onChange={(value) => handleStylesChange("height2", value)}
-                min={1}
-                max={100}
-              />
-
-              <RangeInputSlider
-                label="Width 2"
-                value={wrapperStyle.width2}
-                onChange={(value) => handleStylesChange("width2", value)}
-                min={1}
-                max={100}
-              />
-
-              <RangeInputSlider
-                label="Gap"
-                value={wrapperStyle.gap}
-                onChange={(value) => handleStylesChange("gap", value)}
-                min={0}
-                max={100}
-              />
-            </>
+          {!wrapperStyle.fullWidth && (
+            <RangeInputSlider
+              label="Width"
+              value={wrapperStyle.width}
+              onChange={(value) => handleStylesChange("width", value)}
+              min={30}
+              max={1440}
+            />
           )}
 
           <IconPicker
             label="Icon"
             onSelectIcon={(key, value) => handleSelectIcon(key, value)}
             value={wrapperStyle.iconBtn}
-            withoutIconSize
             withCenterPosition
           />
         </div>

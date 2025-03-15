@@ -13,6 +13,7 @@ import { registerListImages } from "./components/registerListImages";
 import { registerModalPopup } from "./components/registerModalPopup";
 import { registerQuote } from "./components/registerQuote";
 import { registerSliderImages } from "./components/registerSliderImages";
+import { registerEmptySpace } from "./components/registerSpace";
 import { registerTestimony } from "./components/registerTestimony";
 import { registerVideo } from "./components/registerVideo";
 import { registerVideoText } from "./components/registerVideoText";
@@ -38,6 +39,7 @@ const plasgosPlugin = (editor) => {
     registerFAQ(editor);
     registerTestimony(editor);
     registerDivider(editor);
+    registerEmptySpace(editor);
   });
 };
 

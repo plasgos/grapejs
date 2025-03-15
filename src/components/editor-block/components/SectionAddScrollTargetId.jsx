@@ -113,7 +113,7 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
             Scroll Target
           </AccordionTrigger>
           <AccordionContent className="bg-white rounded p-2">
-            <div className="space-y-2 ">
+            <div className="space-y-2 mb-1">
               <div className="flex items-center gap-x-3">
                 <Input
                   readOnly={isTargetAdded}

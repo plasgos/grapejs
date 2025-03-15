@@ -3,6 +3,7 @@ import EditorCountdown from "./editor-block/countdown";
 import EditorDivider from "./editor-block/divider";
 import EditorContentShowcase from "./editor-block/editor-showcase-content";
 import EditorCTA from "./editor-block/EditorCTA";
+import EditorEmptySpace from "./editor-block/empty-space";
 import EditorFAQ from "./editor-block/faq";
 import EditorFeatureHighlights from "./editor-block/feature-highlights";
 import EditorFloatingButton from "./editor-block/floating-button";
@@ -83,6 +84,9 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       )}
       {selectedComponent.get("type") === "divider" && (
         <EditorDivider selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "empty-space" && (
+        <EditorEmptySpace selectedComponent={selectedComponent} />
       )}
     </div>
   );

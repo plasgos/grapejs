@@ -60,7 +60,7 @@ const RangeInputSlider = ({
         <div className="relative">
           <Input
             value={safeValue(currentValue)}
-            className="w-[70px] pr-8 "
+            className="w-[80px] pr-8 "
             type="text"
             onChange={handleInputChange}
             onBlur={handleInputBlur}

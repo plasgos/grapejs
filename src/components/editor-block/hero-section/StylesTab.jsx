@@ -1,35 +1,14 @@
+import { shadowOptions } from "@/components/SelectOptions";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PiAlignRightSimpleFill } from "react-icons/pi";
-import SelectCircle from "../components/SelectCircle";
-import { TbLayoutDistributeVerticalFilled } from "react-icons/tb";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
+import ColorPicker from "../components/ColorPicker";
 import RangeInputSlider from "../components/RangeInputSlider";
 import SelectOptions from "../components/SelectOptions";
-import { shadowOptions } from "@/components/SelectOptions";
-import ColorPicker from "../components/ColorPicker";
-import { SlSizeFullscreen } from "react-icons/sl";
-const imageVariants = [
-  {
-    value: "fullPage",
-    label: "Full Page",
-    icon: <SlSizeFullscreen size={24} />,
-  },
-  {
-    value: "centerPage",
-    label: "Center Page",
-    icon: <PiAlignRightSimpleFill size={24} />,
-  },
-  {
-    value: "contentPage",
-    label: "Content Page",
-    icon: <TbLayoutDistributeVerticalFilled size={24} />,
-  },
-];
 
 const StylesTab = ({ selectedComponent }) => {
   const { wrapperStyle, handleStylesChange } =
@@ -44,15 +23,6 @@ const StylesTab = ({ selectedComponent }) => {
           </AccordionTrigger>
           <AccordionContent className="bg-white p-3 rounded-b-lg ">
             <div className="flex flex-col gap-y-5">
-              <SelectCircle
-                label="Variant"
-                options={imageVariants}
-                value={wrapperStyle.variant}
-                onClick={(value) => {
-                  handleStylesChange("variant", value);
-                }}
-              />
-
               {wrapperStyle.variant === "centerPage" && (
                 <>
                   <ColorPicker

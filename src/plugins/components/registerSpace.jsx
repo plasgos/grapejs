@@ -1,20 +1,18 @@
-import ViewDivider from "@/view/divider";
+import ViewEmptySpace from "@/view/empty-space";
 import { createRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
-import { RxDividerHorizontal } from "react-icons/rx";
+import { FaRegSquare } from "react-icons/fa6";
 
-// divider style
-// -single ,double , double with icon , single with icon, dahsed
-export const registerDivider = (editor) => {
-  editor.BlockManager.add("divider", {
-    label: "Divider",
+export const registerEmptySpace = (editor) => {
+  editor.BlockManager.add("empty-space", {
+    label: "Empty Space",
     category: "Contents",
-    content: { type: "divider" },
+    content: { type: "empty-space" },
     activate: true,
-    media: renderToString(<RxDividerHorizontal size={40} />),
+    media: renderToString(<FaRegSquare size={40} />),
   });
 
-  editor.Components.addType("divider", {
+  editor.Components.addType("empty-space", {
     model: {
       defaults: {
         tagName: "div",
@@ -30,23 +28,12 @@ export const registerDivider = (editor) => {
         noResize: true, // Nonaktifkan perubahan ukuran
         attributes: {},
         category: "Contents",
-        blockLabel: "Divider",
-        blockIcon: <RxDividerHorizontal size={20} />,
+        blockLabel: "Empty Space",
+        blockIcon: <FaRegSquare size={20} />,
         customComponent: {
           scrollTarget: undefined,
           wrapperStyle: {
-            variant: "solid",
-            fullWidth: true,
-            width: 800,
-            height: 5,
-            color: "rgba(19, 86, 236, 0.8)",
-            color2: "rgba(236, 146, 19, 0.8)",
-            iconBtn: {
-              icon: "",
-              color: "rgba(0,0,0,0,1)",
-              size: 24,
-              position: "center",
-            },
+            height: 50,
           },
         },
       },
@@ -79,13 +66,10 @@ export const registerDivider = (editor) => {
           this.root = createRoot(this.el); // Hanya buat satu instance root
         }
 
-        // const globalOptions = editor.getModel().get("globalOptions");
-
         this.root.render(
-          <ViewDivider
+          <ViewEmptySpace
             section={this.model.get("customComponent")}
             editor={editor}
-            // globalOptions={globalOptions}
           />
         );
       },

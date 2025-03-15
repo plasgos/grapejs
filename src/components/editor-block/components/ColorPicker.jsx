@@ -1,6 +1,8 @@
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
-import { SketchPicker } from "react-color";
+import { SketchPicker, SwatchesPicker } from "react-color";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
   Popover,
@@ -78,11 +80,32 @@ const ColorPicker = ({
           </div>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0">
-          <SketchPicker
-            className="custom-sketch-picker"
-            color={sketchPickerColor}
-            onChange={(color) => handleChange(color.rgb)}
-          />
+          <Tabs defaultValue="pallete-colours" className="w-full ">
+            <TabsList>
+              <TabsTrigger className="text-sm w-full" value="pallete-colours">
+                Pallete Colours
+              </TabsTrigger>
+              <TabsTrigger className="text-sm w-full" value="sketch-colours">
+                Sketch Colours
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent className="m-0" value="pallete-colours">
+              <SwatchesPicker
+                width={273}
+                className="custom-sketch-picker"
+                color={sketchPickerColor}
+                onChange={(color) => handleChange(color.rgb)}
+              />
+            </TabsContent>
+            <TabsContent className="m-0" value="sketch-colours">
+              <SketchPicker
+                width={220}
+                className="custom-sketch-picker"
+                color={sketchPickerColor}
+                onChange={(color) => handleChange(color.rgb)}
+              />
+            </TabsContent>
+          </Tabs>
         </PopoverContent>
       </Popover>
     </div>
