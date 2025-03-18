@@ -7,6 +7,7 @@ import { registerFAQ } from "./components/registerFAQ";
 import { registerFeatureHighlights } from "./components/registerFeatureHighlights";
 import { registerFloatingButton } from "./components/registerFloatingButton";
 import { registerFloatingButtonCircle } from "./components/registerFloatingButtonCircle";
+import { registerFormCheckout } from "./components/registerFormCheckout";
 import { registerHeroSection } from "./components/registerHeroSection";
 import { registerImage } from "./components/registerImage";
 import { registerListImages } from "./components/registerListImages";
@@ -40,6 +41,7 @@ const plasgosPlugin = (editor) => {
     registerTestimony(editor);
     registerDivider(editor);
     registerEmptySpace(editor);
+    registerFormCheckout(editor);
   });
 };
 
