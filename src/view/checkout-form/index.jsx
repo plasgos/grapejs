@@ -42,6 +42,60 @@ const frameworks = [
   },
 ];
 
+const generateCustomFieldSchema = () => {
+  return z.array(
+    z
+      .record(z.any()) // Mengizinkan objek dengan struktur bebas
+      .superRefine((data, ctx) => {
+        if (data.isRequired && (!data.value || data.value === "")) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["value"],
+            message: "Required",
+          });
+        }
+
+        // Validasi email jika type === "email"
+        if (data.type === "email" && typeof data.value === "string") {
+          const emailSchema = z.string().email();
+          const result = emailSchema.safeParse(data.value);
+
+          if (!result.success) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ["value"],
+              message: "Invalid email format",
+            });
+          }
+        }
+
+        // Validasi email jika type === "phoneNumber"
+        if (data.type === "phoneNumber" && typeof data.value === "string") {
+          if (!data.isRequired && !data.value) {
+            return;
+          }
+
+          const phoneNumberSchema = z
+            .string()
+            .regex(
+              /^62(8[1-9][0-9]{7,10})$/,
+              "Phone number must start with 62 and contain 10-13 digits"
+            );
+          const result = phoneNumberSchema.safeParse(data.value);
+
+          if (!result.success) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ["value"],
+              message:
+                "Phone number must start with 62 and contain 10-13 digits",
+            });
+          }
+        }
+      })
+  );
+};
+
 const formSchema = z
   .object({
     name: z.string().min(3, "Name must be at least 3 characters").max(50),
@@ -63,8 +117,9 @@ const formSchema = z
 
     paymentMethod: z.enum(["bankTransfer", "cod"]),
     bank: z.any().optional(),
-    courier: z.string(),
-    courierPackage: z.string(),
+    courier: z.string().min(1, { message: "Required" }),
+    courierPackage: z.string().min(1, { message: "Required" }),
+    customFields: generateCustomFieldSchema(),
   })
   .superRefine((data, ctx) => {
     // Jika paymentMethod adalah "bankTransfer", maka "bank" harus diisi
@@ -95,9 +150,16 @@ import { useState } from "react";
 import PaymentMethod from "./components/PaymentMethod";
 import { useEffect } from "react";
 import Shipping from "./components/Shipping";
+import ViewInput from "./components/ViewInput";
+import ViewTextArea from "./components/ViewTextArea";
+import ViewTitle from "./components/ViewTitle";
+import ViewEmail from "./components/ViewEmail";
 // import { useEffect } from "react";
 
-const ViewFormCheckout = () => {
+const ViewFormCheckout = ({ section }) => {
+  const { contents } = section;
+  console.log("🚀 ~ ViewFormCheckout ~ contents:", contents);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -113,8 +175,17 @@ const ViewFormCheckout = () => {
       bank: {},
       courier: "",
       courierPackage: "",
+      customFields: [],
     },
   });
+
+  useEffect(() => {
+    if (contents.length > 0) {
+      setTimeout(() => {
+        form.setValue("customFields", contents);
+      }, 0);
+    }
+  }, [contents, form, form.setValue]);
 
   const onSubmit = (data) => {
     console.log("🚀 ~ onSubmit ~ data:", data);
@@ -375,6 +446,37 @@ const ViewFormCheckout = () => {
               </FormItem>
             )}
           />
+
+          {/* Custom Fields */}
+          {contents.length > 0 &&
+            contents.map((content, index) => {
+              return (
+                <div
+                  className={`
+                ${
+                  content.isFocused &&
+                  "ring-2 !ring-offset-4 ring-purple-600  bg-orange-100    "
+                }
+              `}
+                  style={{ margin: "20px 0px" }}
+                  key={content.id}
+                >
+                  {content.type === "title" && (
+                    <ViewTitle content={content} index={index} />
+                  )}
+                  {(content.type === "text-input" ||
+                    content.type === "phoneNumber") && (
+                    <ViewInput content={content} index={index} />
+                  )}
+                  {content.type === "email" && (
+                    <ViewEmail content={content} index={index} />
+                  )}
+                  {content.type === "text-area" && (
+                    <ViewTextArea content={content} index={index} />
+                  )}
+                </div>
+              );
+            })}
 
           <Shipping />
           <PaymentMethod />

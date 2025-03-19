@@ -97,7 +97,7 @@ const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
               }}
             >
               {createElement(Icons[iconBtn?.icon], {
-                size: iconBtn?.size,
+                size: iconSizeClasses,
               })}
             </div>
           )}

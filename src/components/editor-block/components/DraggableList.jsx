@@ -164,6 +164,12 @@ const SortableItem = ({
             </div>
           ) : null}
 
+          {item?.icon ? (
+            <div style={{ fontSize: 20, marginLeft: 5 }}>{item.icon}</div>
+          ) : null}
+
+          {item?.label ? <p className="truncate">{item?.label}</p> : null}
+
           {item?.stylesBtn?.title ? (
             <div>
               <p className="truncate">{item?.stylesBtn?.title}</p>

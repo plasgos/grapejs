@@ -102,10 +102,10 @@ const EditorButton = ({ selectedComponent }) => {
         rounded: 10,
       },
       iconBtn: {
-        icon: "FaInstagram",
-        color: "rgba(0,0,0,0,1)",
-        size: 24,
-        position: "right",
+        icon: "",
+        color: "",
+        size: "",
+        position: "",
       },
       target: {
         actionType: "link",
@@ -149,8 +149,6 @@ const EditorButton = ({ selectedComponent }) => {
           onSelectIcon={(key, value) => handleSelectIcon(key, value)}
           value={selectedButton.iconBtn}
           withoutIconSize
-          withoutIconPosition
-          withoutRemove
         />
       </div>
     );

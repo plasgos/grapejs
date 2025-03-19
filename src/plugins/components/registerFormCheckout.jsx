@@ -4,15 +4,15 @@ import { renderToString } from "react-dom/server";
 import { FaClipboardList } from "react-icons/fa";
 
 export const registerFormCheckout = (editor) => {
-  editor.BlockManager.add("form-checkout", {
+  editor.BlockManager.add("checkout-form", {
     label: "Form Checkout",
     category: "Form",
-    content: { type: "form-checkout" },
+    content: { type: "checkout-form" },
     activate: true,
     media: renderToString(<FaClipboardList size={40} />),
   });
 
-  editor.Components.addType("form-checkout", {
+  editor.Components.addType("checkout-form", {
     model: {
       defaults: {
         tagName: "div",
