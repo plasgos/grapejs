@@ -25,6 +25,7 @@ import EditorTextTitle from "./_components/EditorTitle";
 <CiText />;
 import { MdOutlineMailOutline } from "react-icons/md";
 import { FaPhone } from "react-icons/fa";
+import EditorCheckbox from "./_components/EditorCheckbox";
 const fieldOptions = [
   { type: "title", label: "Title", icon: <CiText />, value: "Custom Title " },
   {
@@ -66,9 +67,16 @@ const fieldOptions = [
   {
     type: "checkbox",
     label: "Checkbox",
+    labelField: "Type a question",
     icon: <IoIosCheckboxOutline />,
+    checkboxes: [
+      { id: "option-1", value: "option-1", label: "Option 1" },
+      { id: "option-2", value: "option-2", label: "Option 2" },
+      { id: "option-3", value: "option-3", label: "Option 3" },
+    ],
     isRequired: true,
-    value: false,
+    layout: "horizontal",
+    value: "",
   },
 ];
 
@@ -123,6 +131,15 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
           <EditorInputField
             item={item}
             handleContentChange={handleContentChange}
+          />
+        )}
+        {item.type === "checkbox" && (
+          <EditorCheckbox
+            item={item}
+            handleContentChange={handleContentChange}
+            selectedComponent={selectedComponent}
+            contents={contents}
+            setContents={setContents}
           />
         )}
       </div>

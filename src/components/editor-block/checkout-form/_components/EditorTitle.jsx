@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 const EditorTextTitle = ({ item, handleContentChange }) => {
   return (
     <div className="space-y-2">

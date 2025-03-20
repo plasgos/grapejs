@@ -154,6 +154,7 @@ import ViewInput from "./components/ViewInput";
 import ViewTextArea from "./components/ViewTextArea";
 import ViewTitle from "./components/ViewTitle";
 import ViewEmail from "./components/ViewEmail";
+import ViewChecbox from "./components/ViewCheckbox";
 // import { useEffect } from "react";
 
 const ViewFormCheckout = ({ section }) => {
@@ -473,6 +474,9 @@ const ViewFormCheckout = ({ section }) => {
                   )}
                   {content.type === "text-area" && (
                     <ViewTextArea content={content} index={index} />
+                  )}
+                  {content.type === "checkbox" && (
+                    <ViewChecbox content={content} index={index} />
                   )}
                 </div>
               );
