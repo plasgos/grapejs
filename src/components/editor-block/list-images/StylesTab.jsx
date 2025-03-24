@@ -3,14 +3,14 @@ import {
   maxColumnOptions,
 } from "@/components/SelectOptions";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import SelectOptions from "../components/SelectOptions";
+import SelectOptions from "../_components/SelectOptions";
 
 const StylesTab = ({ selectedComponent }) => {
   const { wrapperStyle, handleStylesChange } =
     useChangeWrapperStyles(selectedComponent);
 
   return (
-    <div className="flex flex-col gap-y-5 mt-5">
+    <div className="flex flex-col gap-y-5 ">
       <div className="p-3 rounded-lg bg-white">
         <div className="flex flex-col gap-y-5">
           <SelectOptions

@@ -1,7 +1,7 @@
 import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
-import BackgroundEditor from "../components/BackgroundEditor";
-import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
+import BackgroundEditor from "../_components/BackgroundEditor";
+import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
 import {
@@ -21,18 +21,18 @@ import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import DraggableListButtons from "../components/DraggableListButtons";
-import ImageUploader from "../components/ImageUploader";
-import RangeInputSlider from "../components/RangeInputSlider";
-import TextEditor from "../components/TextEditor";
-import TransiitonEditor from "../components/TransiitonEditor";
+import DraggableListButtons from "../_components/DraggableListButtons";
+import ImageUploader from "../_components/ImageUploader";
+import RangeInputSlider from "../_components/RangeInputSlider";
+import TextEditor from "../_components/TextEditor";
+import TransiitonEditor from "../_components/TransiitonEditor";
 
 import { BsAlignCenter, BsAlignEnd, BsAlignStart } from "react-icons/bs";
-import ButtonStylesEditor from "../components/ButtonStylesEditor";
-import SelectCircle from "../components/SelectCircle";
+import ButtonStylesEditor from "../_components/ButtonStylesEditor";
+import SelectCircle from "../_components/SelectCircle";
 
 import { CiImageOff, CiImageOn } from "react-icons/ci";
-import IconPicker from "../components/IconPicker";
+import IconPicker from "../_components/IconPicker";
 
 const imagePostionOptions = [
   { value: "left", label: "Left", icon: <BsAlignStart /> },
@@ -199,7 +199,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
   return (
     <TabsEditor>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">
@@ -362,7 +362,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
@@ -373,7 +373,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

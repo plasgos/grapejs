@@ -5,13 +5,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { PiAlignRightSimpleFill } from "react-icons/pi";
-import SelectCircle from "../components/SelectCircle";
+import SelectCircle from "../_components/SelectCircle";
 import { TbLayoutDistributeVerticalFilled } from "react-icons/tb";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import RangeInputSlider from "../components/RangeInputSlider";
-import SelectOptions from "../components/SelectOptions";
+import RangeInputSlider from "../_components/RangeInputSlider";
+import SelectOptions from "../_components/SelectOptions";
 import { shadowOptions } from "@/components/SelectOptions";
-import ColorPicker from "../components/ColorPicker";
+import ColorPicker from "../_components/ColorPicker";
 import { SlSizeFullscreen } from "react-icons/sl";
 const imageVariants = [
   {
@@ -36,7 +36,7 @@ const StylesTab = ({ selectedComponent }) => {
     useChangeWrapperStyles(selectedComponent);
 
   return (
-    <div className="flex flex-col gap-y-5 mt-5">
+    <div className="flex flex-col gap-y-5 ">
       <Accordion defaultValue="image" type="single" collapsible>
         <AccordionItem value="image">
           <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">

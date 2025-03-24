@@ -4,11 +4,11 @@ import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import { produce } from "immer";
-import BackgroundEditor from "../components/BackgroundEditor";
+import BackgroundEditor from "../_components/BackgroundEditor";
 
 import { useEditor } from "@grapesjs/react";
 import { useEffect, useRef, useState } from "react";
-import SelectCircle from "../components/SelectCircle";
+import SelectCircle from "../_components/SelectCircle";
 import StylesTab from "./StylesTab";
 
 import { FaRegEye } from "react-icons/fa";
@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ListComponents from "../components/ListComponents";
+import ListComponents from "../_components/ListComponents";
 
 const modalOpenTypeOptions = [
   {
@@ -131,10 +131,10 @@ const EditorModalPopup = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutTransition>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
-        <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg mt-5">
+        <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg ">
           <div className="space-y-2">
             <Label>Name</Label>
             <Input
@@ -186,7 +186,7 @@ const EditorModalPopup = ({ selectedComponent }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg mt-5">
+        <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg ">
           <ListComponents
             editor={editor}
             selectedComponent={selectedComponent}
@@ -195,14 +195,14 @@ const EditorModalPopup = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

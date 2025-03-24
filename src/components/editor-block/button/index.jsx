@@ -17,14 +17,14 @@ import { useState } from "react";
 
 import { Label } from "@/components/ui/label";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import ButtonStylesEditor from "../components/ButtonStylesEditor";
-import DraggableList from "../components/DraggableList";
-import IconPicker from "../components/IconPicker";
+import ButtonStylesEditor from "../_components/ButtonStylesEditor";
+import DraggableList from "../_components/DraggableList";
+import IconPicker from "../_components/IconPicker";
 
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { TbMinusVertical } from "react-icons/tb";
 import { btnPostionOptions } from "../hero-section";
-import BackgroundEditor from "../components/BackgroundEditor";
+import BackgroundEditor from "../_components/BackgroundEditor";
 const buttonPosition = [
   { value: "flex-row", label: "Row", icon: <MdOutlineHorizontalRule /> },
   { value: "flex-col", label: "Column", icon: <TbMinusVertical /> },
@@ -157,10 +157,10 @@ const EditorButton = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutStyles withoutTransition>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
-        <div className="flex flex-col gap-y-5 py-1 mt-3">
+        <div className="flex flex-col gap-y-5 py-1 ">
           <Accordion defaultValue="button" type="single" collapsible>
             <AccordionItem value="button">
               <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
@@ -236,7 +236,7 @@ const EditorButton = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

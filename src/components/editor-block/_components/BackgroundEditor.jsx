@@ -513,7 +513,7 @@ const BackgroundEditor = ({ selectedComponent }) => {
   };
 
   return (
-    <div className="w-full my-4 flex flex-col gap-y-5">
+    <div className="w-full flex flex-col gap-y-5">
       <div className="w-full bg-white p-3 rounded-lg">
         <SelectCircle
           label="Background Type"

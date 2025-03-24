@@ -1,12 +1,12 @@
 import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
-import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
+import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import SelectOptions from "../components/SelectOptions";
-import ColorPicker from "../components/ColorPicker";
-import RangeInputSlider from "../components/RangeInputSlider";
-import IconPicker from "../components/IconPicker";
+import SelectOptions from "../_components/SelectOptions";
+import ColorPicker from "../_components/ColorPicker";
+import RangeInputSlider from "../_components/RangeInputSlider";
+import IconPicker from "../_components/IconPicker";
 import { produce } from "immer";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -46,7 +46,7 @@ const EditorDivider = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutStyles withoutTransition withoutBackground>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1 mb-3 ">

@@ -7,21 +7,21 @@ import { useChangeContents } from "@/hooks/useChangeContents";
 import { Label } from "@/components/ui/label";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 
-import BackgroundEditor from "../components/BackgroundEditor";
+import BackgroundEditor from "../_components/BackgroundEditor";
 import { CiText } from "react-icons/ci";
 import { GoNumber } from "react-icons/go";
 import { SiStagetimer } from "react-icons/si";
-import SelectCircle from "../components/SelectCircle";
-import SelectOptions from "../components/SelectOptions";
+import SelectCircle from "../_components/SelectCircle";
+import SelectOptions from "../_components/SelectOptions";
 import { Input } from "@/components/ui/input";
 import { produce } from "immer";
 import StylesTab from "./StylesTab";
 import { useState } from "react";
-import TextEditor from "../components/TextEditor";
+import TextEditor from "../_components/TextEditor";
 import DatePicker from "react-datepicker";
 import { CalendarMinus2 } from "lucide-react";
 import { textShadowOptions } from "@/components/SelectOptions";
-import TransiitonEditor from "../components/TransiitonEditor";
+import TransiitonEditor from "../_components/TransiitonEditor";
 
 const modeOptions = [
   { value: "countdown", label: "Countdown" },
@@ -176,7 +176,7 @@ const EditorCountdown = ({ selectedComponent }) => {
   return (
     <TabsEditor>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5  mt-4 bg-white p-3 rounded-lg">
@@ -288,7 +288,7 @@ const EditorCountdown = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
@@ -299,7 +299,7 @@ const EditorCountdown = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

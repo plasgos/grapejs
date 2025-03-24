@@ -6,13 +6,13 @@ import {
 } from "@/components/ui/accordion";
 
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import ColorPicker from "../components/ColorPicker";
-import SelectFontFamily from "../components/SelectFontFamily";
-import SelectFontSize from "../components/SelectFontSize";
+import ColorPicker from "../_components/ColorPicker";
+import SelectFontFamily from "../_components/SelectFontFamily";
+import SelectFontSize from "../_components/SelectFontSize";
 
 import { CgChevronDown, CgChevronDownR } from "react-icons/cg";
-import SelectCircle from "../components/SelectCircle";
-import SelectOptions from "../components/SelectOptions";
+import SelectCircle from "../_components/SelectCircle";
+import SelectOptions from "../_components/SelectOptions";
 
 const variantOptions = [
   { value: "basic", label: "Basic", icon: <CgChevronDown /> },

@@ -6,16 +6,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import ColorPicker from "../components/ColorPicker";
-import RangeInputSlider from "../components/RangeInputSlider";
-import SelectOptions from "../components/SelectOptions";
+import ColorPicker from "../_components/ColorPicker";
+import RangeInputSlider from "../_components/RangeInputSlider";
+import SelectOptions from "../_components/SelectOptions";
 
 const StylesTab = ({ selectedComponent }) => {
   const { wrapperStyle, handleStylesChange } =
     useChangeWrapperStyles(selectedComponent);
 
   return (
-    <div className="flex flex-col gap-y-5 mt-5">
+    <div className="flex flex-col gap-y-5 ">
       <Accordion defaultValue="image" type="single" collapsible>
         <AccordionItem value="image">
           <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">

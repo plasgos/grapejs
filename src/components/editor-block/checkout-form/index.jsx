@@ -9,7 +9,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import DraggableList from "../components/DraggableList";
+import DraggableList from "../_components/DraggableList";
 
 import {
   Popover,
@@ -17,15 +17,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { BsTextareaResize } from "react-icons/bs";
+import { CiText } from "react-icons/ci";
+import { FaPhone } from "react-icons/fa";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { LuTextCursorInput } from "react-icons/lu";
+import { MdOutlineMailOutline } from "react-icons/md";
+import EditorCheckbox from "./_components/EditorCheckbox";
 import EditorInputField from "./_components/EditorInputField";
-import { CiText } from "react-icons/ci";
 import EditorTextTitle from "./_components/EditorTitle";
 <CiText />;
-import { MdOutlineMailOutline } from "react-icons/md";
-import { FaPhone } from "react-icons/fa";
-import EditorCheckbox from "./_components/EditorCheckbox";
+
+import { RxDropdownMenu } from "react-icons/rx";
+import { FaRegCalendarAlt } from "react-icons/fa";
 const fieldOptions = [
   { type: "title", label: "Title", icon: <CiText />, value: "Custom Title " },
   {
@@ -69,13 +72,39 @@ const fieldOptions = [
     label: "Checkbox",
     labelField: "Type a question",
     icon: <IoIosCheckboxOutline />,
-    checkboxes: [
+    options: [
       { id: "option-1", value: "option-1", label: "Option 1" },
       { id: "option-2", value: "option-2", label: "Option 2" },
       { id: "option-3", value: "option-3", label: "Option 3" },
     ],
     isRequired: true,
     layout: "horizontal",
+    isMultipleSelect: false,
+    value: "",
+  },
+  {
+    type: "dropdown-menu",
+    label: "Dropdown",
+    labelField: "Dropdown Menu",
+    searchPlaceholder: "Search options...",
+    placeholder: "Select options...",
+    width: 200,
+    icon: <RxDropdownMenu />,
+    options: [
+      { id: "option-1", value: "option-1", label: "Option 1" },
+      { id: "option-2", value: "option-2", label: "Option 2" },
+      { id: "option-3", value: "option-3", label: "Option 3" },
+    ],
+    isRequired: true,
+    value: "",
+  },
+  {
+    type: "date",
+    label: "Date",
+    labelField: "Date",
+    placeholder: "Select Date",
+    icon: <FaRegCalendarAlt />,
+    isRequired: true,
     value: "",
   },
 ];
@@ -117,7 +146,7 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
 
   const renderContents = (item) => {
     return (
-      <div className="flex flex-col gap-y-3">
+      <>
         {item.type === "title" && (
           <EditorTextTitle
             item={item}
@@ -127,13 +156,14 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
         {(item.type === "text-input" ||
           item.type === "email" ||
           item.type === "text-area" ||
-          item.type === "phoneNumber") && (
+          item.type === "phoneNumber" ||
+          item.type === "date") && (
           <EditorInputField
             item={item}
             handleContentChange={handleContentChange}
           />
         )}
-        {item.type === "checkbox" && (
+        {(item.type === "checkbox" || item.type === "dropdown-menu") && (
           <EditorCheckbox
             item={item}
             handleContentChange={handleContentChange}
@@ -142,51 +172,49 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
             setContents={setContents}
           />
         )}
-      </div>
+      </>
     );
   };
 
   return (
     <TabsEditor withoutStyles withoutTransition withoutBackground>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
-        <div className="flex flex-col gap-y-5  mt-5 bg-white p-5 rounded-lg">
-          <DraggableList
-            contents={contents}
-            renderContents={(value) => renderContents(value)}
-            setContents={setContents}
-            editItem={editItem}
-            selectedComponent={selectedComponent}
-            setEditItem={setEditItem}
-          >
-            <Popover open={isOpenFields} onOpenChange={setisOpenFields}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="my-3 w-full">
-                  Add Field <Plus />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[310px]">
-                <div className="grid grid-cols-3 gap-3">
-                  {fieldOptions.map((field) => (
-                    <div
-                      key={field.type}
-                      className="p-3 rounded-lg border flex flex-col items-center justify-center gap-y-1 cursor-pointer hover:border-black"
-                      onClick={() => {
-                        handleAddField(field);
-                        setisOpenFields(false);
-                      }}
-                    >
-                      {field.icon}
-                      <p className="text-xs whitespace-nowrap">{field.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-          </DraggableList>
-        </div>
+        <DraggableList
+          contents={contents}
+          renderContents={(value) => renderContents(value)}
+          setContents={setContents}
+          editItem={editItem}
+          selectedComponent={selectedComponent}
+          setEditItem={setEditItem}
+        >
+          <Popover open={isOpenFields} onOpenChange={setisOpenFields}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="my-3 w-full">
+                Add Field <Plus />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[310px]">
+              <div className="grid grid-cols-3 gap-3">
+                {fieldOptions.map((field) => (
+                  <div
+                    key={field.type}
+                    className="p-3 rounded-lg border flex flex-col items-center justify-center gap-y-1 cursor-pointer hover:border-black"
+                    onClick={() => {
+                      handleAddField(field);
+                      setisOpenFields(false);
+                    }}
+                  >
+                    {field.icon}
+                    <p className="text-xs whitespace-nowrap">{field.label}</p>
+                  </div>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
+        </DraggableList>
       </TabsContent>
     </TabsEditor>
   );

@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import { TbAlignCenter, TbAlignLeft, TbAlignRight } from "react-icons/tb";
-import ColorPicker from "../components/ColorPicker";
-import SelectFontFamily from "../components/SelectFontFamily";
-import SelectFontSize from "../components/SelectFontSize";
+import ColorPicker from "../_components/ColorPicker";
+import SelectFontFamily from "../_components/SelectFontFamily";
+import SelectFontSize from "../_components/SelectFontSize";
 
 const options = [
   { value: "justify-start", icon: <TbAlignLeft /> },

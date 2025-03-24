@@ -1,7 +1,7 @@
-import SelectOptions from "../components/SelectOptions";
+import SelectOptions from "../_components/SelectOptions";
 import { PiAlignRightSimpleFill } from "react-icons/pi";
 import { TbBoxAlignBottomFilled, TbBoxAlignTopFilled } from "react-icons/tb";
-import SelectCircle from "../components/SelectCircle";
+import SelectCircle from "../_components/SelectCircle";
 import {
   Accordion,
   AccordionContent,
@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/accordion";
 
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import ColorPicker from "../components/ColorPicker";
-import SelectFontFamily from "../components/SelectFontFamily";
-import SelectFontSize from "../components/SelectFontSize";
-import SelectTextAligment from "../components/SelectTextAligment";
+import ColorPicker from "../_components/ColorPicker";
+import SelectFontFamily from "../_components/SelectFontFamily";
+import SelectFontSize from "../_components/SelectFontSize";
+import SelectTextAligment from "../_components/SelectTextAligment";
 import {
   aspectRatioOptions,
   maxColumnOptions,

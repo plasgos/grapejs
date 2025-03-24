@@ -1,9 +1,9 @@
 import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
-import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
+import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import RangeInputSlider from "../components/RangeInputSlider";
+import RangeInputSlider from "../_components/RangeInputSlider";
 
 const EditorEmptySpace = ({ selectedComponent }) => {
   const { wrapperStyle, handleStylesChange } =
@@ -12,7 +12,7 @@ const EditorEmptySpace = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutStyles withoutTransition withoutBackground>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1 mb-3 ">

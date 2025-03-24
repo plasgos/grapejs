@@ -152,7 +152,7 @@ const SortableItem = ({
             <img
               src={item.image}
               alt="item-img"
-              className="object-cover w-16 max-h-11 "
+              className="object-cover w-14 max-h-11 "
             />
           ) : null}
 
@@ -176,7 +176,7 @@ const SortableItem = ({
             </div>
           ) : null}
 
-          <div className=" font-semibold text-sm  max-w-36">
+          <div className=" font-semibold text-sm  max-w-32">
             <p className="truncate">{item?.title}</p>
           </div>
 
@@ -298,7 +298,7 @@ const DraggableList = ({
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-5    bg-white p-2 rounded-lg">
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -331,10 +331,13 @@ const DraggableList = ({
                       setEditItem={setEditItem}
                       withoutFocusItem={withoutFocusItem}
                     />
-                    <AccordionContent className="bg-white p-2 rounded-b-lg  ">
+                    <AccordionContent className="bg-white  rounded-b-lg   ">
                       <div className="flex flex-col gap-y-3">
-                        {renderContents(item)}
-                        <div className="flex justify-end mt-3 text-muted-foreground">
+                        <div className="flex flex-col gap-y-3 bg-neutral-100 p-3 rounded-lg">
+                          {renderContents(item)}
+                        </div>
+
+                        <div className="flex justify-end  text-muted-foreground">
                           <Button
                             onClick={() => handleCloseEdit(item.id)}
                             variant="ghost"

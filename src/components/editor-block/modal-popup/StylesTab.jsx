@@ -1,5 +1,5 @@
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import RangeInputSlider from "../components/RangeInputSlider";
+import RangeInputSlider from "../_components/RangeInputSlider";
 
 import {
   Select,
@@ -9,14 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { transitionTypeOptions } from "../components/TransiitonEditor";
+import { transitionTypeOptions } from "../_components/TransiitonEditor";
 
 const StylesTab = ({ selectedComponent }) => {
   const { wrapperStyle, handleStylesChange } =
     useChangeWrapperStyles(selectedComponent);
 
   return (
-    <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg mt-5">
+    <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg ">
       <RangeInputSlider
         label="Width"
         value={wrapperStyle.width}

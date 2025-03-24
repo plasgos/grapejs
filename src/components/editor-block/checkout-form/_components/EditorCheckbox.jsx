@@ -39,6 +39,13 @@ import { FaTrashAlt } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { TbEdit } from "react-icons/tb";
+import SelectOptions from "../../_components/SelectOptions";
+import RangeInputSlider from "../../_components/RangeInputSlider";
+
+const layoutOptions = [
+  { value: "horizontal", label: "Horizontal" },
+  { value: "vertical", label: "Vertical" },
+];
 
 const SortableItem = ({
   item,
@@ -67,10 +74,10 @@ const SortableItem = ({
 
     const updatedComponent = produce(currentComponent, (draft) => {
       draft.contents = draft.contents.map((content) =>
-        content.type === "checkbox"
+        content.type === "checkbox" || content.type === "dropdown-menu"
           ? {
               ...content,
-              checkboxes: content.checkboxes.filter(
+              options: content.options.filter(
                 (checkbox) => checkbox.id !== item.id
               ),
             }
@@ -82,10 +89,10 @@ const SortableItem = ({
 
     setContents((prevContents) =>
       prevContents.map((content) =>
-        content.type === "checkbox"
+        content.type === "checkbox" || content.type === "dropdown-menu"
           ? {
               ...content,
-              checkboxes: content.checkboxes.filter(
+              options: content.options.filter(
                 (checkbox) => checkbox.id !== item.id
               ),
             }
@@ -178,7 +185,10 @@ const EditorCheckbox = ({
   setContents,
 }) => {
   const selectedCheckbox = contents.find(
-    (content) => content.type === "checkbox"
+    (content) =>
+      content.type === "checkbox" ||
+      content.type === "dropdown-menu" ||
+      content.type === "dropdown-menu"
   );
 
   const [editItem, setEditItem] = useState(false);
@@ -194,10 +204,10 @@ const EditorCheckbox = ({
 
     const updatedComponent = produce(currentComponent, (draft) => {
       draft.contents = draft.contents.map((content) =>
-        content.type === "checkbox"
+        content.type === "checkbox" || content.type === "dropdown-menu"
           ? {
               ...content,
-              checkboxes: content.checkboxes.map((checkbox) =>
+              options: content.options.map((checkbox) =>
                 checkbox.id === id
                   ? {
                       ...checkbox,
@@ -215,10 +225,10 @@ const EditorCheckbox = ({
 
     setContents((prevContents) =>
       prevContents.map((content) =>
-        content.type === "checkbox"
+        content.type === "checkbox" || content.type === "dropdown-menu"
           ? {
               ...content,
-              checkboxes: content.checkboxes.map((checkbox) =>
+              options: content.options.map((checkbox) =>
                 checkbox.id === id
                   ? {
                       ...checkbox,
@@ -255,27 +265,28 @@ const EditorCheckbox = ({
 
     // Cari content dengan tipe "checkbox"
     const checkboxContent = currentComponent.contents.find(
-      (content) => content.type === "checkbox"
+      (content) =>
+        content.type === "checkbox" || content.type === "dropdown-menu"
     );
     if (!checkboxContent) return;
 
-    const { checkboxes } = checkboxContent;
+    const { options } = checkboxContent;
 
-    const oldIndex = checkboxes.findIndex((item) => item.id === active.id);
-    const newIndex = checkboxes.findIndex((item) => item.id === over.id);
+    const oldIndex = options.findIndex((item) => item.id === active.id);
+    const newIndex = options.findIndex((item) => item.id === over.id);
 
     if (oldIndex === -1 || newIndex === -1) return;
 
-    // Buat salinan checkboxes yang telah diurutkan
-    const newCheckboxes = arrayMove(checkboxes, oldIndex, newIndex);
+    const newOptions = arrayMove(options, oldIndex, newIndex);
 
     // Update state GrapesJS dengan Immer
     const updatedComponent = produce(currentComponent, (draft) => {
       const draftCheckboxContent = draft.contents.find(
-        (content) => content.type === "checkbox"
+        (content) =>
+          content.type === "checkbox" || content.type === "dropdown-menu"
       );
       if (draftCheckboxContent) {
-        draftCheckboxContent.checkboxes = newCheckboxes;
+        draftCheckboxContent.options = newOptions;
       }
     });
 
@@ -284,8 +295,8 @@ const EditorCheckbox = ({
     // Update state lokal
     setContents((prevContents) =>
       prevContents.map((content) =>
-        content.type === "checkbox"
-          ? { ...content, checkboxes: newCheckboxes }
+        content.type === "checkbox" || content.type === "dropdown-menu"
+          ? { ...content, options: newOptions }
           : content
       )
     );
@@ -302,27 +313,28 @@ const EditorCheckbox = ({
     setEditItem("");
 
     const checkboxContent = currentComponent.contents.find(
-      (content) => content.type === "checkbox"
+      (content) =>
+        content.type === "checkbox" || content.type === "dropdown-menu"
     );
 
-    const { checkboxes } = checkboxContent;
+    const { options } = checkboxContent;
 
-    const checkboxLength = checkboxes.length + 1;
+    const checkboxLength = options.length + 1;
 
     const newId = generateId();
 
     const newCheckbox = {
       id: newId,
       value: `option${checkboxLength}`,
-      label: `option ${checkboxLength}`,
+      label: `Option ${checkboxLength}`,
     };
 
     const updatedComponent = produce(currentComponent, (draft) => {
       draft.contents = draft.contents.map((content) =>
-        content.type === "checkbox"
+        content.type === "checkbox" || content.type === "dropdown-menu"
           ? {
               ...content,
-              checkboxes: [...content.checkboxes, newCheckbox],
+              options: [...content.options, newCheckbox],
             }
           : content
       );
@@ -332,8 +344,8 @@ const EditorCheckbox = ({
 
     setContents((prevContents) =>
       prevContents.map((content) =>
-        content.type === "checkbox"
-          ? { ...content, checkboxes: [...content.checkboxes, newCheckbox] }
+        content.type === "checkbox" || content.type === "dropdown-menu"
+          ? { ...content, options: [...content.options, newCheckbox] }
           : content
       )
     );
@@ -352,6 +364,65 @@ const EditorCheckbox = ({
           }
         />
       </div>
+
+      {item.type === "checkbox" && (
+        <>
+          <div className="flex justify-between items-center my-2">
+            <Label>Multiple Select</Label>
+            <Switch
+              checked={item?.isMultipleSelect}
+              onCheckedChange={(checked) =>
+                handleContentChange(item.id, "isMultipleSelect", checked)
+              }
+            />
+          </div>
+
+          <SelectOptions
+            asChild
+            options={layoutOptions}
+            label="Layout"
+            value={item?.layout}
+            onChange={(value) => handleContentChange(item.id, "layout", value)}
+          />
+        </>
+      )}
+
+      {item.type === "dropdown-menu" && (
+        <>
+          <div className="space-y-2">
+            <Label>Select Placeholder</Label>
+            <Input
+              value={item?.placeholder || ""}
+              onChange={(e) =>
+                handleContentChange(item.id, "placeholder", e.target.value)
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Search Placeholder</Label>
+            <Input
+              value={item?.searchPlaceholder || ""}
+              onChange={(e) =>
+                handleContentChange(
+                  item.id,
+                  "searchPlaceholder",
+                  e.target.value
+                )
+              }
+            />
+          </div>
+
+          <RangeInputSlider
+            asChild
+            label="Width"
+            value={item?.width}
+            onChange={(value) => handleContentChange(item.id, "width", value)}
+            min={100}
+            max={1200}
+          />
+        </>
+      )}
+
       <div className="flex justify-between items-center my-2">
         <Label>Required</Label>
         <Switch
@@ -366,11 +437,14 @@ const EditorCheckbox = ({
         <PopoverTrigger asChild>
           <Button variant="outline">
             <HiMiniAdjustmentsHorizontal />
-            Customize Checkboxes
+
+            {item.type === "checkbox"
+              ? "Customize Checkboxes"
+              : "Customize Menu"}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="px-0">
-          <p className="pb-3 mb-3 px-5 border-b ">List Checkbox</p>
+          <p className="pb-3 mb-3 px-5 border-b ">List Options</p>
 
           <div className="h-auto max-h-[350px] overflow-y-auto p px-5">
             <DndContext
@@ -380,8 +454,12 @@ const EditorCheckbox = ({
             >
               <SortableContext
                 items={
-                  contents.find((content) => content.type === "checkbox")
-                    .checkboxes
+                  contents.find(
+                    (content) =>
+                      content.type === "checkbox" ||
+                      content.type === "dropdown-menu" ||
+                      content.type === "dropdown-menu"
+                  ).options
                 }
                 strategy={verticalListSortingStrategy}
               >
@@ -393,11 +471,15 @@ const EditorCheckbox = ({
                   onValueChange={(val) => setEditItem(val)}
                 >
                   <div className="flex flex-col gap-y-3">
-                    {selectedCheckbox.checkboxes.length > 0 ? (
+                    {selectedCheckbox.options.length > 0 ? (
                       <>
                         {contents
-                          .find((content) => content.type === "checkbox")
-                          .checkboxes.map((item) => (
+                          .find(
+                            (content) =>
+                              content.type === "checkbox" ||
+                              content.type === "dropdown-menu"
+                          )
+                          .options.map((item) => (
                             <AccordionItem
                               ref={(el) => (itemRefs.current[item.id] = el)}
                               key={item.id}
@@ -412,8 +494,6 @@ const EditorCheckbox = ({
                               />
                               <AccordionContent className="bg-white p-2 rounded-b-lg  ">
                                 <div className="flex flex-col gap-y-3">
-                                  {/* {renderContents(item)} */}
-
                                   <div className="my-2 flex flex-col gap-y-3">
                                     <div className="space-y-2">
                                       <Label>Label</Label>

@@ -14,14 +14,14 @@ import { generateId } from "@/lib/utils";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import TransiitonEditor from "../components/TransiitonEditor";
+import TransiitonEditor from "../_components/TransiitonEditor";
 
-import ButtonStylesEditor from "../components/ButtonStylesEditor";
-import DraggableList from "../components/DraggableList";
+import ButtonStylesEditor from "../_components/ButtonStylesEditor";
+import DraggableList from "../_components/DraggableList";
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import RangeInputSlider from "../components/RangeInputSlider";
-import SelectOptions from "../components/SelectOptions";
-import IconPicker from "../components/IconPicker";
+import RangeInputSlider from "../_components/RangeInputSlider";
+import SelectOptions from "../_components/SelectOptions";
+import IconPicker from "../_components/IconPicker";
 
 export const spaceOptions = [
   { value: 5, label: "Very Close" },
@@ -151,7 +151,7 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutBackground withoutStyles withoutTransition>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1 mt-3">

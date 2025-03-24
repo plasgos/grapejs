@@ -1,8 +1,8 @@
 import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import { produce } from "immer";
-import BackgroundEditor from "../components/BackgroundEditor";
-import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
+import BackgroundEditor from "../_components/BackgroundEditor";
+import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
 import { Button } from "@/components/ui/button";
@@ -12,8 +12,8 @@ import { useChangeContents } from "@/hooks/useChangeContents";
 import { generateId } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import DraggableList from "../components/DraggableList";
-import IconPicker from "../components/IconPicker";
+import DraggableList from "../_components/DraggableList";
+import IconPicker from "../_components/IconPicker";
 
 const EditorFeatureHighlights = ({ selectedComponent }) => {
   const { contents, setContents, handleContentChange } =
@@ -111,7 +111,7 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutTransition>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">
@@ -137,14 +137,14 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

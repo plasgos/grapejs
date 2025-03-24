@@ -2,7 +2,7 @@ import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import SelectOptions from "../components/SelectOptions";
+import SelectOptions from "../_components/SelectOptions";
 
 const aspectRatioSliderImageOptions = [
   {
@@ -58,7 +58,7 @@ const StylesTab = ({ selectedComponent }) => {
     useChangeWrapperStyles(selectedComponent);
 
   return (
-    <div className="flex flex-col gap-y-5 mt-5 p-5 bg-white rounded-lg">
+    <div className="flex flex-col gap-y-5  p-5 bg-white rounded-lg">
       <SelectOptions
         label="Image Ratio"
         options={aspectRatioSliderImageOptions}

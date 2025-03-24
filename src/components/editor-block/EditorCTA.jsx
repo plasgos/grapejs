@@ -3,12 +3,12 @@ import TabsEditor from "../TabsEditor";
 import { TabsContent } from "../ui/tabs";
 
 import { produce } from "immer";
-import TextEditor from "./components/TextEditor";
+import TextEditor from "./_components/TextEditor";
 
-import ButtonStyleEditor from "./components/ButtonStyleEditor";
-import SectionAddScrollTargetId from "./components/SectionAddScrollTargetId";
-import TransiitonEditor from "./components/TransiitonEditor";
-import BackgroundEditor from "./components/BackgroundEditor";
+import ButtonStyleEditor from "./_components/ButtonStyleEditor";
+import SectionAddScrollTargetId from "./_components/SectionAddScrollTargetId";
+import TransiitonEditor from "./_components/TransiitonEditor";
+import BackgroundEditor from "./_components/BackgroundEditor";
 
 const EditorCTA = ({ selectedComponent }) => {
   const [content, setContent] = useState({
@@ -44,7 +44,7 @@ const EditorCTA = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutStyles>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">

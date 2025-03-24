@@ -1,7 +1,7 @@
 import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
-import BackgroundEditor from "../components/BackgroundEditor";
-import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
+import BackgroundEditor from "../_components/BackgroundEditor";
+import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import products4 from "@/assets/products4.jpg";
 
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,9 @@ import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import DraggableList from "../components/DraggableList";
-import ImageUploader from "../components/ImageUploader";
-import TargetOptions from "../components/TargetOptions";
+import DraggableList from "../_components/DraggableList";
+import ImageUploader from "../_components/ImageUploader";
+import TargetOptions from "../_components/TargetOptions";
 import StylesTab from "./StylesTab";
 
 const EditorListImages = ({ selectedComponent }) => {
@@ -76,7 +76,7 @@ const EditorListImages = ({ selectedComponent }) => {
   return (
     <TabsEditor withoutTransition>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">
@@ -102,14 +102,14 @@ const EditorListImages = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

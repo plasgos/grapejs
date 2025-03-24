@@ -155,9 +155,11 @@ import ViewTextArea from "./components/ViewTextArea";
 import ViewTitle from "./components/ViewTitle";
 import ViewEmail from "./components/ViewEmail";
 import ViewChecbox from "./components/ViewCheckbox";
+import ViewDropdown from "./components/ViewDropdown";
+import ViewDate from "./components/ViewDate";
 // import { useEffect } from "react";
 
-const ViewFormCheckout = ({ section }) => {
+const ViewFormCheckout = ({ editor, section }) => {
   const { contents } = section;
   console.log("🚀 ~ ViewFormCheckout ~ contents:", contents);
 
@@ -477,6 +479,12 @@ const ViewFormCheckout = ({ section }) => {
                   )}
                   {content.type === "checkbox" && (
                     <ViewChecbox content={content} index={index} />
+                  )}
+                  {content.type === "dropdown-menu" && (
+                    <ViewDropdown content={content} index={index} />
+                  )}
+                  {content.type === "date" && (
+                    <ViewDate editor={editor} content={content} index={index} />
                   )}
                 </div>
               );

@@ -4,6 +4,7 @@ import {
   injectCustomAnimate,
   injectTailwindCss,
   onAddingAnimateCss,
+  onAddingDatepickerCss,
   onAddingSwiperCss,
 } from "@/components/MainWebEditor";
 import plasgosPlugin from "@/plugins";
@@ -41,6 +42,7 @@ const PublishedPage = () => {
       handleAddWatermark(editor);
       onAddingAnimateCss(editor);
       onAddingSwiperCss(editor);
+      onAddingDatepickerCss(editor);
       injectCustomAnimate(editor);
 
       // Ambil semua komponen di dalam canvas

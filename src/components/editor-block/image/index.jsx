@@ -1,7 +1,7 @@
 import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
-import BackgroundEditor from "../components/BackgroundEditor";
-import SectionAddScrollTargetId from "../components/SectionAddScrollTargetId";
+import BackgroundEditor from "../_components/BackgroundEditor";
+import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
 import {
@@ -15,11 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useChangeContents } from "@/hooks/useChangeContents";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
-import ImageUploader from "../components/ImageUploader";
-import TargetOptions from "../components/TargetOptions";
+import ImageUploader from "../_components/ImageUploader";
+import TargetOptions from "../_components/TargetOptions";
 import { GoQuestion } from "react-icons/go";
 import { Checkbox } from "@/components/ui/checkbox";
-import TransiitonEditor from "../components/TransiitonEditor";
+import TransiitonEditor from "../_components/TransiitonEditor";
 
 const EditorImage = ({ selectedComponent }) => {
   const { contents, handleContentChange } =
@@ -32,7 +32,7 @@ const EditorImage = ({ selectedComponent }) => {
   return (
     <TabsEditor>
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">
@@ -97,7 +97,7 @@ const EditorImage = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
@@ -108,7 +108,7 @@ const EditorImage = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="px-4 pb-5 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

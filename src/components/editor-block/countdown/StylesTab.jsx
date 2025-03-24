@@ -1,14 +1,14 @@
 import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import ColorPicker from "../components/ColorPicker";
+import ColorPicker from "../_components/ColorPicker";
 import { Label } from "@/components/ui/label";
-import RangeInputSlider from "../components/RangeInputSlider";
+import RangeInputSlider from "../_components/RangeInputSlider";
 
 const StylesTab = ({ selectedComponent }) => {
   const { wrapperStyle, handleStylesChange } =
     useChangeWrapperStyles(selectedComponent);
 
   return (
-    <div className="flex flex-col gap-y-5 mt-5 p-3 bg-white rounded-lg">
+    <div className="flex flex-col gap-y-5  p-3 bg-white rounded-lg">
       <Label>Colours</Label>
 
       <ColorPicker

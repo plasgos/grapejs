@@ -96,8 +96,8 @@ export const registerFormCheckout = (editor) => {
 
         this.root.render(
           <ViewFormCheckout
-            section={this.model.get("customComponent")}
             editor={editor}
+            section={this.model.get("customComponent")}
             // globalOptions={globalOptions}
           />
         );

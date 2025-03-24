@@ -1,5 +1,5 @@
-import RangeInputSlider from "@/components/editor-block/components/RangeInputSlider";
-import SelectOptions from "@/components/editor-block/components/SelectOptions";
+import RangeInputSlider from "@/components/editor-block/_components/RangeInputSlider";
+import SelectOptions from "@/components/editor-block/_components/SelectOptions";
 import { aspectRatioVideoOptions } from "@/components/SelectOptions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";

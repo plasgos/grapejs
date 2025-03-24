@@ -20,6 +20,22 @@ import plasgosPlugin from "@/plugins";
 import animateCSS from "animate.css/animate.min.css?inline";
 
 import swiperCSS from "swiper/swiper-bundle.css?inline";
+import datepickerCSS from "react-datepicker/dist/react-datepicker.css?inline";
+
+export const onAddingDatepickerCss = (editor) => {
+  const frame = editor.Canvas.getFrameEl();
+  const frameDoc = frame?.contentDocument;
+
+  if (frameDoc) {
+    // Cek apakah Datepicker CSS sudah ada
+    if (!frameDoc.querySelector("#datepicker-css")) {
+      const style = frameDoc.createElement("style");
+      style.id = "datepicker-css";
+      style.innerHTML = datepickerCSS;
+      frameDoc.head.appendChild(style);
+    }
+  }
+};
 
 export const onAddingSwiperCss = (editor) => {
   const frame = editor.Canvas.getFrameEl();
@@ -187,6 +203,7 @@ const MainWebEditor = () => {
       injectTailwindCss(editor);
       onAddingAnimateCss(editor);
       onAddingSwiperCss(editor);
+      onAddingDatepickerCss(editor);
       updateCanvasComponents(editor, setCanvasComponents);
       handleAddWatermark(editor);
     });
