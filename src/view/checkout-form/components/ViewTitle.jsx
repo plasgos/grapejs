@@ -1,7 +1,15 @@
-const ViewTitle = ({ content }) => {
+const ViewTitle = ({ content, titleSize, titleColor }) => {
   return (
     <div className="flex items-center gap-x-5 my-5">
-      <p className="font-semibold text-xl whitespace-nowrap">{content.value}</p>
+      <p
+        style={{
+          fontSize: titleSize,
+          color: titleColor,
+        }}
+        className="font-semibold  whitespace-nowrap"
+      >
+        {content.value}
+      </p>
       <hr className="h-3 w-full" />
     </div>
   );

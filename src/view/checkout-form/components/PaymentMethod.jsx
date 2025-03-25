@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import ViewTitle from "./ViewTitle";
 
 const paymentMethod = [
   {
@@ -64,13 +65,12 @@ const paymentMethodOptions = [
   },
 ];
 
-const PaymentMethod = () => {
+const PaymentMethod = ({ width, styles }) => {
+  const { titleSize, titleColor, labelColor, labelSize } = styles;
   const { control, setValue, watch } = useFormContext();
 
   const handleSelectBank = (id) => {
-    console.log("🚀 ~ handleSelectBank ~ id:", id);
     const selectedBank = paymentMethod.find((item) => item.id === id);
-    console.log("🚀 ~ handleSelectBank ~ selectedBank:", selectedBank);
     if (selectedBank) {
       setValue("bank", selectedBank);
     }
@@ -80,12 +80,11 @@ const PaymentMethod = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-x-5 my-5">
-        <p className="font-semibold text-xl whitespace-nowrap">
-          Metode Pembayaran
-        </p>
-        <hr className="h-3 w-full" />
-      </div>
+      <ViewTitle
+        content={{ value: "Metode Pengiriman" }}
+        titleSize={titleSize}
+        titleColor={titleColor}
+      />
 
       <FormField
         control={control}
@@ -179,13 +178,17 @@ const PaymentMethod = () => {
                 <p> Bank Transfer</p>
               </div>
 
-              <div className="flex gap-x-2 ml-auto px-3 ">
+              <div
+                className={`${
+                  width < 400 ? "hidden" : "hidden md:flex gap-x-2 ml-auto px-3"
+                }  `}
+              >
                 {paymentMethod.map((method) => (
                   <img
                     key={method.code_name}
                     src={method.logo}
                     alt={method.name}
-                    className="object-contain w-16 "
+                    className="object-contain  w-16 "
                   />
                 ))}
               </div>

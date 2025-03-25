@@ -40,7 +40,6 @@ export const registerDivider = (editor) => {
             width: 800,
             height: 5,
             color: "rgba(19, 86, 236, 0.8)",
-            color2: "rgba(236, 146, 19, 0.8)",
             iconBtn: {
               icon: "",
               color: "rgba(0,0,0,0,1)",

@@ -1,10 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Check, ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
 import {
   Command,
   CommandEmpty,
@@ -18,6 +13,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Check, ChevronDown } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const frameworks = [
   {
@@ -146,23 +146,41 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CustomLabelField from "./components/CustomLabelField";
 import PaymentMethod from "./components/PaymentMethod";
-import { useEffect } from "react";
 import Shipping from "./components/Shipping";
+import ViewChecbox from "./components/ViewCheckbox";
+import ViewDate from "./components/ViewDate";
+import ViewDividerField from "./components/ViewDividerField";
+import ViewDropdown from "./components/ViewDropdown";
+import ViewEmail from "./components/ViewEmail";
+import ViewImageField from "./components/ViewImageField";
 import ViewInput from "./components/ViewInput";
 import ViewTextArea from "./components/ViewTextArea";
 import ViewTitle from "./components/ViewTitle";
-import ViewEmail from "./components/ViewEmail";
-import ViewChecbox from "./components/ViewCheckbox";
-import ViewDropdown from "./components/ViewDropdown";
-import ViewDate from "./components/ViewDate";
-// import { useEffect } from "react";
+import ViewRating from "./components/ViewtRating";
 
-const ViewFormCheckout = ({ editor, section }) => {
+import { createElement } from "react";
+import * as Icons from "react-icons/fa";
+
+const ViewFormCheckout = ({ section }) => {
   const { contents } = section;
-  console.log("🚀 ~ ViewFormCheckout ~ contents:", contents);
-
+  const {
+    width,
+    titleColor,
+    titleSize,
+    labelSize,
+    labelColor,
+    borderColor,
+    inputColor,
+    inputSize,
+    textInputColor,
+    rounded,
+    buttonText,
+    buttonColor,
+    iconBtn,
+  } = section.wrapperStyle;
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -190,14 +208,11 @@ const ViewFormCheckout = ({ editor, section }) => {
     }
   }, [contents, form, form.setValue]);
 
-  const onSubmit = (data) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
-  };
+  const onSubmit = (data) => {};
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   // const [data, setData] = useState([]);
-  // console.log("🚀 ~ ViewFormCheckout ~ data:", data);
   // const [error, setError] = useState(null);
   // const [isLoading, setIsLoading] = useState(true); // Tambahkan state loading
 
@@ -231,8 +246,6 @@ const ViewFormCheckout = ({ editor, section }) => {
   // }, []);
 
   // let cityList = null;
-  // console.log("🚀 ~ ViewFormCheckout ~ cityList:", cityList);
-
   // if (Array.isArray(data)) {
   //   cityList = data?.map((item) => ({
   //     value: item.id.toString(),
@@ -251,24 +264,34 @@ const ViewFormCheckout = ({ editor, section }) => {
   // }
 
   return (
-    <div style={{ maxWidth: 600 }} className="p-5  mx-auto">
+    <div style={{ maxWidth: "100%", width: width }} className="p-5  mx-auto">
       <Form {...form}>
         <form className="space-y-3">
-          <div className="flex items-center gap-x-5">
-            <p className="font-semibold text-xl whitespace-nowrap">
-              Data Penerima
-            </p>
-            <hr className="h-3 w-full" />
-          </div>
+          <ViewTitle
+            content={{ value: "Data Penerima" }}
+            titleSize={titleSize}
+            titleColor={titleColor}
+          />
 
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-normal">Nama</FormLabel>
+                <CustomLabelField
+                  label="Name"
+                  size={labelSize}
+                  color={labelColor}
+                />
                 <FormControl>
                   <Input
+                    style={{
+                      border: `1px solid ${borderColor}`,
+                      backgroundColor: inputColor,
+                      fontSize: inputSize ? inputSize : "",
+                      color: textInputColor,
+                      borderRadius: rounded,
+                    }}
                     className="placeholder:text-neutral-300"
                     placeholder="John"
                     {...field}
@@ -285,10 +308,22 @@ const ViewFormCheckout = ({ editor, section }) => {
             name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-normal">No Whatsapp</FormLabel>
+                <CustomLabelField
+                  label="No Whatsapp"
+                  size={labelSize}
+                  color={labelColor}
+                />
+
                 <FormControl>
                   <Input
                     maxLength={13}
+                    style={{
+                      border: `1px solid ${borderColor}`,
+                      backgroundColor: inputColor,
+                      fontSize: inputSize ? inputSize : "",
+                      color: textInputColor,
+                      borderRadius: rounded,
+                    }}
                     className="placeholder:text-neutral-300"
                     placeholder="628952367xxxx"
                     {...field}
@@ -304,9 +339,20 @@ const ViewFormCheckout = ({ editor, section }) => {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-normal">Alamat</FormLabel>
+                <CustomLabelField
+                  label="Alamat"
+                  size={labelSize}
+                  color={labelColor}
+                />
                 <FormControl>
                   <Textarea
+                    style={{
+                      border: `1px solid ${borderColor}`,
+                      backgroundColor: inputColor,
+                      fontSize: inputSize ? inputSize : "",
+                      color: textInputColor,
+                      borderRadius: rounded,
+                    }}
                     className="placeholder:text-neutral-300"
                     placeholder="Jl Perjuangan 11"
                     {...field}
@@ -388,9 +434,13 @@ const ViewFormCheckout = ({ editor, section }) => {
             name="city"
             render={({ field }) => (
               <FormItem className="flex flex-col gap-1">
-                <FormLabel className="font-normal mt-2">
-                  Kota / Kecamatan
-                </FormLabel>
+                <FormLabel className="font-normal mt-2"></FormLabel>
+
+                <CustomLabelField
+                  label="Kota / Kecamatan"
+                  size={labelSize}
+                  color={labelColor}
+                />
                 <FormControl>
                   <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
@@ -465,7 +515,11 @@ const ViewFormCheckout = ({ editor, section }) => {
                   key={content.id}
                 >
                   {content.type === "title" && (
-                    <ViewTitle content={content} index={index} />
+                    <ViewTitle
+                      content={content}
+                      labelColor={labelColor}
+                      labelSize={labelSize}
+                    />
                   )}
                   {(content.type === "text-input" ||
                     content.type === "phoneNumber") && (
@@ -484,21 +538,62 @@ const ViewFormCheckout = ({ editor, section }) => {
                     <ViewDropdown content={content} index={index} />
                   )}
                   {content.type === "date" && (
-                    <ViewDate editor={editor} content={content} index={index} />
+                    <ViewDate content={content} index={index} />
+                  )}
+                  {content.type === "rating" && (
+                    <ViewRating content={content} index={index} />
+                  )}
+                  {content.type === "image" && (
+                    <ViewImageField content={content} index={index} />
+                  )}
+                  {content.type === "divider" && (
+                    <ViewDividerField content={content} index={index} />
                   )}
                 </div>
               );
             })}
 
-          <Shipping />
-          <PaymentMethod />
+          <Shipping styles={section.wrapperStyle} />
+          <PaymentMethod styles={section.wrapperStyle} width={width} />
 
           <Button
+            style={{
+              backgroundColor: buttonColor,
+            }}
             onClick={form.handleSubmit(onSubmit)}
             className="w-full"
             type="button"
           >
-            Submit
+            {" "}
+            {iconBtn?.position === "right" ? (
+              <div className="flex justify-center items-center gap-x-2">
+                <p> {buttonText}</p>
+
+                {iconBtn && Icons[iconBtn?.icon] && (
+                  <div
+                    style={{
+                      color: iconBtn?.color,
+                    }}
+                  >
+                    {createElement(Icons[iconBtn?.icon], {})}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex justify-center items-center gap-x-2">
+                {iconBtn && Icons[iconBtn?.icon] && (
+                  <div
+                    style={{
+                      color: iconBtn?.color,
+                    }}
+                  >
+                    {createElement(Icons[iconBtn?.icon], {})}
+                  </div>
+                )}
+
+                <p>{buttonText}</p>
+              </div>
+            )}
           </Button>
         </form>
       </Form>

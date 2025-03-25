@@ -11,7 +11,7 @@ import { produce } from "immer";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
-const borderStyleOptions = [
+export const borderStyleOptions = [
   { value: "solid", label: "Solid" },
   { value: "dotted", label: "Dotted" },
   { value: "dashed", label: "Dashed" },

@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import RangeInputSlider from "../../_components/RangeInputSlider";
 
 const BasicInputProps = ({ item, handleContentChange }) => {
   return (
@@ -32,6 +33,29 @@ const BasicInputProps = ({ item, handleContentChange }) => {
           }
         />
       </div>
+
+      {item.type === "date" && (
+        <>
+          <RangeInputSlider
+            asChild
+            label="Width"
+            value={item?.width}
+            onChange={(value) => handleContentChange(item.id, "width", value)}
+            min={100}
+            max={1200}
+          />
+
+          <div className="flex justify-between items-center my-2">
+            <Label>Show Time</Label>
+            <Switch
+              checked={item?.isShowTime}
+              onCheckedChange={(checked) =>
+                handleContentChange(item.id, "isShowTime", checked)
+              }
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

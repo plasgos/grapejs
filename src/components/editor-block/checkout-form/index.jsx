@@ -18,19 +18,28 @@ import {
 } from "@/components/ui/popover";
 import { BsTextareaResize } from "react-icons/bs";
 import { CiText } from "react-icons/ci";
-import { FaPhone } from "react-icons/fa";
-import { IoIosCheckboxOutline } from "react-icons/io";
+import { FaPhone, FaStar } from "react-icons/fa";
+import { IoIosCheckboxOutline, IoMdTime } from "react-icons/io";
 import { LuTextCursorInput } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import EditorCheckbox from "./_components/EditorCheckbox";
-import EditorInputField from "./_components/EditorInputField";
 import EditorTextTitle from "./_components/EditorTitle";
 <CiText />;
 
-import { RxDropdownMenu } from "react-icons/rx";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { RxDividerHorizontal, RxDropdownMenu } from "react-icons/rx";
+import BasicInputProps from "./_components/BasicInputProps";
+import EditorRating from "./_components/EditorRating";
+import { BiSolidImageAdd } from "react-icons/bi";
+import EditorImageField from "./_components/EditorImageField";
+import EditorDividerField from "./_components/EditorDividerField";
+import StylesTab from "./StylesTab";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import ColorPicker from "../_components/ColorPicker";
+import IconPicker from "../_components/IconPicker";
 const fieldOptions = [
-  { type: "title", label: "Title", icon: <CiText />, value: "Custom Title " },
+  { type: "title", label: "Title", icon: <CiText />, value: "Custom Title" },
   {
     type: "text-input",
     label: "Text Input",
@@ -100,11 +109,43 @@ const fieldOptions = [
   },
   {
     type: "date",
-    label: "Date",
+    label: "Date & Time",
     labelField: "Date",
     placeholder: "Select Date",
+    width: 220,
     icon: <FaRegCalendarAlt />,
+    isShowTime: true,
     isRequired: true,
+    value: "",
+  },
+  {
+    type: "rating",
+    label: "Rating",
+    labelField: "Rating",
+    icon: <FaStar />,
+    isRequired: true,
+    design: "stars",
+    ratingSize: 24,
+    value: "",
+  },
+  {
+    type: "image",
+    label: "Image",
+    labelField: "Upload Image",
+    icon: <BiSolidImageAdd />,
+    isRequired: true,
+    value: "",
+  },
+  {
+    type: "divider",
+    label: "Divider",
+    labelField: "Divider",
+    fullWidth: true,
+    width: 500,
+    height: 5,
+    variant: "solid",
+    color: "rgba(19, 86, 236, 0.8)",
+    icon: <RxDividerHorizontal />,
     value: "",
   },
 ];
@@ -116,7 +157,7 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
 
   const [isOpenFields, setisOpenFields] = useState(false);
 
-  const { wrapperStyle, handleStylesChange } =
+  const { wrapperStyle, setWrapperStyle, handleStylesChange } =
     useChangeWrapperStyles(selectedComponent);
 
   const [editItem, setEditItem] = useState("");
@@ -158,7 +199,7 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
           item.type === "text-area" ||
           item.type === "phoneNumber" ||
           item.type === "date") && (
-          <EditorInputField
+          <BasicInputProps
             item={item}
             handleContentChange={handleContentChange}
           />
@@ -172,49 +213,120 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
             setContents={setContents}
           />
         )}
+
+        {item.type === "rating" && (
+          <EditorRating item={item} handleContentChange={handleContentChange} />
+        )}
+        {item.type === "image" && (
+          <EditorImageField
+            item={item}
+            handleContentChange={handleContentChange}
+          />
+        )}
+        {item.type === "divider" && (
+          <EditorDividerField
+            item={item}
+            handleContentChange={handleContentChange}
+          />
+        )}
       </>
     );
   };
 
+  const handleSelectIcon = (key, value) => {
+    setWrapperStyle((prevStyles) => ({
+      ...prevStyles,
+      iconBtn: {
+        ...prevStyles.iconBtn,
+        [key]: value,
+      },
+    }));
+
+    selectedComponent?.set(
+      "customComponent",
+      produce(selectedComponent?.get("customComponent"), (draft) => {
+        draft.wrapperStyle.iconBtn[key] = value;
+      })
+    );
+  };
+
   return (
-    <TabsEditor withoutStyles withoutTransition withoutBackground>
+    <TabsEditor withoutTransition withoutBackground>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
-        <DraggableList
-          contents={contents}
-          renderContents={(value) => renderContents(value)}
-          setContents={setContents}
-          editItem={editItem}
-          selectedComponent={selectedComponent}
-          setEditItem={setEditItem}
-        >
-          <Popover open={isOpenFields} onOpenChange={setisOpenFields}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="my-3 w-full">
-                Add Field <Plus />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[310px]">
-              <div className="grid grid-cols-3 gap-3">
-                {fieldOptions.map((field) => (
-                  <div
-                    key={field.type}
-                    className="p-3 rounded-lg border flex flex-col items-center justify-center gap-y-1 cursor-pointer hover:border-black"
-                    onClick={() => {
-                      handleAddField(field);
-                      setisOpenFields(false);
-                    }}
-                  >
-                    {field.icon}
-                    <p className="text-xs whitespace-nowrap">{field.label}</p>
-                  </div>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
-        </DraggableList>
+        <div className="flex flex-col gap-y-5">
+          <div className="p-3 bg-white rounded-lg flex flex-col gap-y-5">
+            <div className="mb-3">
+              <Label className="text-base ">Button Submit</Label>
+            </div>
+            <div className="space-y-2">
+              <Label>Text</Label>
+              <Input
+                value={wrapperStyle?.buttonText || ""}
+                onChange={(e) =>
+                  handleStylesChange("buttonText", e.target.value)
+                }
+              />
+            </div>
+
+            <ColorPicker
+              label="Color"
+              value={wrapperStyle.buttonColor}
+              onChange={(color) => handleStylesChange("buttonColor", color)}
+            />
+
+            <IconPicker
+              label="Icon"
+              value={wrapperStyle.iconBtn}
+              onSelectIcon={(key, value) => handleSelectIcon(key, value)}
+              withoutIconSize
+            />
+          </div>
+
+          <DraggableList
+            label="Custom Fields"
+            contents={contents}
+            renderContents={(value) => renderContents(value)}
+            setContents={setContents}
+            editItem={editItem}
+            selectedComponent={selectedComponent}
+            setEditItem={setEditItem}
+          >
+            <Popover open={isOpenFields} onOpenChange={setisOpenFields}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="my-3 w-full">
+                  Add Field <Plus />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[310px]">
+                <div className="grid grid-cols-3 gap-3">
+                  {fieldOptions.map((field) => (
+                    <div
+                      key={field.type}
+                      className="p-3 rounded-lg border flex flex-col items-center justify-center gap-y-1 cursor-pointer hover:border-black"
+                      onClick={() => {
+                        handleAddField(field);
+                        setisOpenFields(false);
+                      }}
+                    >
+                      {field.icon}
+                      <p className="text-xs whitespace-nowrap">{field.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+          </DraggableList>
+        </div>
+      </TabsContent>
+
+      <TabsContent
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        value="styles"
+      >
+        <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

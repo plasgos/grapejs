@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 
 import { useState } from "react";
+import ViewTitle from "./ViewTitle";
 
 const couriers = [
   {
@@ -72,7 +73,9 @@ const couriers = [
   },
 ];
 
-const Shipping = () => {
+const Shipping = ({ styles }) => {
+  const { titleSize, titleColor, labelColor, labelSize } = styles;
+
   const { control, setValue, watch } = useFormContext();
   const [open, setOpen] = useState(false);
   const [openPackage, setOpenPackage] = useState(false);
@@ -84,10 +87,11 @@ const Shipping = () => {
     [];
   return (
     <div>
-      <div className="flex items-center gap-x-5 my-5">
-        <p className="font-semibold text-xl whitespace-nowrap">Pengiriman</p>
-        <hr className="h-3 w-full" />
-      </div>
+      <ViewTitle
+        content={{ value: "Pengiriman" }}
+        titleSize={titleSize}
+        titleColor={titleColor}
+      />
 
       <div className="flex justify-between w-full">
         <FormField

@@ -30,6 +30,7 @@ import { RxDragHandleDots2 } from "react-icons/rx";
 import { TbEdit } from "react-icons/tb";
 import { useRef } from "react";
 import { useEffect } from "react";
+import { Label } from "@/components/ui/label";
 
 const SortableItem = ({
   item,
@@ -220,6 +221,7 @@ const SortableItem = ({
 
 const DraggableList = ({
   children,
+  label,
   contents,
   selectedComponent,
   setContents,
@@ -299,6 +301,7 @@ const DraggableList = ({
 
   return (
     <div className="flex flex-col gap-y-5    bg-white p-2 rounded-lg">
+      {label && <Label className="text-base">{label}</Label>}
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
