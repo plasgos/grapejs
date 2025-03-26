@@ -35,7 +35,7 @@ export const registerModalPopup = (editor) => {
           popupId: "",
           isPreviewModal: false,
           popupModalOption: {
-            typeOpen: "onClick",
+            typeOpen: "immediately",
             delayDuration: 3000,
           },
           contents: [],

@@ -8,9 +8,14 @@ import { CanvasProvider } from "./components/CanvasProvider";
 import MainWebEditor from "./components/MainWebEditor";
 import PublishedPage from "./pages/published";
 import "react-datepicker/dist/react-datepicker.css";
+import { useGetUsersQuery } from "./redux/services/userApi";
+import { useSelector } from "react-redux";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 function App() {
+  const { data, isLoading, error, isSuccess } = useGetUsersQuery();
+  console.log("🚀 ~ App ~ data:", data);
+
   return (
     <>
       <BrowserRouter>

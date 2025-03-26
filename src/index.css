@@ -219,6 +219,7 @@
   background-color: #fb6123 !important;
   padding: 2px;
   box-shadow: 0px 4px 10px rgba(251, 97, 35, 0.75) !important;
+  width: fit-content !important;
 }
 
 .gjs-toolbar-items {

@@ -1,71 +1,27 @@
 import GjsEditor, { Canvas, WithEditor } from "@grapesjs/react";
+import "animate.css";
 import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
-import { renderToStaticMarkup } from "react-dom/server";
 import "../index.css";
-import "animate.css";
 
 import { createRoot } from "react-dom/client";
 import Watermark from "./Watermark";
 
-import basicPlugin from "grapesjs-blocks-basic";
+// import basicPlugin from "grapesjs-blocks-basic";
 
 import { useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
-import { IoCopyOutline } from "react-icons/io5";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 import plasgosPlugin from "@/plugins";
-import animateCSS from "animate.css/animate.min.css?inline";
 
-import swiperCSS from "swiper/swiper-bundle.css?inline";
-import datepickerCSS from "react-datepicker/dist/react-datepicker.css?inline";
-
-export const onAddingDatepickerCss = (editor) => {
-  const frame = editor.Canvas.getFrameEl();
-  const frameDoc = frame?.contentDocument;
-
-  if (frameDoc) {
-    // Cek apakah Datepicker CSS sudah ada
-    if (!frameDoc.querySelector("#datepicker-css")) {
-      const style = frameDoc.createElement("style");
-      style.id = "datepicker-css";
-      style.innerHTML = datepickerCSS;
-      frameDoc.head.appendChild(style);
-    }
-  }
-};
-
-export const onAddingSwiperCss = (editor) => {
-  const frame = editor.Canvas.getFrameEl();
-  const frameDoc = frame?.contentDocument;
-
-  if (frameDoc) {
-    // Cek apakah Swiper CSS sudah ada
-    if (!frameDoc.querySelector("#swiper-css")) {
-      const style = frameDoc.createElement("style");
-      style.id = "swiper-css";
-      style.innerHTML = swiperCSS;
-      frameDoc.head.appendChild(style);
-    }
-  }
-};
-
-export const onAddingAnimateCss = (editor) => {
-  const frame = editor.Canvas.getFrameEl();
-  const frameDoc = frame?.contentDocument;
-
-  if (frameDoc) {
-    // Cek apakah animate.css sudah ada
-    if (!frameDoc.querySelector("#animate-css")) {
-      const style = frameDoc.createElement("style");
-      style.id = "animate-css";
-      style.innerHTML = animateCSS;
-      frameDoc.head.appendChild(style);
-    }
-  }
-};
+import { injectExternalCSS } from "@/utils/injectExternalCSS";
+import { useEffect } from "react";
+import { onCustomToolbar } from "@/utils/onCustomToolbar";
+import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
+import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
+import { useDispatch } from "react-redux";
+import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 
 const rootMap = new Map();
 
@@ -114,6 +70,7 @@ export const handleAddWatermark = (editor) => {
 
   moveWatermarkToEnd();
 };
+
 export const getAllComponents = (editor) => {
   return editor?.getComponents()?.map((comp, index) => ({
     id: comp.getId(),
@@ -132,28 +89,6 @@ export const updateCanvasComponents = (editor, setCanvasComponents) => {
   setCanvasComponents(components);
 };
 
-export const injectTailwindCss = (editor) => {
-  const canvasDoc = editor.Canvas.getFrameEl().contentDocument;
-  const head = canvasDoc.head;
-
-  // Ambil file Tailwind dari yang sudah ada di project
-  const tailwindStyle = document.createElement("link");
-  tailwindStyle.rel = "stylesheet";
-  tailwindStyle.href = "/src/index.css";
-  head.appendChild(tailwindStyle);
-};
-
-export const injectCustomAnimate = (editor) => {
-  const canvasDoc = editor.Canvas.getFrameEl().contentDocument;
-  const head = canvasDoc.head;
-
-  // Ambil file Tailwind dari yang sudah ada di project
-  const tailwindStyle = document.createElement("link");
-  tailwindStyle.rel = "stylesheet";
-  tailwindStyle.href = "/animation.css";
-  head.appendChild(tailwindStyle);
-};
-
 const MainWebEditor = () => {
   const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(undefined);
@@ -161,6 +96,14 @@ const MainWebEditor = () => {
   const [canvasComponents, setCanvasComponents] = useState([]);
 
   const [isDragging, setIsDragging] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (selectedComponent && selectedComponent.get("type") === "wrapper") {
+      dispatch(setIsEditComponent(false));
+    }
+  }, [dispatch, selectedComponent]);
 
   const handleReorder = (event, editor, isFloatingComponent) => {
     if (isFloatingComponent) {
@@ -195,22 +138,18 @@ const MainWebEditor = () => {
   };
 
   const handleEditorInit = (editor) => {
-    handleAddWatermark(editor);
-    handleFocusDropComponent(editor);
     onCustomToolbar(editor);
 
     editor.on("load", () => {
-      injectTailwindCss(editor);
-      onAddingAnimateCss(editor);
-      onAddingSwiperCss(editor);
-      onAddingDatepickerCss(editor);
+      injectExternalCSS(editor);
       updateCanvasComponents(editor, setCanvasComponents);
+      handleFocusDropComponent(editor);
+      addGlobalOptions(editor);
       handleAddWatermark(editor);
     });
 
     editor.on("component:add", () => {
       updateCanvasComponents(editor, setCanvasComponents);
-      handleAddWatermark(editor);
     });
     editor.on("component:remove", () =>
       updateCanvasComponents(editor, setCanvasComponents)
@@ -250,23 +189,6 @@ const MainWebEditor = () => {
       }, 50);
     });
 
-    editor.setStyle(`
-      .gjs-dashed *[data-gjs-highlightable] {
-          outline: 1px dashed black !important;
-          outline-offset: -2px;
-      }
-    `);
-
-    setTimeout(() => {
-      const iframe = editor?.Canvas?.getDocument();
-      if (iframe) {
-        const styleLink = iframe.createElement("link");
-        styleLink.rel = "stylesheet";
-        styleLink.href = "/animation.css";
-        iframe.head.appendChild(styleLink);
-      }
-    }, 500); // Delay 500ms untuk memberi waktu iframe dimuat
-
     const handleComponentSelected = (model) => {
       setSelectedComponent(model);
       setActiveTab("components");
@@ -274,200 +196,34 @@ const MainWebEditor = () => {
 
     editor.on("component:selected", handleComponentSelected);
 
-    editor.on("load", () => {
-      const editorModel = editor.getModel();
-
-      const intialStateGlobalData = {
-        scrollTarget: [{ value: "scrollToTop", label: "Scroll To Top" }],
-        popup: [],
-      };
-
-      // Set global options
-      editorModel.set("globalOptions", intialStateGlobalData);
-    });
-
     overrideDeleteCommand(editor);
     overrideCopyCommand(editor);
   };
 
-  const overrideDeleteCommand = (editor) => {
-    // Override fungsi delete default
-    editor.Commands.add("core:component-delete", {
-      run(editor) {
-        const editorModel = editor.getModel();
+  const addGlobalOptions = (editor) => {
+    const editorModel = editor.getModel();
 
-        const globalOptions = editorModel.get("globalOptions");
+    const intialStateGlobalData = {
+      scrollTarget: [{ value: "scrollToTop", label: "Scroll To Top" }],
+      popup: [],
+    };
 
-        const selected = editor.getSelected();
-        console.log("🚀 ~ run ~ selected:", selected);
-        if (selected) {
-          if (selected.get("type") === "modal-popup") {
-            console.log("REMOVE POPUP");
-
-            editorModel.set("globalOptions", {
-              ...globalOptions,
-              popup: globalOptions.popup.filter(
-                (opt) => opt.id !== selected.get("customComponent").popupId
-              ),
-            });
-
-            selected.remove();
-          } else {
-            selected.remove();
-          }
-
-          editor.select(editor.getWrapper());
-        }
-      },
-    });
-  };
-
-  const overrideCopyCommand = (editor) => {
-    const originalCopy = editor.Commands.get("core:copy");
-
-    editor.Commands.add("core:copy", {
-      run(editor) {
-        const selected = editor.getSelected();
-        if (!selected) return;
-
-        originalCopy.run(editor); // Jalankan copy bawaan
-
-        // Setelah copy, pilih wrapper
-        editor.select(editor.getWrapper());
-      },
-    });
+    // Set global options
+    editorModel.set("globalOptions", intialStateGlobalData);
   };
 
   const handleFocusDropComponent = (editor) => {
-    editor.on("load", () => {
-      const canvas = editor.Canvas.getFrameEl();
-      if (!canvas) return;
+    const canvas = editor.Canvas.getFrameEl();
+    if (!canvas) return;
 
-      // Scroll ke komponen baru setelah ditambahkan
-      editor.on("component:add", (model) => {
-        setTimeout(() => {
-          const el = model.view?.el; // Ambil elemen DOM dari komponen
-          if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "center" });
-          }
-        }, 100);
-      });
-    });
-  };
-
-  const onCustomToolbar = (editor) => {
-    editor.on("component:selected", (component) => {
-      const wrapper = editor.getWrapper();
-
-      // Kondisikan jika komponen yang dipilih adalah modal-popup
-      if (component.get("type") === "modal-popup") {
-        // Menampilkan hanya toolbar delete pada modal-popup
-        const customToolbar = [
-          {
-            id: "custom-tool-2",
-            attributes: {
-              title: "Remove",
-            },
-            label: renderToStaticMarkup(<FaTrashAlt />),
-            command: "core:component-delete", // Perintah custom delete
-          },
-        ];
-
-        // Menambahkan toolbar custom (hanya delete) ke komponen modal-popup
-        component.set("toolbar", customToolbar);
-        return;
-      }
-
-      // Cek apakah komponen yang dipilih adalah wrapper atau tidak
-      if (component === wrapper) {
-        component.set("toolbar", []); // Hilangkan toolbar jika wrapper dipilih
-        return;
-      }
-      // Menghapus toolbar bawaan dengan mengatur toolbar menjadi array kosong
-      component.set("toolbar", []);
-
-      // Membuat toolbar custom
-      const customToolbar = [
-        {
-          id: "custom-tool-1",
-          attributes: {
-            class: "fa fa-plus", // Ganti dengan icon yang sesuai
-            title: "Custom Tool 1",
-          },
-          command: "custom-tool-cmd-1", // Perintah custom
-        },
-        {
-          id: "custom-copy",
-          attributes: {
-            title: "Copy",
-          },
-          label: renderToStaticMarkup(<IoCopyOutline />),
-          command: "custom-copy", // Perintah custom-copy
-        },
-        {
-          id: "custom-tool-2",
-          attributes: {
-            title: "Remove",
-          },
-          label: renderToStaticMarkup(<FaTrashAlt />),
-          command: "core:component-delete", // Perintah custom
-        },
-        // Anda dapat menambahkan lebih banyak item toolbar custom di sini
-      ];
-
-      // Menambahkan toolbar custom ke komponen yang dipilih
-      component.set("toolbar", customToolbar);
-    });
-
-    // Menambahkan perintah custom ke editor
-    editor.Commands.add("custom-tool-cmd-1", {
-      run(editor) {
-        // Logika perintah untuk tool custom 1
-        console.log("Custom Tool 1 activated!");
-      },
-    });
-
-    editor.Commands.add("custom-copy", {
-      run(editor) {
-        const selected = editor.getSelected();
-
-        if (selected) {
-          const clonedComponent = selected.clone(); // Mengkloning komponen yang dipilih
-          // const clonedComponent = selected.model.clone();
-
-          const parent = selected.parent();
-
-          if (parent) {
-            // Find the index of the original component within the parent container
-            const components = parent.get("components");
-            const currentIndex = components.indexOf(selected); // Find index of the original component
-
-            // Append the cloned component right after the original component
-            parent.append(clonedComponent, { at: currentIndex + 1 });
-          }
-
-          // Select the cloned component
-          editor.select(clonedComponent);
-
-          // Get the DOM element of the cloned component
-          const clonedElement = clonedComponent.view.el;
-
-          // Scroll the page to the cloned component
-          if (clonedElement) {
-            clonedElement.scrollIntoView({
-              behavior: "smooth", // Smooth scroll
-              block: "center", // Scroll to the center of the screen
-            });
-          }
+    // Scroll ke komponen baru setelah ditambahkan
+    editor.on("component:add", (model) => {
+      setTimeout(() => {
+        const el = model.view?.el; // Ambil elemen DOM dari komponen
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
-      },
-    });
-
-    editor.Commands.add("custom-tool-cmd-2", {
-      run(editor) {
-        // Logika perintah untuk tool custom 2
-        console.log("Custom Tool 2 activated!");
-      },
+      }, 100);
     });
   };
 
@@ -476,7 +232,7 @@ const MainWebEditor = () => {
       <GjsEditor
         onEditor={handleEditorInit}
         grapesjs={grapesjs}
-        plugins={[basicPlugin, plasgosPlugin]}
+        plugins={[plasgosPlugin]}
         options={{
           storageManager: false,
           canvasCss: `
@@ -512,11 +268,8 @@ const MainWebEditor = () => {
                 <WithEditor>
                   <Sidebar
                     selectedComponent={selectedComponent}
-                    components={canvasComponents}
-                    onReorder={handleReorder}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
-                    setIsDragging={setIsDragging}
                     setCanvasComponents={setCanvasComponents}
                   />
                 </WithEditor>

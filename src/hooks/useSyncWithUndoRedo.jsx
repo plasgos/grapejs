@@ -1,0 +1,36 @@
+import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+const useSyncWithUndoRedo = (editor, setContents) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateEditorState = () => {
+      const selected = editor.getSelected();
+      if (selected) {
+        const updatedData = selected.get("customComponent");
+        setContents(updatedData?.contents || []);
+      }
+    };
+
+    const checkUndoHistory = () => {
+      const undoManager = editor.UndoManager;
+      if (undoManager && undoManager.hasUndo() === false) {
+        dispatch(setIsEditComponent(false));
+      }
+    };
+
+    editor.on("undo redo", updateEditorState);
+    editor.on("undo", checkUndoHistory);
+
+    return () => {
+      editor.off("undo redo", updateEditorState);
+      editor.off("undo", checkUndoHistory);
+    };
+  }, [dispatch, editor, setContents]);
+};
+
+export default useSyncWithUndoRedo;

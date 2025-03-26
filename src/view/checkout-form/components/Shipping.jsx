@@ -74,7 +74,16 @@ const couriers = [
 ];
 
 const Shipping = ({ styles }) => {
-  const { titleSize, titleColor, labelColor, labelSize } = styles;
+  const {
+    width,
+    titleSize,
+    titleColor,
+    inputSize,
+    textInputColor,
+    rounded,
+    inputColor,
+    borderColor,
+  } = styles;
 
   const { control, setValue, watch } = useFormContext();
   const [open, setOpen] = useState(false);
@@ -93,20 +102,33 @@ const Shipping = ({ styles }) => {
         titleColor={titleColor}
       />
 
-      <div className="flex justify-between w-full">
+      <div
+        className={` ${
+          width < 400
+            ? "flex flex-wrap gap-5"
+            : "flex flex-wrap md:!flex-nowrap justify-between gap-5 w-full "
+        }`}
+      >
         <FormField
           control={control}
           name="courier"
           render={({ field }) => (
-            <FormItem className="flex flex-col gap-1">
+            <FormItem className=" w-full">
               <FormControl>
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                     <Button
+                      style={{
+                        border: `1px solid ${borderColor}`,
+                        fontSize: inputSize ? inputSize : "",
+                        color: textInputColor,
+                        borderRadius: rounded,
+                        backgroundColor: inputColor,
+                      }}
                       variant="outline"
                       role="combobox"
                       aria-expanded={open}
-                      className="w-[250px] justify-between"
+                      className="w-full justify-between"
                     >
                       {field.value
                         ? couriers.find(
@@ -116,7 +138,13 @@ const Shipping = ({ styles }) => {
                       <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[250px] p-0">
+                  <PopoverContent
+                    style={{
+                      border: `1px solid ${borderColor}`,
+                      borderRadius: rounded,
+                    }}
+                    className="min-w-full p-0 overflow-hidden"
+                  >
                     <Command>
                       <CommandInput placeholder="Cari Kurir..." />
                       <CommandList>
@@ -164,15 +192,22 @@ const Shipping = ({ styles }) => {
             control={control}
             name="courierPackage"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormControl>
                   <Popover open={openPackage} onOpenChange={setOpenPackage}>
                     <PopoverTrigger asChild>
                       <Button
+                        style={{
+                          border: `1px solid ${borderColor}`,
+                          fontSize: inputSize ? inputSize : "",
+                          color: textInputColor,
+                          borderRadius: rounded,
+                          backgroundColor: inputColor,
+                        }}
                         variant="outline"
                         role="combobox"
                         aria-expanded={openPackage}
-                        className="w-[250px] justify-between"
+                        className="w-full justify-between"
                       >
                         {field.value
                           ? availablePackages.find(
@@ -182,7 +217,13 @@ const Shipping = ({ styles }) => {
                         <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[250px] p-0">
+                    <PopoverContent
+                      style={{
+                        border: `1px solid ${borderColor}`,
+                        borderRadius: rounded,
+                      }}
+                      className="min-w-full p-0 overflow-hidden"
+                    >
                       <Command>
                         <CommandInput placeholder="Cari Paket..." />
                         <CommandList>

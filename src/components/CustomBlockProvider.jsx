@@ -70,7 +70,7 @@ export default function CustomBlockManager({
                           key={block.getId()}
                           draggable
                           className={cx(
-                            "flex flex-col items-center border  cursor-pointer py-2 px-5 transition-colors bg-white rounded-md shadow-sm"
+                            "flex flex-col items-center border  cursor-grab py-2 px-5 transition-colors bg-white rounded-md shadow-sm"
                           )}
                           onDragStart={(ev) => dragStart(block, ev.nativeEvent)}
                           onDragEnd={() => dragStop(false)}

@@ -91,7 +91,7 @@ const ModalPopup = ({ section, editor }) => {
 
   return (
     <>
-      {isOpen ? (
+      {isOpen && (
         <div
           className={`absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-50 ${
             isDelayAnimate
@@ -129,7 +129,7 @@ const ModalPopup = ({ section, editor }) => {
                     </div>
                   );
                 })}
-
+                {/* 
                 <GjsEditor
                   // onEditor={}
                   grapesjs={grapesjs}
@@ -142,13 +142,11 @@ const ModalPopup = ({ section, editor }) => {
                       height: "100vh",
                     }}
                   />
-                </GjsEditor>
+                </GjsEditor> */}
               </div>
             </div>
           </ContainerView>
         </div>
-      ) : (
-        <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
       )}
     </>
   );

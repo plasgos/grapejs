@@ -1,13 +1,7 @@
 import { useCanvas } from "@/components/CanvasProvider";
-import {
-  handleAddWatermark,
-  injectCustomAnimate,
-  injectTailwindCss,
-  onAddingAnimateCss,
-  onAddingDatepickerCss,
-  onAddingSwiperCss,
-} from "@/components/MainWebEditor";
+import { handleAddWatermark } from "@/components/MainWebEditor";
 import plasgosPlugin from "@/plugins";
+import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import GjsEditor, { Canvas } from "@grapesjs/react";
 
 import grapesjs from "grapesjs";
@@ -38,12 +32,8 @@ const PublishedPage = () => {
         console.log("Global Options loaded:", projectData.globalOptions);
       }
 
-      injectTailwindCss(editor);
+      injectExternalCSS(editor);
       handleAddWatermark(editor);
-      onAddingAnimateCss(editor);
-      onAddingSwiperCss(editor);
-      onAddingDatepickerCss(editor);
-      injectCustomAnimate(editor);
 
       // Ambil semua komponen di dalam canvas
       const wrapper = editor.getWrapper();

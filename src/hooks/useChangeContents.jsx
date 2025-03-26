@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { produce } from "immer";
+import { useEditor } from "@grapesjs/react";
 
 export const useChangeContents = (selectedComponent) => {
+  const editor = useEditor();
   const customComponent = selectedComponent?.get("customComponent");
 
   const [contents, setContents] = useState(customComponent?.contents);
@@ -30,6 +32,8 @@ export const useChangeContents = (selectedComponent) => {
         });
       })
     );
+
+    editor.store();
   };
   return {
     contents,

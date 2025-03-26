@@ -445,6 +445,13 @@ const ViewFormCheckout = ({ section }) => {
                   <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                       <Button
+                        style={{
+                          border: `1px solid ${borderColor}`,
+                          fontSize: inputSize ? inputSize : "",
+                          color: textInputColor,
+                          borderRadius: rounded,
+                          backgroundColor: inputColor,
+                        }}
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
@@ -458,7 +465,13 @@ const ViewFormCheckout = ({ section }) => {
                         <ChevronDown className="opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent
+                      style={{
+                        border: `1px solid ${borderColor}`,
+                        borderRadius: rounded,
+                      }}
+                      className="w-[200px] p-0 overflow-hidden"
+                    >
                       <Command>
                         <CommandInput
                           placeholder="Search framework..."
@@ -469,6 +482,11 @@ const ViewFormCheckout = ({ section }) => {
                           <CommandGroup>
                             {frameworks.map((framework) => (
                               <CommandItem
+                                style={{
+                                  fontSize: inputSize ? inputSize : "",
+                                  color: textInputColor,
+                                  cursor: "pointer",
+                                }}
                                 key={framework.value}
                                 value={framework.value}
                                 onSelect={(currentValue) => {
@@ -557,6 +575,7 @@ const ViewFormCheckout = ({ section }) => {
           <PaymentMethod styles={section.wrapperStyle} width={width} />
 
           <Button
+            size="lg"
             style={{
               backgroundColor: buttonColor,
             }}

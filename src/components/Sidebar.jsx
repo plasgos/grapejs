@@ -3,12 +3,17 @@ import { BlocksProvider, useEditor } from "@grapesjs/react";
 import { Save } from "lucide-react";
 import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { MdClose } from "react-icons/md";
 import ComponentStyleEditor from "./ComponentStyleEditor";
 import CustomBlockManager from "./CustomBlockProvider";
-import NavigatorSidebar from "./Navigator";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import {
   DropdownMenu,
@@ -16,27 +21,26 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IoSettingsSharp } from "react-icons/io5";
-import { CiExport, CiImport } from "react-icons/ci";
 import { useToast } from "@/hooks/use-toast";
-import {
-  handleAddWatermark,
-  injectTailwindCss,
-  onAddingAnimateCss,
-  updateCanvasComponents,
-} from "./MainWebEditor";
+import { injectExternalCSS } from "@/utils/injectExternalCSS";
+import { CiExport, CiImport } from "react-icons/ci";
+import { IoGrid, IoSettingsSharp } from "react-icons/io5";
+import { handleAddWatermark, updateCanvasComponents } from "./MainWebEditor";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 
 const Sidebar = ({
   selectedComponent,
-  components,
-  onReorder,
   activeTab,
   setActiveTab,
-  setIsDragging,
   setCanvasComponents,
 }) => {
   const editor = useEditor();
   const { toast } = useToast();
+
+  const { isEditComponent } = useSelector((state) => state.landingPage);
+  const dispatch = useDispatch();
 
   const [searchBlock, setSearchBlock] = useState("");
 
@@ -45,6 +49,7 @@ const Sidebar = ({
   };
 
   const handleCloseComponent = () => {
+    dispatch(setIsEditComponent(false));
     const wrapper = editor.getWrapper();
     editor.select(wrapper);
   };
@@ -100,11 +105,9 @@ const Sidebar = ({
             editorModel.set("globalOptions", projectData.globalOptions);
             console.log("Global Options loaded:", projectData.globalOptions);
           }
-
-          injectTailwindCss(editor);
           handleAddWatermark(editor);
 
-          onAddingAnimateCss(editor);
+          injectExternalCSS(editor);
 
           updateCanvasComponents(editor, setCanvasComponents);
 
@@ -143,8 +146,9 @@ const Sidebar = ({
           className="w-full"
         >
           <TabsList
+            // className="w-full"
             className={`w-full ${
-              !selectedComponent || selectedComponent?.get("type") === "wrapper"
+              !isEditComponent || selectedComponent?.get("type") === "wrapper"
                 ? ""
                 : "hidden"
             }`}
@@ -155,12 +159,6 @@ const Sidebar = ({
             >
               Components
             </TabsTrigger>
-            {/* <TabsTrigger
-              className="w-full data-[state=inactive]:bg-[#EFF3F4]  rounded-bl-xl"
-              value="navigator"
-            >
-              Navigator
-            </TabsTrigger> */}
             <TabsTrigger
               className="w-full data-[state=inactive]:bg-[#EFF3F4]  rounded-bl-xl"
               value="styles"
@@ -168,21 +166,29 @@ const Sidebar = ({
               Styles
             </TabsTrigger>
           </TabsList>
-          {selectedComponent &&
-            selectedComponent?.get("type") !== "wrapper" && (
-              <div
-                onClick={handleCloseComponent}
-                className="flex items-center justify-between   border-b p-4 shadow-sm cursor-pointer"
-              >
-                <p className="font-semibold">
-                  {selectedComponent?.get("blockLabel")}
-                </p>
-                <MdClose className="text-slate-500" size={20} />
-              </div>
-            )}
 
-          {(!selectedComponent ||
-            selectedComponent?.get("type") === "wrapper") &&
+          {isEditComponent && selectedComponent?.get("type") !== "wrapper" && (
+            <div className="flex items-center justify-between   border-b p-4 shadow-sm ">
+              <p className="font-semibold">
+                {selectedComponent?.get("blockLabel")}
+              </p>
+
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button onClick={handleCloseComponent} variant="ghost">
+                      <IoGrid className=" cursor-pointer" size={20} />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Menu</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          )}
+
+          {(!isEditComponent || selectedComponent?.get("type") === "wrapper") &&
             activeTab === "components" && (
               <div className="relative my-5 px-5">
                 <Input
@@ -203,7 +209,8 @@ const Sidebar = ({
             value="components"
           >
             <div className="">
-              {selectedComponent &&
+              {isEditComponent &&
+              selectedComponent &&
               selectedComponent?.get("type") !== "wrapper" ? (
                 <div
                   className="bg-[#FEEBDB]"
@@ -233,20 +240,6 @@ const Sidebar = ({
                 </div>
               )}
             </div>
-          </TabsContent>
-          <TabsContent
-            style={{
-              overflowY: "auto",
-              height: "calc(100vh - 150px)",
-            }}
-            className="overflow-hidden px-3 bg-[#FEEBDB] mt-0 "
-            value="navigator"
-          >
-            <NavigatorSidebar
-              components={components}
-              onReorder={onReorder}
-              setIsDragging={setIsDragging}
-            />
           </TabsContent>
 
           <TabsContent value="styles">Change your password here.</TabsContent>

@@ -23,8 +23,8 @@ import IconPicker from "../_components/IconPicker";
 
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { TbMinusVertical } from "react-icons/tb";
-import { btnPostionOptions } from "../hero-section";
 import BackgroundEditor from "../_components/BackgroundEditor";
+import { btnPostionOptions } from "../hero-section";
 const buttonPosition = [
   { value: "flex-row", label: "Row", icon: <MdOutlineHorizontalRule /> },
   { value: "flex-col", label: "Column", icon: <TbMinusVertical /> },

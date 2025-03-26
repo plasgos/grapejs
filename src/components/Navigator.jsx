@@ -8,7 +8,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { useEditor } from "@grapesjs/react";
 import { useEffect } from "react";
 import { IoCopyOutline } from "react-icons/io5";
-import { MdOutlineFilterCenterFocus } from "react-icons/md";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { Button } from "./ui/button";
 
@@ -19,6 +18,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { FaTrashAlt } from "react-icons/fa";
+import { LuPencilLine } from "react-icons/lu";
+import { useDispatch } from "react-redux";
+import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 
 const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
   const editor = useEditor();
@@ -31,6 +33,8 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
     transition,
     isDragging,
   } = useSortable({ id: item.id, disabled: isFloatingComponent });
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsDragging(isDragging);
@@ -51,6 +55,7 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
           block: "center", // Menempatkan elemen di tengah layar
         });
       }
+      dispatch(setIsEditComponent(false));
     }
   };
 
@@ -95,9 +100,9 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
 
   const commandNavigation = [
     {
-      action: "Select",
+      action: "Edit",
       command: handleSelect,
-      icon: <MdOutlineFilterCenterFocus />,
+      icon: <LuPencilLine />,
       isDisable: false,
     },
     {

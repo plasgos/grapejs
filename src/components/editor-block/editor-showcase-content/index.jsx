@@ -9,17 +9,21 @@ import products4 from "@/assets/products4.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useChangeContents } from "@/hooks/useChangeContents";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
+import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import { useEditor } from "@grapesjs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
 import TextEditor from "../_components/TextEditor";
-import { useChangeContents } from "@/hooks/useChangeContents";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 
 const EditorContentShowcase = ({ selectedComponent }) => {
+  const editor = useEditor();
+
   const { contents, setContents, handleContentChange } =
     useChangeContents(selectedComponent);
 
@@ -28,6 +32,8 @@ const EditorContentShowcase = ({ selectedComponent }) => {
   const handleFileUpload = (id) => {
     onChangeFileUpload(id, handleContentChange);
   };
+
+  useSyncWithUndoRedo(editor, setContents);
 
   const handleAddContent = () => {
     setEditItem("");
