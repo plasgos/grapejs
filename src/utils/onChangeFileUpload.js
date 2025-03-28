@@ -1,6 +1,6 @@
 import Compressor from "compressorjs";
 
-export const onChangeFileUpload = (id, handleContentChange) => {
+export const onChangeFileUpload = (id, handleComponentChange) => {
   const input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*"; // Hanya menerima file gambar
@@ -24,7 +24,8 @@ export const onChangeFileUpload = (id, handleContentChange) => {
 
         reader.onload = (event) => {
           const imageUrl = event.target.result;
-          handleContentChange(id, "image", imageUrl);
+
+          handleComponentChange(`contents.${id}.image`, imageUrl);
         };
 
         console.log(

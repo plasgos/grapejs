@@ -1,7 +1,6 @@
-import { useState } from "react";
+import Compressor from "compressorjs";
 import { SketchPicker } from "react-color";
 import { FaCheckCircle } from "react-icons/fa";
-import Compressor from "compressorjs";
 
 import {
   FaArrowDownShortWide,
@@ -14,23 +13,23 @@ import {
   IoMdColorFill,
 } from "react-icons/io";
 import { IoColorFill } from "react-icons/io5";
-import { MdOutlineHideImage } from "react-icons/md";
+import { MdOutlineHideImage, MdOutlineReadMore } from "react-icons/md";
 import { RiFlipHorizontalFill } from "react-icons/ri";
-import { TbTexture } from "react-icons/tb";
 import { RxSpaceEvenlyVertically } from "react-icons/rx";
-import { MdOutlineReadMore } from "react-icons/md";
+import { TbTexture } from "react-icons/tb";
 import { Label } from "../../ui/label";
 
-import { CgArrowsExpandLeft, CgArrowsExpandRight } from "react-icons/cg";
-import { LuMoveVertical } from "react-icons/lu";
-import { HiOutlineSwitchVertical } from "react-icons/hi";
 import { produce } from "immer";
+import { CgArrowsExpandLeft, CgArrowsExpandRight } from "react-icons/cg";
+import { HiOutlineSwitchVertical } from "react-icons/hi";
+import { LuMoveVertical } from "react-icons/lu";
 
 import {
   LazyLoadImage,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
 
+import bgDefaultImage from "@/assets//bg-image.jpg";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,7 +48,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import bgDefaultImage from "@/assets//bg-image.jpg";
 
 import pattern1 from "@/assets/pattern/pattern1.webp";
 import pattern10 from "@/assets/pattern/pattern10.webp";
@@ -68,9 +66,11 @@ import pattern7 from "@/assets/pattern/pattern7.webp";
 import pattern8 from "@/assets/pattern/pattern8.webp";
 import pattern9 from "@/assets/pattern/pattern9.webp";
 
-import RangeInputSlider from "./RangeInputSlider";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import { Button } from "../../ui/button";
+import RangeInputSlider from "./RangeInputSlider";
 import SelectCircle from "./SelectCircle";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
 export const patterns = [
   { img: pattern1 },
@@ -163,7 +163,7 @@ export const directionGradientOptions = [
 
 const SolidColorsCircle = ({ onClick, color, isSelected }) => {
   return (
-    <div
+    <Button
       onClick={onClick}
       className={` !select-none rounded-full cursor-pointer hover:ring-offset-2 ring-2 ring-slate-400 shadow-lg ${
         isSelected ? "ring-offset-[3px] ring-[3px] ring-purple-700" : ""
@@ -183,7 +183,7 @@ const SolidColorsCircle = ({ onClick, color, isSelected }) => {
           <FaCheckCircle size={20} />
         </div>
       )}
-    </div>
+    </Button>
   );
 };
 
@@ -196,7 +196,7 @@ const GradientsCircle = ({ fromColor, toColor, onClick, isSelected }) => {
   };
 
   return (
-    <div
+    <Button
       onClick={onClick}
       className={`!select-none rounded-full cursor-pointer hover:ring-offset-2 ring-2 ring-slate-400 shadow-lg ${
         isSelected ? "ring-offset-[3px] ring-[3px] ring-purple-700" : ""
@@ -211,44 +211,39 @@ const GradientsCircle = ({ fromColor, toColor, onClick, isSelected }) => {
           <FaCheckCircle size={20} />
         </div>
       )}
-    </div>
+    </Button>
   );
 };
 
 const PatternBox = ({ img, onClick, isSelected }) => {
   return (
-    <div
+    <Button
       onClick={onClick}
-      className="cursor-pointer"
+      size="icon"
+      variant="ghost"
+      className="relative overflow-hidden rounded-[10px] shadow-md cursor-pointer transition-transform duration-100 ease-in-out p-0"
       style={{
-        borderRadius: 10,
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        transition: "transform 0.1s ease-in-out",
-        position: "relative",
-        overflow: "hidden",
+        width: "100%",
+        height: "100px",
       }}
     >
       <LazyLoadImage
         src={img}
         alt="pattern"
-        style={{ objectFit: "cover", width: "100%", height: 100 }}
+        className="object-cover w-full h-full"
         loading="lazy"
         effect="blur"
         wrapperProps={{
-          // If you need to, you can tweak the effect transition using the wrapper style.
           style: { transitionDelay: "1s" },
         }}
       />
 
       {isSelected && (
-        <div
-          className="text-green-500 "
-          style={{ position: "absolute", right: 0, top: 0 }}
-        >
-          <FaCheckCircle size={24} />
+        <div className="absolute top-2 right-2 text-green-600">
+          <FaCheckCircle className="scale-125" />
         </div>
       )}
-    </div>
+    </Button>
   );
 };
 
@@ -364,10 +359,13 @@ const PaddingOptionsEditor = ({
   );
 };
 
-const BackgroundEditor = ({ selectedComponent }) => {
-  const currentComponent = selectedComponent?.get("customComponent");
+const BackgroundEditor = ({ editor, selectedComponent }) => {
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
-  const [background, setBackground] = useState(currentComponent.background);
+  useSyncWithUndoRedo(editor, setCurrentComponent);
+
+  const { background } = currentComponent;
 
   const handleFileUpload = () => {
     const input = document.createElement("input");
@@ -416,17 +414,7 @@ const BackgroundEditor = ({ selectedComponent }) => {
   };
 
   const handleChangeBackground = (key, value) => {
-    const currentComponent = selectedComponent?.get("customComponent");
-
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft.background[key] = value;
-    });
-
-    setBackground((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-    selectedComponent?.set("customComponent", updatedComponent);
+    handleComponentChange(`background.${key}`, value);
   };
 
   const handleChangeBgType = (value) => {
@@ -461,14 +449,14 @@ const BackgroundEditor = ({ selectedComponent }) => {
       return typeConfigs[type] || baseValues;
     };
 
-    // Update component using Immer
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft.background = getBackgroundValues(value);
-    });
-
     // Update local state and selectedComponent
-    setBackground(getBackgroundValues(value));
-    selectedComponent?.set("customComponent", updatedComponent);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.background = getBackgroundValues(value);
+      })
+    );
+
+    handleComponentChange(`background`, getBackgroundValues(value));
   };
 
   const isCustomGradientSelected = !gradientOptions.some(
@@ -482,17 +470,20 @@ const BackgroundEditor = ({ selectedComponent }) => {
   );
 
   const handleChangePaddingOptions = (value) => {
-    setBackground((prev) => ({
-      ...prev,
-      paddingType: value,
-    }));
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.background.paddingType = value;
+      })
+    );
 
     if (value === "vertical") {
-      setBackground((prev) => ({
-        ...prev,
-        paddingBottom: 0,
-        paddingTop: 0,
-      }));
+      setCurrentComponent((prevComponent) =>
+        produce(prevComponent, (draft) => {
+          draft.background.paddingBottom = value;
+          draft.background.paddingTop = value;
+        })
+      );
+
       const updatedComponent = produce(currentComponent, (draft) => {
         draft.background.paddingType = value;
         draft.background.paddingTop = 0;
@@ -500,10 +491,11 @@ const BackgroundEditor = ({ selectedComponent }) => {
       });
       selectedComponent?.set("customComponent", updatedComponent);
     } else {
-      setBackground((prev) => ({
-        ...prev,
-        paddingY: 0,
-      }));
+      setCurrentComponent((prevComponent) =>
+        produce(prevComponent, (draft) => {
+          draft.background.paddingY = 0;
+        })
+      );
       const updatedComponent = produce(currentComponent, (draft) => {
         draft.background.paddingType = value;
         draft.background.paddingY = 0;

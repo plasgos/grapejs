@@ -34,7 +34,7 @@ import { Label } from "@/components/ui/label";
 
 const SortableItem = ({
   item,
-  setContents,
+  setCurrentComponent,
   selectedComponent,
   setEditItem,
   withoutFocusItem,
@@ -97,8 +97,12 @@ const SortableItem = ({
 
     selectedComponent.set("customComponent", updatedComponent);
 
-    setContents((prevContents) =>
-      prevContents.filter((content) => content.id !== item.id)
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = draft.contents.filter(
+          (content) => content.id !== item.id
+        );
+      })
     );
   };
 
@@ -224,7 +228,7 @@ const DraggableList = ({
   label,
   contents,
   selectedComponent,
-  setContents,
+  setCurrentComponent,
   setEditItem,
   editItem,
   renderContents,
@@ -281,7 +285,11 @@ const DraggableList = ({
       );
     }, 1000);
 
-    setContents(newContents);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = newContents;
+      })
+    );
   };
 
   const handleCloseEdit = (id) => {
@@ -329,7 +337,7 @@ const DraggableList = ({
                     <SortableItem
                       key={item.id}
                       item={item}
-                      setContents={setContents}
+                      setCurrentComponent={setCurrentComponent}
                       selectedComponent={selectedComponent}
                       setEditItem={setEditItem}
                       withoutFocusItem={withoutFocusItem}

@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
 const RangeInputSlider = ({
   asChild,
@@ -11,26 +10,20 @@ const RangeInputSlider = ({
   label,
   value,
 }) => {
-  const [currentValue, setCurrentValue] = useState(value);
-
   const handleSliderChange = (newValue) => {
-    const numericValue = Number(newValue);
-    setCurrentValue(numericValue);
-    if (onChange) onChange(numericValue);
+    if (onChange) onChange(Number(newValue));
   };
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
-    if (/^\d*$/.test(inputValue)) {
-      // Hanya izinkan angka
-      setCurrentValue(inputValue === "" ? "" : Number(inputValue));
-    }
+    if (onChange) onChange(Number(inputValue));
   };
+
   const handleInputBlur = () => {
-    let numericValue = Number(currentValue);
+    let numericValue = Number(value);
     if (numericValue < min) numericValue = min;
     if (numericValue > max) numericValue = max;
-    setCurrentValue(numericValue);
+
     if (onChange) onChange(numericValue);
   };
 
@@ -48,7 +41,7 @@ const RangeInputSlider = ({
         {/* Slider dengan sinkronisasi nilai */}
         <Slider
           className="cursor-pointer"
-          value={[Number(currentValue)]} // Memastikan value sebagai angka
+          value={[Number(value)]} // Memastikan value sebagai angka
           min={min}
           max={max}
           step={1}
@@ -59,7 +52,7 @@ const RangeInputSlider = ({
 
         <div className="relative">
           <Input
-            value={safeValue(currentValue)}
+            value={safeValue(value)}
             className="w-[80px] pr-8 "
             type="text"
             onChange={handleInputChange}

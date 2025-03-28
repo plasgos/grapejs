@@ -1,23 +1,24 @@
-import SelectOptions from "../_components/SelectOptions";
-import { PiAlignRightSimpleFill } from "react-icons/pi";
-import { TbBoxAlignBottomFilled, TbBoxAlignTopFilled } from "react-icons/tb";
-import SelectCircle from "../_components/SelectCircle";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PiAlignRightSimpleFill } from "react-icons/pi";
+import { TbBoxAlignBottomFilled, TbBoxAlignTopFilled } from "react-icons/tb";
+import SelectCircle from "../_components/SelectCircle";
+import SelectOptions from "../_components/SelectOptions";
 
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import ColorPicker from "../_components/ColorPicker";
-import SelectFontFamily from "../_components/SelectFontFamily";
-import SelectFontSize from "../_components/SelectFontSize";
-import SelectTextAligment from "../_components/SelectTextAligment";
 import {
   aspectRatioOptions,
   maxColumnOptions,
 } from "@/components/SelectOptions";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import ColorPicker from "../_components/ColorPicker";
+import SelectFontFamily from "../_components/SelectFontFamily";
+import SelectFontSize from "../_components/SelectFontSize";
+import SelectTextAligment from "../_components/SelectTextAligment";
 
 const imagePositionOptions = [
   { value: "top", label: "Top", icon: <TbBoxAlignTopFilled size={24} /> },
@@ -33,9 +34,13 @@ const imagePositionOptions = [
   },
 ];
 
-const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+const StylesTab = ({ editor, selectedComponent }) => {
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  const { wrapperStyle } = currentComponent;
+
+  useSyncWithUndoRedo(editor, setCurrentComponent);
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -44,7 +49,7 @@ const StylesTab = ({ selectedComponent }) => {
         options={maxColumnOptions}
         value={wrapperStyle.column}
         onChange={(value) => {
-          handleStylesChange("column", value);
+          handleComponentChange("wrapperStyle.column", value);
         }}
       />
 
@@ -60,7 +65,7 @@ const StylesTab = ({ selectedComponent }) => {
                 options={imagePositionOptions}
                 value={wrapperStyle.imagePosition}
                 onClick={(value) => {
-                  handleStylesChange("imagePosition", value);
+                  handleComponentChange("wrapperStyle.imagePosition", value);
                 }}
               />
 
@@ -69,7 +74,7 @@ const StylesTab = ({ selectedComponent }) => {
                 options={aspectRatioOptions}
                 value={wrapperStyle.aspectRatio}
                 onChange={(value) => {
-                  handleStylesChange("aspectRatio", value);
+                  handleComponentChange("wrapperStyle.aspectRatio", value);
                 }}
               />
             </div>
@@ -89,7 +94,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Color"
                 value={wrapperStyle.titleColor}
                 onChange={(value) => {
-                  handleStylesChange("titleColor", value);
+                  handleComponentChange("wrapperStyle.titleColor", value);
                 }}
               />
 
@@ -99,10 +104,10 @@ const StylesTab = ({ selectedComponent }) => {
                 fontFamily={wrapperStyle.fontFamily}
                 fontWeight={wrapperStyle.fontWeight}
                 onChangefontFamily={(value) => {
-                  handleStylesChange("fontFamily", value);
+                  handleComponentChange("wrapperStyle.fontFamily", value);
                 }}
                 onChangefontWeight={(value) => {
-                  handleStylesChange("fontWeight", value);
+                  handleComponentChange("wrapperStyle.fontWeight", value);
                 }}
               />
 
@@ -111,7 +116,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Size"
                 value={wrapperStyle.fontSize}
                 onChange={(value) => {
-                  handleStylesChange("fontSize", value);
+                  handleComponentChange("wrapperStyle.fontSize", value);
                 }}
               />
 
@@ -119,7 +124,7 @@ const StylesTab = ({ selectedComponent }) => {
                 asChild
                 value={wrapperStyle.textAligment}
                 onChange={(value) => {
-                  handleStylesChange("textAligment", value);
+                  handleComponentChange("wrapperStyle.textAligment", value);
                 }}
               />
             </div>

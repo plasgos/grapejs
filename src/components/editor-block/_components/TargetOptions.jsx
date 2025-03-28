@@ -31,16 +31,16 @@ import { ChevronsUpDown } from "lucide-react";
 import { Button } from "../../ui/button";
 import { Textarea } from "../../ui/textarea";
 
+import { useEditor } from "@grapesjs/react";
 import { CgMenuGridO } from "react-icons/cg";
 import { FaLink, FaLinkSlash } from "react-icons/fa6";
 import { IoNavigateSharp } from "react-icons/io5";
 import { MdOutlineAdsClick } from "react-icons/md";
 import { RiWhatsappFill } from "react-icons/ri";
-import { useEditor } from "@grapesjs/react";
 
+import { useEffect } from "react";
 import { CgChevronDoubleRight } from "react-icons/cg";
 import SelectCircle from "./SelectCircle";
-import { useEffect } from "react";
 
 const localPageTargetOptions = [
   { label: "Utama", options: [{ value: "home", label: "Home" }] },
@@ -103,8 +103,12 @@ const clickActionOptions = [
   },
 ];
 
-const TargetOptions = ({ content, handleContentChange }) => {
-  const [target, setTarget] = useState(content.target);
+const TargetOptions = ({
+  setCurrentComponent,
+  handleComponentChange,
+  content,
+}) => {
+  const { target } = content;
   const editor = useEditor();
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
@@ -147,8 +151,21 @@ const TargetOptions = ({ content, handleContentChange }) => {
       return getTargetValues(value);
     });
 
-    setTarget(getTargetValues(value));
-    handleContentChange(content.id, "target", updatedComponent);
+    const updatedTarget = getTargetValues(value);
+
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        const contentItem = draft.contents.find(
+          (item) => item.id === content.id
+        );
+
+        if (contentItem) {
+          contentItem.target = updatedTarget;
+        }
+      })
+    );
+
+    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
   };
 
   const handleChangeActionModeType = (value) => {
@@ -158,16 +175,23 @@ const TargetOptions = ({ content, handleContentChange }) => {
         draft.options.value = globalOptions.popup[0].id;
       });
 
-      handleContentChange(content.id, "target", updatedComponentType);
+      handleComponentChange(
+        `contents.${content.id}.target`,
+        updatedComponentType
+      );
 
-      setTarget((prev) => ({
-        ...prev,
-        options: {
-          ...prev.options,
-          type: "popup",
-          value: globalOptions.popup[0].id,
-        },
-      }));
+      setCurrentComponent((prevComponent) =>
+        produce(prevComponent, (draft) => {
+          const contentItem = draft.contents.find(
+            (item) => item.id === content.id
+          );
+
+          if (contentItem) {
+            contentItem.target.options.type = value;
+            contentItem.target.options.value = globalOptions.popup[0].id;
+          }
+        })
+      );
     } else if (
       value === "scrollTarget" &&
       globalOptions.scrollTarget.length >= 1
@@ -177,16 +201,24 @@ const TargetOptions = ({ content, handleContentChange }) => {
         draft.options.value = globalOptions.scrollTarget[0].value;
       });
 
-      handleContentChange(content.id, "target", updatedComponentType);
+      handleComponentChange(
+        `contents.${content.id}.target`,
+        updatedComponentType
+      );
 
-      setTarget((prev) => ({
-        ...prev,
-        options: {
-          ...prev.options,
-          type: "scrollTarget",
-          value: globalOptions.scrollTarget[0].value,
-        },
-      }));
+      setCurrentComponent((prevComponent) =>
+        produce(prevComponent, (draft) => {
+          const contentItem = draft.contents.find(
+            (item) => item.id === content.id
+          );
+
+          if (contentItem) {
+            contentItem.target.options.type = "scrollTarget";
+            contentItem.target.options.value =
+              globalOptions.scrollTarget[0].value;
+          }
+        })
+      );
     }
   };
 
@@ -196,15 +228,20 @@ const TargetOptions = ({ content, handleContentChange }) => {
       draft.options.value = value;
     });
 
-    setTarget((prev) => ({
-      ...prev,
-      options: {
-        ...prev.options,
-        type,
-        value,
-      },
-    }));
-    handleContentChange(content.id, "target", updatedComponent);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        const contentItem = draft.contents.find(
+          (item) => item.id === content.id
+        );
+
+        if (contentItem) {
+          contentItem.target.options.type = type;
+          contentItem.target.options.value = value;
+        }
+      })
+    );
+
+    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
   };
 
   const handleSelectTypeLink = (value) => {
@@ -235,11 +272,19 @@ const TargetOptions = ({ content, handleContentChange }) => {
       draft.options = getTypeLinkValues(value);
     });
 
-    setTarget((prev) => ({
-      ...prev,
-      options: getTypeLinkValues(value),
-    }));
-    handleContentChange(content.id, "target", updatedComponent);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        const contentItem = draft.contents.find(
+          (item) => item.id === content.id
+        );
+
+        if (contentItem) {
+          contentItem.target.options = getTypeLinkValues(value);
+        }
+      })
+    );
+
+    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
   };
 
   const handleChangeTargetLink = (key, value) => {
@@ -252,23 +297,34 @@ const TargetOptions = ({ content, handleContentChange }) => {
     });
 
     if (value === null) {
-      setTarget({
-        actionType: "link",
-        options: {
-          type: null,
-        },
-      });
+      setCurrentComponent((prevComponent) =>
+        produce(prevComponent, (draft) => {
+          const contentItem = draft.contents.find(
+            (item) => item.id === content.id
+          );
+
+          if (contentItem) {
+            contentItem.target.options = {
+              type: null,
+            };
+          }
+        })
+      );
     } else {
-      setTarget((prev) => ({
-        ...prev,
-        options: {
-          ...prev.options,
-          [key]: value,
-        },
-      }));
+      setCurrentComponent((prevComponent) =>
+        produce(prevComponent, (draft) => {
+          const contentItem = draft.contents.find(
+            (item) => item.id === content.id
+          );
+
+          if (contentItem) {
+            contentItem.target.options[key] = value;
+          }
+        })
+      );
     }
 
-    handleContentChange(content.id, "target", updatedComponent);
+    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
   };
 
   useEffect(() => {

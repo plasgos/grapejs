@@ -46,7 +46,6 @@ export const registerModalPopup = (editor) => {
             width: 700,
             appearEffect: "animate__fadeInUp",
           },
-
           background: {
             bgType: null,
             bgColor: "",

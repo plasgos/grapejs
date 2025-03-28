@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 const SelectCircle = ({ asChild, options, label, value, onClick }) => {
@@ -22,27 +23,26 @@ const SelectCircle = ({ asChild, options, label, value, onClick }) => {
           const isSelected = opt.value === value;
 
           return (
-            <div key={index} className="text-center cursor-pointer">
-              <div
-                onClick={() => {
-                  onClick(opt.value);
-                }}
-                className={`flex justify-center items-center rounded-full  h-10 w-10 place-self-center 
-                                     ${
-                                       isSelected
-                                         ? "ring-offset-[3px] ring-[3px] ring-purple-600 bg-[#FFF4EA]"
-                                         : "hover:ring-offset-2 ring-2 ring-slate-200 hover:ring-purple-300 hover:bg-[#FFF4EA] bg-muted "
-                                     }  
-                                     `}
+            <div key={index} className="text-center">
+              <Button
+                onClick={() => onClick(opt.value)}
+                size="icon"
+                className={`h-10 w-10 rounded-full flex justify-center items-center mx-auto 
+    ${
+      isSelected
+        ? "ring-offset-[3px] ring-[3px] ring-purple-600 bg-[#FFF4EA]"
+        : "hover:ring-offset-2 ring-2 ring-slate-200 hover:ring-purple-300 hover:bg-[#FFF4EA] bg-muted"
+    }`}
+                variant="ghost"
               >
                 <div
-                  className={`${
+                  className={` scale-150 ${
                     value !== opt.value ? "text-slate-300" : "text-purple-600"
                   }`}
                 >
                   {opt.icon}
                 </div>
-              </div>
+              </Button>
 
               <p
                 className={`text-sm text-nowrap my-2 ${

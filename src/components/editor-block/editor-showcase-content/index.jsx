@@ -9,7 +9,7 @@ import products4 from "@/assets/products4.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useChangeContents } from "@/hooks/useChangeContents";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
@@ -24,16 +24,15 @@ import TextEditor from "../_components/TextEditor";
 const EditorContentShowcase = ({ selectedComponent }) => {
   const editor = useEditor();
 
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
-
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
   const [editItem, setEditItem] = useState("");
 
   const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleContentChange);
+    onChangeFileUpload(id, handleComponentChange);
   };
 
-  useSyncWithUndoRedo(editor, setContents);
+  useSyncWithUndoRedo(editor, setCurrentComponent);
 
   const handleAddContent = () => {
     setEditItem("");
@@ -62,43 +61,46 @@ const EditorContentShowcase = ({ selectedComponent }) => {
       })
     );
 
-    setContents((content) => [...content, newContent]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = [...draft.contents, newContent];
+      })
+    );
 
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedContent = contents.find((content) => content.id === item.id);
-
     return (
       <>
         <ImageUploader
           label="Image"
           handleFileUpload={() => handleFileUpload(item.id)}
-          image={selectedContent.image}
+          image={item.image}
         />
 
         <TargetOptions
           content={item}
-          handleContentChange={handleContentChange}
+          setCurrentComponent={setCurrentComponent}
+          handleComponentChange={handleComponentChange}
         />
 
         <div className="space-y-2">
           <Label>Title</Label>
           <Input
-            value={selectedContent.title || ""}
+            value={item.title}
             onChange={(e) => {
               const value = e.target.value;
-              handleContentChange(item.id, "title", value);
+              handleComponentChange(`contents.${item.id}.title`, value);
             }}
           />
         </div>
 
         <TextEditor
           label="Description"
-          value={selectedContent.description}
+          value={item.description}
           onChange={(value) => {
-            handleContentChange(item.id, "description", value);
+            handleComponentChange(`contents.${item.id}.description`, value);
           }}
         />
       </>
@@ -115,9 +117,9 @@ const EditorContentShowcase = ({ selectedComponent }) => {
           <SectionAddScrollTargetId selectedComponent={selectedComponent} />
 
           <DraggableList
-            contents={contents}
+            contents={currentComponent.contents}
             renderContents={(value) => renderContents(value)}
-            setContents={setContents}
+            setCurrentComponent={setCurrentComponent}
             editItem={editItem}
             selectedComponent={selectedComponent}
             setEditItem={setEditItem}
@@ -137,14 +139,17 @@ const EditorContentShowcase = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab selectedComponent={selectedComponent} />
+        <StylesTab editor={editor} selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
-        <BackgroundEditor selectedComponent={selectedComponent} />
+        <BackgroundEditor
+          editor={editor}
+          selectedComponent={selectedComponent}
+        />
       </TabsContent>
     </TabsEditor>
   );

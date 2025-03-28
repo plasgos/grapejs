@@ -2,12 +2,17 @@ import {
   aspectRatioOptions,
   maxColumnOptions,
 } from "@/components/SelectOptions";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import SelectOptions from "../_components/SelectOptions";
 
-const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+const StylesTab = ({ editor, selectedComponent }) => {
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  const { wrapperStyle } = currentComponent;
+
+  useSyncWithUndoRedo(editor, setCurrentComponent);
 
   return (
     <div className="flex flex-col gap-y-5 ">
@@ -18,7 +23,7 @@ const StylesTab = ({ selectedComponent }) => {
             options={maxColumnOptions}
             value={wrapperStyle.column}
             onChange={(value) => {
-              handleStylesChange("column", value);
+              handleComponentChange("wrapperStyle.column", value);
             }}
           />
 
@@ -27,7 +32,7 @@ const StylesTab = ({ selectedComponent }) => {
             options={aspectRatioOptions}
             value={wrapperStyle.aspectRatio}
             onChange={(value) => {
-              handleStylesChange("aspectRatio", value);
+              handleComponentChange("wrapperStyle.aspectRatio", value);
             }}
           />
         </div>

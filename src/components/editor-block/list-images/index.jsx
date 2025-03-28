@@ -1,13 +1,14 @@
+import products4 from "@/assets/products4.jpg";
 import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
-import products4 from "@/assets/products4.jpg";
 
 import { Button } from "@/components/ui/button";
-import { useChangeContents } from "@/hooks/useChangeContents";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import { generateId } from "@/lib/utils";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import { useEditor } from "@grapesjs/react";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -15,15 +16,20 @@ import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
 import StylesTab from "./StylesTab";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
 const EditorListImages = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const editor = useEditor();
+
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
   const [editItem, setEditItem] = useState("");
 
+  useSyncWithUndoRedo(editor, setCurrentComponent);
+
   const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleContentChange);
+    onChangeFileUpload(id, handleComponentChange);
   };
 
   const handleAddContent = () => {
@@ -49,25 +55,28 @@ const EditorListImages = ({ selectedComponent }) => {
       })
     );
 
-    setContents((content) => [...content, newContent]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = [...draft.contents, newContent];
+      })
+    );
 
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedContent = contents.find((content) => content.id === item.id);
-
     return (
       <>
         <ImageUploader
           label="Image"
           handleFileUpload={() => handleFileUpload(item.id)}
-          image={selectedContent.image}
+          image={item.image}
         />
 
         <TargetOptions
           content={item}
-          handleContentChange={handleContentChange}
+          setCurrentComponent={setCurrentComponent}
+          handleComponentChange={handleComponentChange}
         />
       </>
     );
@@ -83,9 +92,9 @@ const EditorListImages = ({ selectedComponent }) => {
           <SectionAddScrollTargetId selectedComponent={selectedComponent} />
 
           <DraggableList
-            contents={contents}
+            contents={currentComponent.contents}
             renderContents={(value) => renderContents(value)}
-            setContents={setContents}
+            setCurrentComponent={setCurrentComponent}
             editItem={editItem}
             selectedComponent={selectedComponent}
             setEditItem={setEditItem}
@@ -105,14 +114,17 @@ const EditorListImages = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab selectedComponent={selectedComponent} />
+        <StylesTab editor={editor} selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
-        <BackgroundEditor selectedComponent={selectedComponent} />
+        <BackgroundEditor
+          editor={editor}
+          selectedComponent={selectedComponent}
+        />
       </TabsContent>
     </TabsEditor>
   );

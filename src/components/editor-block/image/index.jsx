@@ -11,22 +11,30 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useChangeContents } from "@/hooks/useChangeContents";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import { useEditor } from "@grapesjs/react";
+import { GoQuestion } from "react-icons/go";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
-import { GoQuestion } from "react-icons/go";
-import { Checkbox } from "@/components/ui/checkbox";
 import TransiitonEditor from "../_components/TransiitonEditor";
 
 const EditorImage = ({ selectedComponent }) => {
-  const { contents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const editor = useEditor();
+
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  const { contents } = currentComponent;
+
+  useSyncWithUndoRedo(editor, setCurrentComponent);
 
   const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleContentChange);
+    onChangeFileUpload(id, handleComponentChange);
   };
 
   return (
@@ -41,8 +49,10 @@ const EditorImage = ({ selectedComponent }) => {
           <div className="p-3 rounded-lg bg-white">
             <ImageUploader
               label="Image"
-              handleFileUpload={() => handleFileUpload(contents[0].id)}
-              image={contents[0].image}
+              handleFileUpload={() =>
+                handleFileUpload(currentComponent.contents[0].id)
+              }
+              image={currentComponent.contents[0].image}
             />
 
             <div className="space-y-2 mt-3">
@@ -60,21 +70,24 @@ const EditorImage = ({ selectedComponent }) => {
               <Input
                 placeholder="product best seller"
                 className="placeholder:text-neutral-300"
-                value={contents[0].alt || ""}
+                value={currentComponent.contents[0].alt || ""}
                 onChange={(e) => {
                   const value = e.target.value;
-                  handleContentChange(contents[0].id, "alt", value);
+
+                  handleComponentChange(
+                    `contents.${contents[0].id}.alt`,
+                    value
+                  );
                 }}
               />
             </div>
 
             <div className="flex items-center space-x-2 my-3">
               <Checkbox
-                checked={contents[0].isDownloadImage}
+                checked={currentComponent.contents[0].isDownloadImage}
                 onCheckedChange={(checked) =>
-                  handleContentChange(
-                    contents[0].id,
-                    "isDownloadImage",
+                  handleComponentChange(
+                    `contents.${contents[0].id}.isDownloadImage`,
                     checked
                   )
                 }
@@ -90,8 +103,9 @@ const EditorImage = ({ selectedComponent }) => {
           </div>
 
           <TargetOptions
-            content={contents[0]}
-            handleContentChange={handleContentChange}
+            content={currentComponent.contents[0]}
+            setCurrentComponent={setCurrentComponent}
+            handleComponentChange={handleComponentChange}
           />
         </div>
       </TabsContent>
@@ -100,18 +114,24 @@ const EditorImage = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab selectedComponent={selectedComponent} />
+        <StylesTab editor={editor} selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransiitonEditor
+          editor={editor}
+          selectedComponent={selectedComponent}
+        />
       </TabsContent>
 
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
-        <BackgroundEditor selectedComponent={selectedComponent} />
+        <BackgroundEditor
+          editor={editor}
+          selectedComponent={selectedComponent}
+        />
       </TabsContent>
     </TabsEditor>
   );

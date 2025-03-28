@@ -1,5 +1,4 @@
 import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
 import { SketchPicker, SwatchesPicker } from "react-color";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -45,20 +44,9 @@ const ColorPicker = ({
   onChange,
   asChild,
 }) => {
-  const [sketchPickerColor, setSketchPickerColor] = useState(parseRGBA(value));
-
-  const { r, g, b, a } = sketchPickerColor;
-
-  useEffect(() => {
-    if (value) {
-      setSketchPickerColor(parseRGBA(value));
-    }
-  }, [value]);
-
   const handleChange = (color) => {
     const { r, g, b, a } = color;
     const colorValue = `rgba(${r},${g},${b},${a})`;
-    setSketchPickerColor(color);
     if (onChange) {
       onChange(colorValue);
     }
@@ -74,7 +62,7 @@ const ColorPicker = ({
         <PopoverTrigger asChild>
           <div className="p-0.5 border border-gray-300 shadow-sm cursor-pointer w-fit relative rounded-lg">
             <div
-              style={{ backgroundColor: `rgba(${r},${g},${b},${a})` }}
+              style={{ backgroundColor: value }}
               className="w-12 h-7 rounded"
             />
           </div>
@@ -93,7 +81,7 @@ const ColorPicker = ({
               <SwatchesPicker
                 width={273}
                 className="custom-sketch-picker"
-                color={sketchPickerColor}
+                color={parseRGBA(value)}
                 onChange={(color) => handleChange(color.rgb)}
               />
             </TabsContent>
@@ -101,7 +89,7 @@ const ColorPicker = ({
               <SketchPicker
                 width={220}
                 className="custom-sketch-picker"
-                color={sketchPickerColor}
+                color={parseRGBA(value)}
                 onChange={(color) => handleChange(color.rgb)}
               />
             </TabsContent>

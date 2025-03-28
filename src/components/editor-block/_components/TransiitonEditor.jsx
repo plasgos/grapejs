@@ -3,6 +3,9 @@ import { useState } from "react";
 import { MdOutlineReplayCircleFilled } from "react-icons/md";
 import { Button } from "../../ui/button";
 import SelectOptions from "./SelectOptions";
+import { useEditor } from "@grapesjs/react";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 
 export const transitionTypeOptions = [
   { value: null, label: "No Transition" },
@@ -50,25 +53,16 @@ const TransiitonEditor = ({
   label = "Transition",
   type = "animation",
 }) => {
-  const [animation, setAnimation] = useState(
-    selectedComponent?.get("customComponent")[type]
-  );
+  const editor = useEditor();
+
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(editor, setCurrentComponent);
+
+  const animation = currentComponent[type];
 
   const [isReplay, setIsReplay] = useState(true);
-
-  const handleChangeTransition = (key, value) => {
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft[type][key] = value;
-      })
-    );
-
-    setAnimation((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
 
   const handleReplay = () => {
     setIsReplay((prev) => !prev);
@@ -91,7 +85,7 @@ const TransiitonEditor = ({
           label="Transition Type"
           options={transitionTypeOptions}
           value={animation.type}
-          onChange={(value) => handleChangeTransition("type", value)}
+          onChange={(value) => handleComponentChange(`${type}.type`, value)}
         />
 
         {animation.type && (
@@ -100,7 +94,9 @@ const TransiitonEditor = ({
             label="Duration"
             options={durationOptions}
             value={animation.duration}
-            onChange={(value) => handleChangeTransition("duration", value)}
+            onChange={(value) =>
+              handleComponentChange(`${type}.duration`, value)
+            }
           />
         )}
       </div>
@@ -112,7 +108,7 @@ const TransiitonEditor = ({
             label="Delay"
             options={delayOptions}
             value={animation.delay}
-            onChange={(value) => handleChangeTransition("delay", value)}
+            onChange={(value) => handleComponentChange(`${type}.delay`, value)}
           />
           <Button className="mt-3" onClick={handleReplay} variant="outline">
             Replay Transition <MdOutlineReplayCircleFilled />

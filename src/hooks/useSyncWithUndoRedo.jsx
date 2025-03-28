@@ -2,7 +2,7 @@ import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlic
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const useSyncWithUndoRedo = (editor, setContents) => {
+const useSyncWithUndoRedo = (editor, setCurrentComponent) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const useSyncWithUndoRedo = (editor, setContents) => {
       const selected = editor.getSelected();
       if (selected) {
         const updatedData = selected.get("customComponent");
-        setContents(updatedData?.contents || []);
+        setCurrentComponent(updatedData || []);
       }
     };
 
@@ -30,7 +30,7 @@ const useSyncWithUndoRedo = (editor, setContents) => {
       editor.off("undo redo", updateEditorState);
       editor.off("undo", checkUndoHistory);
     };
-  }, [dispatch, editor, setContents]);
+  }, [dispatch, editor, setCurrentComponent]);
 };
 
 export default useSyncWithUndoRedo;

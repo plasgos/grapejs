@@ -10,15 +10,14 @@ export const useChangeContents = (selectedComponent) => {
 
   const handleContentChange = (id, key, value) => {
     //update local state editor
+
     setContents((prevContent) =>
-      prevContent.map((content) =>
-        content.id === id
-          ? {
-              ...content,
-              [key]: value,
-            }
-          : content
-      )
+      produce(prevContent, (draft) => {
+        const targetContent = draft.find((content) => content.id === id);
+        if (targetContent) {
+          targetContent[key] = value;
+        }
+      })
     );
 
     //update grapejs canvas component
@@ -35,6 +34,7 @@ export const useChangeContents = (selectedComponent) => {
 
     editor.store();
   };
+
   return {
     contents,
     setContents,
