@@ -1,8 +1,11 @@
 import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { useEditor } from "@grapesjs/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const useSyncWithUndoRedo = (editor, setCurrentComponent) => {
+const useSyncWithUndoRedo = (setCurrentComponent) => {
+  const editor = useEditor();
+
   const dispatch = useDispatch();
 
   useEffect(() => {

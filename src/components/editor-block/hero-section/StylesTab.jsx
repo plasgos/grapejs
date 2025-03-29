@@ -5,14 +5,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import ColorPicker from "../_components/ColorPicker";
 import RangeInputSlider from "../_components/RangeInputSlider";
 import SelectOptions from "../_components/SelectOptions";
 
 const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  const { wrapperStyle } = currentComponent;
+
+  useSyncWithUndoRedo(setCurrentComponent);
 
   return (
     <div className="flex flex-col gap-y-5 ">
@@ -29,34 +34,44 @@ const StylesTab = ({ selectedComponent }) => {
                     label="Border Color"
                     value={wrapperStyle.borderColor}
                     onChange={(value) =>
-                      handleStylesChange("borderColor", value)
+                      handleComponentChange("wrapperStyle.borderColor", value)
                     }
                   />
 
                   <RangeInputSlider
                     label="Width"
                     value={wrapperStyle.width}
-                    onChange={(value) => handleStylesChange("width", value)}
+                    onChange={(value) =>
+                      handleComponentChange("wrapperStyle.width", value)
+                    }
                     min={100}
                     max={1200}
                   />
                 </>
               )}
 
-              <RangeInputSlider
-                label="Rotation"
-                value={wrapperStyle.rotation}
-                onChange={(value) => handleStylesChange("rotation", value)}
-                min={-90}
-                max={90}
-              />
+              {wrapperStyle.variant === "basic" && (
+                <>
+                  <RangeInputSlider
+                    label="Rotation"
+                    value={wrapperStyle.rotation}
+                    onChange={(value) =>
+                      handleComponentChange("wrapperStyle.rotation", value)
+                    }
+                    min={-90}
+                    max={90}
+                  />
 
-              <SelectOptions
-                label="Shadow"
-                options={shadowOptions}
-                value={wrapperStyle.shadow}
-                onChange={(value) => handleStylesChange("shadow", value)}
-              />
+                  <SelectOptions
+                    label="Shadow"
+                    options={shadowOptions}
+                    value={wrapperStyle.shadow}
+                    onChange={(value) =>
+                      handleComponentChange("wrapperStyle.shadow", value)
+                    }
+                  />
+                </>
+              )}
             </div>
           </AccordionContent>
         </AccordionItem>

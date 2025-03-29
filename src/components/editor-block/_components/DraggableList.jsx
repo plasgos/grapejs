@@ -34,6 +34,7 @@ import { Label } from "@/components/ui/label";
 
 const SortableItem = ({
   item,
+  path,
   setCurrentComponent,
   selectedComponent,
   setEditItem,
@@ -59,7 +60,7 @@ const SortableItem = ({
 
     // Set isFocused = true untuk item yang diklik
     const updatedComponent = produce(currentComponent, (draft) => {
-      draft.contents.forEach((content) => {
+      draft[path].forEach((content) => {
         content.isFocused = content.id === item.id; // Hanya aktifkan item yang diklik
       });
     });
@@ -71,7 +72,7 @@ const SortableItem = ({
       selectedComponent.set(
         "customComponent",
         produce(updatedComponent, (draft) => {
-          draft.contents.forEach((content) => {
+          draft[path].forEach((content) => {
             if (content.id === item.id) {
               content.isFocused = false; // Reset hanya untuk item yang diklik
             }
@@ -87,21 +88,19 @@ const SortableItem = ({
     const currentComponent = selectedComponent.get("customComponent");
     if (!currentComponent) return;
 
-    const newContents = currentComponent.contents?.filter(
+    const newContents = currentComponent[path]?.filter(
       (content) => content.id !== item.id
     );
 
     const updatedComponent = produce(currentComponent, (draft) => {
-      draft.contents = newContents;
+      draft[path] = newContents;
     });
 
     selectedComponent.set("customComponent", updatedComponent);
 
     setCurrentComponent((prevComponent) =>
       produce(prevComponent, (draft) => {
-        draft.contents = draft.contents.filter(
-          (content) => content.id !== item.id
-        );
+        draft[path] = draft[path].filter((content) => content.id !== item.id);
       })
     );
   };
@@ -226,6 +225,7 @@ const SortableItem = ({
 const DraggableList = ({
   children,
   label,
+  path = "contents",
   contents,
   selectedComponent,
   setCurrentComponent,
@@ -258,9 +258,9 @@ const DraggableList = ({
 
     // Buat salinan contents yang telah diurutkan
     const newContents = arrayMove(
-      currentComponent.contents,
-      currentComponent.contents.findIndex((item) => item.id === active.id),
-      currentComponent.contents.findIndex((item) => item.id === over.id)
+      currentComponent[path],
+      currentComponent[path].findIndex((item) => item.id === active.id),
+      currentComponent[path].findIndex((item) => item.id === over.id)
     ).map((content) => ({
       ...content,
       isFocused: content.id === active.id, // Item yang dipindahkan diberi fokus
@@ -268,7 +268,7 @@ const DraggableList = ({
 
     // Update state GrapesJS
     const updatedComponent = produce(currentComponent, (draft) => {
-      draft.contents = newContents;
+      draft[path] = newContents;
     });
 
     selectedComponent?.set("customComponent", updatedComponent);
@@ -278,7 +278,7 @@ const DraggableList = ({
       selectedComponent?.set(
         "customComponent",
         produce(selectedComponent.get("customComponent"), (draft) => {
-          draft.contents.forEach((content) => {
+          draft[path].forEach((content) => {
             content.isFocused = false;
           });
         })
@@ -287,7 +287,7 @@ const DraggableList = ({
 
     setCurrentComponent((prevComponent) =>
       produce(prevComponent, (draft) => {
-        draft.contents = newContents;
+        draft[path] = newContents;
       })
     );
   };
@@ -297,7 +297,7 @@ const DraggableList = ({
     const currentComponent = selectedComponent?.get("customComponent");
 
     const updatedComponent = produce(currentComponent, (draft) => {
-      draft.contents.forEach((content) => {
+      draft[path].forEach((content) => {
         if (content.id === id) {
           content.isFocused = false;
         }
@@ -337,6 +337,7 @@ const DraggableList = ({
                     <SortableItem
                       key={item.id}
                       item={item}
+                      path={path}
                       setCurrentComponent={setCurrentComponent}
                       selectedComponent={selectedComponent}
                       setEditItem={setEditItem}

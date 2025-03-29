@@ -10,14 +10,28 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useEditor } from "@grapesjs/react";
-import { produce } from "immer";
 import { useEffect } from "react";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+
+import { useToast } from "@/hooks/use-toast";
 
 const SectionAddScrollTargetId = ({ selectedComponent }) => {
   const editor = useEditor();
   const editorModel = editor.getModel();
 
-  const currentComponent = selectedComponent?.get("customComponent");
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+  console.log(
+    "🚀 ~ SectionAddScrollTargetId ~ currentComponent:",
+    currentComponent.scrollTarget
+  );
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { toast } = useToast();
+
+  console.log("GLOBAL OPTIONS", editorModel.get("globalOptions"));
 
   const [scrollTargetValue, setScrollTargetValue] = useState("");
   const [selectedTargetId, setSelectedTargetId] = useState("");
@@ -39,15 +53,7 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
       scrollTarget: [...globalOptions.scrollTarget, payload],
     });
 
-    const currentComponent = selectedComponent?.get("customComponent");
-
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft.scrollTarget = payload;
-    });
-
-    selectedComponent.set("customComponent", updatedComponent);
-
-    console.log(editorModel.get("globalOptions"));
+    handleComponentChange("scrollTarget", payload);
 
     setIsTargetAdded(true);
     setSelectedTargetId(newId);
@@ -64,15 +70,7 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
       ),
     });
 
-    const currentComponent = selectedComponent?.get("customComponent");
-
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft.scrollTarget = undefined;
-    });
-
-    selectedComponent.set("customComponent", updatedComponent);
-
-    console.log(editorModel.get("globalOptions"));
+    handleComponentChange("scrollTarget", undefined);
 
     setScrollTargetValue("");
     setSelectedTargetId("");
@@ -131,7 +129,16 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
                   <Button
                     variant="outline"
                     disabled={!scrollTargetValue}
-                    onClick={handleAddScrollTarget}
+                    onClick={() => {
+                      handleAddScrollTarget();
+
+                      toast({
+                        title: "Scroll Target Success Added",
+                        className:
+                          "bg-green-100 text-green-800 border border-green-300",
+                        duration: 2000,
+                      });
+                    }}
                   >
                     <FaPlus />
                   </Button>
@@ -141,7 +148,9 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
                   <Button
                     variant="outline"
                     disabled={!scrollTargetValue}
-                    onClick={() => handleDeleteScrollTarget(selectedTargetId)}
+                    onClick={() => {
+                      handleDeleteScrollTarget(selectedTargetId);
+                    }}
                   >
                     <FaTrash color="red" />
                   </Button>

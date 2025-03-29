@@ -17,21 +17,18 @@ import { Label } from "@/components/ui/label";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
-import { useEditor } from "@grapesjs/react";
 import { GoQuestion } from "react-icons/go";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
 import TransiitonEditor from "../_components/TransiitonEditor";
 
 const EditorImage = ({ selectedComponent }) => {
-  const editor = useEditor();
-
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
   const { contents } = currentComponent;
 
-  useSyncWithUndoRedo(editor, setCurrentComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
   const handleFileUpload = (id) => {
     onChangeFileUpload(id, handleComponentChange);
@@ -114,24 +111,18 @@ const EditorImage = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab editor={editor} selectedComponent={selectedComponent} />
+        <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor
-          editor={editor}
-          selectedComponent={selectedComponent}
-        />
+        <TransiitonEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
-        <BackgroundEditor
-          editor={editor}
-          selectedComponent={selectedComponent}
-        />
+        <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

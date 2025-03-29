@@ -104,9 +104,10 @@ const clickActionOptions = [
 ];
 
 const TargetOptions = ({
+  content,
+  path = "contents",
   setCurrentComponent,
   handleComponentChange,
-  content,
 }) => {
   const { target } = content;
   const editor = useEditor();
@@ -155,9 +156,7 @@ const TargetOptions = ({
 
     setCurrentComponent((prevComponent) =>
       produce(prevComponent, (draft) => {
-        const contentItem = draft.contents.find(
-          (item) => item.id === content.id
-        );
+        const contentItem = draft[path].find((item) => item.id === content.id);
 
         if (contentItem) {
           contentItem.target = updatedTarget;
@@ -182,7 +181,7 @@ const TargetOptions = ({
 
       setCurrentComponent((prevComponent) =>
         produce(prevComponent, (draft) => {
-          const contentItem = draft.contents.find(
+          const contentItem = draft[path].find(
             (item) => item.id === content.id
           );
 
@@ -208,7 +207,7 @@ const TargetOptions = ({
 
       setCurrentComponent((prevComponent) =>
         produce(prevComponent, (draft) => {
-          const contentItem = draft.contents.find(
+          const contentItem = draft[path].find(
             (item) => item.id === content.id
           );
 
@@ -230,9 +229,7 @@ const TargetOptions = ({
 
     setCurrentComponent((prevComponent) =>
       produce(prevComponent, (draft) => {
-        const contentItem = draft.contents.find(
-          (item) => item.id === content.id
-        );
+        const contentItem = draft[path].find((item) => item.id === content.id);
 
         if (contentItem) {
           contentItem.target.options.type = type;
@@ -274,9 +271,7 @@ const TargetOptions = ({
 
     setCurrentComponent((prevComponent) =>
       produce(prevComponent, (draft) => {
-        const contentItem = draft.contents.find(
-          (item) => item.id === content.id
-        );
+        const contentItem = draft[path].find((item) => item.id === content.id);
 
         if (contentItem) {
           contentItem.target.options = getTypeLinkValues(value);
@@ -299,7 +294,7 @@ const TargetOptions = ({
     if (value === null) {
       setCurrentComponent((prevComponent) =>
         produce(prevComponent, (draft) => {
-          const contentItem = draft.contents.find(
+          const contentItem = draft[path].find(
             (item) => item.id === content.id
           );
 
@@ -313,7 +308,7 @@ const TargetOptions = ({
     } else {
       setCurrentComponent((prevComponent) =>
         produce(prevComponent, (draft) => {
-          const contentItem = draft.contents.find(
+          const contentItem = draft[path].find(
             (item) => item.id === content.id
           );
 
@@ -529,7 +524,7 @@ const TargetOptions = ({
                         handleChangeTargetOptions("scrollTarget", value);
                       }}
                     >
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-[115px]">
                         <SelectValue placeholder="" />
                       </SelectTrigger>
                       <SelectContent>

@@ -3,16 +3,19 @@ import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
-import { useChangeContents } from "@/hooks/useChangeContents";
 import VideoEditorControl from "@/components/editor-block/video/VideoEditorControl";
-import TransiitonEditor from "../_components/TransiitonEditor";
-import TextEditor from "../_components/TextEditor";
-import SelectOptions from "../_components/SelectOptions";
 import { textShadowOptions } from "@/components/SelectOptions";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import SelectOptions from "../_components/SelectOptions";
+import TextEditor from "../_components/TextEditor";
+import TransiitonEditor from "../_components/TransiitonEditor";
 
 const EditorVideoText = ({ selectedComponent }) => {
-  const { contents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
 
   return (
     <TabsEditor withoutStyles>
@@ -25,25 +28,31 @@ const EditorVideoText = ({ selectedComponent }) => {
 
           <div className="p-3 rounded-lg bg-white flex flex-col gap-y-5">
             <VideoEditorControl
-              contents={contents}
-              handleContentChange={handleContentChange}
+              contents={currentComponent.contents}
+              handleComponentChange={handleComponentChange}
             />
           </div>
 
           <SelectOptions
             label="Text Shadow"
             options={textShadowOptions}
-            value={contents[0].textShadow}
+            value={currentComponent.contents[0].textShadow}
             onChange={(value) =>
-              handleContentChange(contents[0].id, "textShadow", value)
+              handleComponentChange(
+                `contents.${currentComponent.contents[0].id}.textShadow`,
+                value
+              )
             }
           />
 
           <TextEditor
             label="Content"
-            value={contents[0].textBanner}
+            value={currentComponent.contents[0].textBanner}
             onChange={(value) =>
-              handleContentChange(contents[0].id, "textBanner", value)
+              handleComponentChange(
+                `contents.${currentComponent.contents[0].id}.textBanner`,
+                value
+              )
             }
           />
         </div>

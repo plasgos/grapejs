@@ -21,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { SketchPicker } from "react-color";
 import { IoIosColorPalette, IoIosRadioButtonOn } from "react-icons/io";
 import RangeInputSlider from "./RangeInputSlider";
-import TargetOptions from "./TargetOptions";
 
 const ButtonSizeOptions = [
   { value: "sm", label: "SM" },
@@ -38,8 +37,7 @@ const variantsButton = [
 
 const ButtonStylesEditor = ({
   selectedButton,
-  handleButtonChange,
-  handleButtonTargetChange,
+  handleComponentChange,
   withoutRounded,
 }) => {
   const getRGBAValue = (color) => {
@@ -54,10 +52,8 @@ const ButtonStylesEditor = ({
         <Input
           value={selectedButton.stylesBtn.title}
           onChange={(e) => {
-            handleButtonChange(
-              selectedButton.id,
-              "stylesBtn",
-              "title",
+            handleComponentChange(
+              `buttons.${selectedButton.id}.stylesBtn.title`,
               e.target.value
             );
           }}
@@ -87,10 +83,8 @@ const ButtonStylesEditor = ({
                     <DropdownMenuRadioGroup
                       value={selectedButton.stylesBtn.variant}
                       onValueChange={(value) => {
-                        handleButtonChange(
-                          selectedButton.id,
-                          "stylesBtn",
-                          "variant",
+                        handleComponentChange(
+                          `buttons.${selectedButton.id}.stylesBtn.variant`,
                           value
                         );
                       }}
@@ -132,10 +126,8 @@ const ButtonStylesEditor = ({
                         className="custom-sketch-picker"
                         color={selectedButton.stylesBtn.btnColor}
                         onChange={(color) => {
-                          handleButtonChange(
-                            selectedButton.id,
-                            "stylesBtn",
-                            "btnColor",
+                          handleComponentChange(
+                            `buttons.${selectedButton.id}.stylesBtn.btnColor`,
                             getRGBAValue(color.rgb)
                           );
                         }}
@@ -162,10 +154,8 @@ const ButtonStylesEditor = ({
                       className="custom-sketch-picker"
                       color={selectedButton.stylesBtn.textColor}
                       onChange={(color) => {
-                        handleButtonChange(
-                          selectedButton.id,
-                          "stylesBtn",
-                          "textColor",
+                        handleComponentChange(
+                          `buttons.${selectedButton.id}.stylesBtn.textColor`,
                           getRGBAValue(color.rgb)
                         );
                       }}
@@ -186,10 +176,8 @@ const ButtonStylesEditor = ({
                     <Button
                       key={item.value}
                       onClick={() => {
-                        handleButtonChange(
-                          selectedButton.id,
-                          "stylesBtn",
-                          "size",
+                        handleComponentChange(
+                          `buttons.${selectedButton.id}.stylesBtn.size`,
                           item.value
                         );
                       }}
@@ -219,10 +207,8 @@ const ButtonStylesEditor = ({
                     min={0}
                     max={50}
                     onChange={(value) => {
-                      handleButtonChange(
-                        selectedButton.id,
-                        "stylesBtn",
-                        "rounded",
+                      handleComponentChange(
+                        `buttons.${selectedButton.id}.stylesBtn.rounded`,
                         value
                       );
                     }}
@@ -239,10 +225,8 @@ const ButtonStylesEditor = ({
                     <DropdownMenuRadioGroup
                       value={selectedButton.stylesBtn.shadow}
                       onValueChange={(value) => {
-                        handleButtonChange(
-                          selectedButton.id,
-                          "stylesBtn",
-                          "shadow",
+                        handleComponentChange(
+                          `buttons.${selectedButton.id}.stylesBtn.shadow`,
                           value
                         );
                       }}
@@ -264,13 +248,6 @@ const ButtonStylesEditor = ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </div>
-
-      <div>
-        <TargetOptions
-          content={selectedButton}
-          handleContentChange={handleButtonTargetChange}
-        />
       </div>
     </div>
   );

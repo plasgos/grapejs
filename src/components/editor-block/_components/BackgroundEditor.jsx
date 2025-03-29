@@ -359,11 +359,11 @@ const PaddingOptionsEditor = ({
   );
 };
 
-const BackgroundEditor = ({ editor, selectedComponent }) => {
+const BackgroundEditor = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
-  useSyncWithUndoRedo(editor, setCurrentComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
   const { background } = currentComponent;
 

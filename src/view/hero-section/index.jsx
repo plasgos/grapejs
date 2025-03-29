@@ -7,8 +7,9 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import CustomButton from "../_components/CustomButton";
 
 const ViewHeroSection = ({ section, editor }) => {
-  const { contents, animation, animationText } = section;
-  const { withButton, variant, btnPosition } = section.wrapperStyle;
+  const { contents, animation, animationText, buttons } = section;
+  const { withButton, variant, btnPosition, rotation, shadow } =
+    section.wrapperStyle;
 
   const { elementRef, getClassName, duration } =
     useAnimatedVisibility(animation);
@@ -33,9 +34,9 @@ const ViewHeroSection = ({ section, editor }) => {
                   <>
                     <div
                       ref={elementRef}
-                      className={`${content.shadow} ${getClassName()}`}
+                      className={`${shadow} ${getClassName()}`}
                       style={{
-                        transform: `rotate(${content.rotation}deg)`,
+                        transform: `rotate(${rotation}deg)`,
                         "--animation-duration": `${duration}s`,
                       }}
                       key={content.id}
@@ -81,7 +82,7 @@ const ViewHeroSection = ({ section, editor }) => {
                         <div
                           className={` flex !flex-wrap  gap-3 ${btnPosition} `}
                         >
-                          {content.buttons.map((btn) => {
+                          {buttons.map((btn) => {
                             return (
                               <CustomButton
                                 key={btn.id}
@@ -119,7 +120,7 @@ const ViewHeroSection = ({ section, editor }) => {
                         <div
                           className={` flex !flex-wrap  gap-3 ${btnPosition} `}
                         >
-                          {content.buttons.map((btn) => {
+                          {buttons.map((btn) => {
                             return (
                               <CustomButton
                                 key={btn.id}
@@ -135,9 +136,9 @@ const ViewHeroSection = ({ section, editor }) => {
 
                     <div
                       ref={elementRef}
-                      className={`${content.shadow} ${getClassName()}`}
+                      className={`${shadow} ${getClassName()}`}
                       style={{
-                        transform: `rotate(${content.rotation}deg)`,
+                        transform: `rotate(${rotation}deg)`,
                         "--animation-duration": `${duration}s`,
                       }}
                       key={content.id}
@@ -190,7 +191,7 @@ const ViewHeroSection = ({ section, editor }) => {
 
                 {withButton && (
                   <div className={` flex !flex-wrap  gap-3 justify-center `}>
-                    {content.buttons.map((btn) => {
+                    {buttons.map((btn) => {
                       return (
                         <CustomButton
                           key={btn.id}

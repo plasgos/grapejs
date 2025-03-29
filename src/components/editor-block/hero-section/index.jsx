@@ -14,25 +14,26 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useChangeContents } from "@/hooks/useChangeContents";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import { generateId } from "@/lib/utils";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import DraggableListButtons from "../_components/DraggableListButtons";
 import ImageUploader from "../_components/ImageUploader";
 import RangeInputSlider from "../_components/RangeInputSlider";
 import TextEditor from "../_components/TextEditor";
 import TransiitonEditor from "../_components/TransiitonEditor";
 
 import { BsAlignCenter, BsAlignEnd, BsAlignStart } from "react-icons/bs";
-import ButtonStylesEditor from "../_components/ButtonStylesEditor";
 import SelectCircle from "../_components/SelectCircle";
 
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { CiImageOff, CiImageOn } from "react-icons/ci";
+import DraggableList from "../_components/DraggableList";
 import IconPicker from "../_components/IconPicker";
+import ButtonStylesEditor from "../_components/ButtonStylesEditor";
+import TargetOptions from "../_components/TargetOptions";
 
 const imagePostionOptions = [
   { value: "left", label: "Left", icon: <BsAlignStart /> },
@@ -51,79 +52,15 @@ const variantOptions = [
 ];
 
 const EditorHeroSection = ({ selectedComponent }) => {
-  const { contents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
-  const [buttons, setButtons] = useState(
-    selectedComponent?.get("customComponent").contents[0].buttons
-  );
-  console.log("🚀 ~ EditorHeroSection ~ buttons:", buttons);
+  const { wrapperStyle } = currentComponent;
 
-  const handleButtonTargetChange = (id, key, value) => {
-    //update local state editor
-    setButtons((prevButton) =>
-      prevButton.map((btn) =>
-        btn.id === id
-          ? {
-              ...btn,
-              [key]: value,
-            }
-          : btn
-      )
-    );
-
-    //update grapejs canvas component
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents[0].buttons.forEach((btn) => {
-          if (btn.id === id) {
-            btn[key] = value;
-          }
-        });
-      })
-    );
-  };
-
-  const handleButtonChange = (id, source, key, value) => {
-    setButtons((prevButton) =>
-      prevButton.map((btn) =>
-        btn.id === id
-          ? {
-              ...btn,
-              [source]: {
-                ...btn[source],
-                [key]: value,
-              },
-            }
-          : btn
-      )
-    );
-
-    // Update GrapesJS canvas component
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents[0].buttons = draft.contents[0].buttons.map((btn) =>
-          btn.id === id
-            ? {
-                ...btn,
-                [source]: {
-                  ...btn[source],
-                  [key]: value,
-                },
-              }
-            : btn
-        );
-      })
-    );
-  };
-
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
   const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleContentChange);
+    onChangeFileUpload(id, handleComponentChange);
   };
 
   const [editItem, setEditItem] = useState("");
@@ -162,34 +99,42 @@ const EditorHeroSection = ({ selectedComponent }) => {
     selectedComponent?.set(
       "customComponent",
       produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents[0].buttons.push(newButton);
+        draft.buttons.push(newButton);
       })
     );
 
-    setButtons((content) => [...content, newButton]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.buttons = [...draft.buttons, newButton];
+      })
+    );
 
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedButton = buttons.find((btn) => btn.id === item.id);
-
     const handleSelectIcon = (key, value) => {
-      handleButtonChange(selectedButton.id, "iconBtn", key, value);
+      handleComponentChange(`buttons.${item.id}.iconBtn.${key}`, value);
     };
 
     return (
       <div className="flex flex-col gap-y-3">
         <ButtonStylesEditor
-          selectedButton={selectedButton}
-          handleButtonChange={handleButtonChange}
-          handleButtonTargetChange={handleButtonTargetChange}
+          selectedButton={item}
+          handleComponentChange={handleComponentChange}
+        />
+
+        <TargetOptions
+          content={item}
+          path="buttons"
+          setCurrentComponent={setCurrentComponent}
+          handleComponentChange={handleComponentChange}
         />
 
         <IconPicker
           label="Icon"
           onSelectIcon={(key, value) => handleSelectIcon(key, value)}
-          value={selectedButton.iconBtn}
+          value={item.iconBtn}
           withoutIconSize
         />
       </div>
@@ -209,7 +154,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
               options={variantOptions}
               value={wrapperStyle.variant}
               onClick={(value) => {
-                handleStylesChange("variant", value);
+                handleComponentChange("wrapperStyle.variant", value);
               }}
             />
           </div>
@@ -225,8 +170,10 @@ const EditorHeroSection = ({ selectedComponent }) => {
                 <AccordionContent className="bg-white p-2 rounded-b-lg ">
                   <div className="flex flex-col gap-y-5">
                     <ImageUploader
-                      handleFileUpload={() => handleFileUpload(contents[0].id)}
-                      image={contents[0].image}
+                      handleFileUpload={() =>
+                        handleFileUpload(currentComponent?.contents[0].id)
+                      }
+                      image={currentComponent?.contents[0].image}
                     />
 
                     <div className="flex justify-between items-center">
@@ -237,14 +184,14 @@ const EditorHeroSection = ({ selectedComponent }) => {
                           <Button
                             key={item.value}
                             onClick={() => {
-                              handleContentChange(
-                                contents[0].id,
-                                "imagePosition",
+                              handleComponentChange(
+                                `contents.${currentComponent.contents[0].id}.imagePosition`,
                                 item.value
                               );
                             }}
                             variant={
-                              item.value === contents[0].imagePosition
+                              item.value ===
+                              currentComponent.contents[0].imagePosition
                                 ? ""
                                 : "outline"
                             }
@@ -259,9 +206,12 @@ const EditorHeroSection = ({ selectedComponent }) => {
                     <RangeInputSlider
                       asChild
                       label="Width"
-                      value={contents[0].width}
+                      value={currentComponent?.contents[0].width}
                       onChange={(value) =>
-                        handleContentChange(contents[0].id, "width", value)
+                        handleComponentChange(
+                          `contents.${currentComponent.contents[0].id}.width`,
+                          value
+                        )
                       }
                       min={100}
                       max={1440}
@@ -270,9 +220,12 @@ const EditorHeroSection = ({ selectedComponent }) => {
                     <RangeInputSlider
                       asChild
                       label="Rotation"
-                      value={contents[0].rotation}
+                      value={currentComponent?.contents[0].rotation}
                       onChange={(value) =>
-                        handleContentChange(contents[0].id, "rotation", value)
+                        handleComponentChange(
+                          `contents.${currentComponent.contents[0].id}.rotation`,
+                          value
+                        )
                       }
                       min={-90}
                       max={90}
@@ -285,27 +238,33 @@ const EditorHeroSection = ({ selectedComponent }) => {
 
           <TextEditor
             label="Content"
-            value={contents[0].textBanner}
+            value={currentComponent?.contents[0].textBanner}
             onChange={(value) =>
-              handleContentChange(contents[0].id, "textBanner", value)
+              handleComponentChange(
+                `contents.${currentComponent.contents[0].id}.textBanner`,
+                value
+              )
             }
           />
 
           {/* <LexicalTextEditor /> */}
 
-          <Accordion type="single" collapsible>
+          <Accordion defaultValue="button" type="single" collapsible>
             <AccordionItem value="button">
               <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
                 Button
               </AccordionTrigger>
-              <AccordionContent className="bg-white p-2 rounded-b-lg ">
+              <AccordionContent className="bg-white  rounded-b-lg ">
                 <div className="flex flex-col gap-y-5">
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center mx-3">
                     <Label className="font-normal">With Button</Label>
                     <Switch
                       checked={wrapperStyle.withButton}
                       onCheckedChange={(checked) =>
-                        handleStylesChange("withButton", checked)
+                        handleComponentChange(
+                          "wrapperStyle.withButton",
+                          checked
+                        )
                       }
                     />
                   </div>
@@ -321,7 +280,10 @@ const EditorHeroSection = ({ selectedComponent }) => {
                               <Button
                                 key={item.value}
                                 onClick={() => {
-                                  handleStylesChange("btnPosition", item.value);
+                                  handleComponentChange(
+                                    "wrapperStyle.btnPosition",
+                                    item.value
+                                  );
                                 }}
                                 variant={
                                   item.value === wrapperStyle.btnPosition
@@ -336,10 +298,12 @@ const EditorHeroSection = ({ selectedComponent }) => {
                           </div>
                         </div>
                       )}
-                      <DraggableListButtons
-                        contents={buttons}
+
+                      <DraggableList
+                        contents={currentComponent.buttons}
+                        path="buttons"
                         renderContents={(value) => renderContents(value)}
-                        setContents={setButtons}
+                        setCurrentComponent={setCurrentComponent}
                         editItem={editItem}
                         selectedComponent={selectedComponent}
                         setEditItem={setEditItem}
@@ -351,7 +315,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
                         >
                           Add Button <Plus />
                         </Button>
-                      </DraggableListButtons>
+                      </DraggableList>
                     </>
                   )}
                 </div>

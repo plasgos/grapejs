@@ -34,13 +34,13 @@ const imagePositionOptions = [
   },
 ];
 
-const StylesTab = ({ editor, selectedComponent }) => {
+const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
   const { wrapperStyle } = currentComponent;
 
-  useSyncWithUndoRedo(editor, setCurrentComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
   return (
     <div className="flex flex-col gap-y-5">

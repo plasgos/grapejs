@@ -9,10 +9,14 @@ const ViewVideo = ({ section }) => {
     useAnimatedVisibility(animation);
 
   const getYoutubeUrl = (url) => {
-    if (url) {
+    try {
+      if (!url) return ""; // Jika url kosong, kembalikan string kosong
       const urlObj = new URL(url);
-      const videoId = urlObj.searchParams.get("v"); // Mendapatkan parameter 'v' dari URL
-      return videoId;
+      const videoId = urlObj.searchParams.get("v");
+      return videoId || ""; // Jika tidak ada 'v', tetap kembalikan string kosong
+    } catch (error) {
+      console.error(error);
+      return ""; // Jika parsing gagal, kembalikan string kosong
     }
   };
 

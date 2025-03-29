@@ -3,13 +3,16 @@ import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
-import { useChangeContents } from "@/hooks/useChangeContents";
 import VideoEditorControl from "@/components/editor-block/video/VideoEditorControl";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import TransiitonEditor from "../_components/TransiitonEditor";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
 const EditorVideo = ({ selectedComponent }) => {
-  const { contents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
 
   return (
     <TabsEditor withoutStyles>
@@ -22,8 +25,8 @@ const EditorVideo = ({ selectedComponent }) => {
 
           <div className="p-3 rounded-lg bg-white flex flex-col gap-y-5">
             <VideoEditorControl
-              contents={contents}
-              handleContentChange={handleContentChange}
+              contents={currentComponent.contents}
+              handleComponentChange={handleComponentChange}
             />
           </div>
         </div>

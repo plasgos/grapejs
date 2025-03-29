@@ -1,11 +1,10 @@
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { produce } from "immer";
 import { useState } from "react";
 import { MdOutlineReplayCircleFilled } from "react-icons/md";
 import { Button } from "../../ui/button";
 import SelectOptions from "./SelectOptions";
-import { useEditor } from "@grapesjs/react";
-import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 
 export const transitionTypeOptions = [
   { value: null, label: "No Transition" },
@@ -53,12 +52,10 @@ const TransiitonEditor = ({
   label = "Transition",
   type = "animation",
 }) => {
-  const editor = useEditor();
-
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
-  useSyncWithUndoRedo(editor, setCurrentComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
   const animation = currentComponent[type];
 

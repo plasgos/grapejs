@@ -13,7 +13,6 @@ import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
-import { useEditor } from "@grapesjs/react";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
@@ -22,17 +21,16 @@ import TargetOptions from "../_components/TargetOptions";
 import TextEditor from "../_components/TextEditor";
 
 const EditorContentShowcase = ({ selectedComponent }) => {
-  const editor = useEditor();
-
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
   const [editItem, setEditItem] = useState("");
 
   const handleFileUpload = (id) => {
     onChangeFileUpload(id, handleComponentChange);
   };
-
-  useSyncWithUndoRedo(editor, setCurrentComponent);
 
   const handleAddContent = () => {
     setEditItem("");
@@ -139,17 +137,14 @@ const EditorContentShowcase = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab editor={editor} selectedComponent={selectedComponent} />
+        <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
-        <BackgroundEditor
-          editor={editor}
-          selectedComponent={selectedComponent}
-        />
+        <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

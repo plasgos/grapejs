@@ -55,7 +55,7 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
           block: "center", // Menempatkan elemen di tengah layar
         });
       }
-      dispatch(setIsEditComponent(false));
+      dispatch(setIsEditComponent(true));
     }
   };
 

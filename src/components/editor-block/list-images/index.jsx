@@ -6,9 +6,9 @@ import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
 import { Button } from "@/components/ui/button";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
 import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
-import { useEditor } from "@grapesjs/react";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -16,17 +16,14 @@ import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
 import StylesTab from "./StylesTab";
-import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
 const EditorListImages = ({ selectedComponent }) => {
-  const editor = useEditor();
-
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
   const [editItem, setEditItem] = useState("");
 
-  useSyncWithUndoRedo(editor, setCurrentComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
   const handleFileUpload = (id) => {
     onChangeFileUpload(id, handleComponentChange);
@@ -114,17 +111,14 @@ const EditorListImages = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab editor={editor} selectedComponent={selectedComponent} />
+        <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="background"
       >
-        <BackgroundEditor
-          editor={editor}
-          selectedComponent={selectedComponent}
-        />
+        <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

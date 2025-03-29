@@ -12,7 +12,7 @@ const videoOptions = [
   { key: "isLoop", label: "Loop" },
 ];
 
-const VideoEditorControl = ({ contents, handleContentChange }) => {
+const VideoEditorControl = ({ contents, handleComponentChange }) => {
   return (
     <>
       <div className="space-y-2 ">
@@ -21,7 +21,7 @@ const VideoEditorControl = ({ contents, handleContentChange }) => {
           value={contents[0].url || ""}
           onChange={(e) => {
             const value = e.target.value;
-            handleContentChange(contents[0].id, "url", value);
+            handleComponentChange(`contents.${contents[0].id}.url`, value);
           }}
         />
       </div>
@@ -32,7 +32,10 @@ const VideoEditorControl = ({ contents, handleContentChange }) => {
             <Checkbox
               checked={contents[0][opt.key]}
               onCheckedChange={(checked) =>
-                handleContentChange(contents[0].id, opt.key, checked)
+                handleComponentChange(
+                  `contents.${contents[0].id}.${opt.key}`,
+                  checked
+                )
               }
               id={opt.key}
             />
@@ -51,7 +54,7 @@ const VideoEditorControl = ({ contents, handleContentChange }) => {
         options={aspectRatioVideoOptions}
         value={contents[0].ratio}
         onChange={(value) =>
-          handleContentChange(contents[0].id, "ratio", value)
+          handleComponentChange(`contents.${contents[0].id}.ratio`, value)
         }
       />
 
@@ -59,7 +62,7 @@ const VideoEditorControl = ({ contents, handleContentChange }) => {
         label="Width"
         value={contents[0].width}
         onChange={(value) =>
-          handleContentChange(contents[0].id, "width", value)
+          handleComponentChange(`contents.${contents[0].id}.width`, value)
         }
         min={100}
         max={1200}
@@ -69,7 +72,7 @@ const VideoEditorControl = ({ contents, handleContentChange }) => {
         label="Rotation"
         value={contents[0].rotation}
         onChange={(value) =>
-          handleContentChange(contents[0].id, "rotation", value)
+          handleComponentChange(`contents.${contents[0].id}.rotation`, value)
         }
         min={-90}
         max={90}

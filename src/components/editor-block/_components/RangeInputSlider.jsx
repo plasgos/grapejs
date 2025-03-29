@@ -41,7 +41,8 @@ const RangeInputSlider = ({
         {/* Slider dengan sinkronisasi nilai */}
         <Slider
           className="cursor-pointer"
-          value={[Number(value)]} // Memastikan value sebagai angka
+          value={[safeValue(value)]} // Memastikan value tetap valid
+          defaultValue={[safeValue(value)]} // Menjaga posisi tengah jika 0
           min={min}
           max={max}
           step={1}
