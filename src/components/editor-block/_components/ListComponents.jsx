@@ -18,21 +18,23 @@ import {
 import { BlocksProvider } from "@grapesjs/react";
 import { useState } from "react";
 import { Search } from "lucide-react";
-import { useChangeContents } from "@/hooks/useChangeContents";
 import DraggableList from "./DraggableList";
 import { generateId } from "@/lib/utils";
 import { useRef } from "react";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 
 const ListComponents = ({ editor, selectedComponent }) => {
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   console.log("🚀 ~ ListComponents ~ value:", value);
   const [editItem, setEditItem] = useState(false);
   const [search, setSearch] = useState("");
-
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
-  console.log("🚀 ~ ListComponents ~ contents:", contents);
 
   const contentListRef = useRef(null);
 
@@ -44,7 +46,12 @@ const ListComponents = ({ editor, selectedComponent }) => {
       })
     );
 
-    setContents((content) => [...content, newContent]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = [...draft.contents, newContent];
+      })
+    );
+
     setValue(newContent);
 
     setTimeout(() => {
@@ -65,9 +72,9 @@ const ListComponents = ({ editor, selectedComponent }) => {
 
       <div ref={contentListRef}>
         <DraggableList
-          contents={contents}
+          contents={currentComponent.contents}
           renderContents={(value) => renderContents(value)}
-          setContents={setContents}
+          setCurrentComponent={setCurrentComponent}
           editItem={editItem}
           selectedComponent={selectedComponent}
           setEditItem={setEditItem}

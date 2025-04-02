@@ -4,7 +4,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import CustomButton from "../_components/CustomButton";
 
 const ViewFLoatingButton = ({ section, editor }) => {
-  const { contents } = section;
+  const { buttons } = section;
   const { position } = section.wrapperStyle;
 
   return (
@@ -19,7 +19,7 @@ const ViewFLoatingButton = ({ section, editor }) => {
           position === "flex-col" ? "gap-y-3" : "gap-x-3"
         } px-2  `}
       >
-        {contents.map((btn) => {
+        {buttons.map((btn) => {
           return (
             <CustomButton
               key={btn.id}

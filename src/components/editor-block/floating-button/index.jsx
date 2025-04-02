@@ -9,21 +9,22 @@ import {
 } from "@/components/ui/accordion";
 
 import { Button } from "@/components/ui/button";
-import { useChangeContents } from "@/hooks/useChangeContents";
 import { generateId } from "@/lib/utils";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import TransiitonEditor from "../_components/TransiitonEditor";
+import TransitionEditor from "../_components/TransitionEditor";
 
 import { Label } from "@/components/ui/label";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import ButtonStylesEditor from "../_components/ButtonStylesEditor";
 import DraggableList from "../_components/DraggableList";
 import IconPicker from "../_components/IconPicker";
 
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { TbMinusVertical } from "react-icons/tb";
+import TargetOptions from "../_components/TargetOptions";
 const buttonPosition = [
   { value: "flex-row", label: "Row", icon: <MdOutlineHorizontalRule /> },
   { value: "flex-col", label: "Column", icon: <TbMinusVertical /> },
@@ -38,49 +39,12 @@ export const spaceOptions = [
 ];
 
 const EditorFloatingButton = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
-  const handleButtonTargetChange = (id, key, value) => {
-    handleContentChange(id, key, value);
-  };
-
-  const handleButtonChange = (id, source, key, value) => {
-    setContents((prevButton) =>
-      prevButton.map((btn) =>
-        btn.id === id
-          ? {
-              ...btn,
-              [source]: {
-                ...btn[source],
-                [key]: value,
-              },
-            }
-          : btn
-      )
-    );
-
-    // Update GrapesJS canvas component
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents = draft.contents.map((btn) =>
-          btn.id === id
-            ? {
-                ...btn,
-                [source]: {
-                  ...btn[source],
-                  [key]: value,
-                },
-              }
-            : btn
-        );
-      })
-    );
-  };
+  const { buttons, wrapperStyle } = currentComponent;
 
   const [editItem, setEditItem] = useState("");
 
@@ -118,38 +82,44 @@ const EditorFloatingButton = ({ selectedComponent }) => {
     selectedComponent?.set(
       "customComponent",
       produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents.push(newButton);
+        draft.buttons.push(newButton);
       })
     );
 
-    setContents((content) => [...content, newButton]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.buttons = [...draft.buttons, newButton];
+      })
+    );
 
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedButton = contents.find((btn) => btn.id === item.id);
-
     const handleSelectIcon = (key, value) => {
-      handleButtonChange(selectedButton.id, "iconBtn", key, value);
+      handleComponentChange(`buttons.${item.id}.iconBtn.${key}`, value);
     };
 
     return (
       <div className="flex flex-col gap-y-3">
         <ButtonStylesEditor
-          selectedButton={selectedButton}
-          handleButtonChange={handleButtonChange}
-          handleButtonTargetChange={handleButtonTargetChange}
+          selectedButton={item}
+          handleComponentChange={handleComponentChange}
           withoutRounded
+        />
+
+        <TargetOptions
+          content={item}
+          path="buttons"
+          setCurrentComponent={setCurrentComponent}
+          handleComponentChange={handleComponentChange}
         />
 
         <IconPicker
           label="Icon"
           onSelectIcon={(key, value) => handleSelectIcon(key, value)}
-          value={selectedButton.iconBtn}
+          value={item.iconBtn}
           withoutIconSize
-          withoutIconPosition
-          withoutRemove
         />
       </div>
     );
@@ -177,7 +147,10 @@ const EditorFloatingButton = ({ selectedComponent }) => {
                         <Button
                           key={item.value}
                           onClick={() => {
-                            handleStylesChange("position", item.value);
+                            handleComponentChange(
+                              "wrapperStyle.position",
+                              item.value
+                            );
                           }}
                           variant={
                             item.value === wrapperStyle.position
@@ -193,9 +166,10 @@ const EditorFloatingButton = ({ selectedComponent }) => {
                   </div>
 
                   <DraggableList
-                    contents={contents}
+                    contents={buttons}
+                    path="buttons"
                     renderContents={(value) => renderContents(value)}
-                    setContents={setContents}
+                    setCurrentComponent={setCurrentComponent}
                     editItem={editItem}
                     selectedComponent={selectedComponent}
                     setEditItem={setEditItem}
@@ -216,7 +190,7 @@ const EditorFloatingButton = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

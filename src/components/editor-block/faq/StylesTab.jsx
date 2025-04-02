@@ -5,11 +5,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import ColorPicker from "../_components/ColorPicker";
 import SelectFontFamily from "../_components/SelectFontFamily";
 import SelectFontSize from "../_components/SelectFontSize";
 
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { CgChevronDown, CgChevronDownR } from "react-icons/cg";
 import SelectCircle from "../_components/SelectCircle";
 
@@ -19,8 +20,12 @@ const variantOptions = [
 ];
 
 const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { wrapperStyle } = currentComponent;
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -29,7 +34,9 @@ const StylesTab = ({ selectedComponent }) => {
           label="Variant"
           options={variantOptions}
           value={wrapperStyle.variant}
-          onClick={(value) => handleStylesChange("variant", value)}
+          onClick={(value) =>
+            handleComponentChange("wrapperStyle.variant", value)
+          }
         />
       </div>
 
@@ -39,7 +46,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Border Color"
           value={wrapperStyle.borderColor}
           onChange={(value) => {
-            handleStylesChange("borderColor", value);
+            handleComponentChange("wrapperStyle.borderColor", value);
           }}
         />
 
@@ -48,7 +55,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Icon Color"
           value={wrapperStyle.iconColor}
           onChange={(value) => {
-            handleStylesChange("iconColor", value);
+            handleComponentChange("wrapperStyle.iconColor", value);
           }}
         />
       </div>
@@ -65,7 +72,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Color"
                 value={wrapperStyle.color}
                 onChange={(value) => {
-                  handleStylesChange("color", value);
+                  handleComponentChange("wrapperStyle.color", value);
                 }}
               />
 
@@ -75,10 +82,10 @@ const StylesTab = ({ selectedComponent }) => {
                 fontFamily={wrapperStyle.fontFamily}
                 fontWeight={wrapperStyle.fontWeight}
                 onChangefontFamily={(value) => {
-                  handleStylesChange("fontFamily", value);
+                  handleComponentChange("wrapperStyle.fontFamily", value);
                 }}
                 onChangefontWeight={(value) => {
-                  handleStylesChange("fontWeight", value);
+                  handleComponentChange("wrapperStyle.fontWeight", value);
                 }}
               />
 
@@ -87,7 +94,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Size"
                 value={wrapperStyle.fontSize}
                 onChange={(value) => {
-                  handleStylesChange("fontSize", value);
+                  handleComponentChange("wrapperStyle.fontSize", value);
                 }}
               />
             </div>

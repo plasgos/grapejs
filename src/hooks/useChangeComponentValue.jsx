@@ -18,7 +18,9 @@ export const useChangeComponentValue = (selectedComponent) => {
       ) {
         const pathSource = keys[0] === "contents" ? "contents" : "buttons";
         const contentId = keys[1];
-        const targetContent = draft[pathSource].find((c) => c.id === contentId);
+        const targetContent = draft[pathSource]?.find(
+          (c) => c.id === contentId
+        );
 
         if (targetContent) {
           let target = targetContent;

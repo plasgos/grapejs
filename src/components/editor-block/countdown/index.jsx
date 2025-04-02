@@ -2,26 +2,26 @@ import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
-import { useChangeContents } from "@/hooks/useChangeContents";
 
 import { Label } from "@/components/ui/label";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 
-import BackgroundEditor from "../_components/BackgroundEditor";
+import { textShadowOptions } from "@/components/SelectOptions";
+import { Input } from "@/components/ui/input";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { produce } from "immer";
+import { CalendarMinus2 } from "lucide-react";
+import { useState } from "react";
+import DatePicker from "react-datepicker";
 import { CiText } from "react-icons/ci";
 import { GoNumber } from "react-icons/go";
 import { SiStagetimer } from "react-icons/si";
+import BackgroundEditor from "../_components/BackgroundEditor";
 import SelectCircle from "../_components/SelectCircle";
 import SelectOptions from "../_components/SelectOptions";
-import { Input } from "@/components/ui/input";
-import { produce } from "immer";
-import StylesTab from "./StylesTab";
-import { useState } from "react";
 import TextEditor from "../_components/TextEditor";
-import DatePicker from "react-datepicker";
-import { CalendarMinus2 } from "lucide-react";
-import { textShadowOptions } from "@/components/SelectOptions";
-import TransiitonEditor from "../_components/TransiitonEditor";
+import TransitionEditor from "../_components/TransitionEditor";
+import StylesTab from "./StylesTab";
 
 const modeOptions = [
   { value: "countdown", label: "Countdown" },
@@ -46,11 +46,12 @@ const minuteOptions = Array.from({ length: 60 }, (_, i) => {
 });
 
 const EditorCountdown = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { contents, wrapperStyle } = currentComponent;
 
   const [finished, setFinished] = useState(
     selectedComponent?.get("customComponent").finish
@@ -59,35 +60,23 @@ const EditorCountdown = ({ selectedComponent }) => {
   /*   const [previewMode, setPreviewMode] = useState("countdown"); */
 
   const handleCountdownChange = (id, source, key, value) => {
-    setContents((prevContents) =>
-      prevContents.map((content) =>
-        content.id === id
-          ? {
-              ...content,
-              [source]: {
-                ...content[source],
-                [key]: value,
-              },
-            }
-          : content
-      )
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        const content = draft.contents.find((c) => c.id === id);
+        if (content) {
+          content[source][key] = value;
+        }
+      })
     );
 
     // Update GrapesJS canvas component
     selectedComponent?.set(
       "customComponent",
       produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents = draft.contents.map((content) =>
-          content.id === id
-            ? {
-                ...content,
-                [source]: {
-                  ...content[source],
-                  [key]: value,
-                },
-              }
-            : content
-        );
+        const content = draft.contents.find((c) => c.id === id);
+        if (content) {
+          content[source][key] = value;
+        }
       })
     );
   };
@@ -130,45 +119,37 @@ const EditorCountdown = ({ selectedComponent }) => {
     const selectedHour = newDate.getHours(); // Jam (0-23)
     const selectedMinute = newDate.getMinutes(); // Menit (0-59)
 
-    setContents((prevContents) =>
-      prevContents.map((content) =>
-        content.id === contents[0].id
-          ? {
-              ...content,
-              datePicked: {
-                ...content.datePicked,
-                date: selectedDay,
-                month: selectedMonth,
-                years: selectedYear,
-                dateView: newDate,
-                hours: selectedHour,
-                minutes: selectedMinute,
-              },
-            }
-          : content
-      )
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        const content = draft.contents.find((c) => c.id === contents[0].id);
+        if (content) {
+          content.datePicked = {
+            date: selectedDay,
+            month: selectedMonth,
+            years: selectedYear,
+            dateView: newDate,
+            hours: selectedHour,
+            minutes: selectedMinute,
+          };
+        }
+      })
     );
 
     // Update GrapesJS canvas component
     selectedComponent?.set(
       "customComponent",
       produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents = draft.contents.map((content) =>
-          content.id === contents[0].id
-            ? {
-                ...content,
-                datePicked: {
-                  ...content.datePicked,
-                  date: selectedDay,
-                  month: selectedMonth,
-                  years: selectedYear,
-                  dateView: newDate,
-                  hours: selectedHour,
-                  minutes: selectedMinute,
-                },
-              }
-            : content
-        );
+        const content = draft.contents.find((c) => c.id === contents[0].id);
+        if (content) {
+          content.datePicked = {
+            date: selectedDay,
+            month: selectedMonth,
+            years: selectedYear,
+            dateView: newDate,
+            hours: selectedHour,
+            minutes: selectedMinute,
+          };
+        }
       })
     );
   };
@@ -206,7 +187,9 @@ const EditorCountdown = ({ selectedComponent }) => {
                 label="Variant"
                 options={variantCountdownOptions}
                 value={wrapperStyle.variant}
-                onClick={(value) => handleStylesChange("variant", value)}
+                onClick={(value) =>
+                  handleComponentChange("wrapperStyle.variant", value)
+                }
               />
 
               <SelectOptions
@@ -214,7 +197,10 @@ const EditorCountdown = ({ selectedComponent }) => {
                 options={typeCountdownOptions}
                 value={contents[0].type}
                 onChange={(value) =>
-                  handleContentChange(contents[0].id, "type", value)
+                  handleComponentChange(
+                    `contents.${contents[0].id}.type`,
+                    value
+                  )
                 }
               />
 
@@ -295,7 +281,7 @@ const EditorCountdown = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent

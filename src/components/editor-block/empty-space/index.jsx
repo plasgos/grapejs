@@ -2,12 +2,17 @@ import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import RangeInputSlider from "../_components/RangeInputSlider";
 
 const EditorEmptySpace = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { wrapperStyle } = currentComponent;
 
   return (
     <TabsEditor withoutStyles withoutTransition withoutBackground>
@@ -23,7 +28,9 @@ const EditorEmptySpace = ({ selectedComponent }) => {
           <RangeInputSlider
             label="Height"
             value={wrapperStyle.height}
-            onChange={(value) => handleStylesChange("height", value)}
+            onChange={(value) =>
+              handleComponentChange("wrapperStyle.height", value)
+            }
             min={10}
             max={1200}
           />

@@ -164,7 +164,7 @@ const TargetOptions = ({
       })
     );
 
-    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
+    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };
 
   const handleChangeActionModeType = (value) => {
@@ -175,7 +175,7 @@ const TargetOptions = ({
       });
 
       handleComponentChange(
-        `contents.${content.id}.target`,
+        `${path}.${content.id}.target`,
         updatedComponentType
       );
 
@@ -201,7 +201,7 @@ const TargetOptions = ({
       });
 
       handleComponentChange(
-        `contents.${content.id}.target`,
+        `${path}.${content.id}.target`,
         updatedComponentType
       );
 
@@ -238,7 +238,7 @@ const TargetOptions = ({
       })
     );
 
-    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
+    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };
 
   const handleSelectTypeLink = (value) => {
@@ -279,7 +279,7 @@ const TargetOptions = ({
       })
     );
 
-    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
+    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };
 
   const handleChangeTargetLink = (key, value) => {
@@ -319,7 +319,7 @@ const TargetOptions = ({
       );
     }
 
-    handleComponentChange(`contents.${content.id}.target`, updatedComponent);
+    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };
 
   useEffect(() => {

@@ -5,22 +5,22 @@ import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
+import avatar5 from "@/assets/avatar5.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useChangeContents } from "@/hooks/useChangeContents";
+import { Switch } from "@/components/ui/switch";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
+import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import DraggableList from "../_components/DraggableList";
-import TextEditor from "../_components/TextEditor";
-import avatar5 from "@/assets/avatar5.jpg";
 import { FaStar } from "react-icons/fa";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import { Switch } from "@/components/ui/switch";
-import SelectOptions from "../_components/SelectOptions";
+import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import SelectOptions from "../_components/SelectOptions";
+import TextEditor from "../_components/TextEditor";
 
 const layoutVariants = [
   { value: "1", label: "1" },
@@ -30,11 +30,12 @@ const layoutVariants = [
 ];
 
 const EditorTestimony = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { contents, wrapperStyle } = currentComponent;
 
   const [editItem, setEditItem] = useState("");
 
@@ -61,16 +62,17 @@ const EditorTestimony = ({ selectedComponent }) => {
       })
     );
 
-    setContents((content) => [...content, newContent]);
-
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = [...draft.contents, newContent];
+      })
+    );
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedContent = contents.find((content) => content.id === item.id);
-
     const handleFileUpload = (id) => {
-      onChangeFileUpload(id, handleContentChange);
+      onChangeFileUpload(id, handleComponentChange);
     };
 
     return (
@@ -78,16 +80,16 @@ const EditorTestimony = ({ selectedComponent }) => {
         <ImageUploader
           label="Image"
           handleFileUpload={() => handleFileUpload(item.id)}
-          image={selectedContent.image}
+          image={item.image}
         />
 
         <div className="space-y-2">
           <Label>Name</Label>
           <Input
-            value={selectedContent.name || ""}
+            value={item.name || ""}
             onChange={(e) => {
               const value = e.target.value;
-              handleContentChange(item.id, "name", value);
+              handleComponentChange(`contents.${item.id}.name`, value);
             }}
           />
         </div>
@@ -96,10 +98,10 @@ const EditorTestimony = ({ selectedComponent }) => {
           <Label>Profetion</Label>
           <Input
             placeholder="Customer"
-            value={selectedContent.profetion || ""}
+            value={item.profetion || ""}
             onChange={(e) => {
               const value = e.target.value;
-              handleContentChange(item.id, "profetion", value);
+              handleComponentChange(`contents.${item.id}.profetion`, value);
             }}
           />
         </div>
@@ -109,10 +111,12 @@ const EditorTestimony = ({ selectedComponent }) => {
           <div className="flex  gap-x-2">
             {[...Array(5)].map((_, index) => (
               <FaStar
-                onClick={() => handleContentChange(item.id, "stars", index + 1)}
+                onClick={() =>
+                  handleComponentChange(`contents.${item.id}.stars`, index + 1)
+                }
                 className={`cursor-pointer text-3xl hover:scale-125 hover:transition-all ease-in-out`}
                 key={index}
-                color={index < selectedContent.stars ? "#ffd250" : "#ccc"}
+                color={index < item.stars ? "#ffd250" : "#ccc"}
               />
             ))}
           </div>
@@ -122,7 +126,7 @@ const EditorTestimony = ({ selectedComponent }) => {
           label="Content"
           value={contents[0].description}
           onChange={(value) =>
-            handleContentChange(item.id, "description", value)
+            handleComponentChange(`contents.${item.id}.description`, value)
           }
         />
       </>
@@ -143,7 +147,9 @@ const EditorTestimony = ({ selectedComponent }) => {
               label="Layout Variant"
               options={layoutVariants}
               value={wrapperStyle.variant}
-              onChange={(value) => handleStylesChange("variant", value)}
+              onChange={(value) =>
+                handleComponentChange("wrapperStyle.variant", value)
+              }
             />
 
             <div className="flex justify-between items-center">
@@ -151,7 +157,7 @@ const EditorTestimony = ({ selectedComponent }) => {
               <Switch
                 checked={wrapperStyle.withSlider}
                 onCheckedChange={(checked) =>
-                  handleStylesChange("withSlider", checked)
+                  handleComponentChange("wrapperStyle.withSlider", checked)
                 }
               />
             </div>
@@ -162,7 +168,10 @@ const EditorTestimony = ({ selectedComponent }) => {
                 <Switch
                   checked={wrapperStyle.autoPlaySlider}
                   onCheckedChange={(checked) =>
-                    handleStylesChange("autoPlaySlider", checked)
+                    handleComponentChange(
+                      "wrapperStyle.autoPlaySlider",
+                      checked
+                    )
                   }
                 />
               </div>
@@ -173,14 +182,16 @@ const EditorTestimony = ({ selectedComponent }) => {
             <TextEditor
               label="Header"
               value={wrapperStyle.header}
-              onChange={(value) => handleStylesChange("header", value)}
+              onChange={(value) =>
+                handleComponentChange("wrapperStyle.header", value)
+              }
             />
           </div>
 
           <DraggableList
             contents={contents}
             renderContents={(value) => renderContents(value)}
-            setContents={setContents}
+            setCurrentComponent={setCurrentComponent}
             editItem={editItem}
             selectedComponent={selectedComponent}
             setEditItem={setEditItem}

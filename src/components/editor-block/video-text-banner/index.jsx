@@ -9,7 +9,7 @@ import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import SelectOptions from "../_components/SelectOptions";
 import TextEditor from "../_components/TextEditor";
-import TransiitonEditor from "../_components/TransiitonEditor";
+import TransitionEditor from "../_components/TransitionEditor";
 
 const EditorVideoText = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -59,13 +59,13 @@ const EditorVideoText = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor
+        <TransitionEditor
           selectedComponent={selectedComponent}
           label="Video Transition"
           type="animation"
         />
 
-        <TransiitonEditor
+        <TransitionEditor
           selectedComponent={selectedComponent}
           label="Text Transition"
           type="animationText"

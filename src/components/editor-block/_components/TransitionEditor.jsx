@@ -47,7 +47,7 @@ const delayOptions = [
   { value: "animate__delay-5s", label: "5 second" },
 ];
 
-const TransiitonEditor = ({
+const TransitionEditor = ({
   selectedComponent,
   label = "Transition",
   type = "animation",
@@ -116,4 +116,4 @@ const TransiitonEditor = ({
   );
 };
 
-export default TransiitonEditor;
+export default TransitionEditor;

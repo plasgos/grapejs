@@ -15,6 +15,7 @@ import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 
 import { useToast } from "@/hooks/use-toast";
+import { useCallback } from "react";
 
 const SectionAddScrollTargetId = ({ selectedComponent }) => {
   const editor = useEditor();
@@ -22,22 +23,17 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
 
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
-  console.log(
-    "🚀 ~ SectionAddScrollTargetId ~ currentComponent:",
-    currentComponent.scrollTarget
-  );
 
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { toast } = useToast();
 
-  console.log("GLOBAL OPTIONS", editorModel.get("globalOptions"));
-
   const [scrollTargetValue, setScrollTargetValue] = useState("");
   const [selectedTargetId, setSelectedTargetId] = useState("");
+
   const [isTargetAdded, setIsTargetAdded] = useState(false);
 
-  const handleAddScrollTarget = () => {
+  const handleAddScrollTarget = useCallback(() => {
     const globalOptions = editorModel.get("globalOptions");
 
     const newId = Math.random().toString(36).substr(2, 9);
@@ -57,16 +53,16 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
 
     setIsTargetAdded(true);
     setSelectedTargetId(newId);
-  };
+  }, [editorModel, handleComponentChange, scrollTargetValue]);
 
-  const handleDeleteScrollTarget = () => {
+  const handleDeleteScrollTarget = useCallback(() => {
     const globalOptions = editorModel.get("globalOptions");
 
     // Update global options
     editorModel.set("globalOptions", {
       ...globalOptions,
       scrollTarget: globalOptions.scrollTarget.filter(
-        (target) => target.value !== scrollTargetValue
+        (target) => target.id !== selectedTargetId
       ),
     });
 
@@ -75,7 +71,7 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
     setScrollTargetValue("");
     setSelectedTargetId("");
     setIsTargetAdded(false);
-  };
+  }, [editorModel, handleComponentChange, selectedTargetId]);
 
   useEffect(() => {
     if (selectedComponent) {
@@ -101,6 +97,53 @@ const SectionAddScrollTargetId = ({ selectedComponent }) => {
     editorModel,
     selectedComponent,
     selectedTargetId,
+  ]);
+
+  useEffect(() => {
+    const syncOnUndoRedo = () => {
+      const updatedComponent = selectedComponent?.get("customComponent");
+      if (updatedComponent) {
+        setCurrentComponent(updatedComponent);
+
+        const globalOptions = editorModel.get("globalOptions");
+        const scrollTargetGlobalOptions = globalOptions.scrollTarget || [];
+
+        const checkHasScrollTarget = scrollTargetGlobalOptions.find(
+          (target) => target.id === selectedTargetId
+        );
+
+        if (updatedComponent.scrollTarget && !checkHasScrollTarget) {
+          editorModel.set("globalOptions", {
+            ...globalOptions,
+            scrollTarget: [
+              ...scrollTargetGlobalOptions,
+              updatedComponent.scrollTarget,
+            ],
+          });
+        } else if (!updatedComponent.scrollTarget && checkHasScrollTarget) {
+          editorModel.set("globalOptions", {
+            ...globalOptions,
+            scrollTarget: scrollTargetGlobalOptions.filter(
+              (target) => target.id !== selectedTargetId
+            ),
+          });
+        }
+      }
+    };
+
+    editor.on("undo", syncOnUndoRedo);
+    editor.on("redo", syncOnUndoRedo);
+
+    return () => {
+      editor.off("undo", syncOnUndoRedo);
+      editor.off("redo", syncOnUndoRedo);
+    };
+  }, [
+    editor,
+    editorModel,
+    selectedComponent,
+    selectedTargetId,
+    setCurrentComponent,
   ]);
 
   return (

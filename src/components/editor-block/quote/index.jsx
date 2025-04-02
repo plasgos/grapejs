@@ -3,13 +3,18 @@ import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
-import { useChangeContents } from "@/hooks/useChangeContents";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import TextEditor from "../_components/TextEditor";
-import TransiitonEditor from "../_components/TransiitonEditor";
+import TransitionEditor from "../_components/TransitionEditor";
 
 const EditorQuote = ({ selectedComponent }) => {
-  const { contents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { contents } = currentComponent;
 
   return (
     <TabsEditor withoutStyles>
@@ -24,14 +29,17 @@ const EditorQuote = ({ selectedComponent }) => {
             label="Content"
             value={contents[0].quoteText}
             onChange={(value) =>
-              handleContentChange(contents[0].id, "quoteText", value)
+              handleComponentChange(
+                `contents.${contents[0].id}.quoteText`,
+                value
+              )
             }
           />
         </div>
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent

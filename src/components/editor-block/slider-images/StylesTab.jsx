@@ -1,7 +1,7 @@
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import SelectOptions from "../_components/SelectOptions";
 
 const aspectRatioSliderImageOptions = [
@@ -54,8 +54,12 @@ const transitionOptions = [
 ];
 
 const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  const { wrapperStyle } = currentComponent;
+
+  useSyncWithUndoRedo(setCurrentComponent);
 
   return (
     <div className="flex flex-col gap-y-5  p-5 bg-white rounded-lg">
@@ -64,7 +68,7 @@ const StylesTab = ({ selectedComponent }) => {
         options={aspectRatioSliderImageOptions}
         value={wrapperStyle.aspectRatio}
         onChange={(value) => {
-          handleStylesChange("aspectRatio", value);
+          handleComponentChange("wrapperStyle.aspectRatio", value);
         }}
       />
 
@@ -72,14 +76,18 @@ const StylesTab = ({ selectedComponent }) => {
         label="Auto Slide"
         options={timeOptions}
         value={wrapperStyle.autoSlide}
-        onChange={(value) => handleStylesChange("autoSlide", value)}
+        onChange={(value) =>
+          handleComponentChange("wrapperStyle.autoSlide", value)
+        }
       />
 
       <SelectOptions
         label="Transition Effect"
         options={transitionOptions}
         value={wrapperStyle.transitions}
-        onChange={(value) => handleStylesChange("transitions", value)}
+        onChange={(value) =>
+          handleComponentChange("wrapperStyle.transitions", value)
+        }
       />
 
       <div className="flex justify-between items-center">
@@ -87,7 +95,7 @@ const StylesTab = ({ selectedComponent }) => {
         <Switch
           checked={wrapperStyle.navigation}
           onCheckedChange={(checked) =>
-            handleStylesChange("navigation", checked)
+            handleComponentChange("wrapperStyle.navigation", checked)
           }
         />
       </div>
@@ -96,7 +104,7 @@ const StylesTab = ({ selectedComponent }) => {
         <Switch
           checked={wrapperStyle.pagination}
           onCheckedChange={(checked) =>
-            handleStylesChange("pagination", checked)
+            handleComponentChange("wrapperStyle.pagination", checked)
           }
         />
       </div>

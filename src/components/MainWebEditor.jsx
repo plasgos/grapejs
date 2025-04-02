@@ -204,7 +204,9 @@ const MainWebEditor = () => {
     const editorModel = editor.getModel();
 
     const intialStateGlobalData = {
-      scrollTarget: [{ value: "scrollToTop", label: "Scroll To Top" }],
+      scrollTarget: [
+        { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
+      ],
       popup: [],
     };
 

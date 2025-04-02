@@ -2,7 +2,6 @@ import TabsEditor from "@/components/TabsEditor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import { produce } from "immer";
 import BackgroundEditor from "../_components/BackgroundEditor";
 
@@ -23,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import ListComponents from "../_components/ListComponents";
 
 const modalOpenTypeOptions = [
@@ -53,16 +54,12 @@ const EditorModalPopup = ({ selectedComponent }) => {
   const editor = useEditor();
   const editorModel = editor.getModel();
 
-  const [popupModalOption, setPopupModalOption] = useState(
-    selectedComponent.get("customComponent").popupModalOption
-  );
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
-  const handleChangePopupname = (value) => {
-    handleStylesChange("popupName", value);
-  };
+  const { wrapperStyle, popupModalOption } = currentComponent;
 
   const isEffectExecuted = useRef(false);
 
@@ -106,26 +103,22 @@ const EditorModalPopup = ({ selectedComponent }) => {
           draft.popupId = newId;
         })
       );
-
-      const data = selectedComponent.get("customComponent");
-      console.log("🚀 ~ EditorModalPopup ~ data:", data);
-
-      // console.log("STORE", editorModel.get("globalOptions"));
     }
   }, [editorModel, popupId, selectedComponent]);
 
   const handleChangePopupModalOption = (key, value) => {
+    const updateValue = (component) => {
+      return produce(component, (draft) => {
+        draft.popupModalOption[key] = value;
+      });
+    };
+
     selectedComponent?.set(
       "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.popupModalOption[key] = value;
-      })
+      updateValue(selectedComponent?.get("customComponent"))
     );
 
-    setPopupModalOption((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+    setCurrentComponent((prevComponent) => updateValue(prevComponent));
   };
 
   return (
@@ -141,7 +134,7 @@ const EditorModalPopup = ({ selectedComponent }) => {
               value={wrapperStyle.popupName || ""}
               onChange={(e) => {
                 const value = e.target.value;
-                handleChangePopupname(value);
+                handleComponentChange("wrapperStyle.popupName", value);
               }}
             />
           </div>

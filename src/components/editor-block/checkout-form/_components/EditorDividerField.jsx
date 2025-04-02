@@ -1,31 +1,36 @@
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import ColorPicker from "../../_components/ColorPicker";
 import RangeInputSlider from "../../_components/RangeInputSlider";
 import SelectOptions from "../../_components/SelectOptions";
 import { borderStyleOptions } from "../../divider";
-import ColorPicker from "../../_components/ColorPicker";
 
-const EditorDividerField = ({ item, handleContentChange }) => {
+const EditorDividerField = ({ item, handleComponentChange }) => {
   return (
     <div className="my-2 flex flex-col gap-y-3">
       <SelectOptions
         label="Divider Style"
         options={borderStyleOptions}
         value={item.variant}
-        onChange={(value) => handleContentChange(item.id, "variant", value)}
+        onChange={(value) =>
+          handleComponentChange(`contents.${item.id}.variant`, value)
+        }
       />
 
       <ColorPicker
         label="Color"
         value={item.color}
-        onChange={(color) => handleContentChange(item.id, "color", color)}
+        onChange={(color) =>
+          handleComponentChange(`contents.${item.id}.color`, color)
+        }
       />
 
       <RangeInputSlider
         label="Height"
         value={item.height}
-        onChange={(value) => handleContentChange(item.id, "height", value)}
+        onChange={(value) =>
+          handleComponentChange(`contents.${item.id}.height`, value)
+        }
         min={1}
         max={100}
       />
@@ -35,7 +40,7 @@ const EditorDividerField = ({ item, handleContentChange }) => {
         <Switch
           checked={item.fullWidth}
           onCheckedChange={(checked) =>
-            handleContentChange(item.id, "fullWidth", checked)
+            handleComponentChange(`contents.${item.id}.fullWidth`, checked)
           }
         />
       </div>
@@ -44,7 +49,9 @@ const EditorDividerField = ({ item, handleContentChange }) => {
         <RangeInputSlider
           label="Width"
           value={item.width}
-          onChange={(value) => handleContentChange(item.id, "width", value)}
+          onChange={(value) =>
+            handleComponentChange(`contents.${item.id}.width`, value)
+          }
           min={30}
           max={1440}
         />

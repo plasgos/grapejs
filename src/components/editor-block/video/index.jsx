@@ -5,7 +5,7 @@ import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
 import VideoEditorControl from "@/components/editor-block/video/VideoEditorControl";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
-import TransiitonEditor from "../_components/TransiitonEditor";
+import TransitionEditor from "../_components/TransitionEditor";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
 const EditorVideo = ({ selectedComponent }) => {
@@ -33,7 +33,7 @@ const EditorVideo = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent

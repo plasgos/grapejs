@@ -1,6 +1,6 @@
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import RangeInputSlider from "../_components/RangeInputSlider";
 
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -8,12 +8,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { transitionTypeOptions } from "../_components/TransiitonEditor";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { transitionTypeOptions } from "../_components/TransitionEditor";
 
 const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { wrapperStyle } = currentComponent;
 
   return (
     <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg ">
@@ -23,7 +28,7 @@ const StylesTab = ({ selectedComponent }) => {
         min={450}
         max={1000}
         onChange={(value) => {
-          handleStylesChange("width", value);
+          handleComponentChange("wrapperStyle.width", value);
         }}
       />
 
@@ -33,7 +38,7 @@ const StylesTab = ({ selectedComponent }) => {
         min={0}
         max={40}
         onChange={(value) => {
-          handleStylesChange("rounded", value);
+          handleComponentChange("wrapperStyle.rounded", value);
         }}
       />
 
@@ -42,7 +47,7 @@ const StylesTab = ({ selectedComponent }) => {
         <Select
           value={wrapperStyle.appearEffect}
           onValueChange={(value) => {
-            handleStylesChange("appearEffect", value);
+            handleComponentChange("wrapperStyle.appearEffect", value);
           }}
         >
           <SelectTrigger className="w-full bg-white">

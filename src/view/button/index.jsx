@@ -5,7 +5,7 @@ import ContainerView from "@/components/ContainerView";
 import CustomButton from "../_components/CustomButton";
 
 const ViewButton = ({ section, editor }) => {
-  const { contents } = section;
+  const { buttons } = section;
   const { position, align } = section.wrapperStyle;
 
   const classesPositionRow =
@@ -28,7 +28,7 @@ const ViewButton = ({ section, editor }) => {
           position === "flex-col" ? "gap-y-3" : "gap-x-3"
         } p-2  `}
       >
-        {contents.map((btn) => {
+        {buttons.map((btn) => {
           return (
             <CustomButton
               key={btn.id}

@@ -5,10 +5,9 @@ import { TabsContent } from "../ui/tabs";
 import { produce } from "immer";
 import TextEditor from "./_components/TextEditor";
 
-import ButtonStyleEditor from "./_components/ButtonStyleEditor";
-import SectionAddScrollTargetId from "./_components/SectionAddScrollTargetId";
-import TransiitonEditor from "./_components/TransiitonEditor";
 import BackgroundEditor from "./_components/BackgroundEditor";
+import SectionAddScrollTargetId from "./_components/SectionAddScrollTargetId";
+import TransitionEditor from "./_components/TransitionEditor";
 
 const EditorCTA = ({ selectedComponent }) => {
   const [content, setContent] = useState({
@@ -61,13 +60,11 @@ const EditorCTA = ({ selectedComponent }) => {
             value={content.description}
             onChange={(value) => handleContentChange("description", value)}
           />
-
-          <ButtonStyleEditor selectedComponent={selectedComponent} isOpenMenu />
         </div>
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="background">

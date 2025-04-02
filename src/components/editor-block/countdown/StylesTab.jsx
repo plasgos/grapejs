@@ -1,11 +1,16 @@
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import ColorPicker from "../_components/ColorPicker";
 import { Label } from "@/components/ui/label";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import ColorPicker from "../_components/ColorPicker";
 import RangeInputSlider from "../_components/RangeInputSlider";
 
 const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { wrapperStyle } = currentComponent;
 
   return (
     <div className="flex flex-col gap-y-5  p-3 bg-white rounded-lg">
@@ -14,28 +19,36 @@ const StylesTab = ({ selectedComponent }) => {
       <ColorPicker
         label="Day"
         value={wrapperStyle.daysColor}
-        onChange={(color) => handleStylesChange("daysColor", color)}
+        onChange={(color) =>
+          handleComponentChange("wrapperStyle.daysColor", color)
+        }
       />
       <ColorPicker
         label="Hours"
         value={wrapperStyle.hoursColor}
-        onChange={(color) => handleStylesChange("hoursColor", color)}
+        onChange={(color) =>
+          handleComponentChange("wrapperStyle.hoursColor", color)
+        }
       />
       <ColorPicker
         label="Minutes"
         value={wrapperStyle.minutesColor}
-        onChange={(color) => handleStylesChange("minutesColor", color)}
+        onChange={(color) =>
+          handleComponentChange("wrapperStyle.minutesColor", color)
+        }
       />
       <ColorPicker
         label="Seconds"
         value={wrapperStyle.secondsColor}
-        onChange={(color) => handleStylesChange("secondsColor", color)}
+        onChange={(color) =>
+          handleComponentChange("wrapperStyle.secondsColor", color)
+        }
       />
 
       <RangeInputSlider
         label="Width"
         value={wrapperStyle.size}
-        onChange={(value) => handleStylesChange("size", value)}
+        onChange={(value) => handleComponentChange("wrapperStyle.size", value)}
         min={10}
         max={50}
       />

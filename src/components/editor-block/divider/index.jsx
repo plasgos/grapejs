@@ -2,14 +2,14 @@ import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
-import SelectOptions from "../_components/SelectOptions";
-import ColorPicker from "../_components/ColorPicker";
-import RangeInputSlider from "../_components/RangeInputSlider";
-import IconPicker from "../_components/IconPicker";
-import { produce } from "immer";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import ColorPicker from "../_components/ColorPicker";
+import IconPicker from "../_components/IconPicker";
+import RangeInputSlider from "../_components/RangeInputSlider";
+import SelectOptions from "../_components/SelectOptions";
 
 export const borderStyleOptions = [
   { value: "solid", label: "Solid" },
@@ -23,24 +23,15 @@ export const borderStyleOptions = [
 ];
 
 const EditorDivider = ({ selectedComponent }) => {
-  const { wrapperStyle, setWrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { wrapperStyle } = currentComponent;
 
   const handleSelectIcon = (key, value) => {
-    setWrapperStyle((prevStyles) => ({
-      ...prevStyles,
-      iconBtn: {
-        ...prevStyles.iconBtn,
-        [key]: value,
-      },
-    }));
-
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.wrapperStyle.iconBtn[key] = value;
-      })
-    );
+    handleComponentChange(`wrapperStyle.iconBtn.${key}`, value);
   };
 
   return (
@@ -58,19 +49,25 @@ const EditorDivider = ({ selectedComponent }) => {
             label="Divider Style"
             options={borderStyleOptions}
             value={wrapperStyle.variant}
-            onChange={(value) => handleStylesChange("variant", value)}
+            onChange={(value) =>
+              handleComponentChange("wrapperStyle.variant", value)
+            }
           />
 
           <ColorPicker
             label="Color"
             value={wrapperStyle.color}
-            onChange={(color) => handleStylesChange("color", color)}
+            onChange={(color) =>
+              handleComponentChange("wrapperStyle.color", color)
+            }
           />
 
           <RangeInputSlider
             label="Height"
             value={wrapperStyle.height}
-            onChange={(value) => handleStylesChange("height", value)}
+            onChange={(value) =>
+              handleComponentChange("wrapperStyle.height", value)
+            }
             min={1}
             max={100}
           />
@@ -80,7 +77,7 @@ const EditorDivider = ({ selectedComponent }) => {
             <Switch
               checked={wrapperStyle.fullWidth}
               onCheckedChange={(checked) =>
-                handleStylesChange("fullWidth", checked)
+                handleComponentChange("wrapperStyle.fullWidth", checked)
               }
             />
           </div>
@@ -89,7 +86,9 @@ const EditorDivider = ({ selectedComponent }) => {
             <RangeInputSlider
               label="Width"
               value={wrapperStyle.width}
-              onChange={(value) => handleStylesChange("width", value)}
+              onChange={(value) =>
+                handleComponentChange("wrapperStyle.width", value)
+              }
               min={30}
               max={1440}
             />

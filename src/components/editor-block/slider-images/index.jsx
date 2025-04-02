@@ -6,34 +6,39 @@ import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import slider5 from "@/assets/slider5.jpg";
 
 import { Button } from "@/components/ui/button";
-import { useChangeContents } from "@/hooks/useChangeContents";
-import { generateId } from "@/lib/utils";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
-import { produce } from "immer";
-import { Plus } from "lucide-react";
-import { useState } from "react";
-import DraggableList from "../_components/DraggableList";
-import ImageUploader from "../_components/ImageUploader";
-import TargetOptions from "../_components/TargetOptions";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { generateId } from "@/lib/utils";
+import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import { produce } from "immer";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 import { GoQuestion } from "react-icons/go";
-import { Label } from "@/components/ui/label";
+import DraggableList from "../_components/DraggableList";
+import ImageUploader from "../_components/ImageUploader";
+import TargetOptions from "../_components/TargetOptions";
 import StylesTab from "./StylesTab";
 
 const EditorSliderImages = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  const { contents } = currentComponent;
+
+  useSyncWithUndoRedo(setCurrentComponent);
 
   const [editItem, setEditItem] = useState("");
 
   const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleContentChange);
+    onChangeFileUpload(id, handleComponentChange);
   };
 
   const handleAddContent = () => {
@@ -59,20 +64,22 @@ const EditorSliderImages = ({ selectedComponent }) => {
       })
     );
 
-    setContents((content) => [...content, newContent]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = [...draft.contents, newContent];
+      })
+    );
 
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedContent = contents.find((content) => content.id === item.id);
-
     return (
       <>
         <ImageUploader
           label="Image"
           handleFileUpload={() => handleFileUpload(item.id)}
-          image={selectedContent.image}
+          image={item.image}
         />
 
         <div className="space-y-2 mt-3">
@@ -93,14 +100,15 @@ const EditorSliderImages = ({ selectedComponent }) => {
             value={contents[0].alt || ""}
             onChange={(e) => {
               const value = e.target.value;
-              handleContentChange(contents[0].id, "alt", value);
+              handleComponentChange(`contents.${contents[0].id}.alt`, value);
             }}
           />
         </div>
 
         <TargetOptions
           content={item}
-          handleContentChange={handleContentChange}
+          setCurrentComponent={setCurrentComponent}
+          handleComponentChange={handleComponentChange}
         />
       </>
     );
@@ -118,7 +126,7 @@ const EditorSliderImages = ({ selectedComponent }) => {
           <DraggableList
             contents={contents}
             renderContents={(value) => renderContents(value)}
-            setContents={setContents}
+            setCurrentComponent={setCurrentComponent}
             editItem={editItem}
             selectedComponent={selectedComponent}
             setEditItem={setEditItem}

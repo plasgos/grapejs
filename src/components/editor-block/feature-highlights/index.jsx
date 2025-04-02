@@ -8,7 +8,8 @@ import StylesTab from "./StylesTab";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useChangeContents } from "@/hooks/useChangeContents";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -16,8 +17,12 @@ import DraggableList from "../_components/DraggableList";
 import IconPicker from "../_components/IconPicker";
 
 const EditorFeatureHighlights = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { contents } = currentComponent;
 
   const [editItem, setEditItem] = useState("");
 
@@ -45,45 +50,18 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
       })
     );
 
-    setContents((content) => [...content, newContent]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = [...draft.contents, newContent];
+      })
+    );
 
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedContent = contents.find((content) => content.id === item.id);
-
     const handleSelectIcon = (key, value) => {
-      setContents((prevContens) =>
-        prevContens.map((content) =>
-          content.id === selectedContent.id
-            ? {
-                ...content,
-                iconBtn: {
-                  ...content.iconBtn,
-                  [key]: value,
-                },
-              }
-            : content
-        )
-      );
-
-      selectedComponent?.set(
-        "customComponent",
-        produce(selectedComponent?.get("customComponent"), (draft) => {
-          draft.contents = draft.contents.map((content) =>
-            content.id === selectedContent.id
-              ? {
-                  ...content,
-                  iconBtn: {
-                    ...content.iconBtn,
-                    [key]: value,
-                  },
-                }
-              : content
-          );
-        })
-      );
+      handleComponentChange(`contents.${item.id}.iconBtn.${key}`, value);
     };
 
     return (
@@ -91,10 +69,10 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
         <div className="space-y-2">
           <Label>Title</Label>
           <Input
-            value={selectedContent.title || ""}
+            value={item.title || ""}
             onChange={(e) => {
               const value = e.target.value;
-              handleContentChange(item.id, "title", value);
+              handleComponentChange(`contents.${item.id}.title`, value);
             }}
           />
         </div>
@@ -102,7 +80,7 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
         <IconPicker
           label="Icon"
           onSelectIcon={(key, value) => handleSelectIcon(key, value)}
-          value={selectedContent.iconBtn}
+          value={item.iconBtn}
         />
       </>
     );
@@ -120,7 +98,7 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
           <DraggableList
             contents={contents}
             renderContents={(value) => renderContents(value)}
-            setContents={setContents}
+            setCurrentComponent={setCurrentComponent}
             editItem={editItem}
             selectedComponent={selectedComponent}
             setEditItem={setEditItem}

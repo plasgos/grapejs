@@ -2,13 +2,11 @@ import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
-import { useChangeContents } from "@/hooks/useChangeContents";
 import { generateId } from "@/lib/utils";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import DraggableList from "../_components/DraggableList";
 
 import {
@@ -19,25 +17,27 @@ import {
 import { BsTextareaResize } from "react-icons/bs";
 import { CiText } from "react-icons/ci";
 import { FaPhone, FaStar } from "react-icons/fa";
-import { IoIosCheckboxOutline, IoMdTime } from "react-icons/io";
+import { IoIosCheckboxOutline } from "react-icons/io";
 import { LuTextCursorInput } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import EditorCheckbox from "./_components/EditorCheckbox";
 import EditorTextTitle from "./_components/EditorTitle";
 <CiText />;
 
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { BiSolidImageAdd } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { RxDividerHorizontal, RxDropdownMenu } from "react-icons/rx";
-import BasicInputProps from "./_components/BasicInputProps";
-import EditorRating from "./_components/EditorRating";
-import { BiSolidImageAdd } from "react-icons/bi";
-import EditorImageField from "./_components/EditorImageField";
-import EditorDividerField from "./_components/EditorDividerField";
-import StylesTab from "./StylesTab";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import ColorPicker from "../_components/ColorPicker";
 import IconPicker from "../_components/IconPicker";
+import BasicInputProps from "./_components/BasicInputProps";
+import EditorDividerField from "./_components/EditorDividerField";
+import EditorImageField from "./_components/EditorImageField";
+import EditorRating from "./_components/EditorRating";
+import StylesTab from "./StylesTab";
 const fieldOptions = [
   { type: "title", label: "Title", icon: <CiText />, value: "Custom Title" },
   {
@@ -151,14 +151,14 @@ const fieldOptions = [
 ];
 
 const EditorCheckoutForm = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
-  console.log("🚀 ~ EditorCheckoutForm ~ contents:", contents);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { contents, wrapperStyle } = currentComponent;
 
   const [isOpenFields, setisOpenFields] = useState(false);
-
-  const { wrapperStyle, setWrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
 
   const [editItem, setEditItem] = useState("");
 
@@ -180,7 +180,11 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
       })
     );
 
-    setContents((content) => [...content, newField]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.contents = [...draft.contents, newField];
+      })
+    );
 
     setEditItem(newId);
   };
@@ -191,7 +195,7 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
         {item.type === "title" && (
           <EditorTextTitle
             item={item}
-            handleContentChange={handleContentChange}
+            handleComponentChange={handleComponentChange}
           />
         )}
         {(item.type === "text-input" ||
@@ -201,32 +205,35 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
           item.type === "date") && (
           <BasicInputProps
             item={item}
-            handleContentChange={handleContentChange}
+            handleComponentChange={handleComponentChange}
           />
         )}
         {(item.type === "checkbox" || item.type === "dropdown-menu") && (
           <EditorCheckbox
             item={item}
-            handleContentChange={handleContentChange}
+            handleComponentChange={handleComponentChange}
             selectedComponent={selectedComponent}
             contents={contents}
-            setContents={setContents}
+            setCurrentComponent={setCurrentComponent}
           />
         )}
 
         {item.type === "rating" && (
-          <EditorRating item={item} handleContentChange={handleContentChange} />
+          <EditorRating
+            item={item}
+            handleComponentChange={handleComponentChange}
+          />
         )}
         {item.type === "image" && (
           <EditorImageField
             item={item}
-            handleContentChange={handleContentChange}
+            handleComponentChange={handleComponentChange}
           />
         )}
         {item.type === "divider" && (
           <EditorDividerField
             item={item}
-            handleContentChange={handleContentChange}
+            handleComponentChange={handleComponentChange}
           />
         )}
       </>
@@ -234,20 +241,7 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
   };
 
   const handleSelectIcon = (key, value) => {
-    setWrapperStyle((prevStyles) => ({
-      ...prevStyles,
-      iconBtn: {
-        ...prevStyles.iconBtn,
-        [key]: value,
-      },
-    }));
-
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.wrapperStyle.iconBtn[key] = value;
-      })
-    );
+    handleComponentChange(`wrapperStyle.iconBtn.${key}`, value);
   };
 
   return (
@@ -266,7 +260,10 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
               <Input
                 value={wrapperStyle?.buttonText || ""}
                 onChange={(e) =>
-                  handleStylesChange("buttonText", e.target.value)
+                  handleComponentChange(
+                    "wrapperStyle.buttonText",
+                    e.target.value
+                  )
                 }
               />
             </div>
@@ -274,7 +271,9 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
             <ColorPicker
               label="Color"
               value={wrapperStyle.buttonColor}
-              onChange={(color) => handleStylesChange("buttonColor", color)}
+              onChange={(color) =>
+                handleComponentChange("wrapperStyle.buttonColor", color)
+              }
             />
 
             <IconPicker
@@ -289,7 +288,7 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
             label="Custom Fields"
             contents={contents}
             renderContents={(value) => renderContents(value)}
-            setContents={setContents}
+            setCurrentComponent={setCurrentComponent}
             editItem={editItem}
             selectedComponent={selectedComponent}
             setEditItem={setEditItem}

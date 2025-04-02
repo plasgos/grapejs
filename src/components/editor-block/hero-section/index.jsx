@@ -22,7 +22,7 @@ import { useState } from "react";
 import ImageUploader from "../_components/ImageUploader";
 import RangeInputSlider from "../_components/RangeInputSlider";
 import TextEditor from "../_components/TextEditor";
-import TransiitonEditor from "../_components/TransiitonEditor";
+import TransitionEditor from "../_components/TransitionEditor";
 
 import { BsAlignCenter, BsAlignEnd, BsAlignStart } from "react-icons/bs";
 import SelectCircle from "../_components/SelectCircle";
@@ -333,7 +333,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent

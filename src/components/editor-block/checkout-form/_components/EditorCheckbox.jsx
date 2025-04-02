@@ -49,7 +49,7 @@ const layoutOptions = [
 
 const SortableItem = ({
   item,
-  setContents,
+  setCurrentComponent,
   selectedComponent,
   setEditItem,
 }) => {
@@ -67,37 +67,28 @@ const SortableItem = ({
   };
 
   const handleRemoveItem = () => {
-    if (!selectedComponent) return;
+    const removeItemFromComponent = (component) => {
+      return produce(component, (draft) => {
+        const content = draft.contents.find(
+          (content) =>
+            content.type === "checkbox" || content.type === "dropdown-menu"
+        );
 
-    const currentComponent = selectedComponent.get("customComponent");
-    if (!currentComponent) return;
+        if (content) {
+          content.options = content.options.filter(
+            (checkbox) => checkbox.id !== item.id
+          );
+        }
+      });
+    };
 
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft.contents = draft.contents.map((content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-          ? {
-              ...content,
-              options: content.options.filter(
-                (checkbox) => checkbox.id !== item.id
-              ),
-            }
-          : content
-      );
-    });
+    selectedComponent?.set(
+      "customComponent",
+      removeItemFromComponent(selectedComponent.get("customComponent"))
+    );
 
-    selectedComponent.set("customComponent", updatedComponent);
-
-    setContents((prevContents) =>
-      prevContents.map((content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-          ? {
-              ...content,
-              options: content.options.filter(
-                (checkbox) => checkbox.id !== item.id
-              ),
-            }
-          : content
-      )
+    setCurrentComponent((prevComponent) =>
+      removeItemFromComponent(prevComponent)
     );
   };
 
@@ -179,10 +170,10 @@ const SortableItem = ({
 
 const EditorCheckbox = ({
   item,
-  handleContentChange,
+  handleComponentChange,
   selectedComponent,
   contents,
-  setContents,
+  setCurrentComponent,
 }) => {
   const selectedCheckbox = contents.find(
     (content) =>
@@ -200,47 +191,33 @@ const EditorCheckbox = ({
   const handleChangeCustomField = (id, value) => {
     const formattedValue = value.toLowerCase().replace(/\s+/g, "-");
 
-    const currentComponent = selectedComponent?.get("customComponent");
+    const updateField = (component) => {
+      return produce(component, (draft) => {
+        const content = draft.contents.find(
+          (content) =>
+            content.type === "checkbox" || content.type === "dropdown-menu"
+        );
 
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft.contents = draft.contents.map((content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-          ? {
-              ...content,
-              options: content.options.map((checkbox) =>
-                checkbox.id === id
-                  ? {
-                      ...checkbox,
-                      value: formattedValue,
-                      label: value,
-                    }
-                  : checkbox
-              ),
-            }
-          : content
-      );
-    });
+        if (content) {
+          content.options = content.options.map((checkbox) =>
+            checkbox.id === id
+              ? {
+                  ...checkbox,
+                  value: formattedValue,
+                  label: value,
+                }
+              : checkbox
+          );
+        }
+      });
+    };
 
-    selectedComponent.set("customComponent", updatedComponent);
-
-    setContents((prevContents) =>
-      prevContents.map((content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-          ? {
-              ...content,
-              options: content.options.map((checkbox) =>
-                checkbox.id === id
-                  ? {
-                      ...checkbox,
-                      value: formattedValue,
-                      label: value,
-                    }
-                  : checkbox
-              ),
-            }
-          : content
-      )
+    selectedComponent?.set(
+      "customComponent",
+      updateField(selectedComponent.get("customComponent"))
     );
+
+    setCurrentComponent((prevComponent) => updateField(prevComponent));
   };
 
   useEffect(() => {
@@ -279,27 +256,25 @@ const EditorCheckbox = ({
 
     const newOptions = arrayMove(options, oldIndex, newIndex);
 
-    // Update state GrapesJS dengan Immer
-    const updatedComponent = produce(currentComponent, (draft) => {
-      const draftCheckboxContent = draft.contents.find(
-        (content) =>
-          content.type === "checkbox" || content.type === "dropdown-menu"
-      );
-      if (draftCheckboxContent) {
-        draftCheckboxContent.options = newOptions;
-      }
-    });
+    const updateField = (component) => {
+      return produce(component, (draft) => {
+        const content = draft.contents.find(
+          (content) =>
+            content.type === "checkbox" || content.type === "dropdown-menu"
+        );
 
-    selectedComponent?.set("customComponent", updatedComponent);
+        if (content) {
+          content.options = newOptions;
+        }
+      });
+    };
 
-    // Update state lokal
-    setContents((prevContents) =>
-      prevContents.map((content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-          ? { ...content, options: newOptions }
-          : content
-      )
+    selectedComponent?.set(
+      "customComponent",
+      updateField(selectedComponent.get("customComponent"))
     );
+
+    setCurrentComponent((prevComponent) => updateField(prevComponent));
   };
 
   const handleCloseEdit = () => {
@@ -329,26 +304,25 @@ const EditorCheckbox = ({
       label: `Option ${checkboxLength}`,
     };
 
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft.contents = draft.contents.map((content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-          ? {
-              ...content,
-              options: [...content.options, newCheckbox],
-            }
-          : content
-      );
-    });
+    const updateField = (component) => {
+      return produce(component, (draft) => {
+        const content = draft.contents.find(
+          (content) =>
+            content.type === "checkbox" || content.type === "dropdown-menu"
+        );
 
-    selectedComponent.set("customComponent", updatedComponent);
+        if (content) {
+          content.options = [...content.options, newCheckbox];
+        }
+      });
+    };
 
-    setContents((prevContents) =>
-      prevContents.map((content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-          ? { ...content, options: [...content.options, newCheckbox] }
-          : content
-      )
+    selectedComponent?.set(
+      "customComponent",
+      updateField(selectedComponent.get("customComponent"))
     );
+
+    setCurrentComponent((prevComponent) => updateField(prevComponent));
 
     setEditItem(newId);
   };
@@ -360,7 +334,10 @@ const EditorCheckbox = ({
         <Input
           value={item?.labelField || ""}
           onChange={(e) =>
-            handleContentChange(item.id, "labelField", e.target.value)
+            handleComponentChange(
+              `contents.${item.id}.labelField`,
+              e.target.value
+            )
           }
         />
       </div>
@@ -372,7 +349,10 @@ const EditorCheckbox = ({
             <Switch
               checked={item?.isMultipleSelect}
               onCheckedChange={(checked) =>
-                handleContentChange(item.id, "isMultipleSelect", checked)
+                handleComponentChange(
+                  `contents.${item.id}.isMultipleSelect`,
+                  checked
+                )
               }
             />
           </div>
@@ -382,7 +362,9 @@ const EditorCheckbox = ({
             options={layoutOptions}
             label="Layout"
             value={item?.layout}
-            onChange={(value) => handleContentChange(item.id, "layout", value)}
+            onChange={(value) =>
+              handleComponentChange(`contents.${item.id}.layout`, value)
+            }
           />
         </>
       )}
@@ -394,7 +376,10 @@ const EditorCheckbox = ({
             <Input
               value={item?.placeholder || ""}
               onChange={(e) =>
-                handleContentChange(item.id, "placeholder", e.target.value)
+                handleComponentChange(
+                  `contents.${item.id}.placeholder`,
+                  e.target.value
+                )
               }
             />
           </div>
@@ -403,9 +388,8 @@ const EditorCheckbox = ({
             <Input
               value={item?.searchPlaceholder || ""}
               onChange={(e) =>
-                handleContentChange(
-                  item.id,
-                  "searchPlaceholder",
+                handleComponentChange(
+                  `contents.${item.id}.searchPlaceholder`,
                   e.target.value
                 )
               }
@@ -416,7 +400,9 @@ const EditorCheckbox = ({
             asChild
             label="Width"
             value={item?.width}
-            onChange={(value) => handleContentChange(item.id, "width", value)}
+            onChange={(value) =>
+              handleComponentChange(`contents.${item.id}.width`, value)
+            }
             min={100}
             max={1200}
           />
@@ -428,7 +414,7 @@ const EditorCheckbox = ({
         <Switch
           checked={item?.isRequired}
           onCheckedChange={(checked) =>
-            handleContentChange(item.id, "isRequired", checked)
+            handleComponentChange(`contents.${item.id}.isRequired`, checked)
           }
         />
       </div>
@@ -488,7 +474,7 @@ const EditorCheckbox = ({
                               <SortableItem
                                 key={item.id}
                                 item={item}
-                                setContents={setContents}
+                                setCurrentComponent={setCurrentComponent}
                                 selectedComponent={selectedComponent}
                                 setEditItem={setEditItem}
                               />

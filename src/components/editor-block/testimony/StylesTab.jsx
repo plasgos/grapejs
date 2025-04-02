@@ -5,29 +5,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
 import ColorPicker from "../_components/ColorPicker";
 import SelectFontFamily from "../_components/SelectFontFamily";
 import SelectFontSize from "../_components/SelectFontSize";
 
-import { CgChevronDown, CgChevronDownR } from "react-icons/cg";
-import SelectCircle from "../_components/SelectCircle";
-import SelectOptions from "../_components/SelectOptions";
-
-const variantOptions = [
-  { value: "basic", label: "Basic", icon: <CgChevronDown /> },
-  { value: "card", label: "Card", icon: <CgChevronDownR /> },
-];
-
-const layoutVariants = [
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-];
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
 const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { wrapperStyle } = currentComponent;
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -37,7 +28,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Background Color"
           value={wrapperStyle.bgColor}
           onChange={(value) => {
-            handleStylesChange("bgColor", value);
+            handleComponentChange("wrapperStyle.bgColor", value);
           }}
         />
 
@@ -46,7 +37,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Border Color"
           value={wrapperStyle.borderColor}
           onChange={(value) => {
-            handleStylesChange("borderColor", value);
+            handleComponentChange("wrapperStyle.borderColor", value);
           }}
         />
 
@@ -55,7 +46,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Stars Color"
           value={wrapperStyle.starsColor}
           onChange={(value) => {
-            handleStylesChange("starsColor", value);
+            handleComponentChange("wrapperStyle.starsColor", value);
           }}
         />
 
@@ -64,7 +55,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Quote Color"
           value={wrapperStyle.quoteColor}
           onChange={(value) => {
-            handleStylesChange("quoteColor", value);
+            handleComponentChange("wrapperStyle.quoteColor", value);
           }}
         />
       </div>
@@ -81,7 +72,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Color"
                 value={wrapperStyle.nameColor}
                 onChange={(value) => {
-                  handleStylesChange("nameColor", value);
+                  handleComponentChange("wrapperStyle.nameColor", value);
                 }}
               />
 
@@ -91,10 +82,10 @@ const StylesTab = ({ selectedComponent }) => {
                 fontFamily={wrapperStyle.fontFamily}
                 fontWeight={wrapperStyle.fontWeight}
                 onChangefontFamily={(value) => {
-                  handleStylesChange("fontFamily", value);
+                  handleComponentChange("wrapperStyle.fontFamily", value);
                 }}
                 onChangefontWeight={(value) => {
-                  handleStylesChange("fontWeight", value);
+                  handleComponentChange("wrapperStyle.fontWeight", value);
                 }}
               />
 
@@ -103,7 +94,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Size"
                 value={wrapperStyle.fontSize}
                 onChange={(value) => {
-                  handleStylesChange("fontSize", value);
+                  handleComponentChange("wrapperStyle.fontSize", value);
                 }}
               />
             </div>
@@ -117,7 +108,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Profection"
           value={wrapperStyle.profectionColor}
           onChange={(value) => {
-            handleStylesChange("profectionColor", value);
+            handleComponentChange("wrapperStyle.profectionColor", value);
           }}
         />
       </div>

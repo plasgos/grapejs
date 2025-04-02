@@ -21,6 +21,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { LuPencilLine } from "react-icons/lu";
 import { useDispatch } from "react-redux";
 import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { cloneElement } from "react";
 
 const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
   const editor = useEditor();
@@ -147,8 +148,7 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
 
       <div className="flex items-center justify-between">
         <div className="pl-5 flex items-center gap-x-2">
-          {item.model.attributes.blockIcon}
-
+          {cloneElement(item.model.attributes.blockIcon, { size: 24 })}
           <div className=" font-semibold text-sm">
             <p>{item.model?.attributes?.blockLabel}</p>
           </div>

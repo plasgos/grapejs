@@ -9,19 +9,20 @@ import {
 } from "@/components/ui/accordion";
 
 import { Button } from "@/components/ui/button";
-import { useChangeContents } from "@/hooks/useChangeContents";
 import { generateId } from "@/lib/utils";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import TransiitonEditor from "../_components/TransiitonEditor";
+import TransitionEditor from "../_components/TransitionEditor";
 
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import ButtonStylesEditor from "../_components/ButtonStylesEditor";
 import DraggableList from "../_components/DraggableList";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
+import IconPicker from "../_components/IconPicker";
 import RangeInputSlider from "../_components/RangeInputSlider";
 import SelectOptions from "../_components/SelectOptions";
-import IconPicker from "../_components/IconPicker";
+import TargetOptions from "../_components/TargetOptions";
 
 export const spaceOptions = [
   { value: 5, label: "Very Close" },
@@ -32,49 +33,12 @@ export const spaceOptions = [
 ];
 
 const EditorFloatingButtonCircle = ({ selectedComponent }) => {
-  const { contents, setContents, handleContentChange } =
-    useChangeContents(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
 
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  useSyncWithUndoRedo(setCurrentComponent);
 
-  const handleButtonTargetChange = (id, key, value) => {
-    handleContentChange(id, key, value);
-  };
-
-  const handleButtonChange = (id, source, key, value) => {
-    setContents((prevButton) =>
-      prevButton.map((btn) =>
-        btn.id === id
-          ? {
-              ...btn,
-              [source]: {
-                ...btn[source],
-                [key]: value,
-              },
-            }
-          : btn
-      )
-    );
-
-    // Update GrapesJS canvas component
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents = draft.contents.map((btn) =>
-          btn.id === id
-            ? {
-                ...btn,
-                [source]: {
-                  ...btn[source],
-                  [key]: value,
-                },
-              }
-            : btn
-        );
-      })
-    );
-  };
+  const { wrapperStyle } = currentComponent;
 
   const [editItem, setEditItem] = useState("");
 
@@ -111,35 +75,41 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
     selectedComponent?.set(
       "customComponent",
       produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents.push(newButton);
+        draft.buttons.push(newButton);
       })
     );
 
-    setContents((content) => [...content, newButton]);
+    setCurrentComponent((prevComponent) =>
+      produce(prevComponent, (draft) => {
+        draft.buttons = [...draft.buttons, newButton];
+      })
+    );
 
     setEditItem(newId);
   };
 
   const renderContents = (item) => {
-    const selectedButton = contents.find((btn) => btn.id === item.id);
-
     const handleSelectIcon = (key, value) => {
-      handleButtonChange(selectedButton.id, "iconBtn", key, value);
+      handleComponentChange(`buttons.${item.id}.iconBtn.${key}`, value);
     };
 
     return (
       <div className="flex flex-col gap-y-3">
         <ButtonStylesEditor
-          selectedButton={selectedButton}
-          handleButtonChange={handleButtonChange}
-          handleButtonTargetChange={handleButtonTargetChange}
+          selectedButton={item}
+          handleComponentChange={handleComponentChange}
           withoutRounded
         />
-
+        <TargetOptions
+          content={item}
+          path="buttons"
+          setCurrentComponent={setCurrentComponent}
+          handleComponentChange={handleComponentChange}
+        />
         <IconPicker
           label="Icon"
           onSelectIcon={(key, value) => handleSelectIcon(key, value)}
-          value={selectedButton.iconBtn}
+          value={item.iconBtn}
           withoutIconSize
           withoutIconPosition
           withoutRemove
@@ -166,25 +136,30 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
                     asChild
                     label="Position"
                     value={wrapperStyle.position}
-                    onChange={(value) => handleStylesChange("position", value)}
+                    onChange={(value) =>
+                      handleComponentChange("wrapperStyle.position", value)
+                    }
                     min={10}
                     max={500}
                   />
 
-                  {contents.length > 1 && (
+                  {currentComponent.buttons.length > 1 && (
                     <SelectOptions
                       options={spaceOptions}
                       asChild
                       label="Space"
                       value={wrapperStyle.space}
-                      onChange={(value) => handleStylesChange("space", value)}
+                      onChange={(value) =>
+                        handleComponentChange("wrapperStyle.space", value)
+                      }
                     />
                   )}
 
                   <DraggableList
-                    contents={contents}
+                    contents={currentComponent.buttons}
+                    path="buttons"
                     renderContents={(value) => renderContents(value)}
-                    setContents={setContents}
+                    setCurrentComponent={setCurrentComponent}
                     editItem={editItem}
                     selectedComponent={selectedComponent}
                     setEditItem={setEditItem}
@@ -205,7 +180,7 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
-        <TransiitonEditor selectedComponent={selectedComponent} />
+        <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

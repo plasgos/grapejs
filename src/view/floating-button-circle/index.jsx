@@ -5,7 +5,7 @@ import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
 const ViewFLoatingButtonCircle = ({ section, editor }) => {
-  const { contents } = section;
+  const { buttons } = section;
   const { position, space } = section.wrapperStyle;
 
   const sizeClassesMap = {
@@ -32,22 +32,22 @@ const ViewFLoatingButtonCircle = ({ section, editor }) => {
       }}
       className="absolute  right-5 flex flex-col justify-center items-center    "
     >
-      {contents.map((content) => {
-        const size = content.stylesBtn.size;
+      {buttons.map((button) => {
+        const size = button.stylesBtn.size;
 
-        const variant = content.stylesBtn.variant;
-        const iconBtn = content.iconBtn;
+        const variant = button.stylesBtn.variant;
+        const iconBtn = button.iconBtn;
 
         const sizeClasses = sizeClassesMap[size] || sizeClassesMap.default;
 
         const iconSizeClasses = iconSizeMap[size] || iconSizeMap.default;
 
         return (
-          <div key={content.id} className="">
+          <div key={button.id} className="">
             <div
-              key={content.id}
+              key={button.id}
               className={`${
-                content.isFocused &&
+                button.isFocused &&
                 "ring-2 ring-purple-600  bg-orange-100 p-0.5 "
               } `}
             >
@@ -55,16 +55,16 @@ const ViewFLoatingButtonCircle = ({ section, editor }) => {
                 style={{
                   width: sizeClasses,
                   height: sizeClasses,
-                  color: content.stylesBtn.textColor,
+                  color: button.stylesBtn.textColor,
                   border:
                     variant === "outline"
-                      ? `1px solid ${content.stylesBtn.btnColor}`
+                      ? `1px solid ${button.stylesBtn.btnColor}`
                       : "",
                   backgroundColor:
-                    variant === "default" ? content.stylesBtn.btnColor : "",
+                    variant === "default" ? button.stylesBtn.btnColor : "",
                 }}
-                className={`${content.stylesBtn.shadow} rounded-full`}
-                onClick={() => onActionClickTarget(content.target, editor)}
+                className={`${button.stylesBtn.shadow} rounded-full`}
+                onClick={() => onActionClickTarget(button.target, editor)}
               >
                 <div className="flex justify-center items-center">
                   {iconBtn && Icons[iconBtn?.icon] && (

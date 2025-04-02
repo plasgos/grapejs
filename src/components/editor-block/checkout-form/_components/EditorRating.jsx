@@ -9,7 +9,7 @@ const designOptions = [
   { value: "hearts", label: "Hearts" },
 ];
 
-const EditorRating = ({ item, handleContentChange }) => {
+const EditorRating = ({ item, handleComponentChange }) => {
   return (
     <div className="my-2 flex flex-col gap-y-3">
       <div className="space-y-2">
@@ -17,7 +17,10 @@ const EditorRating = ({ item, handleContentChange }) => {
         <Input
           value={item?.labelField || ""}
           onChange={(e) =>
-            handleContentChange(item.id, "labelField", e.target.value)
+            handleComponentChange(
+              `contents.${item.id}.labelField`,
+              e.target.value
+            )
           }
         />
       </div>
@@ -27,7 +30,7 @@ const EditorRating = ({ item, handleContentChange }) => {
         <Switch
           checked={item?.isRequired}
           onCheckedChange={(checked) =>
-            handleContentChange(item.id, "isRequired", checked)
+            handleComponentChange(`contents.${item.id}.isRequired`, checked)
           }
         />
       </div>
@@ -37,14 +40,18 @@ const EditorRating = ({ item, handleContentChange }) => {
         label="Icon Rating"
         options={designOptions}
         value={item?.design}
-        onChange={(value) => handleContentChange(item.id, "design", value)}
+        onChange={(value) =>
+          handleComponentChange(`contents.${item.id}.design`, value)
+        }
       />
 
       <RangeInputSlider
         asChild
         label="Width"
         value={item?.ratingSize}
-        onChange={(value) => handleContentChange(item.id, "ratingSize", value)}
+        onChange={(value) =>
+          handleComponentChange(`contents.${item.id}.ratingSize`, value)
+        }
         min={18}
         max={100}
       />

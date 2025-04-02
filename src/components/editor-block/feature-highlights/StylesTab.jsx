@@ -7,7 +7,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useChangeWrapperStyles } from "@/hooks/useChangeWrapperStyles";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { TbAlignCenter, TbAlignLeft, TbAlignRight } from "react-icons/tb";
 import ColorPicker from "../_components/ColorPicker";
 import SelectFontFamily from "../_components/SelectFontFamily";
@@ -20,8 +21,12 @@ const options = [
 ];
 
 const StylesTab = ({ selectedComponent }) => {
-  const { wrapperStyle, handleStylesChange } =
-    useChangeWrapperStyles(selectedComponent);
+  const { currentComponent, setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent);
+
+  useSyncWithUndoRedo(setCurrentComponent);
+
+  const { wrapperStyle } = currentComponent;
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -37,7 +42,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Color"
                 value={wrapperStyle.color}
                 onChange={(value) => {
-                  handleStylesChange("color", value);
+                  handleComponentChange("wrapperStyle.color", value);
                 }}
               />
 
@@ -47,10 +52,10 @@ const StylesTab = ({ selectedComponent }) => {
                 fontFamily={wrapperStyle.fontFamily}
                 fontWeight={wrapperStyle.fontWeight}
                 onChangefontFamily={(value) => {
-                  handleStylesChange("fontFamily", value);
+                  handleComponentChange("wrapperStyle.fontFamily", value);
                 }}
                 onChangefontWeight={(value) => {
-                  handleStylesChange("fontWeight", value);
+                  handleComponentChange("wrapperStyle.fontWeight", value);
                 }}
               />
 
@@ -59,7 +64,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Size"
                 value={wrapperStyle.fontSize}
                 onChange={(value) => {
-                  handleStylesChange("fontSize", value);
+                  handleComponentChange("wrapperStyle.fontSize", value);
                 }}
               />
 
@@ -70,7 +75,10 @@ const StylesTab = ({ selectedComponent }) => {
                     <Button
                       key={item.value}
                       onClick={() => {
-                        handleStylesChange("textAligment", item.value);
+                        handleComponentChange(
+                          "wrapperStyle.textAligment",
+                          item.value
+                        );
                       }}
                       variant={
                         wrapperStyle.textAligment === item.value
