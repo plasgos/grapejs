@@ -13,7 +13,11 @@ const ViewImage = ({ section, editor }) => {
     useAnimatedVisibility(animation);
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       {variant === "centerPage" && (
         <div
           ref={elementRef}

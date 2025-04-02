@@ -4,6 +4,8 @@ import { aspectRatioVideoOptions } from "@/components/SelectOptions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { useEffect } from "react";
 
 const videoOptions = [
   { key: "isControls", label: "Hidden Control" },
@@ -13,6 +15,14 @@ const videoOptions = [
 ];
 
 const VideoEditorControl = ({ contents, handleComponentChange }) => {
+  const { maxWidthPage } = useGlobalOptions();
+
+  useEffect(() => {
+    if (contents[0].width > maxWidthPage) {
+      handleComponentChange(`contents.${contents[0].id}.width`, maxWidthPage);
+    }
+  }, [contents, handleComponentChange, maxWidthPage]);
+
   return (
     <>
       <div className="space-y-2 ">
@@ -65,7 +75,7 @@ const VideoEditorControl = ({ contents, handleComponentChange }) => {
           handleComponentChange(`contents.${contents[0].id}.width`, value)
         }
         min={100}
-        max={1200}
+        max={maxWidthPage}
       />
 
       <RangeInputSlider

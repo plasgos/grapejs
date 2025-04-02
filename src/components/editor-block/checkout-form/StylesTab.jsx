@@ -3,6 +3,8 @@ import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import ColorPicker from "../_components/ColorPicker";
 import RangeInputSlider from "../_components/RangeInputSlider";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { useEffect } from "react";
 
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -11,6 +13,13 @@ const StylesTab = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { wrapperStyle } = currentComponent;
+  const { maxWidthPage } = useGlobalOptions();
+
+  useEffect(() => {
+    if (wrapperStyle.width > maxWidthPage) {
+      handleComponentChange("wrapperStyle.width", maxWidthPage);
+    }
+  }, [handleComponentChange, maxWidthPage, wrapperStyle.width]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -24,7 +33,7 @@ const StylesTab = ({ selectedComponent }) => {
             handleComponentChange("wrapperStyle.width", value)
           }
           min={320}
-          max={1440}
+          max={maxWidthPage}
         />
 
         <RangeInputSlider

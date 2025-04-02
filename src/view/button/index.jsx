@@ -22,7 +22,11 @@ const ViewButton = ({ section, editor }) => {
     }`;
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       <div
         className={`flex ${classesPositionRow} ${classesPositionCol}  w-full ${
           position === "flex-col" ? "gap-y-3" : "gap-x-3"

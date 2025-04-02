@@ -31,7 +31,11 @@ const ViewSliderImages = ({ section, editor }) => {
   const delay = autoSlide * 1000;
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       {variant === "full-slider" && (
         <div
           className={`w-full ${

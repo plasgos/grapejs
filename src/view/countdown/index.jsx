@@ -3,14 +3,18 @@ import DateCountDown from "./DateCountDown";
 import DurationCountdown from "./DurationCountdown";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 
-const ViewCountDown = ({ section }) => {
+const ViewCountDown = ({ section, editor }) => {
   const { contents, animation } = section;
 
   const { elementRef, getClassName, duration } =
     useAnimatedVisibility(animation);
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       {contents.map((content) => {
         return (
           <div

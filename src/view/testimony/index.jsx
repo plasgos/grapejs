@@ -13,7 +13,11 @@ const ViewTestimony = ({ section, editor }) => {
   const { variant, header, withSlider, autoPlaySlider } = section.wrapperStyle;
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       <div className="p-5">
         <div
           style={{

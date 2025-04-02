@@ -3,14 +3,18 @@ import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
 const ContainerView = ({
   children,
   section,
+  editor,
   id,
   customStyles,
   customClassName,
 }) => {
+  const editorModel = editor.getModel();
+  const globalOptions = editorModel.get("globalOptions");
+
   const stylesBg = useBackgroundStyles(section);
   return (
     <div
-      className={`${customClassName}`}
+      className={`${customClassName} mx-auto`}
       id={id}
       style={{
         paddingTop: stylesBg.paddingTop,
@@ -21,6 +25,7 @@ const ContainerView = ({
             : "transparent",
         position: "relative",
         zIndex: 1,
+        maxWidth: globalOptions.maxWidthPage,
         ...customStyles,
       }}
     >

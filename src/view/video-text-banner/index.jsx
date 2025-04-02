@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewVideoText = ({ section }) => {
+const ViewVideoText = ({ section, editor }) => {
   const { contents, animation, animationText } = section;
 
   const { elementRef, getClassName, duration } =
@@ -23,7 +23,11 @@ const ViewVideoText = ({ section }) => {
   };
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       {contents.map((content) => (
         <div
           key={content.id}

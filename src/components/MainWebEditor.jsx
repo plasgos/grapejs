@@ -204,6 +204,8 @@ const MainWebEditor = () => {
     const editorModel = editor.getModel();
 
     const intialStateGlobalData = {
+      maxWidthPage: 1280,
+      bgColor: "",
       scrollTarget: [
         { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
       ],

@@ -29,6 +29,9 @@ import { handleAddWatermark, updateCanvasComponents } from "./MainWebEditor";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import GlobalStyles from "./GlobalStyles";
+import { useEffect } from "react";
+import { FaGlobe } from "react-icons/fa";
 
 const Sidebar = ({
   selectedComponent,
@@ -134,6 +137,12 @@ const Sidebar = ({
     input.click();
   };
 
+  useEffect(() => {
+    if (activeTab === "styles" && isEditComponent) {
+      setActiveTab("components");
+    }
+  }, [activeTab, isEditComponent, setActiveTab]);
+
   return (
     <>
       <div
@@ -157,13 +166,19 @@ const Sidebar = ({
               className="w-full data-[state=inactive]:bg-[#EFF3F4] rounded-bl-xl "
               value="components"
             >
-              Components
+              <div className="flex  gap-x-2">
+                <IoGrid className="" size={20} />
+                <p>Components</p>
+              </div>
             </TabsTrigger>
             <TabsTrigger
               className="w-full data-[state=inactive]:bg-[#EFF3F4]  rounded-bl-xl"
               value="styles"
             >
-              Styles
+              <div className="flex  gap-x-2">
+                <FaGlobe className="" size={20} />
+                <p> Global Styles</p>
+              </div>
             </TabsTrigger>
           </TabsList>
 
@@ -242,17 +257,16 @@ const Sidebar = ({
             </div>
           </TabsContent>
 
-          <TabsContent value="styles">Change your password here.</TabsContent>
+          <TabsContent value="styles">
+            <GlobalStyles selectedComponent={selectedComponent} />
+          </TabsContent>
         </Tabs>
 
         <div className="absolute bottom-0 left-0 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]    w-full h-14 shadow-xl ">
           <div className="flex justify-between gap-x-5 p-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  // className="bg-neutral-100 text-black shadow hover:bg-neutral-100/90"
-                >
+                <Button variant="ghost">
                   <IoSettingsSharp />
                   Settings
                 </Button>

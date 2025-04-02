@@ -1,10 +1,14 @@
 import ContainerView from "@/components/ContainerView";
 
-const ViewEmptySpace = ({ section }) => {
+const ViewEmptySpace = ({ section, editor }) => {
   const { height } = section.wrapperStyle;
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       <div
         style={{
           width: "100%",

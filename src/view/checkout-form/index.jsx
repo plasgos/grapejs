@@ -163,8 +163,9 @@ import ViewRating from "./components/ViewtRating";
 
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
+import ContainerView from "@/components/ContainerView";
 
-const ViewFormCheckout = ({ section }) => {
+const ViewFormCheckout = ({ section, editor }) => {
   const { contents } = section;
   const {
     width,
@@ -264,7 +265,14 @@ const ViewFormCheckout = ({ section }) => {
   // }
 
   return (
-    <div style={{ maxWidth: "100%", width: width }} className="p-5  mx-auto">
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+      customStyles={{
+        width,
+      }}
+    >
       <Form {...form}>
         <form className="space-y-3">
           <ViewTitle
@@ -616,7 +624,7 @@ const ViewFormCheckout = ({ section }) => {
           </Button>
         </form>
       </Form>
-    </div>
+    </ContainerView>
   );
 };
 

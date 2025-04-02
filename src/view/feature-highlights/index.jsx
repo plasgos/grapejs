@@ -4,7 +4,7 @@ import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewFeatureHighlights = ({ section }) => {
+const ViewFeatureHighlights = ({ section, editor }) => {
   const { contents, animation } = section;
   const { textShadow, color, fontWeight, fontFamily, fontSize, textAligment } =
     section.wrapperStyle;
@@ -13,7 +13,11 @@ const ViewFeatureHighlights = ({ section }) => {
     useAnimatedVisibility(animation);
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       <div className={`flex ${textAligment}`}>
         <div
           ref={elementRef}

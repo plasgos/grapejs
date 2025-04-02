@@ -1,3 +1,32 @@
+export const widthPageOptions = [
+  {
+    label: "Small",
+    options: [
+      { value: 400, label: "400px" },
+      { value: 520, label: "520px" },
+      { value: 640, label: "640px" },
+    ],
+  },
+  {
+    label: "Medium",
+    options: [
+      { value: 800, label: "800px" },
+      { value: 900, label: "900px" },
+      { value: 1024, label: "1024px" },
+      { value: 1280, label: "1280px" },
+    ],
+  },
+  {
+    label: "Large",
+    options: [
+      { value: 1360, label: "1360px" },
+      { value: 1440, label: "1440px" },
+      { value: 1600, label: "1600px" },
+      { value: 1920, label: "1920px" },
+    ],
+  },
+];
+
 export const shadowOptions = [
   { label: "None", value: "shadow-none" },
   {

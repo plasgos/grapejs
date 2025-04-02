@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import { ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
-const ViewFAQ = ({ section }) => {
+const ViewFAQ = ({ section, editor }) => {
   const { contents } = section;
   const {
     textShadow,
@@ -45,7 +45,11 @@ const ViewFAQ = ({ section }) => {
   }, [variant]);
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       {variant === "basic" && (
         <div className="flex flex-col p-5">
           {contents.map((content) => {

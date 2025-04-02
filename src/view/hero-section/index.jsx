@@ -21,7 +21,11 @@ const ViewHeroSection = ({ section, editor }) => {
   } = useAnimatedVisibility(animationText);
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       {variant === "basic" && (
         <div>
           {contents.map((content) => {

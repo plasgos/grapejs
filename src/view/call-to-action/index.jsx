@@ -4,7 +4,7 @@ import { useState } from "react";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const CallToAction = ({ section, canvas, isDragging }) => {
+const CallToAction = ({ section, canvas, editor, isDragging }) => {
   const {
     title,
     description,
@@ -126,6 +126,7 @@ const CallToAction = ({ section, canvas, isDragging }) => {
     <ContainerView
       id={section?.scrollTarget?.value || ""}
       section={section}
+      editor={editor}
       isDragging={isDragging}
     >
       <div

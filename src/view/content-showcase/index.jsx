@@ -31,7 +31,11 @@ const ContentShowcase = ({ section, editor }) => {
       : "md:grid-cols-1";
 
   return (
-    <ContainerView id={section?.scrollTarget?.value || ""} section={section}>
+    <ContainerView
+      id={section?.scrollTarget?.value || ""}
+      editor={editor}
+      section={section}
+    >
       <div
         className={`
     grid 
