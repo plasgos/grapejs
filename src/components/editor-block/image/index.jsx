@@ -101,7 +101,6 @@ const EditorImage = ({ selectedComponent }) => {
 
           <TargetOptions
             content={currentComponent.contents[0]}
-            setCurrentComponent={setCurrentComponent}
             handleComponentChange={handleComponentChange}
           />
         </div>

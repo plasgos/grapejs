@@ -20,8 +20,8 @@ import { FaPhone, FaStar } from "react-icons/fa";
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { LuTextCursorInput } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
-import EditorCheckbox from "./_components/EditorCheckbox";
-import EditorTextTitle from "./_components/EditorTitle";
+// import EditorCheckbox from "./_components/EditorCheckbox";
+// import EditorTextTitle from "./_components/EditorTitle";
 <CiText />;
 
 import { Input } from "@/components/ui/input";
@@ -33,21 +33,10 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { RxDividerHorizontal, RxDropdownMenu } from "react-icons/rx";
 import ColorPicker from "../_components/ColorPicker";
 import IconPicker from "../_components/IconPicker";
-import BasicInputProps from "./_components/BasicInputProps";
-import EditorDividerField from "./_components/EditorDividerField";
-import EditorImageField from "./_components/EditorImageField";
-import EditorRating from "./_components/EditorRating";
-import StylesTab from "./StylesTab";
+import EditorImagesFooter from "./_components/EditorImagesFooter";
 const fieldOptions = [
+  { type: "title", label: "Title", icon: <CiText />, value: "Custom Title" },
   {
-    // id: `title-${generateId()}`,
-    type: "title",
-    label: "Title",
-    icon: <CiText />,
-    value: "Custom Title",
-  },
-  {
-    // id: `text-input-${generateId()}`,
     type: "text-input",
     label: "Text Input",
     icon: <LuTextCursorInput />,
@@ -57,7 +46,6 @@ const fieldOptions = [
     placeholder: "Type Here...",
   },
   {
-    // id: `email-${generateId()}`,
     type: "email",
     label: "Email",
     icon: <MdOutlineMailOutline />,
@@ -67,7 +55,6 @@ const fieldOptions = [
     placeholder: "example@email.com",
   },
   {
-    // id: `phone-${generateId()}`,
     type: "phoneNumber",
     label: "Phone",
     icon: <FaPhone />,
@@ -77,7 +64,6 @@ const fieldOptions = [
     placeholder: "628952367xxxx",
   },
   {
-    // id: `text-area-${generateId()}`,
     type: "text-area",
     label: "Text Area",
     labelField: "",
@@ -87,7 +73,6 @@ const fieldOptions = [
     placeholder: "Type Here...",
   },
   {
-    // id: `checkbox-${generateId()}`,
     type: "checkbox",
     label: "Checkbox",
     labelField: "Type a question",
@@ -103,7 +88,6 @@ const fieldOptions = [
     value: "",
   },
   {
-    // id: `dropdown-${generateId()}`,
     type: "dropdown-menu",
     label: "Dropdown",
     labelField: "Dropdown Menu",
@@ -120,7 +104,6 @@ const fieldOptions = [
     value: "",
   },
   {
-    // id: `date-${generateId()}`,
     type: "date",
     label: "Date & Time",
     labelField: "Date",
@@ -132,7 +115,6 @@ const fieldOptions = [
     value: "",
   },
   {
-    // id: `rating-${generateId()}`,
     type: "rating",
     label: "Rating",
     labelField: "Rating",
@@ -143,7 +125,6 @@ const fieldOptions = [
     value: "",
   },
   {
-    // id: `image-${generateId()}`,
     type: "image",
     label: "Image",
     labelField: "Upload Image",
@@ -152,7 +133,6 @@ const fieldOptions = [
     value: "",
   },
   {
-    // id: `divider-${generateId()}`,
     type: "divider",
     label: "Divider",
     labelField: "Divider",
@@ -166,14 +146,13 @@ const fieldOptions = [
   },
 ];
 
-const EditorCheckoutForm = ({ selectedComponent }) => {
+const EditorFooter = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { contents, wrapperStyle } = currentComponent;
-  console.log("🚀 ~ EditorCheckoutForm ~ contents:", contents);
 
   const [isOpenFields, setisOpenFields] = useState(false);
 
@@ -209,47 +188,13 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
   const renderContents = (item) => {
     return (
       <>
-        {item.type === "title" && (
-          <EditorTextTitle
-            item={item}
-            handleComponentChange={handleComponentChange}
-          />
-        )}
-        {(item.type === "text-input" ||
-          item.type === "email" ||
-          item.type === "text-area" ||
-          item.type === "phoneNumber" ||
-          item.type === "date") && (
-          <BasicInputProps
-            item={item}
-            handleComponentChange={handleComponentChange}
-          />
-        )}
-        {(item.type === "checkbox" || item.type === "dropdown-menu") && (
-          <EditorCheckbox
+        {item.type === "images" && (
+          <EditorImagesFooter
             item={item}
             handleComponentChange={handleComponentChange}
             selectedComponent={selectedComponent}
+            contents={contents}
             setCurrentComponent={setCurrentComponent}
-          />
-        )}
-
-        {item.type === "rating" && (
-          <EditorRating
-            item={item}
-            handleComponentChange={handleComponentChange}
-          />
-        )}
-        {item.type === "image" && (
-          <EditorImageField
-            item={item}
-            handleComponentChange={handleComponentChange}
-          />
-        )}
-        {item.type === "divider" && (
-          <EditorDividerField
-            item={item}
-            handleComponentChange={handleComponentChange}
           />
         )}
       </>
@@ -341,10 +286,10 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab selectedComponent={selectedComponent} />
+        {/* <StylesTab selectedComponent={selectedComponent} /> */}
       </TabsContent>
     </TabsEditor>
   );
 };
 
-export default EditorCheckoutForm;
+export default EditorFooter;

@@ -7,6 +7,7 @@ import { FAQComponent } from "./components/FAQComponent";
 import { featureHighlightsComponent } from "./components/featureHighlightsComponent";
 import { floatingButtonCircleComponent } from "./components/floatingButtonCircleComponent";
 import { floatingButtonComponent } from "./components/floatingButtonComponent";
+import { footerComponent } from "./components/footerComponent";
 import { formCheckoutComponent } from "./components/formCheckoutComponent";
 import { heroSectionComponent } from "./components/heroSectionComponent";
 import { imageComponent } from "./components/imageComponent";
@@ -41,6 +42,7 @@ const plasgosPlugin = (editor) => {
     dividerComponent(editor);
     emptySpaceComponent(editor);
     formCheckoutComponent(editor);
+    footerComponent(editor);
   });
 };
 

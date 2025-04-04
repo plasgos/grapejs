@@ -586,6 +586,7 @@ const ViewFormCheckout = ({ section, editor }) => {
             size="lg"
             style={{
               backgroundColor: buttonColor,
+              marginBottom: "10px",
             }}
             onClick={form.handleSubmit(onSubmit)}
             className="w-full"

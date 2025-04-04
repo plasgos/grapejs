@@ -88,7 +88,7 @@ const IconPicker = ({
   };
 
   useEffect(() => {
-    if (value.color) {
+    if (value?.color) {
       setSketchPickerColor(parseRGBA(value.color));
     }
   }, [value]);
@@ -102,7 +102,7 @@ const IconPicker = ({
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline">
-                {value.icon
+                {value?.icon
                   ? Icons[value.icon] && (
                       <>
                         <div style={{ color: value.color }}>
@@ -163,7 +163,7 @@ const IconPicker = ({
             </DialogContent>
           </Dialog>
 
-          {value.icon && (
+          {value?.icon && (
             <div className="cursor-pointer">
               <DropdownMenu
                 open={isOpenDropdown}

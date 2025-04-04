@@ -9,6 +9,7 @@ import EditorFAQ from "./editor-block/faq";
 import EditorFeatureHighlights from "./editor-block/feature-highlights";
 import EditorFloatingButton from "./editor-block/floating-button";
 import EditorFloatingButtonCircle from "./editor-block/floating-button-circle";
+import EditorFooter from "./editor-block/footer";
 import EditorHeroSection from "./editor-block/hero-section";
 import EditorImage from "./editor-block/image";
 import EditorListImages from "./editor-block/list-images";
@@ -91,6 +92,9 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       )}
       {selectedComponent.get("type") === "checkout-form" && (
         <EditorCheckoutForm selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "footer" && (
+        <EditorFooter selectedComponent={selectedComponent} />
       )}
     </div>
   );

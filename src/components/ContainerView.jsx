@@ -25,7 +25,7 @@ const ContainerView = ({
             : "transparent",
         position: "relative",
         zIndex: 1,
-        maxWidth: globalOptions.maxWidthPage,
+        maxWidth: globalOptions?.maxWidthPage,
         ...customStyles,
       }}
     >

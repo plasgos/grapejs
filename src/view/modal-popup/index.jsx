@@ -101,6 +101,7 @@ const ModalPopup = ({ section, editor }) => {
         >
           <ContainerView
             id={section?.scrollTarget?.value || ""}
+            editor={editor}
             section={section}
             customClassName={`flex flex-col p-5  animate__animated ${appearEffect} animate__fast overflow-hidden `}
             customStyles={{

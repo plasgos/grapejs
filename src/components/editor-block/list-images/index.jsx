@@ -72,7 +72,6 @@ const EditorListImages = ({ selectedComponent }) => {
 
         <TargetOptions
           content={item}
-          setCurrentComponent={setCurrentComponent}
           handleComponentChange={handleComponentChange}
         />
       </>

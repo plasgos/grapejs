@@ -107,7 +107,6 @@ const EditorSliderImages = ({ selectedComponent }) => {
 
         <TargetOptions
           content={item}
-          setCurrentComponent={setCurrentComponent}
           handleComponentChange={handleComponentChange}
         />
       </>

@@ -106,7 +106,6 @@ const clickActionOptions = [
 const TargetOptions = ({
   content,
   path = "contents",
-  setCurrentComponent,
   handleComponentChange,
 }) => {
   const { target } = content;
@@ -152,18 +151,6 @@ const TargetOptions = ({
       return getTargetValues(value);
     });
 
-    const updatedTarget = getTargetValues(value);
-
-    setCurrentComponent((prevComponent) =>
-      produce(prevComponent, (draft) => {
-        const contentItem = draft[path].find((item) => item.id === content.id);
-
-        if (contentItem) {
-          contentItem.target = updatedTarget;
-        }
-      })
-    );
-
     handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };
 
@@ -178,19 +165,6 @@ const TargetOptions = ({
         `${path}.${content.id}.target`,
         updatedComponentType
       );
-
-      setCurrentComponent((prevComponent) =>
-        produce(prevComponent, (draft) => {
-          const contentItem = draft[path].find(
-            (item) => item.id === content.id
-          );
-
-          if (contentItem) {
-            contentItem.target.options.type = value;
-            contentItem.target.options.value = globalOptions.popup[0].id;
-          }
-        })
-      );
     } else if (
       value === "scrollTarget" &&
       globalOptions.scrollTarget.length >= 1
@@ -204,20 +178,6 @@ const TargetOptions = ({
         `${path}.${content.id}.target`,
         updatedComponentType
       );
-
-      setCurrentComponent((prevComponent) =>
-        produce(prevComponent, (draft) => {
-          const contentItem = draft[path].find(
-            (item) => item.id === content.id
-          );
-
-          if (contentItem) {
-            contentItem.target.options.type = "scrollTarget";
-            contentItem.target.options.value =
-              globalOptions.scrollTarget[0].value;
-          }
-        })
-      );
     }
   };
 
@@ -226,17 +186,6 @@ const TargetOptions = ({
       draft.options.type = type;
       draft.options.value = value;
     });
-
-    setCurrentComponent((prevComponent) =>
-      produce(prevComponent, (draft) => {
-        const contentItem = draft[path].find((item) => item.id === content.id);
-
-        if (contentItem) {
-          contentItem.target.options.type = type;
-          contentItem.target.options.value = value;
-        }
-      })
-    );
 
     handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };
@@ -269,16 +218,6 @@ const TargetOptions = ({
       draft.options = getTypeLinkValues(value);
     });
 
-    setCurrentComponent((prevComponent) =>
-      produce(prevComponent, (draft) => {
-        const contentItem = draft[path].find((item) => item.id === content.id);
-
-        if (contentItem) {
-          contentItem.target.options = getTypeLinkValues(value);
-        }
-      })
-    );
-
     handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };
 
@@ -290,34 +229,6 @@ const TargetOptions = ({
         draft.options[key] = value;
       }
     });
-
-    if (value === null) {
-      setCurrentComponent((prevComponent) =>
-        produce(prevComponent, (draft) => {
-          const contentItem = draft[path].find(
-            (item) => item.id === content.id
-          );
-
-          if (contentItem) {
-            contentItem.target.options = {
-              type: null,
-            };
-          }
-        })
-      );
-    } else {
-      setCurrentComponent((prevComponent) =>
-        produce(prevComponent, (draft) => {
-          const contentItem = draft[path].find(
-            (item) => item.id === content.id
-          );
-
-          if (contentItem) {
-            contentItem.target.options[key] = value;
-          }
-        })
-      );
-    }
 
     handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
   };

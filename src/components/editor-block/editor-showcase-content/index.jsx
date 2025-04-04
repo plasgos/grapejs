@@ -79,7 +79,6 @@ const EditorContentShowcase = ({ selectedComponent }) => {
 
         <TargetOptions
           content={item}
-          setCurrentComponent={setCurrentComponent}
           handleComponentChange={handleComponentChange}
         />
 

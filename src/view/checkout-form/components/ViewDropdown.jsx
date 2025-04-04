@@ -83,7 +83,7 @@ const ViewDropdown = ({ content, index }) => {
                       <CommandGroup>
                         {content.options.map((option) => (
                           <CommandItem
-                            key={option.value}
+                            key={option.id}
                             value={option.value}
                             onSelect={(currentValue) => {
                               field.onChange(currentValue);

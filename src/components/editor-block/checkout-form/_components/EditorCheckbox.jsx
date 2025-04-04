@@ -49,6 +49,7 @@ const layoutOptions = [
 
 const SortableItem = ({
   item,
+  contentId,
   setCurrentComponent,
   selectedComponent,
   setEditItem,
@@ -70,8 +71,7 @@ const SortableItem = ({
     const removeItemFromComponent = (component) => {
       return produce(component, (draft) => {
         const content = draft.contents.find(
-          (content) =>
-            content.type === "checkbox" || content.type === "dropdown-menu"
+          (content) => content.id === contentId
         );
 
         if (content) {
@@ -128,7 +128,7 @@ const SortableItem = ({
       <div className="flex items-center justify-between  ml-5">
         <div className="flex gap-x-3  items-center">
           {item.image ? (
-            <imgclosestCenter
+            <img
               src={item.image}
               alt="item-img"
               className="object-cover w-16 max-h-11 "
@@ -172,21 +172,11 @@ const EditorCheckbox = ({
   item,
   handleComponentChange,
   selectedComponent,
-  contents,
   setCurrentComponent,
 }) => {
-  const selectedCheckbox = contents.find(
-    (content) =>
-      content.type === "checkbox" ||
-      content.type === "dropdown-menu" ||
-      content.type === "dropdown-menu"
-  );
-
   const [editItem, setEditItem] = useState(false);
 
   const itemRefs = useRef({});
-
-  // Ref untuk setiap item
 
   const handleChangeCustomField = (id, value) => {
     const formattedValue = value.toLowerCase().replace(/\s+/g, "-");
@@ -194,8 +184,7 @@ const EditorCheckbox = ({
     const updateField = (component) => {
       return produce(component, (draft) => {
         const content = draft.contents.find(
-          (content) =>
-            content.type === "checkbox" || content.type === "dropdown-menu"
+          (content) => content.id === item.id
         );
 
         if (content) {
@@ -240,14 +229,7 @@ const EditorCheckbox = ({
 
     if (!currentComponent || !active || !over || active.id === over.id) return;
 
-    // Cari content dengan tipe "checkbox"
-    const checkboxContent = currentComponent.contents.find(
-      (content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
-    );
-    if (!checkboxContent) return;
-
-    const { options } = checkboxContent;
+    const { options } = item;
 
     const oldIndex = options.findIndex((item) => item.id === active.id);
     const newIndex = options.findIndex((item) => item.id === over.id);
@@ -259,8 +241,7 @@ const EditorCheckbox = ({
     const updateField = (component) => {
       return produce(component, (draft) => {
         const content = draft.contents.find(
-          (content) =>
-            content.type === "checkbox" || content.type === "dropdown-menu"
+          (content) => content.id === item.id
         );
 
         if (content) {
@@ -288,8 +269,7 @@ const EditorCheckbox = ({
     setEditItem("");
 
     const checkboxContent = currentComponent.contents.find(
-      (content) =>
-        content.type === "checkbox" || content.type === "dropdown-menu"
+      (content) => content.id === item.id
     );
 
     const { options } = checkboxContent;
@@ -307,8 +287,7 @@ const EditorCheckbox = ({
     const updateField = (component) => {
       return produce(component, (draft) => {
         const content = draft.contents.find(
-          (content) =>
-            content.type === "checkbox" || content.type === "dropdown-menu"
+          (content) => content.id === item.id
         );
 
         if (content) {
@@ -439,14 +418,7 @@ const EditorCheckbox = ({
               onDragStart={() => setEditItem("")}
             >
               <SortableContext
-                items={
-                  contents.find(
-                    (content) =>
-                      content.type === "checkbox" ||
-                      content.type === "dropdown-menu" ||
-                      content.type === "dropdown-menu"
-                  ).options
-                }
+                items={item.options}
                 strategy={verticalListSortingStrategy}
               >
                 <Accordion
@@ -457,60 +429,49 @@ const EditorCheckbox = ({
                   onValueChange={(val) => setEditItem(val)}
                 >
                   <div className="flex flex-col gap-y-3">
-                    {selectedCheckbox.options.length > 0 ? (
-                      <>
-                        {contents
-                          .find(
-                            (content) =>
-                              content.type === "checkbox" ||
-                              content.type === "dropdown-menu"
-                          )
-                          .options.map((item) => (
-                            <AccordionItem
-                              ref={(el) => (itemRefs.current[item.id] = el)}
-                              key={item.id}
-                              value={item.id}
-                            >
-                              <SortableItem
-                                key={item.id}
-                                item={item}
-                                setCurrentComponent={setCurrentComponent}
-                                selectedComponent={selectedComponent}
-                                setEditItem={setEditItem}
-                              />
-                              <AccordionContent className="bg-white p-2 rounded-b-lg  ">
-                                <div className="flex flex-col gap-y-3">
-                                  <div className="my-2 flex flex-col gap-y-3">
-                                    <div className="space-y-2">
-                                      <Label>Label</Label>
-                                      <Input
-                                        value={item?.label || ""}
-                                        onChange={(e) =>
-                                          handleChangeCustomField(
-                                            item.id,
-                                            e.target.value
-                                          )
-                                        }
-                                      />
-                                    </div>
-                                  </div>
+                    {item.options.map((contentItem) => (
+                      <AccordionItem
+                        ref={(el) => (itemRefs.current[contentItem.id] = el)}
+                        key={contentItem.id}
+                        value={contentItem.id}
+                      >
+                        <SortableItem
+                          key={contentItem.id}
+                          item={contentItem}
+                          contentId={item.id}
+                          setCurrentComponent={setCurrentComponent}
+                          selectedComponent={selectedComponent}
+                          setEditItem={setEditItem}
+                        />
+                        <AccordionContent className="bg-white p-2 rounded-b-lg  ">
+                          <div className="flex flex-col gap-y-3">
+                            <div className="my-2 flex flex-col gap-y-3">
+                              <div className="space-y-2">
+                                <Label>Label</Label>
+                                <Input
+                                  value={contentItem?.label || ""}
+                                  onChange={(e) =>
+                                    handleChangeCustomField(
+                                      contentItem.id,
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
 
-                                  <div className="flex justify-end text-muted-foreground">
-                                    <Button
-                                      onClick={() => handleCloseEdit(item.id)}
-                                      variant="ghost"
-                                    >
-                                      <MdClose />
-                                    </Button>
-                                  </div>
-                                </div>
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                      </>
-                    ) : (
-                      <p className="text-center my-3">Not Found</p>
-                    )}
+                            <div className="flex justify-end text-muted-foreground">
+                              <Button
+                                onClick={() => handleCloseEdit(item.id)}
+                                variant="ghost"
+                              >
+                                <MdClose />
+                              </Button>
+                            </div>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
                   </div>
 
                   <Button onClick={handleAddCheckbox} className="w-full my-5">

@@ -147,7 +147,7 @@ const Sidebar = ({
     <>
       <div
         id="blocks"
-        className="relative top-0 left-0 w-96 h-full   overflow-y-auto z-20 bg-white shadow-xl border-r-2 "
+        className="relative top-0 left-0 w-[400px] h-full   overflow-y-auto z-20 bg-white shadow-xl border-r-2 "
       >
         <Tabs
           value={activeTab}
@@ -196,7 +196,7 @@ const Sidebar = ({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Menu</p>
+                    <p>Components</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

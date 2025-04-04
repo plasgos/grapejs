@@ -180,7 +180,7 @@ const SortableItem = ({
             </div>
           ) : null}
 
-          <div className=" font-semibold text-sm  max-w-32">
+          <div className=" font-semibold text-sm  max-w-28 italic">
             <p className="truncate">{item?.title}</p>
           </div>
 

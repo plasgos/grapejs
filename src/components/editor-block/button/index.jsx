@@ -112,7 +112,6 @@ const EditorButton = ({ selectedComponent }) => {
         <TargetOptions
           content={item}
           path="buttons"
-          setCurrentComponent={setCurrentComponent}
           handleComponentChange={handleComponentChange}
         />
 
