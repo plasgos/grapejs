@@ -47,7 +47,7 @@ export const footerComponent = (editor) => {
           title: "Metode Pengiriman",
           width: 300,
           imageSize: 50,
-          iconBtn: {
+          iconHeading: {
             icon: "",
             color: "rgba(0,0,0,0,1)",
             size: 24,
@@ -301,7 +301,7 @@ export const footerComponent = (editor) => {
       },
       copyright: {
         default: "@plasgos 2024",
-        customText: "",
+        text: `<p style="text-align:center;">© Copyright 2025 Plasgos</p>`,
         textAlign: "tw-text-center",
         color: "#757575",
         fontSize: "tw-text-xs",

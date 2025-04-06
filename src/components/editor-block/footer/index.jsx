@@ -14,135 +14,149 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { BsTextareaResize } from "react-icons/bs";
 import { CiText } from "react-icons/ci";
-import { FaPhone, FaStar } from "react-icons/fa";
-import { IoIosCheckboxOutline } from "react-icons/io";
-import { LuTextCursorInput } from "react-icons/lu";
-import { MdOutlineMailOutline } from "react-icons/md";
-// import EditorCheckbox from "./_components/EditorCheckbox";
-// import EditorTextTitle from "./_components/EditorTitle";
 <CiText />;
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import bca from "@/assets/bca.png";
+import mandiri from "@/assets/mandiri.png";
+
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import { BiSolidImageAdd } from "react-icons/bi";
-import { FaRegCalendarAlt } from "react-icons/fa";
-import { RxDividerHorizontal, RxDropdownMenu } from "react-icons/rx";
-import ColorPicker from "../_components/ColorPicker";
-import IconPicker from "../_components/IconPicker";
+import { BsInfoSquareFill } from "react-icons/bs";
+import { FaLink, FaMapMarkerAlt, FaRegImages } from "react-icons/fa";
+import BackgroundEditor from "../_components/BackgroundEditor";
+import StylesTab from "./StylesTab";
+import EditorGroupLink from "./_components/EditorGroupLink";
 import EditorImagesFooter from "./_components/EditorImagesFooter";
+import EditorTextFooter from "./_components/EditorTextFooter";
+
 const fieldOptions = [
-  { type: "title", label: "Title", icon: <CiText />, value: "Custom Title" },
   {
-    type: "text-input",
-    label: "Text Input",
-    icon: <LuTextCursorInput />,
-    labelField: "",
-    isRequired: true,
-    value: "",
-    placeholder: "Type Here...",
+    type: "text",
+    label: "Text",
+    icon: <CiText />,
+    title: "TYPE YOUR TEXT",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quis praesentium a officia aperiam deserunt incidunt, voluptatem ex amet explicabo dolores? Laboriosam quas itaque recusandae necessitatibus reiciendis nam voluptatum. Placeat.",
+    width: 300,
+    imageSize: 50,
+    iconHeading: {
+      icon: "",
+      color: "rgba(0,0,0,0,1)",
+      size: 24,
+      position: "left",
+    },
   },
   {
-    type: "email",
-    label: "Email",
-    icon: <MdOutlineMailOutline />,
-    labelField: "Email",
-    isRequired: true,
-    value: "",
-    placeholder: "example@email.com",
-  },
-  {
-    type: "phoneNumber",
-    label: "Phone",
-    icon: <FaPhone />,
-    labelField: "Phone",
-    isRequired: true,
-    value: "",
-    placeholder: "628952367xxxx",
-  },
-  {
-    type: "text-area",
-    label: "Text Area",
-    labelField: "",
-    icon: <BsTextareaResize />,
-    isRequired: true,
-    value: "",
-    placeholder: "Type Here...",
-  },
-  {
-    type: "checkbox",
-    label: "Checkbox",
-    labelField: "Type a question",
-    icon: <IoIosCheckboxOutline />,
+    type: "images",
+    label: "Images",
+    icon: <FaRegImages />,
     options: [
-      { id: "option-1", value: "option-1", label: "Option 1" },
-      { id: "option-2", value: "option-2", label: "Option 2" },
-      { id: "option-3", value: "option-3", label: "Option 3" },
+      {
+        id: "img-01",
+        image: bca,
+        target: {
+          actionType: "link",
+          options: {
+            type: null,
+          },
+        },
+      },
+      {
+        id: "img-02",
+        image: mandiri,
+        target: {
+          actionType: "link",
+          options: {
+            type: null,
+          },
+        },
+      },
     ],
-    isRequired: true,
-    layout: "horizontal",
-    isMultipleSelect: false,
-    value: "",
+    title: "PAYMENT METHOD",
+    width: 300,
+    imageSize: 50,
+    iconHeading: {
+      icon: "",
+      color: "rgba(0,0,0,0,1)",
+      size: 24,
+      position: "left",
+    },
   },
   {
-    type: "dropdown-menu",
-    label: "Dropdown",
-    labelField: "Dropdown Menu",
-    searchPlaceholder: "Search options...",
-    placeholder: "Select options...",
-    width: 200,
-    icon: <RxDropdownMenu />,
+    type: "group-link",
+    label: "Group Link",
+    icon: <FaLink />,
     options: [
-      { id: "option-1", value: "option-1", label: "Option 1" },
-      { id: "option-2", value: "option-2", label: "Option 2" },
-      { id: "option-3", value: "option-3", label: "Option 3" },
+      {
+        id: "link-01",
+        label: "Introduction",
+        target: {
+          actionType: "link",
+          options: {
+            type: null,
+          },
+        },
+      },
+      {
+        id: "link-02",
+        label: "Usage",
+        target: {
+          actionType: "link",
+          options: {
+            type: null,
+          },
+        },
+      },
+      {
+        id: "link-03",
+        label: "Globals",
+        target: {
+          actionType: "link",
+          options: {
+            type: null,
+          },
+        },
+      },
+      {
+        id: "link-04",
+        label: "About",
+        target: {
+          actionType: "link",
+          options: {
+            type: null,
+          },
+        },
+      },
     ],
-    isRequired: true,
-    value: "",
+    title: "GETTING STARTED",
+    width: 300,
+    iconHeading: {
+      icon: "",
+      color: "rgba(0,0,0,0,1)",
+      size: 24,
+      position: "left",
+    },
   },
   {
-    type: "date",
-    label: "Date & Time",
-    labelField: "Date",
-    placeholder: "Select Date",
-    width: 220,
-    icon: <FaRegCalendarAlt />,
-    isShowTime: true,
-    isRequired: true,
-    value: "",
-  },
-  {
-    type: "rating",
-    label: "Rating",
-    labelField: "Rating",
-    icon: <FaStar />,
-    isRequired: true,
-    design: "stars",
-    ratingSize: 24,
-    value: "",
-  },
-  {
-    type: "image",
-    label: "Image",
-    labelField: "Upload Image",
-    icon: <BiSolidImageAdd />,
-    isRequired: true,
-    value: "",
-  },
-  {
-    type: "divider",
-    label: "Divider",
-    labelField: "Divider",
-    fullWidth: true,
-    width: 500,
-    height: 5,
-    variant: "solid",
-    color: "rgba(19, 86, 236, 0.8)",
-    icon: <RxDividerHorizontal />,
-    value: "",
+    type: "contact-info",
+    label: "Contact Info",
+    icon: <BsInfoSquareFill />,
+    options: [
+      {
+        id: "address-01",
+        label: "Address",
+        text: "Jl Sudirman 31 Jakarta Selatan",
+        icon: <FaMapMarkerAlt />,
+      },
+    ],
+    title: "Contact Info",
+    width: 300,
+    iconHeading: {
+      icon: "",
+      color: "rgba(0,0,0,0,1)",
+      size: 24,
+      position: "left",
+    },
   },
 ];
 
@@ -152,7 +166,7 @@ const EditorFooter = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { contents, wrapperStyle } = currentComponent;
+  const { contents } = currentComponent;
 
   const [isOpenFields, setisOpenFields] = useState(false);
 
@@ -193,58 +207,35 @@ const EditorFooter = ({ selectedComponent }) => {
             item={item}
             handleComponentChange={handleComponentChange}
             selectedComponent={selectedComponent}
-            contents={contents}
             setCurrentComponent={setCurrentComponent}
+          />
+        )}
+
+        {item.type === "group-link" && (
+          <EditorGroupLink
+            item={item}
+            handleComponentChange={handleComponentChange}
+            selectedComponent={selectedComponent}
+            setCurrentComponent={setCurrentComponent}
+          />
+        )}
+        {item.type === "text" && (
+          <EditorTextFooter
+            item={item}
+            handleComponentChange={handleComponentChange}
           />
         )}
       </>
     );
   };
 
-  const handleSelectIcon = (key, value) => {
-    handleComponentChange(`wrapperStyle.iconBtn.${key}`, value);
-  };
-
   return (
-    <TabsEditor withoutTransition withoutBackground>
+    <TabsEditor withoutTransition>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
         <div className="flex flex-col gap-y-5">
-          <div className="p-3 bg-white rounded-lg flex flex-col gap-y-5">
-            <div className="mb-3">
-              <Label className="text-base ">Button Submit</Label>
-            </div>
-            <div className="space-y-2">
-              <Label>Text</Label>
-              <Input
-                value={wrapperStyle?.buttonText || ""}
-                onChange={(e) =>
-                  handleComponentChange(
-                    "wrapperStyle.buttonText",
-                    e.target.value
-                  )
-                }
-              />
-            </div>
-
-            <ColorPicker
-              label="Color"
-              value={wrapperStyle.buttonColor}
-              onChange={(color) =>
-                handleComponentChange("wrapperStyle.buttonColor", color)
-              }
-            />
-
-            <IconPicker
-              label="Icon"
-              value={wrapperStyle.iconBtn}
-              onSelectIcon={(key, value) => handleSelectIcon(key, value)}
-              withoutIconSize
-            />
-          </div>
-
           <DraggableList
             label="Custom Fields"
             contents={contents}
@@ -286,7 +277,14 @@ const EditorFooter = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        {/* <StylesTab selectedComponent={selectedComponent} /> */}
+        <StylesTab selectedComponent={selectedComponent} />
+      </TabsContent>
+
+      <TabsContent
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        value="background"
+      >
+        <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
     </TabsEditor>
   );

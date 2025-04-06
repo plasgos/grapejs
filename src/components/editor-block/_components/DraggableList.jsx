@@ -131,7 +131,7 @@ const SortableItem = ({
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className={`w-full   py-2 px-2 bg-white shadow cursor-move  rounded-xl relative ${
+      className={`w-full   p-2 bg-white shadow cursor-move  rounded-xl relative ${
         isDragging ? "z-20 bg-purple-200 ring-2 ring-purple-700" : ""
       }`}
       style={{
@@ -150,7 +150,7 @@ const SortableItem = ({
         </div>
       </div>
 
-      <div className="flex items-center justify-between  ml-5">
+      <div className="flex items-center justify-between  ml-4">
         <div className="flex gap-x-3  items-center">
           {item.image ? (
             <img
@@ -172,7 +172,12 @@ const SortableItem = ({
             <div style={{ fontSize: 20, marginLeft: 5 }}>{item.icon}</div>
           ) : null}
 
-          {item?.label ? <p className="truncate">{item?.label}</p> : null}
+          {item?.label ? (
+            <p className="truncate text-sm font-semibold">
+              {item?.label}{" "}
+              <span className="pl-2 text-muted-foreground"> | </span>
+            </p>
+          ) : null}
 
           {item?.stylesBtn?.title ? (
             <div>

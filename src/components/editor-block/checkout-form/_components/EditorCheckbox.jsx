@@ -49,6 +49,7 @@ const layoutOptions = [
 
 const SortableItem = ({
   item,
+  array,
   contentId,
   setCurrentComponent,
   selectedComponent,
@@ -68,6 +69,10 @@ const SortableItem = ({
   };
 
   const handleRemoveItem = () => {
+    if (array.length === 1) {
+      return;
+    }
+
     const removeItemFromComponent = (component) => {
       return produce(component, (draft) => {
         const content = draft.contents.find(
@@ -145,6 +150,9 @@ const SortableItem = ({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
+                    disabled={
+                      navigate.action === "Remove" && array.length === 1
+                    }
                     className="p-1.5"
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={(e) => {
@@ -429,7 +437,7 @@ const EditorCheckbox = ({
                   onValueChange={(val) => setEditItem(val)}
                 >
                   <div className="flex flex-col gap-y-3">
-                    {item.options.map((contentItem) => (
+                    {item.options.map((contentItem, _, array) => (
                       <AccordionItem
                         ref={(el) => (itemRefs.current[contentItem.id] = el)}
                         key={contentItem.id}
@@ -438,6 +446,7 @@ const EditorCheckbox = ({
                         <SortableItem
                           key={contentItem.id}
                           item={contentItem}
+                          array={array}
                           contentId={item.id}
                           setCurrentComponent={setCurrentComponent}
                           selectedComponent={selectedComponent}

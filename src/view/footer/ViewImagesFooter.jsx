@@ -1,54 +1,17 @@
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { createElement } from "react";
-import * as Icons from "react-icons/fa";
+import Heading from "./Heading";
 
 const ViewImagesFooter = ({ content, index, editor }) => {
-  const { iconBtn } = content;
-
   return (
     <div
       style={{
-        width: content.width,
+        maxWidth: content.width,
       }}
       key={index}
-      className=""
+      className="max-w-full"
     >
-      {iconBtn?.position === "right" ? (
-        <div className="flex  items-center gap-x-2 mb-3">
-          <p className="font-semibold text-lg ">{content.title}</p>
-
-          {iconBtn && Icons[iconBtn?.icon] && (
-            <div
-              style={{
-                color: iconBtn?.color,
-              }}
-            >
-              {createElement(Icons[iconBtn?.icon], {
-                size: iconBtn.size,
-              })}
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="flex  items-center gap-x-2 mb-3">
-          {iconBtn && Icons[iconBtn?.icon] && (
-            <div
-              style={{
-                color: iconBtn?.color,
-              }}
-            >
-              {createElement(Icons[iconBtn?.icon], {
-                size: iconBtn.size,
-              })}
-            </div>
-          )}
-
-          <p className="font-semibold text-lg ">{content.title}</p>
-        </div>
-      )}
-
-      {/* <p className="font-semibold text-lg mb-3">{content.title}</p> */}
+      <Heading content={content} />
 
       <div className="flex flex-wrap gap-5 items-center ">
         {content.options.map((opt) => {

@@ -7,6 +7,7 @@ const ContainerView = ({
   id,
   customStyles,
   customClassName,
+  isFullwidth,
 }) => {
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
@@ -25,7 +26,7 @@ const ContainerView = ({
             : "transparent",
         position: "relative",
         zIndex: 1,
-        maxWidth: globalOptions?.maxWidthPage,
+        maxWidth: isFullwidth ? "100%" : globalOptions?.maxWidthPage,
         ...customStyles,
       }}
     >

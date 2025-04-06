@@ -14,15 +14,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
-import ImageUploader from "../../_components/ImageUploader";
 
-import Compressor from "compressorjs";
 import { Plus } from "lucide-react";
 import IconPicker from "../../_components/IconPicker";
 import TargetOptionsNested from "../../_components/TargetOptionsNested";
 import DraggableListNested from "./DraggableListNested";
 
-const EditorImagesFooter = ({
+const EditorGroupLink = ({
   item,
   handleComponentChange,
   selectedComponent,
@@ -56,9 +54,9 @@ const EditorImagesFooter = ({
 
     const newId = generateId();
 
-    const newImage = {
+    const newContent = {
       id: newId,
-      image: bri,
+      label: "New Link",
       target: {
         actionType: "link",
         options: {
@@ -74,7 +72,7 @@ const EditorImagesFooter = ({
         );
 
         if (content) {
-          content.options = [...content.options, newImage];
+          content.options = [...content.options, newContent];
         }
       });
     };
@@ -117,81 +115,32 @@ const EditorImagesFooter = ({
     setCurrentComponent((prevComponent) => updateField(prevComponent));
   };
 
-  const onChangeFileUpload = (optId) => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*"; // Hanya menerima file gambar
-    input.click();
+  const handleChangeItemValue = (optId, key, value) => {
+    const updateField = (component) => {
+      return produce(component, (draft) => {
+        const content = draft.contents.find(
+          (content) => content.id === item.id
+        );
 
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-
-      if (!file.type.startsWith("image/")) {
-        alert("Please select an image file.");
-        return;
-      }
-
-      console.log(`Original file size: ${(file.size / 1024).toFixed(2)} KB`);
-
-      // Konfigurasi Compressor
-      const options = {
-        mimeType: "image/webp", // Konversi ke format WebP
-        success: (compressedFile) => {
-          const reader = new FileReader();
-
-          reader.onload = (event) => {
-            const imageUrl = event.target.result;
-
-            const updateField = (component) => {
-              return produce(component, (draft) => {
-                const content = draft.contents.find(
-                  (content) => content.id === item.id
-                );
-
-                if (content) {
-                  content.options = content.options.map((opt) =>
-                    opt.id === optId
-                      ? {
-                          ...opt,
-                          image: imageUrl,
-                        }
-                      : opt
-                  );
+        if (content) {
+          content.options = content.options.map((opt) =>
+            opt.id === optId
+              ? {
+                  ...opt,
+                  [key]: value,
                 }
-              });
-            };
-
-            selectedComponent?.set(
-              "customComponent",
-              updateField(selectedComponent.get("customComponent"))
-            );
-
-            setCurrentComponent((prevComponent) => updateField(prevComponent));
-          };
-
-          console.log(
-            `Compressed file size: ${(compressedFile.size / 1024).toFixed(
-              2
-            )} KB`
+              : opt
           );
-
-          reader.readAsDataURL(compressedFile);
-        },
-        error: (err) => {
-          console.error("Error compressing image:", err);
-          alert("Failed to process image. Please try again.");
-        },
-      };
-
-      // Jika file lebih dari 1MB, tambahkan kompresi
-      if (file.size > 1048576) {
-        // 1MB = 1,048,576 bytes
-        options.quality = 0.5; // Kompresi dengan kualitas 50%
-      }
-
-      // Proses gambar dengan Compressor
-      new Compressor(file, options);
+        }
+      });
     };
+
+    selectedComponent?.set(
+      "customComponent",
+      updateField(selectedComponent.get("customComponent"))
+    );
+
+    setCurrentComponent((prevComponent) => updateField(prevComponent));
   };
 
   const handleSelectIcon = (key, value) => {
@@ -202,11 +151,15 @@ const EditorImagesFooter = ({
     return (
       <div className="flex flex-col gap-y-3">
         <div className="my-2 flex flex-col gap-y-3">
-          <ImageUploader
-            label="Image"
-            handleFileUpload={() => onChangeFileUpload(contentItem.id)}
-            image={contentItem.image}
-          />
+          <div className="space-y-2">
+            <Label>Label</Label>
+            <Input
+              value={contentItem?.label || ""}
+              onChange={(e) =>
+                handleChangeItemValue(contentItem.id, "label", e.target.value)
+              }
+            />
+          </div>
 
           <TargetOptionsNested
             option={contentItem}
@@ -282,4 +235,4 @@ const EditorImagesFooter = ({
   );
 };
 
-export default EditorImagesFooter;
+export default EditorGroupLink;

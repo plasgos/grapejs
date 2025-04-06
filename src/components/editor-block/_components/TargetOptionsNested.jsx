@@ -103,12 +103,8 @@ const clickActionOptions = [
   },
 ];
 
-const TargetOptions = ({
-  content,
-  path = "contents",
-  handleComponentChange,
-}) => {
-  const { target } = content;
+const TargetOptionsNested = ({ option, handleChangeNestedTargetValue }) => {
+  const { target } = option;
   const editor = useEditor();
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
@@ -146,47 +142,41 @@ const TargetOptions = ({
       return typeConfigs[type] || baseValues;
     };
 
-    const updatedComponent = produce(content.target, () => {
+    const updatedComponent = produce(option.target, () => {
       return getTargetValues(value);
     });
 
-    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
+    handleChangeNestedTargetValue(option.id, updatedComponent);
   };
 
   const handleChangeActionModeType = (value) => {
     if (value === "popup" && globalOptions.popup.length >= 1) {
-      const updatedComponentType = produce(content.target, (draft) => {
+      const updatedComponentType = produce(option.target, (draft) => {
         draft.options.type = "popup";
         draft.options.value = globalOptions.popup[0].id;
       });
 
-      handleComponentChange(
-        `${path}.${content.id}.target`,
-        updatedComponentType
-      );
+      handleChangeNestedTargetValue(option.id, updatedComponentType);
     } else if (
       value === "scrollTarget" &&
       globalOptions.scrollTarget.length >= 1
     ) {
-      const updatedComponentType = produce(content.target, (draft) => {
+      const updatedComponentType = produce(option.target, (draft) => {
         draft.options.type = "scrollTarget";
         draft.options.value = globalOptions.scrollTarget[0].value;
       });
 
-      handleComponentChange(
-        `${path}.${content.id}.target`,
-        updatedComponentType
-      );
+      handleChangeNestedTargetValue(option.id, updatedComponentType);
     }
   };
 
   const handleChangeTargetOptions = (type, value) => {
-    const updatedComponent = produce(content.target, (draft) => {
+    const updatedComponent = produce(option.target, (draft) => {
       draft.options.type = type;
       draft.options.value = value;
     });
 
-    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
+    handleChangeNestedTargetValue(option.id, updatedComponent);
   };
 
   const handleSelectTypeLink = (value) => {
@@ -213,15 +203,15 @@ const TargetOptions = ({
       return typeConfigs[type] || baseValues;
     };
 
-    const updatedComponent = produce(content.target, (draft) => {
+    const updatedComponent = produce(option.target, (draft) => {
       draft.options = getTypeLinkValues(value);
     });
 
-    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
+    handleChangeNestedTargetValue(option.id, updatedComponent);
   };
 
   const handleChangeTargetLink = (key, value) => {
-    const updatedComponent = produce(content.target, (draft) => {
+    const updatedComponent = produce(option.target, (draft) => {
       if (value === null) {
         draft.options = { type: null };
       } else {
@@ -229,7 +219,7 @@ const TargetOptions = ({
       }
     });
 
-    handleComponentChange(`${path}.${content.id}.target`, updatedComponent);
+    handleChangeNestedTargetValue(option.id, updatedComponent);
   };
 
   useEffect(() => {
@@ -240,7 +230,7 @@ const TargetOptions = ({
 
   return (
     <Accordion
-      defaultValue={content.target?.options?.type ? "item-1" : ""}
+      defaultValue={option.target?.options?.type ? "item-1" : ""}
       type="single"
       collapsible
     >
@@ -510,4 +500,4 @@ const TargetOptions = ({
   );
 };
 
-export default TargetOptions;
+export default TargetOptionsNested;
