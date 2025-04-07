@@ -4,8 +4,23 @@ import { generateId } from "@/lib/utils";
 import { TbBoxAlignBottomFilled } from "react-icons/tb";
 import { injectComponents } from "../injectComponent";
 
-import { FaRegImages } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLink,
+  FaMapMarkerAlt,
+  FaRegImages,
+  FaWhatsapp,
+} from "react-icons/fa";
 import ViewFooter from "@/view/footer";
+import {
+  IoCall,
+  IoMailUnreadOutline,
+  IoShareSocialSharp,
+} from "react-icons/io5";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { BsInfoSquareFill } from "react-icons/bs";
+import { MdOutlineMailOutline } from "react-icons/md";
 
 export const footerComponent = (editor) => {
   injectComponents(editor, {
@@ -18,7 +33,7 @@ export const footerComponent = (editor) => {
       scrollTarget: undefined,
       contents: [
         {
-          id: "images-01",
+          id: `images-0-${generateId()}`,
           type: "images",
           label: "Images",
           icon: <FaRegImages />,
@@ -44,9 +59,9 @@ export const footerComponent = (editor) => {
               },
             },
           ],
-          title: "Metode Pengiriman",
+          title: "Payment Method",
           width: 300,
-          imageSize: 50,
+          imageWidth: 80,
           iconHeading: {
             icon: "",
             color: "rgba(0,0,0,0,1)",
@@ -54,234 +69,162 @@ export const footerComponent = (editor) => {
             position: "left",
           },
         },
-
-        // {
-        //   id: `list-logo-${generateId([])}`,
-        //   name: "list-logo",
-        //   title: "Daftar Logo",
-        //   content: [
-        //     {
-        //       id: generateId([]),
-        //       image: bca,
-        //       target: {
-        //         localPage: {
-        //           value: "home",
-        //         },
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       image: mandiri,
-        //       target: {
-        //         localPage: {
-        //           value: "home",
-        //         },
-        //       },
-        //     },
-        //   ],
-        //   wrapperStyle: {
-        //     title: "Metode Pengiriman",
-        //     maxWidth: 300,
-        //     icon: "",
-        //     iconSize: 20,
-        //     image: "",
-        //     imageSize: 50,
-        //   },
-        // },
-        // {
-        //   id: `group-link-${generateId([])}`,
-        //   name: "group-link",
-        //   title: "Grup Link",
-        //   content: [
-        //     {
-        //       id: generateId([]),
-        //       text: "Home",
-        //       icon: "",
-        //       iconSize: 20,
-        //       image: "",
-        //       imageSize: 50,
-        //       target: {
-        //         localPage: {
-        //           value: "home",
-        //         },
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       text: "Blog",
-        //       icon: "",
-        //       iconSize: 20,
-        //       image: "",
-        //       imageSize: 50,
-        //       target: {
-        //         localPage: {
-        //           value: "home",
-        //         },
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       text: "Daftar Produk",
-        //       icon: "",
-        //       iconSize: 20,
-        //       image: "",
-        //       imageSize: 50,
-        //       target: {
-        //         localPage: {
-        //           value: "home",
-        //         },
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       text: "Konfirmasi Pembayaran",
-        //       icon: "",
-        //       iconSize: 20,
-        //       image: "",
-        //       imageSize: 50,
-        //       target: {
-        //         localPage: {
-        //           value: "home",
-        //         },
-        //       },
-        //     },
-        //   ],
-        //   wrapperStyle: {
-        //     title: "Link",
-        //     icon: "",
-        //     iconSize: 20,
-        //     image: "",
-        //     imageSize: 50,
-        //   },
-        // },
-        // {
-        //   id: `social-link-${generateId([])}`,
-        //   name: "social-link",
-        //   title: "Link Sosial",
-        //   content: [
-        //     {
-        //       id: generateId([]),
-        //       type: {
-        //         value: "facebook",
-        //         label: "Facebook",
-        //         icon: {
-        //           iconName: "square-facebook",
-        //           prefix: "fab",
-        //         },
-        //         link: "https://www.facebook.com/",
-        //         path: "",
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       type: {
-        //         value: "twitter-X",
-        //         label: "Twitter X",
-        //         icon: {
-        //           iconName: "square-x-twitter",
-        //           prefix: "fab",
-        //         },
-        //         link: "https://twitter.com/",
-        //         path: "",
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       type: {
-        //         value: "instagram",
-        //         label: "Instagram",
-        //         icon: {
-        //           iconName: "square-instagram",
-        //           prefix: "fab",
-        //         },
-        //         link: "https://www.instagram.com/",
-        //         path: "",
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       type: {
-        //         value: "youtube",
-        //         label: "Youtube",
-        //         icon: {
-        //           iconName: "youtube",
-        //           prefix: "fab",
-        //         },
-        //         link: "https://www.youtube.com/channel/",
-        //         path: "",
-        //       },
-        //     },
-        //   ],
-        //   wrapperStyle: {
-        //     title: "Social Media",
-        //     icon: "",
-        //     iconSize: 20,
-        //     image: "",
-        //     imageSize: 50,
-        //   },
-        // },
-        // {
-        //   id: `address-${generateId([])}`,
-        //   name: "address",
-        //   title: "Alamat",
-        //   content: [
-        //     {
-        //       id: generateId([]),
-        //       type: {
-        //         value: "phone",
-        //         label: "Telepon",
-        //         icon: {
-        //           iconName: "phone",
-        //           prefix: "fas",
-        //         },
-        //         text: "0892-2211-4332",
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       type: {
-        //         value: "address",
-        //         label: "Alamat",
-        //         icon: {
-        //           iconName: "location-dot",
-        //           prefix: "fas",
-        //         },
-        //         text: "Jl Layur 31 Jakarta Timur",
-        //       },
-        //     },
-        //     {
-        //       id: generateId([]),
-        //       type: {
-        //         value: "email",
-        //         label: "Email",
-        //         icon: {
-        //           iconName: "envelope",
-        //           prefix: "fas",
-        //         },
-        //         text: "support@email.com",
-        //       },
-        //     },
-        //   ],
-        //   wrapperStyle: {
-        //     title: "Alamat",
-        //     icon: "",
-        //     iconSize: 20,
-        //     image: "",
-        //     imageSize: 50,
-        //   },
-        // },
+        {
+          id: `group-link-${generateId()}`,
+          type: "group-link",
+          label: "Group Link",
+          icon: <FaLink />,
+          options: [
+            {
+              id: `link-01-${generateId()}`,
+              label: "Introduction",
+              target: {
+                actionType: "link",
+                options: {
+                  type: null,
+                },
+              },
+            },
+            {
+              id: `link-02-${generateId()}`,
+              label: "Usage",
+              target: {
+                actionType: "link",
+                options: {
+                  type: null,
+                },
+              },
+            },
+            {
+              id: `link-03-${generateId()}`,
+              label: "Globals",
+              target: {
+                actionType: "link",
+                options: {
+                  type: null,
+                },
+              },
+            },
+            {
+              id: `link-04-${generateId()}`,
+              label: "About",
+              target: {
+                actionType: "link",
+                options: {
+                  type: null,
+                },
+              },
+            },
+          ],
+          title: "Getting Started",
+          width: 300,
+          iconHeading: {
+            icon: "",
+            color: "rgba(0,0,0,0,1)",
+            size: 24,
+            position: "left",
+          },
+        },
+        {
+          id: `social-media-${generateId()}`,
+          type: "social-media",
+          label: "Social Media",
+          icon: <IoShareSocialSharp />,
+          options: [
+            {
+              id: `fb-${generateId()}`,
+              label: "Facebook",
+              value: "",
+              icon: <FaFacebook size={32} />,
+              placeholder: "https://facebook.com/username",
+            },
+            {
+              id: `ig-${generateId()}`,
+              label: "Instagram",
+              icon: <FaInstagram size={32} />,
+              value: "",
+              placeholder: "https://instagram.com/username",
+            },
+            {
+              id: `x-${generateId()}`,
+              label: "Twitter (X)",
+              icon: <FaSquareXTwitter size={32} />,
+              value: "",
+              placeholder: "https://x.com/username",
+            },
+          ],
+          title: "Follow us",
+          width: 250,
+          iconHeading: {
+            icon: "",
+            color: "rgba(0,0,0,0,1)",
+            size: 24,
+            position: "left",
+          },
+        },
+        {
+          id: `contact-info-${generateId()}`,
+          type: "contact-info",
+          label: "Contact Info",
+          icon: <BsInfoSquareFill />,
+          options: [
+            {
+              id: `address-${generateId()}`,
+              label: "Address",
+              value: "Jl Sudirman 31 Jakarta Selatan",
+              icon: <FaMapMarkerAlt />,
+            },
+            {
+              id: `phoneNumber-${generateId()}`,
+              label: "Phone Number",
+              icon: <IoCall />,
+              value: "(021) 2248 1664",
+            },
+            {
+              id: `email-${generateId()}`,
+              label: "Email",
+              icon: <MdOutlineMailOutline />,
+              value: "costumer.care@plasgos.co.id",
+            },
+            {
+              id: `whatsapp-${generateId()}`,
+              label: "whatsapp",
+              icon: <FaWhatsapp />,
+              value: "0853-1111-1010",
+            },
+          ],
+          title: "Contact Info",
+          width: 300,
+          iconHeading: {
+            icon: "",
+            color: "rgba(0,0,0,0,1)",
+            size: 24,
+            position: "left",
+          },
+        },
+        {
+          id: `newsletter-${generateId()}`,
+          type: "newsletter",
+          label: "Newsletter",
+          icon: <IoMailUnreadOutline />,
+          title: "Newsletter",
+          subTitle: "Receive updates on the latest news and offers",
+          placeholder: "youremail@gmail.com",
+          actionText: "Subscribe",
+          width: 300,
+          buttonColor: "",
+          textButton: "",
+          iconHeading: {
+            icon: "",
+            color: "rgba(0,0,0,0,1)",
+            size: 24,
+            position: "left",
+          },
+        },
       ],
       wrapperStyle: {
-        column: "3",
-        aspectRatio: 2 / 1,
-        titleColor: "#000000",
-        fontWeight: "font-semibold",
-        descriptionColor: "#000000",
-        fontSizeTitle: "tw-text-sm",
-        imagePosition: "center",
-        fontFamily: "Roboto",
-        fontSize: 16,
-        textAligment: "text-center",
+        headingColor: "rgba(0, 0, 0, 1)",
+        headingFontSize: 18,
       },
       background: {
         bgType: null,
@@ -300,12 +243,7 @@ export const footerComponent = (editor) => {
         pattern: "",
       },
       copyright: {
-        default: "@plasgos 2024",
         text: `<p style="text-align:center;">© Copyright 2025 Plasgos</p>`,
-        textAlign: "tw-text-center",
-        color: "#757575",
-        fontSize: "tw-text-xs",
-        isCustom: false,
       },
     },
   });

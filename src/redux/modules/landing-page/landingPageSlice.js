@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isEditComponent: false,
+  isFocusContent: "",
 };
 
 export const landingPageSlice = createSlice({
@@ -11,9 +12,13 @@ export const landingPageSlice = createSlice({
     setIsEditComponent: (state, action) => {
       state.isEditComponent = action.payload;
     },
+    setIsFocusContent: (state, action) => {
+      state.isFocusContent = action.payload;
+    },
   },
 });
 
-export const { setIsEditComponent } = landingPageSlice.actions;
+export const { setIsEditComponent, setIsFocusContent } =
+  landingPageSlice.actions;
 
 export default landingPageSlice.reducer;

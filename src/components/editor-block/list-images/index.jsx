@@ -42,21 +42,21 @@ const EditorListImages = ({ selectedComponent }) => {
           type: null,
         },
       },
-      isFocused: false,
+    };
+
+    const updateContents = (component) => {
+      return produce(component, (draft) => {
+        draft.contents.push(newContent);
+      });
     };
 
     selectedComponent?.set(
       "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.contents.push(newContent);
-      })
+
+      updateContents(selectedComponent?.get("customComponent"))
     );
 
-    setCurrentComponent((prevComponent) =>
-      produce(prevComponent, (draft) => {
-        draft.contents = [...draft.contents, newContent];
-      })
-    );
+    setCurrentComponent((prevComponent) => updateContents(prevComponent));
 
     setEditItem(newId);
   };

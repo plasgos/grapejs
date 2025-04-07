@@ -5,9 +5,15 @@ import ViewImagesFooter from "./ViewImagesFooter";
 import ViewGroupLink from "./ViewGroupLink";
 import ViewText from "./ViewText";
 import ViewContactInfo from "./ViewContactInfo";
+import ViewSocialMedia from "./ViewSocialMedia";
+import ViewNewsletter from "./ViewNewsletter";
+import Heading from "./Heading";
+import { useSelector } from "react-redux";
 
 const ViewFooter = ({ section, editor }) => {
-  const { contents, copyright } = section;
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
+  const { contents, copyright, wrapperStyle } = section;
 
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
@@ -28,26 +34,50 @@ const ViewFooter = ({ section, editor }) => {
         <div style={{ gap: 50 }} className="flex flex-wrap  p-5 max-w-full ">
           {contents.map((content, index) => {
             return (
-              <div key={index}>
+              <div
+                key={index}
+                className={`${
+                  isFocusContent === content.id &&
+                  "ring-2 ring-purple-600  bg-orange-100  transition-all duration-300 ease-in-out"
+                }  `}
+              >
                 {content.type === "images" && (
                   <ViewImagesFooter
                     content={content}
                     index={index}
                     editor={editor}
-                  />
+                  >
+                    <Heading content={content} wrapperStyle={wrapperStyle} />
+                  </ViewImagesFooter>
                 )}
                 {content.type === "group-link" && (
                   <ViewGroupLink
                     content={content}
                     index={index}
                     editor={editor}
-                  />
+                  >
+                    <Heading content={content} wrapperStyle={wrapperStyle} />
+                  </ViewGroupLink>
                 )}
                 {content.type === "text" && (
-                  <ViewText content={content} index={index} />
+                  <ViewText content={content} index={index}>
+                    <Heading content={content} wrapperStyle={wrapperStyle} />
+                  </ViewText>
                 )}
                 {content.type === "contact-info" && (
-                  <ViewContactInfo content={content} index={index} />
+                  <ViewContactInfo content={content} index={index}>
+                    <Heading content={content} wrapperStyle={wrapperStyle} />
+                  </ViewContactInfo>
+                )}
+                {content.type === "social-media" && (
+                  <ViewSocialMedia content={content} index={index}>
+                    <Heading content={content} wrapperStyle={wrapperStyle} />
+                  </ViewSocialMedia>
+                )}
+                {content.type === "newsletter" && (
+                  <ViewNewsletter content={content} index={index}>
+                    <Heading content={content} wrapperStyle={wrapperStyle} />
+                  </ViewNewsletter>
                 )}
               </div>
             );

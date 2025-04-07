@@ -7,6 +7,15 @@ import {
 } from "@/components/ui/accordion";
 import { useState } from "react";
 import { useEffect } from "react";
+import { MdLockOutline } from "react-icons/md";
+import { Button } from "./ui/button";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function CustomBlockManager({
   mapCategoryBlocks,
@@ -64,31 +73,60 @@ export default function CustomBlockManager({
                     {category}
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="grid grid-cols-2 gap-2 p-2">
-                      {blocks.map((block) => (
-                        <div
-                          key={block.getId()}
-                          draggable
-                          className={cx(
-                            "flex flex-col items-center border  cursor-grab py-2 px-5 transition-colors bg-white rounded-md shadow-sm"
-                          )}
-                          onDragStart={(ev) => dragStart(block, ev.nativeEvent)}
-                          onDragEnd={() => dragStop(false)}
-                        >
+                    <div className="grid grid-cols-2  gap-2 p-1 place-items-center">
+                      {blocks.map((block) => {
+                        const isLocked = block.get("attributes")?.isLocked;
+
+                        return (
                           <div
-                            className="h-10 w-10"
-                            dangerouslySetInnerHTML={{
-                              __html: block.getMedia(),
+                            key={block.getId()}
+                            draggable={!isLocked}
+                            className={cx(
+                              "relative flex flex-col justify-center items-center border py-2 px-5 transition-colors bg-white rounded-md shadow-sm h-[100px] w-full",
+                              {
+                                "cursor-not-allowed opacity-50": isLocked,
+                                "cursor-grab": !isLocked,
+                              }
+                            )}
+                            onDragStart={(ev) => {
+                              if (!isLocked) dragStart(block, ev.nativeEvent);
                             }}
-                          />
-                          <div
-                            className="text-sm text-center w-full"
-                            title={block.getLabel()}
+                            onDragEnd={() => {
+                              if (!isLocked) dragStop(false);
+                            }}
                           >
-                            {block.getLabel()}
+                            <div
+                              className={`h-10 w-10`}
+                              dangerouslySetInnerHTML={{
+                                __html: block.getMedia(),
+                              }}
+                            />
+                            <div
+                              className="text-sm text-center w-full"
+                              title={block.getLabel()}
+                            >
+                              {block.getLabel()}
+                            </div>
+
+                            {isLocked && (
+                              <div className="absolute top-3 right-3">
+                                <TooltipProvider delayDuration={100}>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Button size="icon" variant="ghost">
+                                        <MdLockOutline className="" />
+                                      </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p>Unlock Pro</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              </div>
+                            )}
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </AccordionContent>
                 </AccordionItem>

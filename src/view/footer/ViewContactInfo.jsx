@@ -1,6 +1,4 @@
-import Heading from "./Heading";
-
-const ViewContactInfo = ({ content, index }) => {
+const ViewContactInfo = ({ children, content, index }) => {
   return (
     <div
       style={{
@@ -9,13 +7,13 @@ const ViewContactInfo = ({ content, index }) => {
       key={index}
       className="max-w-full"
     >
-      <Heading content={content} />
+      {children}
 
       <div className="flex flex-col flex-wrap gap-2 ">
         {content.options.map((opt) => {
           return (
             <div key={opt.id} className="flex items-center gap-3">
-              {opt.icon} <p>{opt.text}</p>
+              {opt.icon} <p>{opt.value}</p>
             </div>
           );
         })}

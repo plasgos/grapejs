@@ -15,16 +15,40 @@ import {
 import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 
 import { Plus } from "lucide-react";
+import { FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
+import { IoCall } from "react-icons/io5";
 import IconPicker from "../../_components/IconPicker";
-import TargetOptionsNested from "../../_components/TargetOptionsNested";
 import DraggableListNested from "./DraggableListNested";
+import { MdOutlineMailOutline } from "react-icons/md";
+import { Textarea } from "@/components/ui/textarea";
 
-const EditorGroupLink = ({
+const infoOptions = [
+  {
+    label: "Address",
+    icon: <FaMapMarkerAlt />,
+    value: "Jl Sudirman 31 Jakarta Selatan",
+  },
+  { label: "Phone Number", icon: <IoCall />, value: "(021) 2248 1664" },
+  {
+    label: "Email",
+    icon: <MdOutlineMailOutline />,
+    value: "costumer.care@plasgos.co.id",
+  },
+  {
+    label: "whatsapp",
+    icon: <FaWhatsapp />,
+    value: "0853-1111-1010",
+  },
+];
+
+const EditorContactInfo = ({
   item,
   handleComponentChange,
   selectedComponent,
   setCurrentComponent,
 }) => {
+  const [isOpenFields, setisOpenFields] = useState(false);
+
   const [editItem, setEditItem] = useState(false);
 
   const itemRefs = useRef({});
@@ -45,75 +69,6 @@ const EditorGroupLink = ({
     }
   }, [editItem]);
 
-  const handleAddImage = () => {
-    const currentComponent = selectedComponent.get("customComponent");
-    if (!currentComponent) return;
-
-    setEditItem("");
-
-    const newId = generateId();
-
-    const newContent = {
-      id: newId,
-      label: "New Link",
-      target: {
-        actionType: "link",
-        options: {
-          type: null,
-        },
-      },
-    };
-
-    const updateField = (component) => {
-      return produce(component, (draft) => {
-        const content = draft.contents.find(
-          (content) => content.id === item.id
-        );
-
-        if (content) {
-          content.options = [...content.options, newContent];
-        }
-      });
-    };
-
-    selectedComponent?.set(
-      "customComponent",
-      updateField(selectedComponent.get("customComponent"))
-    );
-
-    setCurrentComponent((prevComponent) => updateField(prevComponent));
-
-    setEditItem(newId);
-  };
-
-  const handleChangeNestedTargetValue = (optId, value) => {
-    const updateField = (component) => {
-      return produce(component, (draft) => {
-        const content = draft.contents.find(
-          (content) => content.id === item.id
-        );
-
-        if (content) {
-          content.options = content.options.map((opt) =>
-            opt.id === optId
-              ? {
-                  ...opt,
-                  target: value,
-                }
-              : opt
-          );
-        }
-      });
-    };
-
-    selectedComponent?.set(
-      "customComponent",
-      updateField(selectedComponent.get("customComponent"))
-    );
-
-    setCurrentComponent((prevComponent) => updateField(prevComponent));
-  };
-
   const handleChangeItemValue = (optId, key, value) => {
     const updateField = (component) => {
       return produce(component, (draft) => {
@@ -133,6 +88,38 @@ const EditorGroupLink = ({
         }
       });
     };
+    selectedComponent?.set(
+      "customComponent",
+      updateField(selectedComponent.get("customComponent"))
+    );
+
+    setCurrentComponent((prevComponent) => updateField(prevComponent));
+  };
+
+  const handleAddInfo = (field) => {
+    const currentComponent = selectedComponent.get("customComponent");
+    if (!currentComponent) return;
+
+    setEditItem("");
+
+    const newId = generateId();
+
+    const newInfo = {
+      id: newId,
+      ...field,
+    };
+
+    const updateField = (component) => {
+      return produce(component, (draft) => {
+        const content = draft.contents.find(
+          (content) => content.id === item.id
+        );
+
+        if (content) {
+          content.options = [...content.options, newInfo];
+        }
+      });
+    };
 
     selectedComponent?.set(
       "customComponent",
@@ -140,6 +127,8 @@ const EditorGroupLink = ({
     );
 
     setCurrentComponent((prevComponent) => updateField(prevComponent));
+
+    setEditItem(newId);
   };
 
   const handleSelectIcon = (key, value) => {
@@ -149,22 +138,24 @@ const EditorGroupLink = ({
   const renderContents = (contentItem) => {
     return (
       <div className="flex flex-col gap-y-3">
-        <div className="my-2 flex flex-col gap-y-3">
-          <div className="space-y-2">
-            <Label>Label</Label>
-            <Input
-              value={contentItem?.label || ""}
+        <div className="space-y-2">
+          <Label>Value</Label>
+
+          {contentItem.label === "Address" ? (
+            <Textarea
+              value={contentItem?.value || ""}
               onChange={(e) =>
-                handleChangeItemValue(contentItem.id, "label", e.target.value)
+                handleChangeItemValue(contentItem.id, "value", e.target.value)
               }
             />
-          </div>
-
-          <TargetOptionsNested
-            option={contentItem}
-            handleChangeNestedTargetValue={handleChangeNestedTargetValue}
-            handleComponentChange={handleComponentChange}
-          />
+          ) : (
+            <Input
+              value={contentItem?.value || ""}
+              onChange={(e) =>
+                handleChangeItemValue(contentItem.id, "value", e.target.value)
+              }
+            />
+          )}
         </div>
       </div>
     );
@@ -207,11 +198,10 @@ const EditorGroupLink = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="px-0 w-[350px] bg-secondary">
-          <p className="pb-3 mb-3 px-5 border-b ">List Images</p>
+          <p className="pb-3 mb-3 px-5 border-b ">List Info</p>
 
           <div className="h-auto max-h-[450px] overflow-y-auto p px-5">
             <DraggableListNested
-              label="List Images"
               item={item}
               renderContents={(value) => renderContents(value)}
               setCurrentComponent={setCurrentComponent}
@@ -219,13 +209,40 @@ const EditorGroupLink = ({
               selectedComponent={selectedComponent}
               setEditItem={setEditItem}
             >
-              <Button
-                onClick={handleAddImage}
+              {/* <Button
+                onClick={handleAddInfo}
                 variant="outline"
                 className="my-3 w-full"
               >
                 Add Image <Plus />
-              </Button>
+              </Button> */}
+
+              <Popover open={isOpenFields} onOpenChange={setisOpenFields}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="my-3 w-full">
+                    Add Field <Plus />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[310px]">
+                  <div className="grid grid-cols-3 gap-3">
+                    {infoOptions.map((field, index) => (
+                      <div
+                        key={index}
+                        className="p-3 rounded-lg border flex flex-col items-center justify-center gap-y-1 cursor-pointer hover:border-black"
+                        onClick={() => {
+                          handleAddInfo(field);
+                          setisOpenFields(false);
+                        }}
+                      >
+                        {field.icon}
+                        <p className="text-xs whitespace-nowrap">
+                          {field.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
             </DraggableListNested>
           </div>
         </PopoverContent>
@@ -234,4 +251,4 @@ const EditorGroupLink = ({
   );
 };
 
-export default EditorGroupLink;
+export default EditorContactInfo;

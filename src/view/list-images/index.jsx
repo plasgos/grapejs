@@ -3,8 +3,10 @@ import { onActionClickTarget } from "@/utils/onActionClickTarget";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useSelector } from "react-redux";
 
 const ViewListImages = ({ section, editor }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
   const { contents } = section;
   const { column, aspectRatio } = section?.wrapperStyle || {};
 
@@ -43,8 +45,9 @@ const ViewListImages = ({ section, editor }) => {
           <div
             key={content.id}
             className={`${
-              content.isFocused && "ring-2 ring-purple-600  bg-orange-100 "
-            }   transition-all duration-300 ease-in-out `}
+              isFocusContent === content.id &&
+              "ring-2 ring-purple-600  bg-orange-100  transition-all duration-300 ease-in-out"
+            }    `}
           >
             <LazyLoadImage
               src={content?.image}

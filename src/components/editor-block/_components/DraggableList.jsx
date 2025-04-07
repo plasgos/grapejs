@@ -31,6 +31,8 @@ import { TbEdit } from "react-icons/tb";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { Label } from "@/components/ui/label";
+import { useDispatch } from "react-redux";
+import { setIsFocusContent } from "@/redux/modules/landing-page/landingPageSlice";
 
 const SortableItem = ({
   item,
@@ -50,36 +52,18 @@ const SortableItem = ({
   } = useSortable({ id: item.id });
 
   const handleEdit = () => {
-    // setEditItem((prev) => (prev ? "" : item.id));
     setEditItem(item.id);
     handleFocusItem();
   };
 
+  const dispatch = useDispatch();
+
   const handleFocusItem = () => {
-    const currentComponent = selectedComponent.get("customComponent");
+    dispatch(setIsFocusContent(item.id));
 
-    // Set isFocused = true untuk item yang diklik
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft[path].forEach((content) => {
-        content.isFocused = content.id === item.id; // Hanya aktifkan item yang diklik
-      });
-    });
-
-    selectedComponent.set("customComponent", updatedComponent);
-
-    // Atur timeout baru untuk mengembalikan isFocused ke false
     setTimeout(() => {
-      selectedComponent.set(
-        "customComponent",
-        produce(updatedComponent, (draft) => {
-          draft[path].forEach((content) => {
-            if (content.id === item.id) {
-              content.isFocused = false; // Reset hanya untuk item yang diklik
-            }
-          });
-        })
-      );
-    }, 1000);
+      dispatch(setIsFocusContent(""));
+    }, 1500);
   };
 
   const handleRemoveItem = () => {
@@ -240,6 +224,7 @@ const DraggableList = ({
   withoutFocusItem,
 }) => {
   const itemRefs = useRef({}); // Ref untuk setiap item
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (editItem && itemRefs.current[editItem]) {
@@ -266,10 +251,7 @@ const DraggableList = ({
       currentComponent[path],
       currentComponent[path].findIndex((item) => item.id === active.id),
       currentComponent[path].findIndex((item) => item.id === over.id)
-    ).map((content) => ({
-      ...content,
-      isFocused: content.id === active.id, // Item yang dipindahkan diberi fokus
-    }));
+    );
 
     // Update state GrapesJS
     const updatedComponent = produce(currentComponent, (draft) => {
@@ -278,17 +260,11 @@ const DraggableList = ({
 
     selectedComponent?.set("customComponent", updatedComponent);
 
-    // Hapus fokus setelah 1 detik tanpa merusak urutan
+    dispatch(setIsFocusContent(active.id));
+
     setTimeout(() => {
-      selectedComponent?.set(
-        "customComponent",
-        produce(selectedComponent.get("customComponent"), (draft) => {
-          draft[path].forEach((content) => {
-            content.isFocused = false;
-          });
-        })
-      );
-    }, 1000);
+      dispatch(setIsFocusContent(""));
+    }, 1500);
 
     setCurrentComponent((prevComponent) =>
       produce(prevComponent, (draft) => {
@@ -297,19 +273,8 @@ const DraggableList = ({
     );
   };
 
-  const handleCloseEdit = (id) => {
+  const handleCloseEdit = () => {
     setEditItem("");
-    const currentComponent = selectedComponent?.get("customComponent");
-
-    const updatedComponent = produce(currentComponent, (draft) => {
-      draft[path].forEach((content) => {
-        if (content.id === id) {
-          content.isFocused = false;
-        }
-      });
-    });
-
-    selectedComponent?.set("customComponent", updatedComponent);
   };
 
   return (

@@ -52,7 +52,6 @@ const EditorTestimony = ({ selectedComponent }) => {
       description:
         "Harga terjangkau dengan kualitas yang sangat baik. 100% puas!",
       stars: 4,
-      isFocused: false,
     };
 
     selectedComponent?.set(

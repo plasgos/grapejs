@@ -40,7 +40,6 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
         size: 24,
         position: "left",
       },
-      isFocused: false,
     };
 
     selectedComponent?.set(

@@ -1,6 +1,4 @@
-import Heading from "./Heading";
-
-const ViewText = ({ content, index }) => {
+const ViewText = ({ children, content, index }) => {
   return (
     <div
       style={{
@@ -8,7 +6,7 @@ const ViewText = ({ content, index }) => {
       }}
       key={index}
     >
-      <Heading content={content} />
+      {children}
 
       <div className="flex flex-col flex-wrap gap-2 ">
         <div

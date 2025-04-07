@@ -1,7 +1,6 @@
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
-import Heading from "./Heading";
 
-const ViewGroupLink = ({ content, index, editor }) => {
+const ViewGroupLink = ({ children, content, index, editor }) => {
   return (
     <div
       style={{
@@ -10,7 +9,7 @@ const ViewGroupLink = ({ content, index, editor }) => {
       key={index}
       className="max-w-full"
     >
-      <Heading content={content} />
+      {children}
 
       <div className="flex flex-col flex-wrap gap-2 ">
         {content.options.map((opt) => {

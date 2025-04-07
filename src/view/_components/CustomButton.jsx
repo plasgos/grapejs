@@ -1,7 +1,10 @@
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
   const fontSize = {
     default: "text-base", // Ukuran default (16px)
     sm: "text-xs", // Ukuran kecil (12px)
@@ -65,7 +68,7 @@ const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
       }  
       
       ${
-        btn.isFocused &&
+        isFocusContent === btn.id &&
         "ring-2 !ring-offset-4 ring-purple-600  bg-orange-100 p-0.5   "
       }
       

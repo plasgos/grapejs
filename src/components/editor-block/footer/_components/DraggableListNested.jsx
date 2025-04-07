@@ -119,6 +119,8 @@ const SortableItem = ({
             />
           ) : null}
 
+          {item.icon && <div>{item.icon}</div>}
+
           <div className=" font-semibold text-sm  max-w-44">
             <p className="truncate">{item?.label}</p>
           </div>
@@ -221,19 +223,8 @@ const DraggableListNested = ({
     setCurrentComponent((prevComponent) => updateField(prevComponent));
   };
 
-  const handleCloseEdit = (id) => {
+  const handleCloseEdit = () => {
     setEditItem("");
-    // const currentComponent = selectedComponent?.get("customComponent");
-
-    // const updatedComponent = produce(currentComponent, (draft) => {
-    //   draft[path].forEach((content) => {
-    //     if (content.id === id) {
-    //       content.isFocused = false;
-    //     }
-    //   });
-    // });
-
-    // selectedComponent?.set("customComponent", updatedComponent);
   };
 
   return (

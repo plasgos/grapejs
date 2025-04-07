@@ -3,8 +3,11 @@ import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const ViewFeatureHighlights = ({ section, editor }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
   const { contents, animation } = section;
   const { textShadow, color, fontWeight, fontFamily, fontSize, textAligment } =
     section.wrapperStyle;
@@ -33,7 +36,8 @@ const ViewFeatureHighlights = ({ section, editor }) => {
               <div
                 key={content.id}
                 className={`flex items-center gap-x-2 my-2  ${
-                  content.isFocused && "ring-2 ring-purple-600  bg-orange-100 "
+                  isFocusContent === content.id &&
+                  "ring-2 ring-purple-600  bg-orange-100 transition-all duration-300 ease-in-out "
                 }`}
               >
                 {iconBtn.position === "left" ? (

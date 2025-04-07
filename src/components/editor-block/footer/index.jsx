@@ -23,22 +23,39 @@ import mandiri from "@/assets/mandiri.png";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { BsInfoSquareFill } from "react-icons/bs";
-import { FaLink, FaMapMarkerAlt, FaRegImages } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLink,
+  FaMapMarkerAlt,
+  FaRegImages,
+  FaWhatsapp,
+} from "react-icons/fa";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import StylesTab from "./StylesTab";
 import EditorGroupLink from "./_components/EditorGroupLink";
 import EditorImagesFooter from "./_components/EditorImagesFooter";
 import EditorTextFooter from "./_components/EditorTextFooter";
+import EditorContactInfo from "./_components/EditorContactInfo";
+import {
+  IoCall,
+  IoMailUnreadOutline,
+  IoShareSocialSharp,
+} from "react-icons/io5";
+import EditorSocialMedia from "./_components/EditorSocialMedia";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { MdOutlineMailOutline } from "react-icons/md";
+import EditorNewsletter from "./_components/EditorNewsletter";
 
 const fieldOptions = [
   {
+    id: `text-${generateId()}`,
     type: "text",
     label: "Text",
     icon: <CiText />,
-    title: "TYPE YOUR TEXT",
+    title: "Type Your Text",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quis praesentium a officia aperiam deserunt incidunt, voluptatem ex amet explicabo dolores? Laboriosam quas itaque recusandae necessitatibus reiciendis nam voluptatum. Placeat.",
     width: 300,
-    imageSize: 50,
     iconHeading: {
       icon: "",
       color: "rgba(0,0,0,0,1)",
@@ -47,12 +64,13 @@ const fieldOptions = [
     },
   },
   {
+    id: `images-${generateId()}`,
     type: "images",
     label: "Images",
     icon: <FaRegImages />,
     options: [
       {
-        id: "img-01",
+        id: `img-01-${generateId()}`,
         image: bca,
         target: {
           actionType: "link",
@@ -62,7 +80,7 @@ const fieldOptions = [
         },
       },
       {
-        id: "img-02",
+        id: `img-02-${generateId()}`,
         image: mandiri,
         target: {
           actionType: "link",
@@ -72,9 +90,9 @@ const fieldOptions = [
         },
       },
     ],
-    title: "PAYMENT METHOD",
+    title: "Payment Method",
     width: 300,
-    imageSize: 50,
+    imageWidth: 80,
     iconHeading: {
       icon: "",
       color: "rgba(0,0,0,0,1)",
@@ -83,12 +101,13 @@ const fieldOptions = [
     },
   },
   {
+    id: `group-link-${generateId()}`,
     type: "group-link",
     label: "Group Link",
     icon: <FaLink />,
     options: [
       {
-        id: "link-01",
+        id: `link-01-${generateId()}`,
         label: "Introduction",
         target: {
           actionType: "link",
@@ -98,7 +117,7 @@ const fieldOptions = [
         },
       },
       {
-        id: "link-02",
+        id: `link-02-${generateId()}`,
         label: "Usage",
         target: {
           actionType: "link",
@@ -108,7 +127,7 @@ const fieldOptions = [
         },
       },
       {
-        id: "link-03",
+        id: `link-03-${generateId()}`,
         label: "Globals",
         target: {
           actionType: "link",
@@ -118,7 +137,7 @@ const fieldOptions = [
         },
       },
       {
-        id: "link-04",
+        id: `link-04-${generateId()}`,
         label: "About",
         target: {
           actionType: "link",
@@ -128,7 +147,7 @@ const fieldOptions = [
         },
       },
     ],
-    title: "GETTING STARTED",
+    title: "Getting Started",
     width: 300,
     iconHeading: {
       icon: "",
@@ -138,19 +157,94 @@ const fieldOptions = [
     },
   },
   {
+    id: `contact-info-${generateId()}`,
     type: "contact-info",
     label: "Contact Info",
     icon: <BsInfoSquareFill />,
     options: [
       {
-        id: "address-01",
+        id: `address-${generateId()}`,
         label: "Address",
-        text: "Jl Sudirman 31 Jakarta Selatan",
+        value: "Jl Sudirman 31 Jakarta Selatan",
         icon: <FaMapMarkerAlt />,
+      },
+      {
+        id: `phoneNumber-${generateId()}`,
+        label: "Phone Number",
+        icon: <IoCall />,
+        value: "(021) 2248 1664",
+      },
+      {
+        id: `email-${generateId()}`,
+        label: "Email",
+        icon: <MdOutlineMailOutline />,
+        value: "costumer.care@plasgos.co.id",
+      },
+      {
+        id: `whatsapp-${generateId()}`,
+        label: "whatsapp",
+        icon: <FaWhatsapp />,
+        value: "0853-1111-1010",
       },
     ],
     title: "Contact Info",
     width: 300,
+    iconHeading: {
+      icon: "",
+      color: "rgba(0,0,0,0,1)",
+      size: 24,
+      position: "left",
+    },
+  },
+  {
+    id: `social-media-${generateId()}`,
+    type: "social-media",
+    label: "Social Media",
+    icon: <IoShareSocialSharp />,
+    options: [
+      {
+        id: `fb-${generateId()}`,
+        label: "Facebook",
+        value: "",
+        icon: <FaFacebook size={32} />,
+        placeholder: "https://facebook.com/username",
+      },
+      {
+        id: `ig-${generateId()}`,
+        label: "Instagram",
+        icon: <FaInstagram size={32} />,
+        value: "",
+        placeholder: "https://instagram.com/username",
+      },
+      {
+        id: `x-${generateId()}`,
+        label: "Twitter (X)",
+        icon: <FaSquareXTwitter size={32} />,
+        value: "",
+        placeholder: "https://x.com/username",
+      },
+    ],
+    title: "Follow us",
+    width: 250,
+    iconHeading: {
+      icon: "",
+      color: "rgba(0,0,0,0,1)",
+      size: 24,
+      position: "left",
+    },
+  },
+  {
+    id: `newsletter-${generateId()}`,
+    type: "newsletter",
+    label: "Newsletter",
+    icon: <IoMailUnreadOutline />,
+    title: "Newsletter",
+    subTitle: "Receive updates on the latest news and offers",
+    placeholder: "youremail@gmail.com",
+    actionText: "Subscribe",
+    width: 300,
+    buttonColor: "",
+    textButton: "",
     iconHeading: {
       icon: "",
       color: "rgba(0,0,0,0,1)",
@@ -180,7 +274,6 @@ const EditorFooter = ({ selectedComponent }) => {
     const newField = {
       id: newId,
       ...field,
-      isFocused: false,
     };
 
     selectedComponent?.set(
@@ -221,6 +314,28 @@ const EditorFooter = ({ selectedComponent }) => {
         )}
         {item.type === "text" && (
           <EditorTextFooter
+            item={item}
+            handleComponentChange={handleComponentChange}
+          />
+        )}
+        {item.type === "contact-info" && (
+          <EditorContactInfo
+            item={item}
+            handleComponentChange={handleComponentChange}
+            selectedComponent={selectedComponent}
+            setCurrentComponent={setCurrentComponent}
+          />
+        )}
+        {item.type === "social-media" && (
+          <EditorSocialMedia
+            item={item}
+            handleComponentChange={handleComponentChange}
+            selectedComponent={selectedComponent}
+            setCurrentComponent={setCurrentComponent}
+          />
+        )}
+        {item.type === "newsletter" && (
+          <EditorNewsletter
             item={item}
             handleComponentChange={handleComponentChange}
           />

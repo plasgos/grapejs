@@ -164,8 +164,11 @@ import ViewRating from "./components/ViewtRating";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 import ContainerView from "@/components/ContainerView";
+import { useSelector } from "react-redux";
 
 const ViewFormCheckout = ({ section, editor }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
   const { contents } = section;
   const {
     width,
@@ -533,8 +536,8 @@ const ViewFormCheckout = ({ section, editor }) => {
                 <div
                   className={`
                 ${
-                  content.isFocused &&
-                  "ring-2 !ring-offset-4 ring-purple-600  bg-orange-100    "
+                  isFocusContent === content.id &&
+                  "ring-2 !ring-offset-4 ring-purple-600  bg-orange-100    transition-all duration-300 ease-in-out"
                 }
               `}
                   style={{ margin: "20px 0px" }}

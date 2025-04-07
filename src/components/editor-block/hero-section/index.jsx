@@ -93,7 +93,6 @@ const EditorHeroSection = ({ selectedComponent }) => {
           type: null,
         },
       },
-      isFocused: false,
     };
 
     selectedComponent?.set(

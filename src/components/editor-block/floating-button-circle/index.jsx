@@ -69,7 +69,6 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
           type: null,
         },
       },
-      isFocused: false,
     };
 
     selectedComponent?.set(

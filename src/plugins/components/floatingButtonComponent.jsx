@@ -36,7 +36,6 @@ export const floatingButtonComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
         {
           id: "button-02",
@@ -61,7 +60,6 @@ export const floatingButtonComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
       ],
       wrapperStyle: {

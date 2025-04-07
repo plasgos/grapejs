@@ -2,8 +2,11 @@ import { FaStar } from "react-icons/fa";
 import { ImQuotesLeft } from "react-icons/im";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useSelector } from "react-redux";
 
 const Layout2 = ({ content, styles }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
   const {
     nameColor,
     fontWeight,
@@ -24,7 +27,8 @@ const Layout2 = ({ content, styles }) => {
       }}
       key={content.id}
       className={`p-3 relative  rounded-lg  shadow    ${
-        content.isFocused && "ring-2 ring-purple-600  bg-orange-100 "
+        isFocusContent === content.id &&
+        "ring-2 ring-purple-600  bg-orange-100 transition-all duration-300 ease-in-out "
       } `}
     >
       <div className="w-16 h-16 rounded-full  overflow-hidden shadow-md absolute  -top-[30px] ring-4 ring-white left-1/2 -translate-x-1/2 ">

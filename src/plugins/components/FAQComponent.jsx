@@ -16,28 +16,24 @@ export const FAQComponent = (editor) => {
           title: "Berapa lama waktu pengiriman?",
           description:
             "Waktu pengiriman berkisar antara 1-3 hari kerja, tergantung pada lokasi tujuan.",
-          isFocused: false,
         },
         {
           id: "faq-02",
           title: "Apakah ada biaya pengiriman?",
           description:
             "Gratis ongkos kirim untuk semua pesanan di atas Rp 200.000 ke seluruh Indonesia.",
-          isFocused: false,
         },
         {
           id: "faq-03",
           title: "Bagaimana jika barang rusak saat diterima?",
           description:
             "Segera hubungi tim kami dalam 24 jam dengan melampirkan foto barang rusak untuk proses pengembalian atau penggantian.",
-          isFocused: false,
         },
         {
           id: "faq-04",
           title: "Apakah bisa melakukan pengembalian barang?",
           description:
             "Ya, Anda dapat mengembalikan barang dalam kondisi belum digunakan dalam waktu 7 hari setelah penerimaan.",
-          isFocused: false,
         },
       ],
       wrapperStyle: {

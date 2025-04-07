@@ -36,7 +36,6 @@ const EditorFAQ = ({ selectedComponent }) => {
       title: "Apakah ada garansi produk?",
       description:
         "Ya, semua produk kami memiliki garansi resmi selama 1 tahun.",
-      isFocused: false,
     };
 
     selectedComponent?.set(

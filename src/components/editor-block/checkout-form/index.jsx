@@ -187,7 +187,6 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
     const newField = {
       id: newId,
       ...field,
-      isFocused: false,
     };
 
     selectedComponent?.set(

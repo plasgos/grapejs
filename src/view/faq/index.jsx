@@ -1,8 +1,11 @@
 import ContainerView from "@/components/ContainerView";
 import { ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const ViewFAQ = ({ section, editor }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
   const { contents } = section;
   const {
     textShadow,
@@ -58,7 +61,7 @@ const ViewFAQ = ({ section, editor }) => {
               <div
                 key={content.id}
                 className={`p-3  transition-all duration-300 ease-in-out ${
-                  content.isFocused
+                  isFocusContent === content.id
                     ? "ring-2 ring-purple-600 bg-orange-100"
                     : ""
                 }`}
@@ -119,7 +122,7 @@ const ViewFAQ = ({ section, editor }) => {
               <div
                 key={content.id}
                 className={`p-3   rounded-lg my-2 shadow transition-all duration-300 ease-in-out ${
-                  content.isFocused
+                  isFocusContent === content.id
                     ? "ring-2 ring-purple-600 bg-orange-100"
                     : ""
                 }`}

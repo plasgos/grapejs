@@ -9,6 +9,7 @@ export const buttonsComponent = (editor) => {
     icon: <TbSquareRoundedLetterBFilled size={40} />,
     ViewComponent: ViewButton,
     defaultCustomComponent: {
+      isLocked: true,
       scrollTarget: undefined,
       buttons: [
         {
@@ -34,7 +35,6 @@ export const buttonsComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
         {
           id: "button-02",
@@ -59,7 +59,6 @@ export const buttonsComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
       ],
       wrapperStyle: {

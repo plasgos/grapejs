@@ -23,7 +23,6 @@ export const listImagesComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
         {
           id: generateId(),
@@ -34,7 +33,6 @@ export const listImagesComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
         {
           id: generateId(),
@@ -45,7 +43,6 @@ export const listImagesComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
       ],
       wrapperStyle: {

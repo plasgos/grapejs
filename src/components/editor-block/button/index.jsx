@@ -77,21 +77,20 @@ const EditorButton = ({ selectedComponent }) => {
           type: null,
         },
       },
-      isFocused: false,
+    };
+
+    const updateContents = (component) => {
+      return produce(component, (draft) => {
+        draft.buttons.push(newButton);
+      });
     };
 
     selectedComponent?.set(
       "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.buttons.push(newButton);
-      })
+      updateContents(selectedComponent?.get("customComponent"))
     );
 
-    setCurrentComponent((prevComponent) =>
-      produce(prevComponent, (draft) => {
-        draft.buttons = [...draft.buttons, newButton];
-      })
-    );
+    setCurrentComponent((prevComponent) => updateContents(prevComponent));
 
     setEditItem(newId);
   };

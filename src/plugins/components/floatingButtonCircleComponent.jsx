@@ -34,7 +34,6 @@ export const floatingButtonCircleComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
       ],
       wrapperStyle: {

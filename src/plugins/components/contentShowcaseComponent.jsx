@@ -13,6 +13,7 @@ export const contentShowcaseComponent = (editor) => {
     icon: <HiMiniViewColumns size={40} />,
     ViewComponent: ContentShowcase,
     defaultCustomComponent: {
+      isLocked: true,
       scrollTarget: undefined,
       contents: [
         {
@@ -29,7 +30,6 @@ export const contentShowcaseComponent = (editor) => {
               type: "url",
             },
           },
-          isFocused: false,
         },
         {
           id: generateId(),
@@ -43,7 +43,6 @@ export const contentShowcaseComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
         {
           id: generateId(),
@@ -57,7 +56,6 @@ export const contentShowcaseComponent = (editor) => {
               type: null,
             },
           },
-          isFocused: false,
         },
       ],
       wrapperStyle: {

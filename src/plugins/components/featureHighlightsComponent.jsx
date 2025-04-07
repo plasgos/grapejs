@@ -20,7 +20,6 @@ export const featureHighlightsComponent = (editor) => {
             size: 24,
             position: "left",
           },
-          isFocused: false,
         },
         {
           id: "feature-02",
@@ -31,7 +30,6 @@ export const featureHighlightsComponent = (editor) => {
             size: 24,
             position: "left",
           },
-          isFocused: false,
         },
         {
           id: "feature-03",
@@ -42,7 +40,6 @@ export const featureHighlightsComponent = (editor) => {
             size: 24,
             position: "left",
           },
-          isFocused: false,
         },
         {
           id: "feature-04",
@@ -53,7 +50,6 @@ export const featureHighlightsComponent = (editor) => {
             size: 24,
             position: "left",
           },
-          isFocused: false,
         },
       ],
       wrapperStyle: {

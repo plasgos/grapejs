@@ -25,7 +25,6 @@ export const testimonyComponent = (editor) => {
           description:
             "Waktu pengiriman berkisar antara 1-3 hari kerja, tergantung pada lokasi tujuan.",
           stars: 3,
-          isFocused: false,
         },
         {
           id: "testimony-02",
@@ -35,7 +34,6 @@ export const testimonyComponent = (editor) => {
           description:
             "Produk berkualitas dan layanan pelanggan yang sangat responsif!",
           stars: 4,
-          isFocused: false,
         },
         {
           id: "testimony-03",
@@ -45,7 +43,6 @@ export const testimonyComponent = (editor) => {
           description:
             "Sangat puas dengan pengalaman belanja di sini, akan kembali lagi!",
           stars: 5,
-          isFocused: false,
         },
         {
           id: "testimony-04",
@@ -55,7 +52,6 @@ export const testimonyComponent = (editor) => {
           description:
             "Pengiriman cepat dan barang sesuai dengan deskripsi. Sangat direkomendasikan!",
           stars: 5,
-          isFocused: false,
         },
         {
           id: "testimony-05",
@@ -65,7 +61,6 @@ export const testimonyComponent = (editor) => {
           description:
             "Saya sangat puas dengan produk ini! Kualitasnya luar biasa dan sesuai dengan ekspektasi saya. Pengiriman juga cepat dan pelayanannya ramah.",
           stars: 5,
-          isFocused: false,
         },
       ],
       wrapperStyle: {

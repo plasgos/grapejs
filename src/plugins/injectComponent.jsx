@@ -1,5 +1,8 @@
+import store from "@/redux/store";
 import { createRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
+
+import { Provider } from "react-redux";
 
 export const injectComponents = (editor, options) => {
   const {
@@ -17,6 +20,9 @@ export const injectComponents = (editor, options) => {
     content: { type },
     activate: true,
     media: renderToString(icon),
+    attributes: {
+      isLocked: defaultCustomComponent?.isLocked ?? false,
+    },
   });
 
   editor.Components.addType(type, {
@@ -69,10 +75,12 @@ export const injectComponents = (editor, options) => {
         }
 
         this.root.render(
-          <ViewComponent
-            section={this.model.get("customComponent")}
-            editor={editor}
-          />
+          <Provider store={store}>
+            <ViewComponent
+              section={this.model.get("customComponent")}
+              editor={editor}
+            />
+          </Provider>
         );
       },
     },

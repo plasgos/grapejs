@@ -246,6 +246,16 @@ const EditorImagesFooter = ({
         max={600}
       />
 
+      <RangeInputSlider
+        label="Image Width"
+        value={item.imageWidth}
+        onChange={(value) =>
+          handleComponentChange(`contents.${item.id}.imageWidth`, value)
+        }
+        min={40}
+        max={300}
+      />
+
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="outline">
@@ -259,7 +269,6 @@ const EditorImagesFooter = ({
 
           <div className="h-auto max-h-[450px] overflow-y-auto p px-5">
             <DraggableListNested
-              label="List Images"
               item={item}
               renderContents={(value) => renderContents(value)}
               setCurrentComponent={setCurrentComponent}

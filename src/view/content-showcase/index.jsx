@@ -3,8 +3,10 @@ import { onActionClickTarget } from "@/utils/onActionClickTarget";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useSelector } from "react-redux";
 
 const ContentShowcase = ({ section, editor }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
   const { contents } = section;
   const {
     column,
@@ -52,8 +54,9 @@ const ContentShowcase = ({ section, editor }) => {
           <div
             key={content.id}
             className={`${
-              content.isFocused && "ring-2 ring-purple-600  bg-orange-100 "
-            } text-center flex flex-col items-center p-2 transition-all duration-300 ease-in-out `}
+              isFocusContent === content.id &&
+              "ring-2 ring-purple-600  bg-orange-100 transition-all duration-300 ease-in-out  "
+            } text-center flex flex-col items-center p-2 `}
           >
             <div className="w-full flex flex-col">
               {imagePosition === "top" && (

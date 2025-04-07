@@ -76,7 +76,6 @@ const EditorFloatingButton = ({ selectedComponent }) => {
           type: null,
         },
       },
-      isFocused: false,
     };
 
     selectedComponent?.set(

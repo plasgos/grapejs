@@ -1,8 +1,7 @@
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import Heading from "./Heading";
 
-const ViewImagesFooter = ({ content, index, editor }) => {
+const ViewImagesFooter = ({ children, content, index, editor }) => {
   return (
     <div
       style={{
@@ -11,7 +10,7 @@ const ViewImagesFooter = ({ content, index, editor }) => {
       key={index}
       className="max-w-full"
     >
-      <Heading content={content} />
+      {children}
 
       <div className="flex flex-wrap gap-5 items-center ">
         {content.options.map((opt) => {
@@ -21,7 +20,7 @@ const ViewImagesFooter = ({ content, index, editor }) => {
               src={opt?.image}
               alt={opt?.alt ? opt.alt : ""}
               style={{
-                width: content.imageSize,
+                width: content.imageWidth,
               }}
               className={`object-contain  ${
                 opt?.target?.options?.type ? "cursor-pointer" : ""
