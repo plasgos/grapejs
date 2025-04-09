@@ -9,19 +9,15 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { Label } from "@/components/ui/label";
-
-const importCSS = `
-  @import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-`;
+import { useState } from "react";
 
 const weightsMapping = {
   100: { value: "font-thin", label: "Font Thin" },
@@ -35,48 +31,6 @@ const weightsMapping = {
   900: { value: "font-black", label: "Font Black" },
 };
 
-const parseImportCSS = (css) => {
-  const fontFamilies = css
-    .match(/family=([^&"]+)/g)
-    ?.map((match) => match.split("=")[1]);
-  const fontObjects = [];
-
-  fontFamilies?.forEach((fontFamily) => {
-    const [name, params] = fontFamily.split(":");
-    const weights = [];
-
-    if (params?.includes("wght@")) {
-      const weightParams = params.match(/wght@([0-9.,;]+)/)?.[1];
-      const weightSets = weightParams?.split(";") || [];
-
-      weightSets.forEach((set) => {
-        if (set.includes("..")) {
-          const [start, end] = set.split("..").map(Number);
-          for (let i = start; i <= end; i += 100) {
-            weights.push(weightsMapping[i]);
-          }
-        } else {
-          set.split(",").forEach((weight) => {
-            const weightNumber = Number(weight);
-            if (weightsMapping[weightNumber]) {
-              weights.push(weightsMapping[weightNumber]);
-            }
-          });
-        }
-      });
-    } else {
-      weights.push(weightsMapping[400]); // Default to font-normal if no weights specified
-    }
-
-    fontObjects.push({
-      fontFamily: name,
-      weights,
-    });
-  });
-
-  return fontObjects;
-};
-
 import {
   Select,
   SelectContent,
@@ -86,56 +40,46 @@ import {
 } from "@/components/ui/select";
 import { useEffect } from "react";
 
-const fontOptions = [
-  {
-    fontFamily: "Anonymous",
-    weights: [
-      { value: "font-normal", label: "Font Normal" }, // 400
-      { value: "font-bold", label: "Font Bold" }, // 700
-    ],
-  },
-  {
-    fontFamily: "Montserrat",
-    weights: [
-      { value: "font-thin", label: "Font Thin" }, // 100
-      { value: "font-light", label: "Font Light" }, // 300
-      { value: "font-normal", label: "Font Normal" }, // 400
-      { value: "font-medium", label: "Font Medium" }, // 500
-      { value: "font-bold", label: "Font Bold" }, // 700
-      { value: "font-extrabold", label: "Font Extra Bold" }, // 800
-    ],
-  },
-  {
-    fontFamily: "Roboto",
-    weights: [
-      { value: "font-thin", label: "Font Thin" }, // 100
-      { value: "font-light", label: "Font Light" }, // 300
-      { value: "font-normal", label: "Font Normal" }, // 400
-      { value: "font-medium", label: "Font Medium" }, // 500
-      {
-        value: "font-semibold",
-        label: "Font Semibold", // fontWeight: 600
-      },
-      { value: "font-bold", label: "Font Bold" }, // 700
-    ],
-  },
-  {
-    fontFamily: "Poppins",
-    weights: [
-      { value: "font-light", label: "Font Light" }, // 300
-      { value: "font-normal", label: "Font Normal" }, // 400
-      { value: "font-semibold", label: "Font Semibold" }, // 600
-      { value: "font-bold", label: "Font Bold" }, // 700
-      { value: "font-black", label: "Font Black" }, // 900
-    ],
-  },
-  {
-    fontFamily: "Pacifico",
-    weights: [
-      { value: "font-normal", label: "Font Normal" }, // 400
-    ],
-  },
-];
+function parseGoogleFontsImport(importStr) {
+  const url = importStr.match(/url\(['"]?([^'")]+)['"]?\)/)?.[1];
+  if (!url) return [];
+
+  const fontOptions = [];
+  const query = new URL(url).searchParams;
+  const families = query.getAll("family");
+
+  families.forEach((familyStr) => {
+    const [rawName, weightPart] = familyStr.split(":");
+    const fontFamily = rawName.replace(/\+/g, " ");
+    let weights = [];
+
+    if (weightPart?.includes("ital,wght@")) {
+      // Contoh: ital,wght@0,100;1,200 => ambil angka kedua saja
+      const entries = weightPart.split("ital,wght@")[1].split(";");
+      weights = entries.map((entry) => parseInt(entry.split(",")[1], 10));
+    } else if (weightPart?.includes("wght@")) {
+      // Contoh: wght@100;300;700 atau wght@100..900
+      const entries = weightPart.split("wght@")[1].split(";");
+      weights = entries.flatMap((w) => {
+        if (w.includes("..")) {
+          const [start, end] = w.split("..").map(Number);
+          return Array.from(
+            { length: Math.floor((end - start) / 100) + 1 },
+            (_, i) => start + i * 100
+          );
+        }
+        return parseInt(w, 10);
+      });
+    }
+
+    fontOptions.push({
+      fontFamily,
+      weights: [...new Set(weights)].sort((a, b) => a - b),
+    });
+  });
+
+  return fontOptions;
+}
 
 const SelectFontFamily = ({
   asChild,
@@ -147,8 +91,10 @@ const SelectFontFamily = ({
 }) => {
   const [open, setOpen] = useState(false);
 
-  const parsedFonts = parseImportCSS(importCSS);
-  console.log("🚀 ~ parsedFonts:", parsedFonts);
+  const importStr = `@import url('https://fonts.googleapis.com/css2?family=Fleur+De+Leah&family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Kablammo&family=Lobster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@100..900&family=Teko:wght@300..700&display=swap')`;
+
+  const fontOptions = parseGoogleFontsImport(importStr);
+  console.log("🚀 ~ fontOptions:", fontOptions);
 
   const currentFont = fontOptions.find(
     (font) => font.fontFamily === fontFamily
@@ -156,10 +102,10 @@ const SelectFontFamily = ({
 
   useEffect(() => {
     const isValidWeight = currentFont?.weights.some(
-      (weight) => weight.value === fontWeight
+      (weight) => weight === fontWeight
     );
     if (!isValidWeight) {
-      onChangefontWeight(currentFont?.weights[0].value);
+      onChangefontWeight(currentFont?.weights[1]);
     }
   }, [fontWeight, currentFont, onChangefontWeight]);
 
@@ -173,7 +119,10 @@ const SelectFontFamily = ({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-[180px] justify-between font-normal"
+              className={`w-[180px] justify-between font-normal`}
+              style={{
+                fontFamily,
+              }}
             >
               {fontFamily
                 ? fontOptions.find((font) => font.fontFamily === fontFamily)
@@ -218,31 +167,36 @@ const SelectFontFamily = ({
         </Popover>
       </div>
 
-      <div className="w-full flex items-center justify-between">
-        {label && (
-          <Label className={`${asChild && "font-normal"}`}>Weight</Label>
-        )}
+      {currentFont?.weights.length > 0 && (
+        <div className="w-full flex items-center justify-between">
+          {label && (
+            <Label className={`${asChild && "font-normal"}`}>Weight</Label>
+          )}
 
-        <Select
-          value={fontWeight}
-          onValueChange={(value) => onChangefontWeight(value)}
-        >
-          <SelectTrigger className="w-[180px] bg-muted">
-            <SelectValue placeholder="" />
-          </SelectTrigger>
-          <SelectContent>
-            {currentFont?.weights.map((opt) => (
-              <SelectItem
-                className={opt.value}
-                key={opt.value}
-                value={opt.value}
-              >
-                {opt.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+          <Select
+            value={fontWeight}
+            onValueChange={(value) => onChangefontWeight(value)}
+          >
+            <SelectTrigger className="w-[180px] bg-muted">
+              <SelectValue placeholder="" />
+            </SelectTrigger>
+            <SelectContent>
+              {currentFont?.weights.map((weight) => (
+                <SelectItem
+                  style={{
+                    fontFamily,
+                  }}
+                  className={weightsMapping[weight]?.value}
+                  key={weight}
+                  value={weight}
+                >
+                  {weightsMapping[weight]?.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
     </div>
   );
 };

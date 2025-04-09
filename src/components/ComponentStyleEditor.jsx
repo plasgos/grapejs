@@ -14,6 +14,7 @@ import EditorHeroSection from "./editor-block/hero-section";
 import EditorImage from "./editor-block/image";
 import EditorListImages from "./editor-block/list-images";
 import EditorModalPopup from "./editor-block/modal-popup";
+import EditorSplitText from "./editor-block/pro/split-text";
 import EditorQuote from "./editor-block/quote";
 import EditorSliderImages from "./editor-block/slider-images";
 import EditorTestimony from "./editor-block/testimony";
@@ -23,6 +24,10 @@ import EditorVideoText from "./editor-block/video-text-banner";
 const ComponentStyleEditor = ({ selectedComponent }) => {
   return (
     <div className="">
+      {selectedComponent.get("type") === "split-text" && (
+        <EditorSplitText selectedComponent={selectedComponent} />
+      )}
+
       {selectedComponent.get("type") === "call-to-action" && (
         <EditorCTA selectedComponent={selectedComponent} />
       )}

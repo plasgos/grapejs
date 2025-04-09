@@ -13,6 +13,7 @@ import { heroSectionComponent } from "./components/heroSectionComponent";
 import { imageComponent } from "./components/imageComponent";
 import { listImagesComponent } from "./components/listImagesComponent";
 import { modalPopupComponent } from "./components/modalPopupComponent";
+import { splitTextComponent } from "./components/pro/splitTextComponent";
 import { quoteComponent } from "./components/quoteComponent";
 import { sliderImagesComponent } from "./components/sliderImagesComponent";
 import { testimonyComponent } from "./components/testimonyComponent";
@@ -21,6 +22,8 @@ import { videoTextComponent } from "./components/videoTextComponent";
 
 const plasgosPlugin = (editor) => {
   editor.on("load", () => {
+    splitTextComponent(editor);
+
     buttonsComponent(editor);
     // registerCallToAction(editor);
     contentShowcaseComponent(editor);

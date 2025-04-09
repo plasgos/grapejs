@@ -3,6 +3,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
+import SplitText from "@/components/pro-version/SplitText";
 
 const ViewImage = ({ section, editor }) => {
   const { contents, animation } = section;
@@ -18,6 +19,19 @@ const ViewImage = ({ section, editor }) => {
       editor={editor}
       section={section}
     >
+      <div className="my-10">
+        <SplitText
+          text="Hello, Tailwind!"
+          className="text-2xl font-semibold text-center"
+          delay={150}
+          animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
+          animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+          easing="easeOutCubic"
+          threshold={0.2}
+          rootMargin="-50px"
+        />
+      </div>
+
       {variant === "centerPage" && (
         <div
           ref={elementRef}

@@ -41,7 +41,7 @@ export const FAQComponent = (editor) => {
         space: 20,
         textShadow: null,
         color: "#000000",
-        fontWeight: "font-semibold",
+        fontWeight: 400,
         fontFamily: "Roboto",
         fontSize: 16,
         textAligment: "justify-center",

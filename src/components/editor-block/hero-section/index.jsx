@@ -30,9 +30,9 @@ import SelectCircle from "../_components/SelectCircle";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { CiImageOff, CiImageOn } from "react-icons/ci";
+import ButtonStylesEditor from "../_components/ButtonStylesEditor";
 import DraggableList from "../_components/DraggableList";
 import IconPicker from "../_components/IconPicker";
-import ButtonStylesEditor from "../_components/ButtonStylesEditor";
 import TargetOptions from "../_components/TargetOptions";
 
 const imagePostionOptions = [
