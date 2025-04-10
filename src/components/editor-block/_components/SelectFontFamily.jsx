@@ -18,6 +18,10 @@ import {
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import {
+  Virtualized,
+  VirtualizedVirtualizer,
+} from "@/components/ui/virtualized";
 
 const weightsMapping = {
   100: { value: "font-thin", label: "Font Thin" },
@@ -39,6 +43,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect } from "react";
+import { googleFonts } from "@/lib/googleFonts";
+import { generateGoogleFontsImportWithWeights } from "@/utils/injectGoogleFonts";
+import { useMemo } from "react";
+import { useRef } from "react";
+import { useLayoutEffect } from "react";
+import { googleFontTest } from "@/lib/googleFontTest";
 
 function parseGoogleFontsImport(importStr) {
   const url = importStr.match(/url\(['"]?([^'")]+)['"]?\)/)?.[1];
@@ -90,24 +100,65 @@ const SelectFontFamily = ({
   onChangefontWeight,
 }) => {
   const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
-  const importStr = `@import url('https://fonts.googleapis.com/css2?family=Fleur+De+Leah&family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Kablammo&family=Lobster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@100..900&family=Teko:wght@300..700&display=swap')`;
+  const virtualizerRef = useRef(null);
+  const viewportRef = useRef(null);
 
-  const fontOptions = parseGoogleFontsImport(importStr);
-  console.log("🚀 ~ fontOptions:", fontOptions);
+  const googleFontsImport = generateGoogleFontsImportWithWeights(googleFonts);
 
-  const currentFont = fontOptions.find(
-    (font) => font.fontFamily === fontFamily
-  );
+  // const googleFontsImport =
+  //   generateGoogleFontsImportWithWeights(googleFontTest);
+
+  const fontOptions = parseGoogleFontsImport(googleFontsImport);
+
+  const currentFont =
+    fontOptions?.find((font) => font.fontFamily === fontFamily) || "";
 
   useEffect(() => {
-    const isValidWeight = currentFont?.weights.some(
+    if (!currentFont) {
+      return;
+    }
+    const isValidWeight = currentFont?.weights?.some(
       (weight) => weight === fontWeight
     );
     if (!isValidWeight) {
-      onChangefontWeight(currentFont?.weights[1]);
+      onChangefontWeight(currentFont?.weights[0]);
     }
   }, [fontWeight, currentFont, onChangefontWeight]);
+
+  const filteredFonts = useMemo(() => {
+    if (!inputValue) {
+      return fontOptions;
+    }
+
+    return fontOptions.filter((item) =>
+      item.fontFamily.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  }, [fontOptions, inputValue]);
+
+  const activeIndex = useMemo(
+    () => filteredFonts.findIndex((item) => item.fontFamily === fontFamily),
+    [filteredFonts, fontFamily]
+  );
+
+  useLayoutEffect(() => {
+    if (!open || !fontFamily || activeIndex === -1) return;
+
+    setTimeout(() => {
+      // Recover scroll position.
+      virtualizerRef.current?.scrollToIndex(activeIndex, { align: "center" });
+
+      const checkedElement = viewportRef.current?.querySelector(
+        "[data-state=checked]"
+      );
+
+      // Recover focus.
+      checkedElement?.focus({ preventScroll: true });
+    });
+  }, [open, fontFamily, activeIndex]);
+
+  console.log("🚀 ~ filteredFonts ~ filteredFonts:", filteredFonts);
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -133,41 +184,59 @@ const SelectFontFamily = ({
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0">
             <Command>
-              <CommandInput placeholder="Search font..." className="h-9" />
-              <CommandList>
-                <CommandEmpty>No Font Family found.</CommandEmpty>
-                <CommandGroup>
-                  {fontOptions.map((font) => (
-                    <CommandItem
-                      style={{
-                        fontFamily: font.fontFamily,
-                      }}
-                      key={font.fontFamily}
-                      value={font.fontFamily}
-                      onSelect={(currentValue) => {
-                        onChangefontFamily(currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      {font.fontFamily}
-                      <Check
-                        className={cn(
-                          "ml-auto",
-                          fontFamily === font.fontFamily
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
+              <CommandInput
+                placeholder="Search font..."
+                className="h-9"
+                onValueChange={(val) => setInputValue(val)}
+              />
+
+              <Virtualized ref={viewportRef} asChild>
+                <CommandList>
+                  {filteredFonts.length === 0 ? (
+                    <CommandEmpty>Not found.</CommandEmpty>
+                  ) : (
+                    <CommandGroup>
+                      <VirtualizedVirtualizer
+                        ref={virtualizerRef}
+                        startMargin={32}
+                        keepMounted={
+                          activeIndex !== -1 ? [activeIndex] : undefined
+                        }
+                      >
+                        {filteredFonts.map((font) => (
+                          <CommandItem
+                            style={{
+                              fontFamily: font.fontFamily,
+                            }}
+                            key={font.fontFamily}
+                            value={font.fontFamily}
+                            onSelect={(currentValue) => {
+                              onChangefontFamily(currentValue);
+                              setOpen(false);
+                            }}
+                          >
+                            {font.fontFamily}
+                            <Check
+                              className={cn(
+                                "ml-auto",
+                                fontFamily === font.fontFamily
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </VirtualizedVirtualizer>
+                    </CommandGroup>
+                  )}
+                </CommandList>
+              </Virtualized>
             </Command>
           </PopoverContent>
         </Popover>
       </div>
 
-      {currentFont?.weights.length > 0 && (
+      {currentFont?.weights?.length > 1 && (
         <div className="w-full flex items-center justify-between">
           {label && (
             <Label className={`${asChild && "font-normal"}`}>Weight</Label>

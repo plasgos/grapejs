@@ -78,7 +78,7 @@ const ViewFAQ = ({ section, editor }) => {
                       textShadow: textShadow,
                       fontWeight,
                     }}
-                    className={`w-full break-all  ${fontFamily} ${fontWeight}`}
+                    className={`w-full break-all italic   `}
                   >
                     {content.title}
                   </p>

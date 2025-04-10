@@ -1,6 +1,7 @@
 import swiperCSS from "swiper/swiper-bundle.css?inline";
 import datepickerCSS from "react-datepicker/dist/react-datepicker.css?inline";
 import animateCSS from "animate.css/animate.min.css?inline";
+import { injectGoogleFonts } from "./injectGoogleFonts";
 
 const injectCSS = (editor, id, cssContent) => {
   const frameDoc = editor.Canvas.getFrameEl()?.contentDocument;
@@ -39,4 +40,5 @@ export const injectExternalCSS = (editor) => {
   injectAnimateCss(editor);
   injectSwiperCss(editor);
   injectDatepickerCss(editor);
+  injectGoogleFonts(editor);
 };
