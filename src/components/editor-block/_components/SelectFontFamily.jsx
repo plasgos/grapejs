@@ -158,7 +158,7 @@ const SelectFontFamily = ({
     });
   }, [open, fontFamily, activeIndex]);
 
-  console.log("🚀 ~ filteredFonts ~ filteredFonts:", filteredFonts);
+  // console.log("🚀 ~ filteredFonts ~ filteredFonts:", filteredFonts);
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -213,6 +213,7 @@ const SelectFontFamily = ({
                             onSelect={(currentValue) => {
                               onChangefontFamily(currentValue);
                               setOpen(false);
+                              setInputValue("");
                             }}
                           >
                             {font.fontFamily}

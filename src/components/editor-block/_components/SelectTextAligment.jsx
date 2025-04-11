@@ -8,12 +8,20 @@ const options = [
   { value: "text-right", icon: <TbAlignRight /> },
 ];
 
-const SelectTextAligment = ({ asChild, value, onChange }) => {
+const optionsFlex = [
+  { value: "justify-start", icon: <TbAlignLeft /> },
+  { value: "justify-center", icon: <TbAlignCenter /> },
+  { value: "justify-end", icon: <TbAlignRight /> },
+];
+
+const SelectTextAligment = ({ asChild, value, onChange, isFlex = false }) => {
+  const listToRender = isFlex ? optionsFlex : options;
+
   return (
     <div className="flex justify-between items-center">
       <Label className={`${asChild && "font-normal"}`}>Aligment</Label>
       <div className="flex items-center gap-x-2">
-        {options.map((item) => (
+        {listToRender.map((item) => (
           <Button
             key={item.value}
             onClick={() => {

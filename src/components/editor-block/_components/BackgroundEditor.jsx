@@ -2,6 +2,10 @@ import Compressor from "compressorjs";
 import { SketchPicker } from "react-color";
 import { FaCheckCircle } from "react-icons/fa";
 
+import { SwatchesPicker } from "react-color";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import {
   FaArrowDownShortWide,
   FaArrowUpWideShort,
@@ -67,10 +71,10 @@ import pattern8 from "@/assets/pattern/pattern8.webp";
 import pattern9 from "@/assets/pattern/pattern9.webp";
 
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { Button } from "../../ui/button";
 import RangeInputSlider from "./RangeInputSlider";
 import SelectCircle from "./SelectCircle";
-import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
 export const patterns = [
   { img: pattern1 },
@@ -160,6 +164,53 @@ export const directionGradientOptions = [
   { value: "to right bottom", icon: <CgArrowsExpandLeft /> },
   { value: "to right top", icon: <CgArrowsExpandRight /> },
 ];
+
+const ColorPickerBg = ({
+  children,
+  value = "rgba(255,255,255,1)",
+  onChange,
+}) => {
+  const handleChange = (color) => {
+    const { r, g, b, a } = color;
+    const colorValue = `rgba(${r},${g},${b},${a})`;
+    if (onChange) {
+      onChange(colorValue);
+    }
+  };
+  return (
+    <Popover>
+      <PopoverTrigger asChild>{children}</PopoverTrigger>
+      <PopoverContent className="relative w-full p-0 left-6">
+        <Tabs defaultValue="pallete-colours" className="w-full ">
+          <TabsList>
+            <TabsTrigger className="text-sm w-full" value="pallete-colours">
+              Pallete Colours
+            </TabsTrigger>
+            <TabsTrigger className="text-sm w-full" value="sketch-colours">
+              Sketch Colours
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent className="m-0" value="pallete-colours">
+            <SwatchesPicker
+              width={273}
+              className="custom-sketch-picker"
+              color={value}
+              onChange={(color) => handleChange(color.rgb)}
+            />
+          </TabsContent>
+          <TabsContent className="m-0" value="sketch-colours">
+            <SketchPicker
+              width={220}
+              className="custom-sketch-picker"
+              color={value}
+              onChange={(color) => handleChange(color.rgb)}
+            />
+          </TabsContent>
+        </Tabs>
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 const SolidColorsCircle = ({ onClick, color, isSelected }) => {
   return (
@@ -544,22 +595,16 @@ const BackgroundEditor = ({ selectedComponent }) => {
 
               <div className="my-5 flex justify-between items-center">
                 <div>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="outline" className="px-[26px]">
-                        More Colours <IoIosColorPalette />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0 w-full relative -right-3">
-                      <SketchPicker
-                        className="custom-sketch-picker"
-                        color={background.bgColor}
-                        onChange={(color) => {
-                          handleChangeBackground("bgColor", color.hex);
-                        }}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <ColorPickerBg
+                    value={background.bgColor}
+                    onChange={(color) =>
+                      handleChangeBackground("bgColor", color)
+                    }
+                  >
+                    <Button variant="outline" className="px-[26px]">
+                      More Colours <IoIosColorPalette />
+                    </Button>
+                  </ColorPickerBg>
                 </div>
 
                 <div>

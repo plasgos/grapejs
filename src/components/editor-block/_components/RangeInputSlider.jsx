@@ -6,9 +6,11 @@ const RangeInputSlider = ({
   asChild,
   min = 0,
   max = 100,
+  step = 1,
   onChange,
   label,
   value,
+  unit = "px",
 }) => {
   const handleSliderChange = (newValue) => {
     if (onChange) onChange(Number(newValue));
@@ -45,7 +47,7 @@ const RangeInputSlider = ({
           defaultValue={[safeValue(value)]} // Menjaga posisi tengah jika 0
           min={min}
           max={max}
-          step={1}
+          step={step}
           onValueChange={(newValue) => handleSliderChange(newValue[0])}
         />
 
@@ -58,10 +60,11 @@ const RangeInputSlider = ({
             type="text"
             onChange={handleInputChange}
             onBlur={handleInputBlur}
+            step={step}
           />
 
           <p className="absolute right-3 top-1.5 text-muted-foreground  z-10">
-            px
+            {unit}
           </p>
         </div>
       </div>

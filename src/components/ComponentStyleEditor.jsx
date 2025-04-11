@@ -14,7 +14,12 @@ import EditorHeroSection from "./editor-block/hero-section";
 import EditorImage from "./editor-block/image";
 import EditorListImages from "./editor-block/list-images";
 import EditorModalPopup from "./editor-block/modal-popup";
-import EditorSplitText from "./editor-block/pro/split-text";
+import EditorBlurText from "./editor-block/pro-version/blur-text";
+import EditorFuzzyText from "./editor-block/pro-version/fuzzy-text";
+import EditorGalleryMasonry from "./editor-block/pro-version/gallery-masonry";
+import EditorGlitchText from "./editor-block/pro-version/glitch-text";
+import EditorScrollVelocity from "./editor-block/pro-version/scroll-velocity";
+import EditorSplitText from "./editor-block/pro-version/split-text";
 import EditorQuote from "./editor-block/quote";
 import EditorSliderImages from "./editor-block/slider-images";
 import EditorTestimony from "./editor-block/testimony";
@@ -27,6 +32,24 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       {selectedComponent.get("type") === "split-text" && (
         <EditorSplitText selectedComponent={selectedComponent} />
       )}
+      {selectedComponent.get("type") === "blur-text" && (
+        <EditorBlurText selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "fuzzy-text" && (
+        <EditorFuzzyText selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "glitch-text" && (
+        <EditorGlitchText selectedComponent={selectedComponent} />
+      )}
+
+      {selectedComponent.get("type") === "scroll-velocity-text" && (
+        <EditorScrollVelocity selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "gallery-masonry" && (
+        <EditorGalleryMasonry selectedComponent={selectedComponent} />
+      )}
+
+      {/* ======================================================== */}
 
       {selectedComponent.get("type") === "call-to-action" && (
         <EditorCTA selectedComponent={selectedComponent} />

@@ -1,21 +1,27 @@
 import { injectComponents } from "@/plugins/injectComponent";
-import ViewSplitText from "@/view/pro/split-text/ViewSplitText";
+import ViewBlurText from "@/view/pro-version/blur-text/ViewBlurText";
 
-import { MdOutlineTextFields } from "react-icons/md";
+import { MdBlurOn } from "react-icons/md";
 
-export const splitTextComponent = (editor) => {
+export const blurTextComponent = (editor) => {
   injectComponents(editor, {
-    type: "split-text",
-    label: "Split Text",
+    type: "blur-text",
+    label: "Blur Text",
     category: "Text",
-    icon: <MdOutlineTextFields size={40} />,
-    ViewComponent: ViewSplitText,
+    icon: <MdBlurOn size={40} />,
+    ViewComponent: ViewBlurText,
     defaultCustomComponent: {
       isLocked: false,
       scrollTarget: undefined,
-      text: "Hello World!",
-      delay: 150,
-      textAlign: "text-center",
+      text: "Isn't this so cool?!",
+      fontFamily: "Roboto",
+      fontWeight: 500,
+      color: "rgba(0, 0, 0, 1)",
+      delay: 200,
+      textAlign: "justify-center",
+      fontSize: 36,
+      animateBy: "words",
+      direction: "top",
       contents: [],
       wrapperStyle: {},
       background: {

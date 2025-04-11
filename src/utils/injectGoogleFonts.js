@@ -96,9 +96,6 @@ export const injectGoogleFonts = (editor) => {
 
   // const googleFontsImport =
   //   generateGoogleFontsImportWithWeights(googleFontTest);
-
-  console.log("🚀 ~ injectGoogleFonts ~ googleFontsImport:", googleFontsImport);
-
   // Inject ke iframe canvas
   const iframe = editor.Canvas.getDocument();
   const styleEl = iframe.createElement("style");

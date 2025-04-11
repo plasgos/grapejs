@@ -13,7 +13,13 @@ import { heroSectionComponent } from "./components/heroSectionComponent";
 import { imageComponent } from "./components/imageComponent";
 import { listImagesComponent } from "./components/listImagesComponent";
 import { modalPopupComponent } from "./components/modalPopupComponent";
-import { splitTextComponent } from "./components/pro/splitTextComponent";
+import { blurTextComponent } from "./components/pro-version/blurTextComponent";
+import { fuzzyTextComponent } from "./components/pro-version/fuzzyTextComponent";
+import { galleryMasonryComponent } from "./components/pro-version/galleryMasonryComponent";
+import { glitchTextComponent } from "./components/pro-version/glitchTextComponent ";
+import { scrollVelocityTextComponent } from "./components/pro-version/scrollVelocityTextComponent ";
+import { splitTextComponent } from "./components/pro-version/splitTextComponent";
+
 import { quoteComponent } from "./components/quoteComponent";
 import { sliderImagesComponent } from "./components/sliderImagesComponent";
 import { testimonyComponent } from "./components/testimonyComponent";
@@ -23,6 +29,12 @@ import { videoTextComponent } from "./components/videoTextComponent";
 const plasgosPlugin = (editor) => {
   editor.on("load", () => {
     splitTextComponent(editor);
+    blurTextComponent(editor);
+    fuzzyTextComponent(editor);
+    glitchTextComponent(editor);
+    scrollVelocityTextComponent(editor);
+
+    galleryMasonryComponent(editor);
 
     buttonsComponent(editor);
     // registerCallToAction(editor);
