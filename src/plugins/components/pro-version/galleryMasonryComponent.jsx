@@ -30,12 +30,6 @@ export const galleryMasonryComponent = (editor) => {
         id: `img-${String(index + 1).padStart(2, "0")}-${generateId()}`,
         image: item.image,
         height: item.height,
-        target: {
-          actionType: "link",
-          options: {
-            type: null,
-          },
-        },
       })),
       wrapperStyle: {},
       background: {

@@ -1,5 +1,6 @@
 import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
+import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
@@ -35,10 +36,10 @@ const ViewFeatureHighlights = ({ section, editor }) => {
             return (
               <div
                 key={content.id}
-                className={`flex items-center gap-x-2 my-2  ${
-                  isFocusContent === content.id &&
-                  "ring-2 ring-purple-600  bg-orange-100 transition-all duration-300 ease-in-out "
-                }`}
+                className={`flex items-center gap-x-2 my-2    ${getContentFocusStyle(
+                  isFocusContent,
+                  content.id
+                )}`}
               >
                 {iconBtn.position === "left" ? (
                   <>

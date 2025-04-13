@@ -165,6 +165,7 @@ import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 import ContainerView from "@/components/ContainerView";
 import { useSelector } from "react-redux";
+import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
 const ViewFormCheckout = ({ section, editor }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
@@ -535,10 +536,7 @@ const ViewFormCheckout = ({ section, editor }) => {
               return (
                 <div
                   className={`
-                ${
-                  isFocusContent === content.id &&
-                  "ring-2 !ring-offset-4 ring-purple-600  bg-orange-100    transition-all duration-300 ease-in-out"
-                }
+                ${getContentFocusStyle(isFocusContent, content.id)}
               `}
                   style={{ margin: "20px 0px" }}
                   key={content.id}

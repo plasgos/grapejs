@@ -1,4 +1,5 @@
 import ContainerView from "@/components/ContainerView";
+import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -53,10 +54,10 @@ const ContentShowcase = ({ section, editor }) => {
         {contents.map((content) => (
           <div
             key={content.id}
-            className={`${
-              isFocusContent === content.id &&
-              "ring-2 ring-purple-600  bg-orange-100 transition-all duration-300 ease-in-out  "
-            } text-center flex flex-col items-center p-2 `}
+            className={`  ${getContentFocusStyle(
+              isFocusContent,
+              content.id
+            )} text-center flex flex-col items-center p-2 `}
           >
             <div className="w-full flex flex-col">
               {imagePosition === "top" && (

@@ -1,3 +1,4 @@
+import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { FaStar } from "react-icons/fa";
 import { ImQuotesLeft } from "react-icons/im";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -27,10 +28,10 @@ const Layout3 = ({ content, styles }) => {
         border: `1px solid  ${borderColor}`,
       }}
       key={content.id}
-      className={`p-3 rounded-lg shadow relative    ${
-        isFocusContent === content.id &&
-        "ring-2 ring-purple-600  bg-orange-100 transition-all duration-300 ease-in-out "
-      } `}
+      className={`p-3 rounded-lg shadow relative     ${getContentFocusStyle(
+        isFocusContent,
+        content.id
+      )} `}
     >
       <div className="">
         <ImQuotesLeft color={quoteColor} size={36} />

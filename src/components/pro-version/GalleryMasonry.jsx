@@ -1,41 +1,91 @@
-import { useState, useEffect, useMemo, useRef } from "react";
-import { useTransition, a } from "@react-spring/web";
+import { a, useTransition } from "@react-spring/web";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const GalleryMasonry = ({ data }) => {
+import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
+import ViewModal from "@/view/_components/ViewModal";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { useSelector } from "react-redux";
+
+const GalleryMasonry = ({ data, editor }) => {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
+  const editorModel = editor.getModel();
+  const globalOptions = editorModel.get("globalOptions");
+
   const [columns, setColumns] = useState(2);
 
-  useEffect(() => {
-    const updateColumns = () => {
-      if (window.matchMedia("(min-width: 1500px)").matches) {
-        setColumns(5);
-      } else if (window.matchMedia("(min-width: 1000px)").matches) {
-        setColumns(4);
-      } else if (window.matchMedia("(min-width: 600px)").matches) {
-        setColumns(3);
-      } else {
-        setColumns(1); // Mobile devices
-      }
-    };
+  const [isOpen, setIsOpen] = useState(false);
 
-    updateColumns();
-    window.addEventListener("resize", updateColumns);
-    return () => window.removeEventListener("resize", updateColumns);
-  }, []);
+  const [selectedItem, setSelectedItem] = useState("");
+  console.log("🚀 ~ GalleryMasonry ~ selectedItem:", selectedItem);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const iframe = editor?.Canvas.getFrameEl();
+      if (!iframe) return;
+
+      const iframeWindow = iframe.contentWindow;
+      if (!iframeWindow) return;
+
+      const updateColumns = () => {
+        const width = iframeWindow.innerWidth;
+
+        if (width >= 1500) {
+          setColumns(5);
+        } else if (width >= 1000) {
+          setColumns(4);
+        } else if (width >= 600) {
+          setColumns(3);
+        } else {
+          setColumns(1);
+        }
+      };
+
+      updateColumns();
+      iframeWindow.addEventListener("resize", updateColumns);
+
+      // Cleanup
+      return () => {
+        iframeWindow.removeEventListener("resize", updateColumns);
+      };
+    }, 100); // 100ms delay cukup aman
+
+    return () => clearTimeout(timeout);
+  }, [editor]);
 
   const ref = useRef();
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (ref.current) {
-        setWidth(ref.current.offsetWidth);
+    if (!editor) return;
+
+    const iframe = editor.Canvas.getFrameEl();
+    const wrapper = editor.getWrapper();
+
+    const updateWidth = () => {
+      if (!iframe || !wrapper) return;
+
+      const wrapperDomEl = wrapper.view?.el;
+      if (wrapperDomEl) {
+        const widthContainer =
+          wrapperDomEl.clientWidth > globalOptions?.maxWidthPage
+            ? globalOptions?.maxWidthPage
+            : wrapperDomEl.clientWidth;
+
+        setWidth(widthContainer);
       }
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    updateWidth();
+
+    const iframeWindow = iframe.contentWindow;
+    iframeWindow?.addEventListener("resize", updateWidth);
+
+    return () => {
+      iframeWindow?.removeEventListener("resize", updateWidth);
+    };
+  }, [editor, globalOptions]);
 
   const [heights, gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0);
@@ -64,30 +114,57 @@ const GalleryMasonry = ({ data }) => {
     trail: 25,
   });
 
+  const handleSelectItem = (item) => {
+    setIsOpen(true);
+    setSelectedItem(item);
+  };
+
   return (
-    <div
-      ref={ref}
-      className="relative w-full h-full"
-      style={{ height: Math.max(...heights) }}
-    >
-      {transitions((style, item) => (
-        <a.div
-          key={item.id}
-          style={style}
-          className="absolute p-[15px] [will-change:transform,width,height,opacity]"
-        >
-          <div
-            className="relative w-full h-full overflow-hidden uppercase text-[10px] leading-[10px] rounded-[4px] shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] transition duration-300 ease hover:scale-110"
-            style={{
-              backgroundColor: "#ffffff",
-              backgroundImage: `url(${item.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+    <>
+      <div
+        ref={ref}
+        className="relative w-full h-full cursor-pointer"
+        style={{
+          height: Math.max(...heights),
+        }}
+      >
+        {transitions((style, item) => (
+          <a.div
+            key={item.id}
+            style={style}
+            className={`absolute p-[15px] [will-change:transform,width,height,opacity] ${getContentFocusStyle(
+              isFocusContent,
+              item.id
+            )}`}
+            onClick={() => handleSelectItem(item)}
+          >
+            <div
+              className="relative w-full h-full overflow-hidden uppercase text-[10px] leading-[10px] rounded-[4px] shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] transition duration-300 ease hover:scale-110"
+              style={{
+                backgroundColor: "#ffffff",
+                backgroundImage: `url(${item.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          </a.div>
+        ))}
+      </div>
+
+      <ViewModal isOpen={isOpen} onClose={setIsOpen}>
+        <div className="w-full flex  justify-center ">
+          <LazyLoadImage
+            src={selectedItem.image}
+            alt={`detail-${selectedItem.image}`}
+            className={`  `}
+            effect="blur"
+            wrapperProps={{
+              style: { transitionDelay: "1s" },
             }}
           />
-        </a.div>
-      ))}
-    </div>
+        </div>
+      </ViewModal>
+    </>
   );
 };
 

@@ -6,6 +6,9 @@ import {
 } from "@/components/ui/tooltip";
 import { produce } from "immer";
 
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
@@ -137,10 +140,14 @@ const SortableItem = ({
       <div className="flex items-center justify-between  ml-4">
         <div className="flex gap-x-3  items-center">
           {item.image ? (
-            <img
+            <LazyLoadImage
               src={item.image}
-              alt="item-img"
+              alt={"items-list"}
               className="object-cover w-14 max-h-11 "
+              effect="blur"
+              wrapperProps={{
+                style: { transitionDelay: "1s" },
+              }}
             />
           ) : null}
 

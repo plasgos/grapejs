@@ -11,9 +11,8 @@ import { useState } from "react";
 import BackgroundEditor from "../../_components/BackgroundEditor";
 import DraggableList from "../../_components/DraggableList";
 import ImageUploader from "../../_components/ImageUploader";
-import SectionAddScrollTargetId from "../../_components/SectionAddScrollTargetId";
 import RangeInputSlider from "../../_components/RangeInputSlider";
-import TargetOptions from "../../_components/TargetOptions";
+import SectionAddScrollTargetId from "../../_components/SectionAddScrollTargetId";
 
 const EditorGalleryMasonry = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -86,11 +85,6 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
             min={100}
             max={1000}
           />
-
-          <TargetOptions
-            content={item}
-            handleComponentChange={handleComponentChange}
-          />
         </div>
       </>
     );
@@ -113,7 +107,6 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
               editItem={editItem}
               selectedComponent={selectedComponent}
               setEditItem={setEditItem}
-              withoutFocusItem
             >
               <Button
                 onClick={handleAddContent}

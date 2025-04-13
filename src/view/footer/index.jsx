@@ -9,6 +9,7 @@ import ViewSocialMedia from "./ViewSocialMedia";
 import ViewNewsletter from "./ViewNewsletter";
 import Heading from "./Heading";
 import { useSelector } from "react-redux";
+import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
 const ViewFooter = ({ section, editor }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
@@ -36,10 +37,10 @@ const ViewFooter = ({ section, editor }) => {
             return (
               <div
                 key={index}
-                className={`${
-                  isFocusContent === content.id &&
-                  "ring-2 ring-purple-600  bg-orange-100  transition-all duration-300 ease-in-out"
-                }  `}
+                className={`  ${getContentFocusStyle(
+                  isFocusContent,
+                  content.id
+                )}  `}
               >
                 {content.type === "images" && (
                   <ViewImagesFooter
