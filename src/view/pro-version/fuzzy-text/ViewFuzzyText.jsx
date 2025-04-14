@@ -1,5 +1,6 @@
 import ContainerView from "@/components/ContainerView";
 import FuzzyText from "@/components/pro-version/FuzzyText";
+import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
 const ViewFuzzyText = ({ section, editor }) => {
   const {
@@ -14,6 +15,8 @@ const ViewFuzzyText = ({ section, editor }) => {
     enableHover,
   } = section;
 
+  const { responsiveFontSize } = useResponsiveViewFontSize(editor, fontSize);
+
   return (
     <ContainerView
       id={section?.scrollTarget?.value || ""}
@@ -25,7 +28,7 @@ const ViewFuzzyText = ({ section, editor }) => {
           baseIntensity={baseIntensity}
           hoverIntensity={hoverIntensity}
           enableHover={enableHover}
-          fontSize={fontSize}
+          fontSize={responsiveFontSize}
           fontFamily={fontFamily}
           fontWeight={fontWeight}
           color={color}

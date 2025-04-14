@@ -1,9 +1,12 @@
 import ContainerView from "@/components/ContainerView";
 import SplitText from "@/components/pro-version/SplitText";
+import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
 const ViewSplitText = ({ section, editor }) => {
   const { text, delay, fontFamily, fontWeight, color, fontSize, textAlign } =
     section;
+
+  const { responsiveFontSize } = useResponsiveViewFontSize(editor, fontSize);
 
   return (
     <ContainerView
@@ -17,7 +20,7 @@ const ViewSplitText = ({ section, editor }) => {
             fontFamily,
             fontWeight,
             color,
-            fontSize,
+            fontSize: responsiveFontSize,
           }}
           text={text}
           delay={delay}

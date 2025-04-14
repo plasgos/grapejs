@@ -126,7 +126,7 @@ const EditorScrollVelocity = ({ selectedComponent }) => {
               value={fontSize}
               onChange={(value) => handleComponentChange("fontSize", value)}
               min={14}
-              max={500}
+              max={150}
             />
 
             <RangeInputSlider
@@ -135,6 +135,7 @@ const EditorScrollVelocity = ({ selectedComponent }) => {
               onChange={(value) => handleComponentChange("velocity", value)}
               min={10}
               max={500}
+              unit=""
             />
           </div>
         </div>

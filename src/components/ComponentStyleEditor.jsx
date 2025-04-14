@@ -15,6 +15,7 @@ import EditorImage from "./editor-block/image";
 import EditorListImages from "./editor-block/list-images";
 import EditorModalPopup from "./editor-block/modal-popup";
 import EditorBlurText from "./editor-block/pro-version/blur-text";
+import EditorCountUp from "./editor-block/pro-version/count-up";
 import EditorFuzzyText from "./editor-block/pro-version/fuzzy-text";
 import EditorGalleryMasonry from "./editor-block/pro-version/gallery-masonry";
 import EditorGlitchText from "./editor-block/pro-version/glitch-text";
@@ -47,6 +48,12 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       )}
       {selectedComponent.get("type") === "gallery-masonry" && (
         <EditorGalleryMasonry selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "count-up-text" && (
+        <EditorCountUp selectedComponent={selectedComponent} />
+      )}
+      {selectedComponent.get("type") === "marque-images" && (
+        <EditorCountUp selectedComponent={selectedComponent} />
       )}
 
       {/* ======================================================== */}

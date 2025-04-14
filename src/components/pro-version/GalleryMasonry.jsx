@@ -18,7 +18,6 @@ const GalleryMasonry = ({ data, editor }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState("");
-  console.log("🚀 ~ GalleryMasonry ~ selectedItem:", selectedItem);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

@@ -1,18 +1,16 @@
 import ContainerView from "@/components/ContainerView";
-import BlurText from "@/components/pro-version/BlurText";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
+import { MarqueImages } from "./MarqueImages";
 
-const ViewBlurText = ({ section, editor }) => {
+const ViewMarqueImages = ({ section, editor }) => {
   const {
-    text,
-    delay,
-    fontFamily,
+    contents,
+    fontFamily = "Squada One",
     fontWeight,
     color,
     fontSize,
     textAlign,
-    animateBy,
-    direction,
+    velocity,
   } = section;
 
   const { responsiveFontSize } = useResponsiveViewFontSize(editor, fontSize);
@@ -23,22 +21,22 @@ const ViewBlurText = ({ section, editor }) => {
       editor={editor}
       section={section}
     >
-      <div className={`p-10 flex ${textAlign}`}>
-        <BlurText
+      <div className={`p-10 overflow-x-hidden flex ${textAlign}`}>
+        <MarqueImages
+          images={contents}
+          velocity={velocity}
+          speed={5}
+          className="custom-scroll-text"
           style={{
             fontFamily,
             fontWeight,
             color,
             fontSize: responsiveFontSize,
           }}
-          text={text}
-          delay={delay}
-          animateBy={animateBy}
-          direction={direction}
         />
       </div>
     </ContainerView>
   );
 };
 
-export default ViewBlurText;
+export default ViewMarqueImages;

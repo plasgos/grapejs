@@ -26,7 +26,7 @@ export const glitchTextComponent = (editor) => {
       wrapperStyle: {},
       background: {
         bgType: "bgColor",
-        bgColor: "rgba(0, 0, 0, 1)",
+        bgColor: "rgba(6, 6, 6, 1)",
         bgImage: "",
         blur: 0,
         opacity: 0,

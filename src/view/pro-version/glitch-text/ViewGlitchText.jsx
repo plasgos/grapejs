@@ -1,5 +1,7 @@
 import ContainerView from "@/components/ContainerView";
 import GlitchText from "@/components/pro-version/GlitchText";
+import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
+import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
 const ViewGlitchText = ({ section, editor }) => {
   const {
@@ -12,7 +14,13 @@ const ViewGlitchText = ({ section, editor }) => {
     enableShadows,
     enableOnHover,
     speed,
+    background,
   } = section;
+
+  const { responsiveFontSize } = useResponsiveViewFontSize(editor, fontSize);
+
+  const stylesBg = useBackgroundStyles(section);
+  console.log("🚀 ~ ViewGlitchText ~ stylesBg:", stylesBg);
 
   return (
     <ContainerView
@@ -26,12 +34,13 @@ const ViewGlitchText = ({ section, editor }) => {
             fontFamily,
             fontWeight,
             color,
-            fontSize,
+            fontSize: responsiveFontSize,
           }}
           speed={speed}
           enableShadows={enableShadows}
           enableOnHover={enableOnHover}
           className="custom-class"
+          background={background}
         >
           {text}
         </GlitchText>

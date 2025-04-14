@@ -77,7 +77,7 @@ const EditorGlitchText = ({ selectedComponent }) => {
               value={fontSize}
               onChange={(value) => handleComponentChange("fontSize", value)}
               min={14}
-              max={500}
+              max={150}
             />
 
             <SelectTextAligment
