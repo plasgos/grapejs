@@ -9,6 +9,7 @@ import MainWebEditor from "./components/MainWebEditor";
 import PublishedPage from "./pages/published";
 import "react-datepicker/dist/react-datepicker.css";
 import { useGetUsersQuery } from "./redux/services/userApi";
+import TestPage from "./pages/test";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<MainWebEditor />} />
             <Route path="/published" element={<PublishedPage />} />
+            <Route path="/test" element={<TestPage />} />
           </Routes>
           <Toaster />
         </CanvasProvider>

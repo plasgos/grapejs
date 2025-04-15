@@ -14,11 +14,13 @@ import EditorHeroSection from "./editor-block/hero-section";
 import EditorImage from "./editor-block/image";
 import EditorListImages from "./editor-block/list-images";
 import EditorModalPopup from "./editor-block/modal-popup";
+import EditorNavbar from "./editor-block/navbar";
 import EditorBlurText from "./editor-block/pro-version/blur-text";
 import EditorCountUp from "./editor-block/pro-version/count-up";
 import EditorFuzzyText from "./editor-block/pro-version/fuzzy-text";
 import EditorGalleryMasonry from "./editor-block/pro-version/gallery-masonry";
 import EditorGlitchText from "./editor-block/pro-version/glitch-text";
+import EditorMarqueeImages from "./editor-block/pro-version/marquee-images";
 import EditorScrollVelocity from "./editor-block/pro-version/scroll-velocity";
 import EditorSplitText from "./editor-block/pro-version/split-text";
 import EditorQuote from "./editor-block/quote";
@@ -30,6 +32,11 @@ import EditorVideoText from "./editor-block/video-text-banner";
 const ComponentStyleEditor = ({ selectedComponent }) => {
   return (
     <div className="">
+      {/* navbar */}
+      {selectedComponent.get("type") === "navbar" && (
+        <EditorNavbar selectedComponent={selectedComponent} />
+      )}
+
       {selectedComponent.get("type") === "split-text" && (
         <EditorSplitText selectedComponent={selectedComponent} />
       )}
@@ -52,8 +59,8 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       {selectedComponent.get("type") === "count-up-text" && (
         <EditorCountUp selectedComponent={selectedComponent} />
       )}
-      {selectedComponent.get("type") === "marque-images" && (
-        <EditorCountUp selectedComponent={selectedComponent} />
+      {selectedComponent.get("type") === "marquee-images" && (
+        <EditorMarqueeImages selectedComponent={selectedComponent} />
       )}
 
       {/* ======================================================== */}

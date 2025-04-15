@@ -13,12 +13,14 @@ import { heroSectionComponent } from "./components/heroSectionComponent";
 import { imageComponent } from "./components/imageComponent";
 import { listImagesComponent } from "./components/listImagesComponent";
 import { modalPopupComponent } from "./components/modalPopupComponent";
+import { navbarComponent } from "./components/navbarComponent";
 import { blurTextComponent } from "./components/pro-version/blurTextComponent";
 import { countUpComponent } from "./components/pro-version/countUpComponent";
 import { fuzzyTextComponent } from "./components/pro-version/fuzzyTextComponent";
 import { galleryMasonryComponent } from "./components/pro-version/galleryMasonryComponent";
 import { glitchTextComponent } from "./components/pro-version/glitchTextComponent ";
 import { marqueImagesComponent } from "./components/pro-version/marqueImagesComponent ";
+import { scrollRevealComponent } from "./components/pro-version/scrollRevealComponent";
 import { scrollVelocityTextComponent } from "./components/pro-version/scrollVelocityTextComponent ";
 import { splitTextComponent } from "./components/pro-version/splitTextComponent";
 
@@ -30,6 +32,10 @@ import { videoTextComponent } from "./components/videoTextComponent";
 
 const plasgosPlugin = (editor) => {
   editor.on("load", () => {
+    //navbar
+    navbarComponent(editor);
+
+    //text
     splitTextComponent(editor);
     blurTextComponent(editor);
     fuzzyTextComponent(editor);
@@ -38,6 +44,8 @@ const plasgosPlugin = (editor) => {
     countUpComponent(editor);
     marqueImagesComponent(editor);
 
+    //media
+    scrollRevealComponent(editor);
     galleryMasonryComponent(editor);
 
     buttonsComponent(editor);
@@ -61,6 +69,8 @@ const plasgosPlugin = (editor) => {
     dividerComponent(editor);
     emptySpaceComponent(editor);
     formCheckoutComponent(editor);
+
+    //footer
     footerComponent(editor);
   });
 };

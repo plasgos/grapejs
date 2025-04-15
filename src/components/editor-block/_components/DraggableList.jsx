@@ -118,7 +118,7 @@ const SortableItem = ({
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className={`w-full   p-2 bg-white shadow cursor-move  rounded-xl relative ${
+      className={`w-full   p-2 bg-neutral-50 shadow cursor-move  rounded-xl relative ${
         isDragging ? "z-20 bg-purple-200 ring-2 ring-purple-700" : ""
       }`}
       style={{

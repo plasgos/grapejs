@@ -11,10 +11,11 @@ import { useState } from "react";
 import BackgroundEditor from "../../_components/BackgroundEditor";
 import DraggableList from "../../_components/DraggableList";
 import ImageUploader from "../../_components/ImageUploader";
-import RangeInputSlider from "../../_components/RangeInputSlider";
 import SectionAddScrollTargetId from "../../_components/SectionAddScrollTargetId";
 
-const EditorGalleryMasonry = ({ selectedComponent }) => {
+import svg from "@/assets/marquee/12.svg";
+
+const EditorMarqueeImages = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
@@ -28,14 +29,10 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
     setEditItem("");
 
     const newId = generateId();
-    function getRandomImageUrl() {
-      const randomId = Math.floor(Math.random() * 1000); // ID antara 0-999
-      return `https://picsum.photos/id/${randomId}/200/300`;
-    }
 
     const newContent = {
       id: newId,
-      image: getRandomImageUrl(),
+      image: svg,
       height: 400,
     };
 
@@ -69,16 +66,6 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
             handleFileUpload={() => handleFileUpload(item.id)}
             image={item.image}
           />
-
-          <RangeInputSlider
-            label="Height"
-            value={item.height}
-            onChange={(value) =>
-              handleComponentChange(`contents.${item.id}.height`, value)
-            }
-            min={100}
-            max={1000}
-          />
         </div>
       </>
     );
@@ -101,6 +88,7 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
               editItem={editItem}
               selectedComponent={selectedComponent}
               setEditItem={setEditItem}
+              withoutFocusItem
             >
               <Button
                 onClick={handleAddContent}
@@ -124,4 +112,4 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
   );
 };
 
-export default EditorGalleryMasonry;
+export default EditorMarqueeImages;

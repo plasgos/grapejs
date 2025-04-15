@@ -7,7 +7,6 @@ export const overrideDeleteCommand = (editor) => {
       const globalOptions = editorModel.get("globalOptions");
 
       const selected = editor.getSelected();
-      console.log("🚀 ~ run ~ selected:", selected);
       if (selected) {
         if (selected.get("type") === "modal-popup") {
           //   console.log("REMOVE POPUP");
