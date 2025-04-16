@@ -54,7 +54,7 @@ const ViewFAQ = ({ section, editor }) => {
       section={section}
     >
       {variant === "basic" && (
-        <div className="flex flex-col p-5">
+        <div className="flex flex-col p-5 relative z-10">
           {contents.map((content) => {
             const isOpen = openItems.includes(content.id);
             return (
@@ -116,7 +116,7 @@ const ViewFAQ = ({ section, editor }) => {
       )}
 
       {variant === "card" && (
-        <div className="flex flex-col p-5">
+        <div className="flex flex-col p-5 relative z-10">
           {contents.map((content) => {
             const isOpen = openItems.includes(content.id);
             return (

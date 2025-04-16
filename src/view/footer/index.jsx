@@ -30,7 +30,7 @@ const ViewFooter = ({ section, editor }) => {
         style={{
           maxWidth: globalOptions.maxWidthPage,
         }}
-        className={` mx-auto`}
+        className={` mx-auto relative z-10`}
       >
         <div style={{ gap: 50 }} className="flex flex-wrap  p-5 max-w-full ">
           {contents.map((content, index) => {

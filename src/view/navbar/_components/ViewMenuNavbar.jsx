@@ -19,10 +19,14 @@ import { useState } from "react";
 import { darkenRgbaColor } from "@/utils/darkenRgbaColor";
 
 const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
-  const [isHover, setIsHover] = useState(false);
-
-  const { headingColor, headingFontSize, fontWeight, fontFamily, description } =
-    styles;
+  const {
+    headingColor,
+    headingFontSize,
+    fontWeight,
+    fontFamily,
+    description,
+    menuBgColor,
+  } = styles;
 
   const { column } = content;
 
@@ -35,7 +39,8 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
       ? "md:grid-cols-2"
       : "md:grid-cols-1";
 
-  const hoverColorConversion = darkenRgbaColor(headingColor, 0.3);
+  const [isHover, setIsHover] = useState(false);
+  const hoverColorConversion = darkenRgbaColor(headingColor, 0.1);
 
   return (
     <NavigationMenuItem className="w-full">
@@ -56,7 +61,7 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
             <AccordionContent className="p-2 ">
               {content.options.map((opt) => (
                 <ListItem
-                  key={opt.title}
+                  key={opt.id}
                   title={opt.title}
                   onClick={() => onActionClickTarget(opt?.target, editor)}
                   styles={{
@@ -88,13 +93,18 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
             <Heading content={content} />
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent className={``}>
+          <NavigationMenuContent
+            style={{
+              backgroundColor: menuBgColor,
+            }}
+            className={``}
+          >
             <ul
               className={`grid w-[400px] gap-3 p-4 md:w-[500px] ${columnClass} lg:w-[600px]  `}
             >
               {content.options.map((opt) => (
                 <ListItem
-                  key={opt.label}
+                  key={opt.id}
                   title={opt.label}
                   onClick={() => onActionClickTarget(opt?.target, editor)}
                   styles={{
@@ -103,6 +113,7 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
                     color: headingColor,
                   }}
                   descriptionStyle={description}
+                  menuBgColor={menuBgColor}
                 >
                   {opt.description}
                 </ListItem>
@@ -118,16 +129,33 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
 export default ViewMenuNavbar;
 
 const ListItem = forwardRef(
-  ({ className, title, descriptionStyle, children, ...props }, ref) => {
+  (
+    { className, title, descriptionStyle, menuBgColor, children, ...props },
+    ref
+  ) => {
+    const [isHover, setIsHover] = useState(false);
+
+    const hoverColorConversion = darkenRgbaColor(menuBgColor, 0.3);
+
     return (
       <NavigationMenuLink asChild>
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer",
             className
           )}
           {...props}
+          style={{
+            backgroundColor:
+              isHover && menuBgColor
+                ? hoverColorConversion
+                : isHover && !menuBgColor
+                ? "rgba(245, 245, 245, 1)"
+                : "",
+          }}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
         >
           <div
             style={{

@@ -40,7 +40,7 @@ const ContentShowcase = ({ section, editor }) => {
       section={section}
     >
       <div
-        className={`
+        className={`relative z-10
     grid 
     gap-2 
     p-5 
