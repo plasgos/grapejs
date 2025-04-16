@@ -25,7 +25,6 @@ const ContainerView = ({
             ? section?.background?.bgColor
             : "transparent",
         position: "relative",
-        zIndex: 1,
         maxWidth: isFullwidth ? "100%" : globalOptions?.maxWidthPage,
         ...customStyles,
       }}

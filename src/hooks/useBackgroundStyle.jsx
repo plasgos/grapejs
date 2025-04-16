@@ -27,7 +27,6 @@ export const useBackgroundStyles = (content) => {
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       filter: `blur(${content.background?.blur}px)`,
-      zIndex: -1,
       overflow: "hidden",
     };
 
@@ -40,7 +39,6 @@ export const useBackgroundStyles = (content) => {
       width: "100%",
       height: "100%",
       overflow: "hidden",
-      zIndex: -1,
       backgroundImage: `linear-gradient(${content.background?.direction}, ${
         content.background?.isRevert
           ? content.background?.toColor
@@ -64,7 +62,6 @@ export const useBackgroundStyles = (content) => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      zIndex: -1,
       overflow: "hidden",
     };
 

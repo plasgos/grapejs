@@ -1,45 +1,136 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import TextEditor from "../_components/TextEditor";
 import ColorPicker from "../_components/ColorPicker";
-import RangeInputSlider from "../_components/RangeInputSlider";
+import SelectFontFamily from "../_components/SelectFontFamily";
+import SelectFontSize from "../_components/SelectFontSize";
 
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
-  const { copyright, wrapperStyle } = currentComponent;
+  const { wrapperStyle } = currentComponent;
 
   useSyncWithUndoRedo(setCurrentComponent);
 
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="bg-white rounded-lg p-3 ">
-        <ColorPicker
-          label="Heading Color"
-          value={wrapperStyle.headingColor}
-          onChange={(color) =>
-            handleComponentChange("wrapperStyle.headingColor", color)
-          }
-        />
+      <div className="flex flex-col gap-y-5">
+        <Accordion defaultValue="title" type="single" collapsible>
+          <AccordionItem value="title">
+            <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
+              Heading Title
+            </AccordionTrigger>
+            <AccordionContent className="bg-white p-2 rounded-b-lg ">
+              <div className="flex flex-col gap-y-5">
+                <ColorPicker
+                  asChild
+                  label="Color"
+                  value={wrapperStyle.headingColor}
+                  onChange={(value) => {
+                    handleComponentChange("wrapperStyle.headingColor", value);
+                  }}
+                />
 
-        <RangeInputSlider
-          label="Font Size"
-          value={wrapperStyle.headingFontSize}
-          onChange={(value) =>
-            handleComponentChange("wrapperStyle.headingFontSize", value)
-          }
-          min={14}
-          max={56}
-        />
+                <SelectFontFamily
+                  asChild
+                  label="Font Family"
+                  fontFamily={wrapperStyle.fontFamily}
+                  fontWeight={wrapperStyle.fontWeight}
+                  onChangefontFamily={(value) => {
+                    handleComponentChange("wrapperStyle.fontFamily", value);
+                  }}
+                  onChangefontWeight={(value) => {
+                    handleComponentChange("wrapperStyle.fontWeight", value);
+                  }}
+                />
+
+                <SelectFontSize
+                  asChild
+                  label="Size"
+                  value={wrapperStyle.headingFontSize}
+                  onChange={(value) => {
+                    handleComponentChange(
+                      "wrapperStyle.headingFontSize",
+                      value
+                    );
+                  }}
+                />
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
 
-      <div className="bg-white rounded-lg p-3">
-        <TextEditor
-          label="Copyright"
-          value={copyright.text}
-          onChange={(value) => handleComponentChange("copyright.text", value)}
-        />
+      <div className="flex flex-col gap-y-5">
+        <Accordion defaultValue="title" type="single" collapsible>
+          <AccordionItem value="title">
+            <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
+              Description
+            </AccordionTrigger>
+            <AccordionContent className="bg-white p-2 rounded-b-lg ">
+              <div className="flex flex-col gap-y-5">
+                <ColorPicker
+                  asChild
+                  label="Color"
+                  value={wrapperStyle.description.color}
+                  onChange={(value) => {
+                    handleComponentChange(
+                      "wrapperStyle.description.color",
+                      value
+                    );
+                  }}
+                />
+
+                <SelectFontFamily
+                  asChild
+                  label="Font Family"
+                  fontFamily={wrapperStyle.description.fontFamily}
+                  fontWeight={wrapperStyle.description.fontWeight}
+                  onChangefontFamily={(value) => {
+                    handleComponentChange(
+                      "wrapperStyle.description.fontFamily",
+                      value
+                    );
+                  }}
+                  onChangefontWeight={(value) => {
+                    handleComponentChange(
+                      "wrapperStyle.description.fontWeight",
+                      value
+                    );
+                  }}
+                />
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+
+      <div className="flex flex-col gap-y-5">
+        <Accordion defaultValue="title" type="single" collapsible>
+          <AccordionItem value="title">
+            <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
+              Menu Link
+            </AccordionTrigger>
+            <AccordionContent className="bg-white p-2 rounded-b-lg ">
+              <div className="flex flex-col gap-y-5">
+                <ColorPicker
+                  asChild
+                  label="Background Color"
+                  value={wrapperStyle.menuBgColor}
+                  onChange={(value) => {
+                    handleComponentChange("wrapperStyle.menuBgColor", value);
+                  }}
+                />
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   );

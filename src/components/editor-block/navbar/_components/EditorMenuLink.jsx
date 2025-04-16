@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { generateId } from "@/lib/utils";
 import { produce } from "immer";
-import RangeInputSlider from "../../_components/RangeInputSlider";
 
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
@@ -15,33 +14,101 @@ import {
 import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 
 import { Plus } from "lucide-react";
-import { FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
-import { IoCall } from "react-icons/io5";
+import {
+  FaFacebook,
+  FaGithub,
+  FaInstagram,
+  FaLinkedin,
+  FaPinterest,
+  FaTiktok,
+  FaWhatsapp,
+  FaYoutube,
+} from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { SiDiscord, SiTelegram, SiThreads } from "react-icons/si";
 import IconPicker from "../../_components/IconPicker";
+import TargetOptionsNested from "../../_components/TargetOptionsNested";
 import DraggableListNested from "./DraggableListNested";
-import { MdOutlineMailOutline } from "react-icons/md";
 import { Textarea } from "@/components/ui/textarea";
+import SelectOptions from "../../_components/SelectOptions";
 
-const infoOptions = [
+const socialMediaOptions = [
   {
-    label: "Address",
-    icon: <FaMapMarkerAlt />,
-    value: "Jl Sudirman 31 Jakarta Selatan",
-  },
-  { label: "Phone Number", icon: <IoCall />, value: "(021) 2248 1664" },
-  {
-    label: "Email",
-    icon: <MdOutlineMailOutline />,
-    value: "costumer.care@plasgos.co.id",
+    label: "Facebook",
+    icon: <FaFacebook size={32} />,
+    value: "",
+    placeholder: "https://facebook.com/username",
   },
   {
-    label: "whatsapp",
-    icon: <FaWhatsapp />,
-    value: "0853-1111-1010",
+    label: "Instagram",
+    icon: <FaInstagram size={32} />,
+    value: "",
+    placeholder: "https://instagram.com/username",
+  },
+  {
+    label: "Twitter (X)",
+    icon: <FaSquareXTwitter size={32} />,
+    value: "",
+    placeholder: "https://x.com/username",
+  },
+  {
+    label: "LinkedIn",
+    icon: <FaLinkedin size={32} />,
+    value: "",
+    placeholder: "https://linkedin.com/in/username",
+  },
+  {
+    label: "YouTube",
+    icon: <FaYoutube size={32} />,
+    value: "",
+    placeholder: "https://youtube.com/@channelname",
+  },
+  {
+    label: "TikTok",
+    icon: <FaTiktok size={32} />,
+    value: "",
+    placeholder: "https://tiktok.com/@username",
+  },
+
+  {
+    label: "Pinterest",
+    icon: <FaPinterest size={32} />,
+    value: "",
+    placeholder: "https://pinterest.com/username",
+  },
+  {
+    label: "WhatsApp",
+    icon: <FaWhatsapp size={32} />,
+    value: "",
+    placeholder: "https://wa.me/1234567890",
+  },
+  {
+    label: "Telegram",
+    icon: <SiTelegram size={32} />,
+    value: "",
+    placeholder: "https://t.me/username",
+  },
+  {
+    label: "Threads",
+    icon: <SiThreads size={32} />,
+    value: "",
+    placeholder: "https://www.threads.net/@username",
+  },
+  {
+    label: "Discord",
+    icon: <SiDiscord size={32} />,
+    value: "",
+    placeholder: "https://discord.gg/invitecode",
+  },
+  {
+    label: "Github",
+    icon: <FaGithub size={32} />,
+    value: "",
+    placeholder: "https://github.com/username",
   },
 ];
 
-const EditorContactInfo = ({
+const EditorMenuLink = ({
   item,
   handleComponentChange,
   selectedComponent,
@@ -136,39 +203,94 @@ const EditorContactInfo = ({
   };
 
   const renderContents = (contentItem) => {
+    const handleChangeNestedTargetValue = (optId, value) => {
+      const updateField = (component) => {
+        return produce(component, (draft) => {
+          const content = draft.contents.find(
+            (content) => content.id === item.id
+          );
+
+          if (content) {
+            content.options = content.options.map((opt) =>
+              opt.id === optId
+                ? {
+                    ...opt,
+                    target: value,
+                  }
+                : opt
+            );
+          }
+        });
+      };
+
+      selectedComponent?.set(
+        "customComponent",
+        updateField(selectedComponent.get("customComponent"))
+      );
+
+      setCurrentComponent((prevComponent) => updateField(prevComponent));
+    };
+
     return (
       <div className="flex flex-col gap-y-3">
         <div className="space-y-2">
-          <Label>Value</Label>
-
-          {contentItem.label === "Address" ? (
-            <Textarea
-              value={contentItem?.value || ""}
-              onChange={(e) =>
-                handleChangeItemValue(contentItem.id, "value", e.target.value)
-              }
-            />
-          ) : (
-            <Input
-              value={contentItem?.value || ""}
-              onChange={(e) =>
-                handleChangeItemValue(contentItem.id, "value", e.target.value)
-              }
-            />
-          )}
+          <Label>Title</Label>
+          <Input
+            value={contentItem?.label || ""}
+            placeholder={contentItem.label}
+            onChange={(e) =>
+              handleChangeItemValue(contentItem.id, "label", e.target.value)
+            }
+          />
         </div>
+
+        <div className="space-y-2">
+          <Label>Description</Label>
+          <Textarea
+            value={contentItem?.description || ""}
+            placeholder={contentItem.description}
+            onChange={(e) =>
+              handleChangeItemValue(
+                contentItem.id,
+                "description",
+                e.target.value
+              )
+            }
+          />
+        </div>
+        <TargetOptionsNested
+          option={contentItem}
+          handleChangeNestedTargetValue={handleChangeNestedTargetValue}
+          handleComponentChange={handleComponentChange}
+        />
       </div>
     );
   };
+
+  const maxColumnOptions = [
+    {
+      value: "1",
+      label: "1",
+    },
+    {
+      value: "2",
+      label: "2",
+    },
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+  ];
 
   return (
     <div className="flex flex-col gap-5">
       <div className="space-y-2">
         <Label>Title</Label>
         <Input
-          value={item?.title || ""}
+          value={item?.titleHeading || ""}
           onChange={(e) =>
-            handleComponentChange(`contents.${item.id}.title`, e.target.value)
+            handleComponentChange(
+              `contents.${item.id}.titleHeading`,
+              e.target.value
+            )
           }
         />
       </div>
@@ -179,14 +301,13 @@ const EditorContactInfo = ({
         onSelectIcon={(key, value) => handleSelectIcon(key, value)}
       />
 
-      <RangeInputSlider
-        label="Width"
-        value={item.width}
-        onChange={(value) =>
-          handleComponentChange(`contents.${item.id}.width`, value)
-        }
-        min={80}
-        max={600}
+      <SelectOptions
+        label="Column"
+        options={maxColumnOptions}
+        value={item.column}
+        onChange={(value) => {
+          handleComponentChange(`contents.${item.id}.column`, value);
+        }}
       />
 
       <Popover>
@@ -194,12 +315,10 @@ const EditorContactInfo = ({
           <Button variant="outline">
             <HiMiniAdjustmentsHorizontal />
 
-            {item.type === "images" ? "Customize Images" : "Customize Lists"}
+            {item.type === "images" ? "Customize Images" : "Customize Link"}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="px-0 w-[350px] bg-secondary">
-          <p className="pb-3 mb-3 px-5 border-b ">List Info</p>
-
           <div className="h-auto max-h-[450px] overflow-y-auto p px-5">
             <DraggableListNested
               item={item}
@@ -209,23 +328,15 @@ const EditorContactInfo = ({
               selectedComponent={selectedComponent}
               setEditItem={setEditItem}
             >
-              {/* <Button
-                onClick={handleAddInfo}
-                variant="outline"
-                className="my-3 w-full"
-              >
-                Add Image <Plus />
-              </Button> */}
-
               <Popover open={isOpenFields} onOpenChange={setisOpenFields}>
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="my-3 w-full">
-                    Add Field <Plus />
+                    Add Link <Plus />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[310px]">
                   <div className="grid grid-cols-3 gap-3">
-                    {infoOptions.map((field, index) => (
+                    {socialMediaOptions.map((field, index) => (
                       <div
                         key={index}
                         className="p-3 rounded-lg border flex flex-col items-center justify-center gap-y-1 cursor-pointer hover:border-black"
@@ -251,4 +362,4 @@ const EditorContactInfo = ({
   );
 };
 
-export default EditorContactInfo;
+export default EditorMenuLink;

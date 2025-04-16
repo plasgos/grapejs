@@ -17,97 +17,24 @@ import {
 import { CiText } from "react-icons/ci";
 <CiText />;
 
-import bca from "@/assets/bca.png";
-import mandiri from "@/assets/mandiri.png";
-
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import { BsInfoSquareFill } from "react-icons/bs";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLink,
-  FaMapMarkerAlt,
-  FaRegImages,
-  FaWhatsapp,
-} from "react-icons/fa";
-import BackgroundEditor from "../_components/BackgroundEditor";
-import StylesTab from "./StylesTab";
-import EditorGroupLink from "./_components/EditorGroupLink";
-import EditorImagesFooter from "./_components/EditorImagesFooter";
-import EditorTextFooter from "./_components/EditorTextFooter";
-import EditorContactInfo from "./_components/EditorContactInfo";
-import {
-  IoCall,
-  IoMailUnreadOutline,
-  IoShareSocialSharp,
-} from "react-icons/io5";
-import EditorSocialMedia from "./_components/EditorSocialMedia";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { MdOutlineMailOutline } from "react-icons/md";
-import EditorNewsletter from "./_components/EditorNewsletter";
-import ImageUploader from "../_components/ImageUploader";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
+import { componentsNavbar } from "@/view/navbar";
 import Compressor from "compressorjs";
+import { FaLink } from "react-icons/fa";
+import { TfiLayoutAccordionList } from "react-icons/tfi";
+import BackgroundEditor from "../_components/BackgroundEditor";
+import ImageUploader from "../_components/ImageUploader";
 import RangeInputSlider from "../_components/RangeInputSlider";
+import StylesTab from "./StylesTab";
+import EditorSingleLink from "./_components/EditorSingleLink";
+import EditorMenuLink from "./_components/EditorMenuLink";
 
 const fieldOptions = [
   {
-    id: `text-${generateId()}`,
-    type: "text",
-    label: "Text",
-    icon: <CiText />,
-    title: "Type Your Text",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam quis praesentium a officia aperiam deserunt incidunt, voluptatem ex amet explicabo dolores? Laboriosam quas itaque recusandae necessitatibus reiciendis nam voluptatum. Placeat.",
-    width: 300,
-    iconHeading: {
-      icon: "",
-      color: "rgba(0,0,0,0,1)",
-      size: 24,
-      position: "left",
-    },
-  },
-  {
-    id: `images-${generateId()}`,
-    type: "images",
-    label: "Images",
-    icon: <FaRegImages />,
-    options: [
-      {
-        id: `img-01-${generateId()}`,
-        image: bca,
-        target: {
-          actionType: "link",
-          options: {
-            type: null,
-          },
-        },
-      },
-      {
-        id: `img-02-${generateId()}`,
-        image: mandiri,
-        target: {
-          actionType: "link",
-          options: {
-            type: null,
-          },
-        },
-      },
-    ],
-    title: "Payment Method",
-    width: 300,
-    imageWidth: 80,
-    iconHeading: {
-      icon: "",
-      color: "rgba(0,0,0,0,1)",
-      size: 24,
-      position: "left",
-    },
-  },
-  {
-    id: `group-link-${generateId()}`,
-    type: "group-link",
-    label: "Group Link",
+    id: `single-link-${generateId()}`,
+    type: "single-link",
+    label: "Single Link",
     icon: <FaLink />,
     options: [
       {
@@ -120,39 +47,8 @@ const fieldOptions = [
           },
         },
       },
-      {
-        id: `link-02-${generateId()}`,
-        label: "Usage",
-        target: {
-          actionType: "link",
-          options: {
-            type: null,
-          },
-        },
-      },
-      {
-        id: `link-03-${generateId()}`,
-        label: "Globals",
-        target: {
-          actionType: "link",
-          options: {
-            type: null,
-          },
-        },
-      },
-      {
-        id: `link-04-${generateId()}`,
-        label: "About",
-        target: {
-          actionType: "link",
-          options: {
-            type: null,
-          },
-        },
-      },
     ],
-    title: "Getting Started",
-    width: 300,
+
     iconHeading: {
       icon: "",
       color: "rgba(0,0,0,0,1)",
@@ -161,94 +57,21 @@ const fieldOptions = [
     },
   },
   {
-    id: `contact-info-${generateId()}`,
-    type: "contact-info",
-    label: "Contact Info",
-    icon: <BsInfoSquareFill />,
-    options: [
-      {
-        id: `address-${generateId()}`,
-        label: "Address",
-        value: "Jl Sudirman 31 Jakarta Selatan",
-        icon: <FaMapMarkerAlt />,
+    id: `menu-link-${generateId()}`,
+    type: "menu-link",
+    label: "Menu Link",
+    icon: <TfiLayoutAccordionList />,
+    options: componentsNavbar.map((component, index) => ({
+      ...component,
+      id: `menu-${index}-${generateId()}`,
+      target: {
+        actionType: "link",
+        options: {
+          type: null,
+        },
       },
-      {
-        id: `phoneNumber-${generateId()}`,
-        label: "Phone Number",
-        icon: <IoCall />,
-        value: "(021) 2248 1664",
-      },
-      {
-        id: `email-${generateId()}`,
-        label: "Email",
-        icon: <MdOutlineMailOutline />,
-        value: "costumer.care@plasgos.co.id",
-      },
-      {
-        id: `whatsapp-${generateId()}`,
-        label: "whatsapp",
-        icon: <FaWhatsapp />,
-        value: "0853-1111-1010",
-      },
-    ],
-    title: "Contact Info",
-    width: 300,
-    iconHeading: {
-      icon: "",
-      color: "rgba(0,0,0,0,1)",
-      size: 24,
-      position: "left",
-    },
-  },
-  {
-    id: `social-media-${generateId()}`,
-    type: "social-media",
-    label: "Social Media",
-    icon: <IoShareSocialSharp />,
-    options: [
-      {
-        id: `fb-${generateId()}`,
-        label: "Facebook",
-        value: "",
-        icon: <FaFacebook size={32} />,
-        placeholder: "https://facebook.com/username",
-      },
-      {
-        id: `ig-${generateId()}`,
-        label: "Instagram",
-        icon: <FaInstagram size={32} />,
-        value: "",
-        placeholder: "https://instagram.com/username",
-      },
-      {
-        id: `x-${generateId()}`,
-        label: "Twitter (X)",
-        icon: <FaSquareXTwitter size={32} />,
-        value: "",
-        placeholder: "https://x.com/username",
-      },
-    ],
-    title: "Follow us",
-    width: 250,
-    iconHeading: {
-      icon: "",
-      color: "rgba(0,0,0,0,1)",
-      size: 24,
-      position: "left",
-    },
-  },
-  {
-    id: `newsletter-${generateId()}`,
-    type: "newsletter",
-    label: "Newsletter",
-    icon: <IoMailUnreadOutline />,
-    title: "Newsletter",
-    subTitle: "Receive updates on the latest news and offers",
-    placeholder: "youremail@gmail.com",
-    actionText: "Subscribe",
-    width: 300,
-    buttonColor: "",
-    textButton: "",
+    })),
+    titleHeading: "Component Menu",
     iconHeading: {
       icon: "",
       color: "rgba(0,0,0,0,1)",
@@ -299,8 +122,8 @@ const EditorNavbar = ({ selectedComponent }) => {
   const renderContents = (item) => {
     return (
       <>
-        {item.type === "images" && (
-          <EditorImagesFooter
+        {item.type === "single-link" && (
+          <EditorSingleLink
             item={item}
             handleComponentChange={handleComponentChange}
             selectedComponent={selectedComponent}
@@ -308,40 +131,12 @@ const EditorNavbar = ({ selectedComponent }) => {
           />
         )}
 
-        {item.type === "group-link" && (
-          <EditorGroupLink
+        {item.type === "menu-link" && (
+          <EditorMenuLink
             item={item}
             handleComponentChange={handleComponentChange}
             selectedComponent={selectedComponent}
             setCurrentComponent={setCurrentComponent}
-          />
-        )}
-        {item.type === "text" && (
-          <EditorTextFooter
-            item={item}
-            handleComponentChange={handleComponentChange}
-          />
-        )}
-        {item.type === "contact-info" && (
-          <EditorContactInfo
-            item={item}
-            handleComponentChange={handleComponentChange}
-            selectedComponent={selectedComponent}
-            setCurrentComponent={setCurrentComponent}
-          />
-        )}
-        {item.type === "social-media" && (
-          <EditorSocialMedia
-            item={item}
-            handleComponentChange={handleComponentChange}
-            selectedComponent={selectedComponent}
-            setCurrentComponent={setCurrentComponent}
-          />
-        )}
-        {item.type === "newsletter" && (
-          <EditorNewsletter
-            item={item}
-            handleComponentChange={handleComponentChange}
           />
         )}
       </>
@@ -425,7 +220,7 @@ const EditorNavbar = ({ selectedComponent }) => {
 
         <div className="flex flex-col gap-y-5">
           <DraggableList
-            label="Custom Fields"
+            label="Custom Navbar Items"
             contents={contents}
             renderContents={(value) => renderContents(value)}
             setCurrentComponent={setCurrentComponent}
