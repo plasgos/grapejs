@@ -111,26 +111,26 @@ const StylesTab = ({ selectedComponent }) => {
         </Accordion>
       </div>
 
-      <div className="flex flex-col gap-y-5">
-        <Accordion defaultValue="title" type="single" collapsible>
-          <AccordionItem value="title">
-            <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
-              Menu Link
-            </AccordionTrigger>
-            <AccordionContent className="bg-white p-2 rounded-b-lg ">
-              <div className="flex flex-col gap-y-5">
-                <ColorPicker
-                  asChild
-                  label="Background Color"
-                  value={wrapperStyle.menuBgColor}
-                  onChange={(value) => {
-                    handleComponentChange("wrapperStyle.menuBgColor", value);
-                  }}
-                />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+      <div className="flex flex-col gap-y-5 bg-white rounded-lg p-3">
+        <p className="font-semibold text-sm">Background Color</p>
+
+        <ColorPicker
+          asChild
+          label=" Menu Link"
+          value={wrapperStyle.menuBgColor}
+          onChange={(value) => {
+            handleComponentChange("wrapperStyle.menuBgColor", value);
+          }}
+        />
+
+        <ColorPicker
+          asChild
+          label="Side Bar"
+          value={wrapperStyle.bgColorSidebar}
+          onChange={(value) => {
+            handleComponentChange("wrapperStyle.bgColorSidebar", value);
+          }}
+        />
       </div>
     </div>
   );

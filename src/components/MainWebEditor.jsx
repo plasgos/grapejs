@@ -2,9 +2,8 @@ import GjsEditor, { Canvas, WithEditor } from "@grapesjs/react";
 import "animate.css";
 import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
-import "../index.css";
-
 import { createRoot } from "react-dom/client";
+import "../index.css";
 import Watermark from "./Watermark";
 
 // import basicPlugin from "grapesjs-blocks-basic";
@@ -15,13 +14,13 @@ import Sidebar from "./Sidebar";
 
 import plasgosPlugin from "@/plugins";
 
-import { injectExternalCSS } from "@/utils/injectExternalCSS";
-import { useEffect } from "react";
-import { onCustomToolbar } from "@/utils/onCustomToolbar";
-import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
-import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
-import { useDispatch } from "react-redux";
 import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { injectExternalCSS } from "@/utils/injectExternalCSS";
+import { onCustomToolbar } from "@/utils/onCustomToolbar";
+import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
+import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const rootMap = new Map();
 

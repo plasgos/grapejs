@@ -27,7 +27,7 @@ const ViewHeroSection = ({ section, editor }) => {
       section={section}
     >
       {variant === "basic" && (
-        <div className="relative z-10">
+        <div className="relative ">
           {contents.map((content) => {
             return (
               <div
@@ -174,7 +174,7 @@ const ViewHeroSection = ({ section, editor }) => {
       )}
 
       {variant === "no-image" && (
-        <div className="w-full flex justify-center items-center relative z-10">
+        <div className="w-full flex justify-center items-center relative">
           {contents.map((content) => (
             <div key={content.id} className="">
               <div className="p-3 w-full">

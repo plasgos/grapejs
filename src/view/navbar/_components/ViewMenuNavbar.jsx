@@ -45,24 +45,31 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
   return (
     <NavigationMenuItem className="w-full">
       {isMobile ? (
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1">
+        <Accordion className="" type="single" collapsible>
+          <AccordionItem className="!rounded-lg" value={content?.id}>
             <AccordionTrigger
               style={{
-                color: headingColor,
+                color: isHover ? hoverColorConversion : headingColor,
                 fontSize: headingFontSize,
                 fontWeight,
                 fontFamily,
               }}
               className="!no-underline  py-0 text-base font-normal hover:font-semibold flex w-full justify-between "
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
             >
               <Heading content={content} />
             </AccordionTrigger>
-            <AccordionContent className="p-2 ">
+            <AccordionContent
+              style={{
+                backgroundColor: menuBgColor,
+              }}
+              className="p-2   "
+            >
               {content.options.map((opt) => (
                 <ListItem
                   key={opt.id}
-                  title={opt.title}
+                  title={opt.label}
                   onClick={() => onActionClickTarget(opt?.target, editor)}
                   styles={{
                     fontWeight,
@@ -70,6 +77,7 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
                     color: headingColor,
                   }}
                   descriptionStyle={description}
+                  menuBgColor={menuBgColor}
                 >
                   {opt.description}
                 </ListItem>
@@ -100,7 +108,11 @@ const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
             className={``}
           >
             <ul
-              className={`grid w-[400px] gap-3 p-4 md:w-[500px] ${columnClass} lg:w-[600px]  `}
+              className={`grid  ${
+                column === "1"
+                  ? "w-[300px] "
+                  : "lg:w-[600px] w-[400px] md:w-[500px]"
+              }     ${columnClass} gap-3 p-4  `}
             >
               {content.options.map((opt) => (
                 <ListItem

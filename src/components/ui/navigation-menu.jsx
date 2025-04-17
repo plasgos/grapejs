@@ -10,7 +10,7 @@ const NavigationMenu = React.forwardRef(
     <NavigationMenuPrimitive.Root
       ref={ref}
       className={cn(
-        "relative z-[9999] flex max-w-max flex-1 items-center justify-center ",
+        "relative z-[9999] flex  flex-1 items-center justify-start w-full ",
         className
       )}
       {...props}
@@ -26,7 +26,7 @@ const NavigationMenuList = React.forwardRef(({ className, ...props }, ref) => (
   <NavigationMenuPrimitive.List
     ref={ref}
     className={cn(
-      "group flex flex-1 list-none items-center justify-center space-x-1",
+      "group flex flex-1 list-none items-center justify-center space-x-1 w-full",
       className
     )}
     {...props}
@@ -44,7 +44,7 @@ const NavigationMenuTrigger = React.forwardRef(
   ({ className, children, ...props }, ref) => (
     <NavigationMenuPrimitive.Trigger
       ref={ref}
-      className={`flex items-center hover:font-semibold  data-[state=open]:font-semibold ${className}`}
+      className={`flex items-center hover:font-semibold  data-[state=open]:font-semibold w-full ${className}  `}
       {...props}
       {...props}
     >
@@ -77,8 +77,8 @@ const NavigationMenuLink = NavigationMenuPrimitive.Link;
 const NavigationMenuViewport = React.forwardRef(
   ({ className, ...props }, ref) => (
     <div
-      style={{ top: 50 }}
-      className={cn("absolute left-0   flex justify-center")}
+      style={{ top: 35 }}
+      className={cn("absolute left-0    flex justify-center")}
     >
       <NavigationMenuPrimitive.Viewport
         className={cn(

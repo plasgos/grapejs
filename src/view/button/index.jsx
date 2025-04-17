@@ -30,7 +30,7 @@ const ViewButton = ({ section, editor }) => {
       <div
         className={`flex ${classesPositionRow} ${classesPositionCol}  w-full ${
           position === "flex-col" ? "gap-y-3" : "gap-x-3"
-        } p-2 relative z-10 `}
+        } p-2 relative `}
       >
         {buttons.map((btn) => {
           return (

@@ -31,7 +31,7 @@ const ViewListImages = ({ section, editor }) => {
       section={section}
     >
       <div
-        className={`  relative z-10    
+        className={`  relative     
     grid 
     gap-5
     p-5 

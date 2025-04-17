@@ -28,7 +28,7 @@ const ViewCountUp = ({ section, editor }) => {
       section={section}
     >
       <div
-        className={`p-10 flex flex-wrap items-center relative z-10 ${textAlign}`}
+        className={`p-10 flex flex-wrap items-center relative  ${textAlign}`}
       >
         <CountUp
           style={{

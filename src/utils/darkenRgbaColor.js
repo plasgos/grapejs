@@ -4,7 +4,6 @@ export function darkenRgbaColor(rgba, amount = 0.2) {
   );
 
   if (!match) {
-    console.warn("Invalid rgba color format:", rgba);
     return rgba;
   }
 

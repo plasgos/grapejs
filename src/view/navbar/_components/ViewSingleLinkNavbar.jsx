@@ -1,11 +1,8 @@
-import {
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
-import { onActionClickTarget } from "@/utils/onActionClickTarget";
-import Heading from "./Heading";
+import { NavigationMenuItem } from "@/components/ui/navigation-menu";
 import { darkenRgbaColor } from "@/utils/darkenRgbaColor";
+import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { useState } from "react";
+import Heading from "./Heading";
 
 const ViewSingleLinkNavbar = ({ content, editor, styles }) => {
   const [isHover, setIsHover] = useState(false);
@@ -16,8 +13,8 @@ const ViewSingleLinkNavbar = ({ content, editor, styles }) => {
 
   return (
     <NavigationMenuItem key={content?.id}>
-      <NavigationMenuLink
-        className={`hover:font-semibold  px-5 data-[state=open]:font-semibold cursor-pointer`}
+      <div
+        className={`hover:font-semibold   data-[state=open]:font-semibold cursor-pointer`}
         onClick={() => onActionClickTarget(content?.target, editor)}
         style={{
           color: isHover ? hoverColorConversion : headingColor,
@@ -29,7 +26,7 @@ const ViewSingleLinkNavbar = ({ content, editor, styles }) => {
         onMouseLeave={() => setIsHover(false)}
       >
         <Heading content={content} />
-      </NavigationMenuLink>
+      </div>
     </NavigationMenuItem>
   );
 };

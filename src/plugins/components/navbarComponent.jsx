@@ -61,6 +61,31 @@ export const navbarComponent = (editor) => {
             position: "left",
           },
         },
+        {
+          id: `menu-link-02-${generateId()}`,
+          type: "menu-link",
+          label: "Menu Link",
+          icon: <TfiLayoutAccordionList />,
+          options: componentsNavbar.map((component, index) => ({
+            ...component,
+            id: `menu-${index}-${generateId()}`,
+            description: "",
+            target: {
+              actionType: "link",
+              options: {
+                type: null,
+              },
+            },
+          })),
+          titleHeading: "Component Single Menu",
+          column: "1",
+          iconHeading: {
+            icon: "",
+            color: "rgba(0,0,0,0,1)",
+            size: 24,
+            position: "left",
+          },
+        },
       ],
       wrapperStyle: {
         headingColor: "rgba(0, 0, 0, 1)",
@@ -74,6 +99,7 @@ export const navbarComponent = (editor) => {
           fontFamily: "",
         },
         menuBgColor: "",
+        bgColorSidebar: "",
       },
       background: {
         bgType: null,
