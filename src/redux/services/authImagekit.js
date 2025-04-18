@@ -9,10 +9,13 @@ export const authImagekit = createApi({
       query: () => "auth",
     }),
     getImages: builder.query({
-      query: () => "images",
+      query: ({ path = "", skip = 0, limit = 10 } = {}) => ({
+        url: "images",
+        params: { path, skip, limit },
+      }),
     }),
   }),
 });
 
 // Export hooks untuk digunakan di komponen
-export const { useGetAuthImagekitQuery, useGetImagesQuery } = authImagekit;
+export const { useLazyGetAuthImagekitQuery, useGetImagesQuery } = authImagekit;

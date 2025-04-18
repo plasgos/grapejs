@@ -9,13 +9,9 @@ import { CanvasProvider } from "./components/CanvasProvider";
 import MainWebEditor from "./components/MainWebEditor";
 import PublishedPage from "./pages/published";
 import TestPage from "./pages/test";
-import { useGetImagesQuery } from "./redux/services/authImagekit";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 function App() {
-  const { data: images } = useGetImagesQuery();
-  console.log("🚀 ~ App ~ data:", images);
-
   return (
     <>
       <BrowserRouter>

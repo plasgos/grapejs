@@ -16,24 +16,52 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { FcOk } from "react-icons/fc";
 
-import ImageKitProviderWrapper from "@/components/ImageKitProviderWrapper";
-import { IKUpload } from "imagekitio-react";
-import { useCallback, useRef, useState } from "react";
+import { useLazyGetAuthImagekitQuery } from "@/redux/services/authImagekit";
+import axios from "axios";
+import { useCallback, useMemo, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
-import { useMemo } from "react";
+import { TbUpload } from "react-icons/tb";
+import { TfiDropboxAlt } from "react-icons/tfi";
+import GalleryImages from "./GalleryImages";
+import { RiGalleryView } from "react-icons/ri";
+
+import { Progress } from "@/components/ui/progress";
+import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 const ImageUploader = ({ label, handleFileUpload, image }) => {
-  const ikUploadRefTest = useRef(null);
+  const [getAuthImagekit] = useLazyGetAuthImagekitQuery();
 
   const [selectedImages, setSelectedImages] = useState([]);
+  console.log("🚀 ~ ImageUploader ~ selectedImages:", selectedImages);
+  const [isOpenGallery, setIsOpenGallery] = useState(false);
+  const [fadingOutImages, setFadingOutImages] = useState([]);
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
       setSelectedImages((prevState) => [...prevState, file]);
     });
   }, []);
+
+  const [uploadStatuses, setUploadStatuses] = useState([]);
+  console.log("🚀 ~ ImageUploader ~ uploadStatuses:", uploadStatuses);
+
+  const updateStatus = (fileName, updates) => {
+    setUploadStatuses((prev) =>
+      prev.map((file) =>
+        file.name === fileName ? { ...file, ...updates } : file
+      )
+    );
+  };
+
+  const urlEndpoint = "https://ik.imagekit.io/ez1ffaf6o/";
+
+  // optional parameters (needed for client-side upload)
+  const publicKey = "public_Wwlp5YlR37rYXrDWwNIDMDhBgQo=";
 
   const {
     getRootProps,
@@ -50,32 +78,10 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
     maxSize: 2 * 1024 * 1024,
   });
 
-  const onError = (err) => {
-    console.log("Error", err);
-  };
-
-  const onSuccess = (res) => {
-    console.log("Success", res);
-  };
-
-  const onUploadProgress = (progress) => {
-    console.log("Progress", progress);
-  };
-
-  const onUploadStart = (evt) => {
-    console.log("Start", evt);
-  };
-
   const handleRemoveSelectedImage = (removeIndex) => {
     setSelectedImages((prevImages) =>
       prevImages.filter((_, index) => index !== removeIndex)
     );
-  };
-
-  const handelUpload = () => {
-    if (selectedImages.length === 0) {
-      return;
-    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,6 +111,114 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
     [baseStyle, isDragAccept, isDragReject, isFocused]
   );
 
+  const uploadWithSignature = async (
+    file,
+    { onUploadProgress, onSuccess, onError } = {}
+  ) => {
+    const { data: auth } = await getAuthImagekit();
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("fileName", file.name);
+      formData.append("publicKey", publicKey);
+      formData.append("urlEndpoint", urlEndpoint);
+
+      formData.append("signature", auth.signature);
+      formData.append("expire", auth.expire);
+      formData.append("token", auth.token);
+
+      formData.append("useUniqueFileName", "false");
+      formData.append("folder", "/sample-folder");
+      formData.append("tags", "dropzone,imagekit");
+      formData.append("isPrivateFile", "false");
+      formData.append("overwriteFile", "true");
+      const response = await axios.post(
+        "https://upload.imagekit.io/api/v1/files/upload",
+        formData,
+        {
+          onUploadProgress: (event) => {
+            if (onUploadProgress) {
+              const progress = Math.round((event.loaded * 100) / event.total);
+              onUploadProgress(progress, file);
+            }
+          },
+        }
+      );
+
+      if (onSuccess) onSuccess(response.data, file);
+      return response.data;
+    } catch (error) {
+      if (onError) onError(error, file);
+      throw error;
+    }
+  };
+
+  const uploadAllImages = async () => {
+    if (selectedImages.length === 0) return;
+
+    setUploadStatuses(
+      selectedImages.map((file) => ({
+        name: file.name,
+        progress: 0,
+        status: "uploading",
+        error: null,
+        data: {},
+      }))
+    );
+
+    const results = [];
+
+    for (const image of selectedImages) {
+      try {
+        const result = await uploadWithSignature(image, {
+          onUploadProgress: (progress, file) =>
+            updateStatus(file.name, {
+              name: file.name,
+              progress,
+              status: "uploading",
+            }),
+          onSuccess: (data, file) =>
+            updateStatus(file.name, { status: "success", progress: 100, data }),
+          onError: (error, file) =>
+            updateStatus(file.name, { status: "error", error }),
+        });
+        results.push(result);
+      } catch (err) {
+        console.log("Gagal upload file:", err.message);
+      }
+    }
+
+    return results;
+  };
+
+  const isUploading = uploadStatuses.some(
+    (data) => data.status === "uploading"
+  );
+
+  useEffect(() => {
+    const completedUploadImage = uploadStatuses
+      .filter((upload) => upload.status === "success")
+      .map((file) => file.name);
+
+    const timeout = setTimeout(() => {
+      if (completedUploadImage.length > 0) {
+        setFadingOutImages((prev) => [...prev, ...completedUploadImage]);
+        setSelectedImages((prevImages) =>
+          prevImages.filter(
+            (image) => !completedUploadImage.includes(image.name)
+          )
+        );
+
+        setFadingOutImages((prev) =>
+          prev.filter((name) => !completedUploadImage.includes(name))
+        );
+      }
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [uploadStatuses]);
+
   return (
     <div className="space-y-2">
       <Label>{label}</Label>
@@ -123,25 +237,23 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
         />
       </div>
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            className="w-full"
-            // onClick={handleFileUpload}
-            variant="outline"
-          >
-            Upload
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-screen-md">
-          <DialogHeader>
-            <DialogTitle className="text-xl">Media Library Manager</DialogTitle>
-            <DialogDescription className="invisible">
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
+      <div className="flex justify-between gap-3">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-full" variant="outline">
+              Upload <TbUpload />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-screen-md">
+            <DialogHeader>
+              <DialogTitle className="text-xl">
+                Media Library Manager
+              </DialogTitle>
+              <DialogDescription className="invisible">
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </DialogDescription>
 
-            <ImageKitProviderWrapper>
               <div
                 className="text-center rounded-lg "
                 {...getRootProps({ style })}
@@ -152,101 +264,151 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
                 ) : (
                   <p>Drag and drop file(s) here, or click to select files</p>
                 )}
+
+                <TfiDropboxAlt size={36} className="mt-5" />
                 <p className="my-2">Maximum 2 MB</p>
               </div>
 
-              <IKUpload
-                // ref={ikUploadRefTest}
-                fileName="img.jpg"
-                tags={["dropzone", "imagekit"]}
-                folder="/sample-folder"
-                useUniqueFileName={true}
-                isPrivateFile={false}
-                overwriteFile={true}
-                onError={onError}
-                onSuccess={onSuccess}
-                onUploadProgress={onUploadProgress}
-                onUploadStart={onUploadStart}
-                style={{ display: "none" }}
-              />
-
-              {/* <IKUpload
-                ref={uploadRef}
-                fileName="img-.jpg"
-                tags={["sample-tag1", "sample-tag2"]}
-                customCoordinates={"10,10,10,10"}
-                isPrivateFile={false}
-                useUniqueFileName={true}
-                responseFields={["tags"]}
-                validateFile={(file) => file.size < 2000000}
-                folder={"/sample-folder"}
-                overwriteFile={true}
-                overwriteAITags={true}
-                overwriteTags={true}
-                overwriteCustomMetadata={true}
-                onError={onError}
-                onSuccess={onSuccess}
-                onUploadProgress={onUploadProgress}
-                onUploadStart={onUploadStart}
-                transformation={{
-                  pre: "l-text,i-Imagekit,fs-50,l-end",
-                  post: [
-                    {
-                      type: "transformation",
-                      value: "w-100",
-                    },
-                  ],
-                }}
-              /> */}
-
               <div
-                className={`w-full p-2 grid grid-cols-5 gap-5 max-h-[400px] overflow-y-auto  `}
+                className={`w-full  p-2 grid grid-cols-4 gap-5 max-h-[400px] overflow-y-auto  `}
               >
                 {selectedImages.length > 0 &&
-                  selectedImages.map((image, index) => (
-                    <div key={index} className="relative group w-full h-full  ">
-                      <img
-                        src={`${URL.createObjectURL(image)}`}
-                        alt=""
-                        className="w-full h-full  object-cover "
-                      />
-                      {/* Overlay redup saat hover */}
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  selectedImages.map((image, index) => {
+                    const upload = uploadStatuses.find(
+                      (u) => u.name === image.name
+                    );
+                    console.log("🚀 ~ selectedImages.map ~ upload:", upload);
 
-                      <TooltipProvider>
-                        <Tooltip delayDuration={100}>
-                          <TooltipTrigger asChild>
-                            <Button
-                              onClick={() => handleRemoveSelectedImage(index)}
-                              variant="destructive"
-                              size=""
-                              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-8 w-8 z-10"
-                            >
-                              <MdClose />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Remove</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                  ))}
+                    const formatFileSize = (bytes) => {
+                      if (bytes < 1024) return `${bytes} B`;
+                      if (bytes < 1024 * 1024)
+                        return `${Math.round(bytes / 1024)} KB`;
+                      return `${Math.round(bytes / (1024 * 1024))} MB`;
+                    };
+
+                    return (
+                      <div
+                        key={index}
+                        className={cn(
+                          "relative group w-full h-full transition-all duration-1000 transform",
+                          fadingOutImages.includes(image.name) &&
+                            "opacity-0 scale-95"
+                        )}
+                      >
+                        <div className="relative w-full h-[120px] overflow-hidden rounded-md">
+                          <img
+                            src={URL.createObjectURL(image)}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+
+                          <div className=" absolute bottom-0 w-full  bg-black/60 opacity-100 transition-opacity duration-300 p-1 z-10 rounded-b-lg ">
+                            <div className="flex justify-between">
+                              <p className="text-sm text-white truncate max-w-24">
+                                {image.name}
+                              </p>
+                              <p className="text-sm text-white">
+                                {formatFileSize(image.size)}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {upload && (
+                          <div className="flex flex-col items-center gap-y-2 my-2">
+                            <Progress
+                              indicatorColor={`${
+                                upload.status === "success"
+                                  ? "bg-green-600"
+                                  : upload.status === "uploading"
+                                  ? "bg-blue-500"
+                                  : "bg-red-500"
+                              }`}
+                              value={upload.progress}
+                              className=""
+                            />
+
+                            <div className="flex items-center gap-x-2">
+                              <p className="text-sm ">
+                                {upload.status === "success"
+                                  ? "Completed"
+                                  : upload.status === "error"
+                                  ? "Failed"
+                                  : `Uploading ${upload.progress}%`}
+                              </p>
+
+                              {upload.status === "success" && <FcOk />}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Overlay redup saat hover */}
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md " />
+
+                        <TooltipProvider>
+                          <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild>
+                              <Button
+                                onClick={() => handleRemoveSelectedImage(index)}
+                                variant="destructive"
+                                size=""
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-8 w-8 z-10"
+                              >
+                                <MdClose />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Remove</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    );
+                  })}
               </div>
 
               <div className="flex justify-end">
                 <Button
-                  onClick={handelUpload}
-                  disabled={selectedImages.length === 0}
+                  onClick={uploadAllImages}
+                  disabled={
+                    selectedImages.length === 0 ||
+                    uploadStatuses.some((data) => data.status === "uploading")
+                  }
                   className="bg-orange-500 hover:bg-orange-600 w-32"
                 >
-                  Upload <FaCloudUploadAlt />
+                  {isUploading ? (
+                    <>
+                      Uploading
+                      <Loader2 className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Upload
+                      <FaCloudUploadAlt />
+                    </>
+                  )}
                 </Button>
               </div>
-            </ImageKitProviderWrapper>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+
+        <Button
+          onClick={() => setIsOpenGallery(true)}
+          className="w-full"
+          variant="outline"
+        >
+          Select From Gallery <RiGalleryView />
+        </Button>
+
+        {isOpenGallery && (
+          <GalleryImages
+            isOpen={isOpenGallery}
+            onClose={setIsOpenGallery}
+            handleFileUpload={handleFileUpload}
+          />
+        )}
+      </div>
     </div>
   );
 };

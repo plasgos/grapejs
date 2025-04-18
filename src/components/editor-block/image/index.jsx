@@ -16,7 +16,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { GoQuestion } from "react-icons/go";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
@@ -30,10 +29,6 @@ const EditorImage = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleComponentChange);
-  };
-
   return (
     <TabsEditor>
       <TabsContent
@@ -46,8 +41,8 @@ const EditorImage = ({ selectedComponent }) => {
           <div className="p-3 rounded-lg bg-white">
             <ImageUploader
               label="Image"
-              handleFileUpload={() =>
-                handleFileUpload(currentComponent.contents[0].id)
+              handleFileUpload={(url) =>
+                handleComponentChange(`contents.${contents[0].id}.image`, url)
               }
               image={currentComponent.contents[0].image}
             />
