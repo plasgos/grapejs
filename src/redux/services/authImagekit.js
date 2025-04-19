@@ -6,16 +6,10 @@ export const authImagekit = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/" }),
   endpoints: (builder) => ({
     getAuthImagekit: builder.query({
-      query: () => "auth",
-    }),
-    getImages: builder.query({
-      query: ({ path = "", skip = 0, limit = 10 } = {}) => ({
-        url: "images",
-        params: { path, skip, limit },
-      }),
+      query: (nonce) => `auth?nonce=${nonce}`,
     }),
   }),
 });
 
 // Export hooks untuk digunakan di komponen
-export const { useLazyGetAuthImagekitQuery, useGetImagesQuery } = authImagekit;
+export const { useLazyGetAuthImagekitQuery } = authImagekit;

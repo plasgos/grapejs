@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useDropzone } from "react-dropzone";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+// import "react-lazy-load-image-component/src/effects/blur.css";
 
 import {
   Tooltip,
@@ -32,12 +34,22 @@ import { Progress } from "@/components/ui/progress";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useGetImagesQuery } from "@/redux/services/galleryApi";
 
 const ImageUploader = ({ label, handleFileUpload, image }) => {
   const [getAuthImagekit] = useLazyGetAuthImagekitQuery();
 
+  const {
+    data: images,
+    isLoading,
+    refetch,
+  } = useGetImagesQuery({
+    path: "/sample-folder",
+  });
+  console.log("🚀 ~ ImageUploader ~ images:", images);
+
+  const [isOpenUploadModal, setIsOpenUploadModal] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
-  console.log("🚀 ~ ImageUploader ~ selectedImages:", selectedImages);
   const [isOpenGallery, setIsOpenGallery] = useState(false);
   const [fadingOutImages, setFadingOutImages] = useState([]);
 
@@ -113,10 +125,8 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
 
   const uploadWithSignature = async (
     file,
-    { onUploadProgress, onSuccess, onError } = {}
+    { auth, onUploadProgress, onSuccess, onError } = {}
   ) => {
-    const { data: auth } = await getAuthImagekit();
-
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -162,16 +172,20 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
         name: file.name,
         progress: 0,
         status: "uploading",
+        isUploaded: false,
         error: null,
         data: {},
       }))
     );
 
-    const results = [];
-
-    for (const image of selectedImages) {
+    const uploadTasks = selectedImages.map(async (image) => {
       try {
+        const timestamp = Date.now() + Math.random(); // biar unik
+        const { data: auth } = await getAuthImagekit(timestamp);
+        console.log("Auth untuk", image.name, auth);
+
         const result = await uploadWithSignature(image, {
+          auth, // lempar auth ke dalam kalau perlu
           onUploadProgress: (progress, file) =>
             updateStatus(file.name, {
               name: file.name,
@@ -179,45 +193,67 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
               status: "uploading",
             }),
           onSuccess: (data, file) =>
-            updateStatus(file.name, { status: "success", progress: 100, data }),
+            updateStatus(file.name, {
+              status: "success",
+              isUploaded: true,
+              progress: 100,
+              data,
+            }),
           onError: (error, file) =>
             updateStatus(file.name, { status: "error", error }),
         });
-        results.push(result);
+
+        return result;
       } catch (err) {
-        console.log("Gagal upload file:", err.message);
+        console.log("Failed upload file:", err.message);
+        return null;
       }
-    }
+    });
+
+    const results = await Promise.all(uploadTasks);
+
+    refetch();
 
     return results;
   };
 
-  const isUploading = uploadStatuses.some(
-    (data) => data.status === "uploading"
+  const isUploading = uploadStatuses?.some(
+    (data) => data?.status === "uploading" && data?.isUploaded === false
   );
+
+  const completeUploaded = uploadStatuses?.filter(
+    (data) => data?.isUploaded
+  ).length;
 
   useEffect(() => {
     const completedUploadImage = uploadStatuses
       .filter((upload) => upload.status === "success")
       .map((file) => file.name);
 
-    const timeout = setTimeout(() => {
-      if (completedUploadImage.length > 0) {
-        setFadingOutImages((prev) => [...prev, ...completedUploadImage]);
-        setSelectedImages((prevImages) =>
-          prevImages.filter(
-            (image) => !completedUploadImage.includes(image.name)
-          )
-        );
+    if (completedUploadImage.length > 0) {
+      setFadingOutImages((prev) => [...prev, ...completedUploadImage]);
+      setSelectedImages((prevImages) =>
+        prevImages.filter((image) => !completedUploadImage.includes(image.name))
+      );
 
-        setFadingOutImages((prev) =>
-          prev.filter((name) => !completedUploadImage.includes(name))
-        );
-      }
-    }, 1000);
-
-    return () => clearTimeout(timeout);
+      setFadingOutImages((prev) =>
+        prev.filter((name) => !completedUploadImage.includes(name))
+      );
+    }
   }, [uploadStatuses]);
+
+  const handleVisitGallery = () => {
+    setUploadStatuses([]);
+    setSelectedImages([]);
+
+    setIsOpenUploadModal(false);
+
+    refetch();
+
+    setTimeout(() => {
+      setIsOpenGallery(true);
+    }, 1000);
+  };
 
   return (
     <div className="space-y-2">
@@ -230,15 +266,19 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
         }}
         className="mx-auto mb-3 border rounded-md  "
       >
-        <img
+        <LazyLoadImage
           style={{ objectFit: "contain", width: "100%", height: 120 }}
           src={image}
           alt="img"
+          effect="blur"
+          wrapperProps={{
+            style: { transitionDelay: "0.5s" },
+          }}
         />
       </div>
 
       <div className="flex justify-between gap-3">
-        <Dialog>
+        <Dialog open={isOpenUploadModal} onOpenChange={setIsOpenUploadModal}>
           <DialogTrigger asChild>
             <Button className="w-full" variant="outline">
               Upload <TbUpload />
@@ -246,9 +286,7 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
           </DialogTrigger>
           <DialogContent className="max-w-screen-md">
             <DialogHeader>
-              <DialogTitle className="text-xl">
-                Media Library Manager
-              </DialogTitle>
+              <DialogTitle className="text-xl">Upload Images</DialogTitle>
               <DialogDescription className="invisible">
                 This action cannot be undone. This will permanently delete your
                 account and remove your data from our servers.
@@ -275,9 +313,8 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
                 {selectedImages.length > 0 &&
                   selectedImages.map((image, index) => {
                     const upload = uploadStatuses.find(
-                      (u) => u.name === image.name
+                      (u) => u.name === image.name && u.isUploaded === false
                     );
-                    console.log("🚀 ~ selectedImages.map ~ upload:", upload);
 
                     const formatFileSize = (bytes) => {
                       if (bytes < 1024) return `${bytes} B`;
@@ -343,29 +380,46 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
                         )}
 
                         {/* Overlay redup saat hover */}
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md " />
 
-                        <TooltipProvider>
-                          <Tooltip delayDuration={100}>
-                            <TooltipTrigger asChild>
-                              <Button
-                                onClick={() => handleRemoveSelectedImage(index)}
-                                variant="destructive"
-                                size=""
-                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-8 w-8 z-10"
-                              >
-                                <MdClose />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Remove</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
+                        {!isUploading && (
+                          <>
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md " />
+                            <TooltipProvider>
+                              <Tooltip delayDuration={100}>
+                                <TooltipTrigger asChild>
+                                  <Button
+                                    onClick={() =>
+                                      handleRemoveSelectedImage(index)
+                                    }
+                                    variant="destructive"
+                                    size=""
+                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-8 w-8 z-10"
+                                  >
+                                    <MdClose />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>Remove</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </>
+                        )}
                       </div>
                     );
                   })}
               </div>
+
+              {completeUploaded > 0 && (
+                <div className="flex flex-col gap-y-3 items-center  justify-center">
+                  <p className="text-green-600">
+                    Success Uploaded {completeUploaded} {`image(s)`}
+                  </p>
+                  <Button onClick={handleVisitGallery} variant="outline">
+                    Visit Gallery
+                  </Button>
+                </div>
+              )}
 
               <div className="flex justify-end">
                 <Button
@@ -406,6 +460,9 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
             isOpen={isOpenGallery}
             onClose={setIsOpenGallery}
             handleFileUpload={handleFileUpload}
+            images={images}
+            isLoading={isLoading}
+            setIsOpenUploadModal={setIsOpenUploadModal}
           />
         )}
       </div>
