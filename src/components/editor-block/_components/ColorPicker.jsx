@@ -59,7 +59,7 @@ const ColorPicker = ({
       )}
 
       <Popover>
-        <PopoverTrigger asChild>
+        <PopoverTrigger>
           <div className="p-0.5 border border-gray-300 shadow-sm cursor-pointer w-fit relative rounded-lg">
             <div
               style={{ backgroundColor: value }}

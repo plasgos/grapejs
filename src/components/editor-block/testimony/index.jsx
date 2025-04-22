@@ -13,7 +13,6 @@ import { Switch } from "@/components/ui/switch";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
@@ -70,15 +69,13 @@ const EditorTestimony = ({ selectedComponent }) => {
   };
 
   const renderContents = (item) => {
-    const handleFileUpload = (id) => {
-      onChangeFileUpload(id, handleComponentChange);
-    };
-
     return (
       <>
         <ImageUploader
           label="Image"
-          handleFileUpload={() => handleFileUpload(item.id)}
+          handleFileUpload={(url) =>
+            handleComponentChange(`contents.${item.id}.image`, url)
+          }
           image={item.image}
         />
 

@@ -24,34 +24,160 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useDeleteImageMutation } from "@/redux/services/galleryApi";
+import {
+  useDeleteImagePurgeCacheMutation,
+  useGetImagesQuery,
+} from "@/redux/services/galleryApi";
 import { Loader2 } from "lucide-react";
+import clsx from "clsx";
+import { useEffect } from "react";
 
 const GalleryImages = ({
   isOpen,
   onClose,
   handleFileUpload,
-  images,
-  isLoading,
   setIsOpenUploadModal,
 }) => {
+  const {
+    data: images,
+    isLoading,
+    refetch,
+  } = useGetImagesQuery(
+    {
+      path: "/sample-folder",
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    }
+  );
+
   console.log("🚀 ~ images:", images);
-  const [selectedImage, setSelectedImage] = useState("");
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const [deleteImagePurgeCache, { isLoading: isDeleting, isError }] =
+    useDeleteImagePurgeCacheMutation();
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  console.log("🚀 ~ selectedImage:", selectedImage);
   const [searchValue, setSearchValue] = useState("");
-
-  const [deleteImage, { isLoading: isDeleting }] = useDeleteImageMutation();
-
   const filteredImages = useMemo(() => {
     return images?.filter((image) =>
       image.name.includes(searchValue.toLowerCase())
     );
   }, [images, searchValue]);
-
   const handleUploadImages = () => {
     onClose();
     setTimeout(() => {
       setIsOpenUploadModal(true);
     }, 1000);
+  };
+
+  const handleDelete = async () => {
+    const { fileId, url } = selectedImage || {};
+
+    if (!fileId || !url) {
+      return;
+    }
+
+    const cleanUrl = url.split("?")[0];
+
+    const res = await deleteImagePurgeCache({ fileId, url: cleanUrl });
+    if (res?.data) {
+      const maxAttempts = 5;
+      let attempt = 0;
+
+      const pollUntilDeleted = setInterval(async () => {
+        const { data: images } = await refetch();
+
+        console.log("RUN REFETCH");
+
+        const stillExists = images?.some((img) => img.fileId === fileId);
+
+        if (!stillExists || attempt >= maxAttempts) {
+          clearInterval(pollUntilDeleted);
+        }
+
+        attempt++;
+      }, 1500);
+    }
+
+    if (!isDeleting || !isError) {
+      setIsOpenModal(false);
+      setSelectedImage({});
+    }
+  };
+
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     console.log("RUN EFFECT REFETCH");
+  //     refetch();
+  //   }
+  // }, [isOpen, refetch]);
+
+  const ModalDelete = ({ isOpenDelete, onCloseDelete }) => {
+    const [showModal, setShowModal] = useState(isOpenDelete);
+
+    useEffect(() => {
+      if (isOpenDelete) {
+        setShowModal(true);
+      } else {
+        // Delay unmount for exit animation
+        const timeout = setTimeout(() => setShowModal(false), 200); // match with duration-200
+        return () => clearTimeout(timeout);
+      }
+    }, [isOpenDelete]);
+
+    if (!showModal) return null;
+
+    return (
+      <div
+        className={clsx(
+          "fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity duration-200",
+          {
+            " animate-in fade-in-0": isOpen,
+            " animate-out fade-out-0": !isOpen,
+          }
+        )}
+      >
+        <div
+          className={clsx(
+            "relative w-[350px]  m-5 bg-white shadow-lg  rounded-lg transition-all duration-200",
+            ""
+          )}
+        >
+          <div className="">
+            <div className="flex gap-x-3 items-center  border-b p-5">
+              <FaTrashCan className="text-red-500" size={18} />
+
+              <p className="font-semibold">Delete Image</p>
+            </div>
+
+            <p className="text-sm p-5">
+              This will permanently delete all the selected files, folders and
+              content in the selected folder. Once submitted, this action can
+              not be reversed.
+            </p>
+
+            <div className="flex justify-end gap-x-3  p-5 ">
+              <Button onClick={() => onCloseDelete(false)} variant="outline">
+                Cancel
+              </Button>
+
+              <Button
+                disabled={isDeleting}
+                onClick={handleDelete}
+                variant="destructive"
+              >
+                Delete {isDeleting && <Loader2 className="animate-spin" />}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -68,7 +194,7 @@ const GalleryImages = ({
               <Skeleton key={index} className="h-[150px] w-full rounded-lg" />
             ))}
           </div>
-        ) : images.length > 0 ? (
+        ) : images?.length > 0 ? (
           <div>
             <div className="flex justify-between items-center mt-2 mb-3">
               <div className="flex items-center  relative ">
@@ -86,7 +212,7 @@ const GalleryImages = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        onClick={() => deleteImage(selectedImage.fileId)}
+                        onClick={() => setIsOpenModal(true)}
                         disabled={!selectedImage || isDeleting}
                         variant="outline"
                       >
@@ -99,6 +225,11 @@ const GalleryImages = ({
                   </Tooltip>
                 </TooltipProvider>
 
+                <ModalDelete
+                  isOpenDelete={isOpenModal}
+                  onCloseDelete={setIsOpenModal}
+                />
+
                 <Button onClick={handleUploadImages} variant="outline">
                   Upload Images
                   <FaCloudUploadAlt />
@@ -106,12 +237,12 @@ const GalleryImages = ({
               </div>
             </div>
 
-            {filteredImages.length > 0 ? (
+            {filteredImages?.length > 0 ? (
               <div
                 className={`w-full p-2 grid grid-cols-5 gap-5 max-h-[400px] overflow-y-auto    `}
               >
                 {filteredImages?.map((image) => {
-                  const isSelected = image.url === selectedImage.url;
+                  const isSelected = image.url === selectedImage?.url;
 
                   return (
                     <div key={image?.fileId}>

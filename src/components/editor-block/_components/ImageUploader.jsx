@@ -25,28 +25,19 @@ import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
+import { RiGalleryView } from "react-icons/ri";
 import { TbUpload } from "react-icons/tb";
 import { TfiDropboxAlt } from "react-icons/tfi";
 import GalleryImages from "./GalleryImages";
-import { RiGalleryView } from "react-icons/ri";
 
 import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
-import { cn } from "@/lib/utils";
-import { useGetImagesQuery } from "@/redux/services/galleryApi";
+import { VscDebugRestart } from "react-icons/vsc";
 
 const ImageUploader = ({ label, handleFileUpload, image }) => {
   const [getAuthImagekit] = useLazyGetAuthImagekitQuery();
-
-  const {
-    data: images,
-    isLoading,
-    refetch,
-  } = useGetImagesQuery({
-    path: "/sample-folder",
-  });
-  console.log("🚀 ~ ImageUploader ~ images:", images);
 
   const [isOpenUploadModal, setIsOpenUploadModal] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -61,7 +52,6 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
 
   const [uploadStatuses, setUploadStatuses] = useState([]);
   console.log("🚀 ~ ImageUploader ~ uploadStatuses:", uploadStatuses);
-
   const updateStatus = (fileName, updates) => {
     setUploadStatuses((prev) =>
       prev.map((file) =>
@@ -74,6 +64,7 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
 
   // optional parameters (needed for client-side upload)
   const publicKey = "public_Wwlp5YlR37rYXrDWwNIDMDhBgQo=";
+  // const publicKey = "public_Wwlp5YlR37rYXrDWwNIDMDhBgQo=xxxxx";
 
   const {
     getRootProps,
@@ -92,6 +83,9 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
 
   const handleRemoveSelectedImage = (removeIndex) => {
     setSelectedImages((prevImages) =>
+      prevImages.filter((_, index) => index !== removeIndex)
+    );
+    setUploadStatuses((prevImages) =>
       prevImages.filter((_, index) => index !== removeIndex)
     );
   };
@@ -182,7 +176,6 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
       try {
         const timestamp = Date.now() + Math.random(); // biar unik
         const { data: auth } = await getAuthImagekit(timestamp);
-        console.log("Auth untuk", image.name, auth);
 
         const result = await uploadWithSignature(image, {
           auth, // lempar auth ke dalam kalau perlu
@@ -212,13 +205,15 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
 
     const results = await Promise.all(uploadTasks);
 
-    refetch();
-
     return results;
   };
 
   const isUploading = uploadStatuses?.some(
     (data) => data?.status === "uploading" && data?.isUploaded === false
+  );
+
+  const hasErrorUpload = uploadStatuses?.some(
+    (data) => data?.status === "error" && data?.isUploaded === false
   );
 
   const completeUploaded = uploadStatuses?.filter(
@@ -247,8 +242,6 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
     setSelectedImages([]);
 
     setIsOpenUploadModal(false);
-
-    refetch();
 
     setTimeout(() => {
       setIsOpenGallery(true);
@@ -435,6 +428,11 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
                       Uploading
                       <Loader2 className="animate-spin" />
                     </>
+                  ) : hasErrorUpload && selectedImages.length > 0 ? (
+                    <>
+                      Reupload
+                      <VscDebugRestart />
+                    </>
                   ) : (
                     <>
                       Upload
@@ -460,8 +458,6 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
             isOpen={isOpenGallery}
             onClose={setIsOpenGallery}
             handleFileUpload={handleFileUpload}
-            images={images}
-            isLoading={isLoading}
             setIsOpenUploadModal={setIsOpenUploadModal}
           />
         )}

@@ -13,7 +13,7 @@ export const contentShowcaseComponent = (editor) => {
     icon: <HiMiniViewColumns size={40} />,
     ViewComponent: ContentShowcase,
     defaultCustomComponent: {
-      isLocked: true,
+      isLocked: false,
       scrollTarget: undefined,
       contents: [
         {

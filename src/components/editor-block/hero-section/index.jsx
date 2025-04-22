@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { generateId } from "@/lib/utils";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -54,14 +53,10 @@ const variantOptions = [
 const EditorHeroSection = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
-
+  const { contents, buttons } = currentComponent;
   const { wrapperStyle } = currentComponent;
 
   useSyncWithUndoRedo(setCurrentComponent);
-
-  const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleComponentChange);
-  };
 
   const [editItem, setEditItem] = useState("");
 
@@ -168,8 +163,11 @@ const EditorHeroSection = ({ selectedComponent }) => {
                 <AccordionContent className="bg-white p-2 rounded-b-lg ">
                   <div className="flex flex-col gap-y-5">
                     <ImageUploader
-                      handleFileUpload={() =>
-                        handleFileUpload(currentComponent?.contents[0].id)
+                      handleFileUpload={(url) =>
+                        handleComponentChange(
+                          `contents.${contents[0].id}.image`,
+                          url
+                        )
                       }
                       image={currentComponent?.contents[0].image}
                     />
@@ -183,13 +181,12 @@ const EditorHeroSection = ({ selectedComponent }) => {
                             key={item.value}
                             onClick={() => {
                               handleComponentChange(
-                                `contents.${currentComponent.contents[0].id}.imagePosition`,
+                                `contents.${contents[0].id}.imagePosition`,
                                 item.value
                               );
                             }}
                             variant={
-                              item.value ===
-                              currentComponent.contents[0].imagePosition
+                              item.value === contents[0].imagePosition
                                 ? ""
                                 : "outline"
                             }
@@ -207,7 +204,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
                       value={currentComponent?.contents[0].width}
                       onChange={(value) =>
                         handleComponentChange(
-                          `contents.${currentComponent.contents[0].id}.width`,
+                          `contents.${contents[0].id}.width`,
                           value
                         )
                       }
@@ -221,7 +218,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
                       value={currentComponent?.contents[0].rotation}
                       onChange={(value) =>
                         handleComponentChange(
-                          `contents.${currentComponent.contents[0].id}.rotation`,
+                          `contents.${contents[0].id}.rotation`,
                           value
                         )
                       }
@@ -239,7 +236,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
             value={currentComponent?.contents[0].textBanner}
             onChange={(value) =>
               handleComponentChange(
-                `contents.${currentComponent.contents[0].id}.textBanner`,
+                `contents.${contents[0].id}.textBanner`,
                 value
               )
             }
@@ -298,7 +295,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
                       )}
 
                       <DraggableList
-                        contents={currentComponent.buttons}
+                        contents={buttons}
                         path="buttons"
                         renderContents={(value) => renderContents(value)}
                         setCurrentComponent={setCurrentComponent}

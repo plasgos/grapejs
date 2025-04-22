@@ -12,25 +12,25 @@ import { Label } from "@/components/ui/label";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
 import TextEditor from "../_components/TextEditor";
+import RichTextEditor from "@/components/rich-text-editor";
 
 const EditorContentShowcase = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
+  console.log(
+    "🚀 ~ EditorContentShowcase ~ currentComponent:",
+    currentComponent?.contents[0].description
+  );
 
   useSyncWithUndoRedo(setCurrentComponent);
 
   const [editItem, setEditItem] = useState("");
-
-  const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleComponentChange);
-  };
 
   const handleAddContent = () => {
     setEditItem("");
@@ -73,7 +73,9 @@ const EditorContentShowcase = ({ selectedComponent }) => {
       <>
         <ImageUploader
           label="Image"
-          handleFileUpload={() => handleFileUpload(item.id)}
+          handleFileUpload={(url) =>
+            handleComponentChange(`contents.${item.id}.image`, url)
+          }
           image={item.image}
         />
 
@@ -93,13 +95,20 @@ const EditorContentShowcase = ({ selectedComponent }) => {
           />
         </div>
 
-        <TextEditor
+        <RichTextEditor
+          content={item.description}
+          onChange={(value) => {
+            handleComponentChange(`contents.${item.id}.description`, value);
+          }}
+        />
+
+        {/* <TextEditor
           label="Description"
           value={item.description}
           onChange={(value) => {
             handleComponentChange(`contents.${item.id}.description`, value);
           }}
-        />
+        /> */}
       </>
     );
   };

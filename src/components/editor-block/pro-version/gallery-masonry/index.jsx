@@ -4,7 +4,6 @@ import { TabsContent } from "@/components/ui/tabs";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -57,16 +56,14 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
   };
 
   const renderContents = (item) => {
-    const handleFileUpload = (id) => {
-      onChangeFileUpload(id, handleComponentChange);
-    };
-
     return (
       <>
         <div className="space-y-2">
           <ImageUploader
             label="Image"
-            handleFileUpload={() => handleFileUpload(item.id)}
+            handleFileUpload={(url) =>
+              handleComponentChange(`contents.${item.id}.image`, url)
+            }
             image={item.image}
           />
 

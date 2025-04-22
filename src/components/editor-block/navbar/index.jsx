@@ -20,15 +20,14 @@ import { CiText } from "react-icons/ci";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { componentsNavbar } from "@/view/navbar";
-import Compressor from "compressorjs";
 import { FaLink } from "react-icons/fa";
 import { TfiLayoutAccordionList } from "react-icons/tfi";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import ImageUploader from "../_components/ImageUploader";
 import RangeInputSlider from "../_components/RangeInputSlider";
 import StylesTab from "./StylesTab";
-import EditorSingleLink from "./_components/EditorSingleLink";
 import EditorMenuLink from "./_components/EditorMenuLink";
+import EditorSingleLink from "./_components/EditorSingleLink";
 
 const fieldOptions = [
   {
@@ -143,59 +142,6 @@ const EditorNavbar = ({ selectedComponent }) => {
     );
   };
 
-  const handleFileUpload = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*"; // Hanya menerima file gambar
-    input.click();
-
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-
-      if (!file.type.startsWith("image/")) {
-        alert("Please select an image file.");
-        return;
-      }
-
-      console.log(`Original file size: ${(file.size / 1024).toFixed(2)} KB`);
-
-      // Konfigurasi Compressor
-      const options = {
-        mimeType: "image/webp", // Konversi ke format WebP
-        success: (compressedFile) => {
-          const reader = new FileReader();
-
-          reader.onload = (event) => {
-            const imageUrl = event.target.result;
-
-            handleComponentChange(`logo`, imageUrl);
-          };
-
-          console.log(
-            `Compressed file size: ${(compressedFile.size / 1024).toFixed(
-              2
-            )} KB`
-          );
-
-          reader.readAsDataURL(compressedFile);
-        },
-        error: (err) => {
-          console.error("Error compressing image:", err);
-          alert("Failed to process image. Please try again.");
-        },
-      };
-
-      // Jika file lebih dari 1MB, tambahkan kompresi
-      if (file.size > 1048576) {
-        // 1MB = 1,048,576 bytes
-        options.quality = 0.5; // Kompresi dengan kualitas 50%
-      }
-
-      // Proses gambar dengan Compressor
-      new Compressor(file, options);
-    };
-  };
-
   return (
     <TabsEditor withoutTransition>
       <TabsContent
@@ -205,7 +151,7 @@ const EditorNavbar = ({ selectedComponent }) => {
         <div className="flex flex-col gap-y-5 bg-white p-3 rounded-lg mb-5">
           <ImageUploader
             label="Image"
-            handleFileUpload={handleFileUpload}
+            handleFileUpload={(url) => handleComponentChange("logo", url)}
             image={logo}
           />
 

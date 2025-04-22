@@ -17,7 +17,6 @@ import {
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { generateId } from "@/lib/utils";
-import { onChangeFileUpload } from "@/utils/onChangeFileUpload";
 import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -36,10 +35,6 @@ const EditorSliderImages = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   const [editItem, setEditItem] = useState("");
-
-  const handleFileUpload = (id) => {
-    onChangeFileUpload(id, handleComponentChange);
-  };
 
   const handleAddContent = () => {
     setEditItem("");
@@ -78,7 +73,9 @@ const EditorSliderImages = ({ selectedComponent }) => {
       <>
         <ImageUploader
           label="Image"
-          handleFileUpload={() => handleFileUpload(item.id)}
+          handleFileUpload={(url) =>
+            handleComponentChange(`contents.${item.id}.image`, url)
+          }
           image={item.image}
         />
 
