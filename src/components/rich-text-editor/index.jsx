@@ -40,7 +40,8 @@ export default function RichTextEditor({ content, onChange }) {
     content: content,
     editorProps: {
       attributes: {
-        class: "min-h-[156px] border rounded-md bg-slate-50 py-2 px-3",
+        class:
+          "min-h-[156px] max-h-[250px] overflow-y-auto border rounded-md bg-slate-50 py-2 px-3 leading-normal ",
       },
     },
     onUpdate: ({ editor }) => {
@@ -63,10 +64,44 @@ export default function RichTextEditor({ content, onChange }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!editor) return;
+
+    const scaleDownFontSizes = () => {
+      const editorEl = document.querySelector(".custom-tip-tap-editor");
+      if (!editorEl) return;
+
+      const nodes = editorEl.querySelectorAll("[style*='font-size']");
+
+      nodes.forEach((node) => {
+        const fontSize = node.style.fontSize;
+
+        const match = fontSize.match(/^(\d+)px$/);
+        if (match) {
+          const size = parseInt(match[1], 10);
+          if (size > 24) {
+            node.style.fontSize = `${size * 0.5}px`; // atau ganti jadi '16px'
+          }
+        }
+      });
+    };
+
+    editor.on("update", scaleDownFontSizes);
+    editor.on("create", scaleDownFontSizes);
+
+    return () => {
+      editor.off("update", scaleDownFontSizes);
+      editor.off("create", scaleDownFontSizes);
+    };
+  }, [editor]);
+
   return (
     <div className="relative">
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
+
+      <div className="custom-tip-tap-editor">
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 }

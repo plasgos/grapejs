@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isEditComponent: false,
   isFocusContent: "",
+  googleFonts: [],
 };
 
 export const landingPageSlice = createSlice({
@@ -15,10 +16,13 @@ export const landingPageSlice = createSlice({
     setIsFocusContent: (state, action) => {
       state.isFocusContent = action.payload;
     },
+    setGoogleFont: (state, action) => {
+      state.googleFonts = action.payload;
+    },
   },
 });
 
-export const { setIsEditComponent, setIsFocusContent } =
+export const { setIsEditComponent, setIsFocusContent, setGoogleFont } =
   landingPageSlice.actions;
 
 export default landingPageSlice.reducer;

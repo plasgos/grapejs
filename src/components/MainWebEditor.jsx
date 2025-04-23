@@ -14,13 +14,19 @@ import Sidebar from "./Sidebar";
 
 import plasgosPlugin from "@/plugins";
 
-import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setGoogleFont,
+  setIsEditComponent,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { onCustomToolbar } from "@/utils/onCustomToolbar";
 import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
 import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+
+import { googleFonts } from "@/lib/googleFonts";
+import { generateGoogleFontsImportWithWeights } from "@/utils/injectGoogleFonts";
 
 const rootMap = new Map();
 
@@ -145,6 +151,7 @@ const MainWebEditor = () => {
       handleFocusDropComponent(editor);
       addGlobalOptions(editor);
       handleAddWatermark(editor);
+      handleAddGoogleFont();
     });
 
     editor.on("component:add", () => {
@@ -228,6 +235,55 @@ const MainWebEditor = () => {
         }
       }, 100);
     });
+  };
+
+  const handleAddGoogleFont = () => {
+    function parseGoogleFontsImport(importStr) {
+      const url = importStr.match(/url\(['"]?([^'")]+)['"]?\)/)?.[1];
+      if (!url) return [];
+
+      const fontOptions = [];
+      const query = new URL(url).searchParams;
+      const families = query.getAll("family");
+
+      families.forEach((familyStr) => {
+        const [rawName, weightPart] = familyStr.split(":");
+        const fontFamily = rawName.replace(/\+/g, " ");
+        let weights = [];
+
+        if (weightPart?.includes("ital,wght@")) {
+          // Contoh: ital,wght@0,100;1,200 => ambil angka kedua saja
+          const entries = weightPart.split("ital,wght@")[1].split(";");
+          weights = entries.map((entry) => parseInt(entry.split(",")[1], 10));
+        } else if (weightPart?.includes("wght@")) {
+          // Contoh: wght@100;300;700 atau wght@100..900
+          const entries = weightPart.split("wght@")[1].split(";");
+          weights = entries.flatMap((w) => {
+            if (w.includes("..")) {
+              const [start, end] = w.split("..").map(Number);
+              return Array.from(
+                { length: Math.floor((end - start) / 100) + 1 },
+                (_, i) => start + i * 100
+              );
+            }
+            return parseInt(w, 10);
+          });
+        }
+
+        fontOptions.push({
+          fontFamily,
+          weights: [...new Set(weights)].sort((a, b) => a - b),
+        });
+      });
+
+      return fontOptions;
+    }
+
+    const googleFontsImport = generateGoogleFontsImportWithWeights(googleFonts);
+
+    const fontOptions = parseGoogleFontsImport(googleFontsImport);
+
+    dispatch(setGoogleFont(fontOptions));
   };
 
   return (
