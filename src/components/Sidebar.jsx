@@ -146,8 +146,167 @@ const Sidebar = ({
   return (
     <>
       <div
+        style={{
+          height: "calc(100vh - 60px)",
+        }}
+        className="flex flex-col  "
+      >
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) => setActiveTab(value)}
+          className="w-full"
+        >
+          {/* Top Bar */}
+          <div className="sticky top-0 z-10 bg-white shadow ">
+            <TabsList
+              className={`w-full  ${
+                !isEditComponent || selectedComponent?.get("type") === "wrapper"
+                  ? ""
+                  : "hidden"
+              }`}
+            >
+              <TabsTrigger
+                className="w-full data-[state=inactive]:bg-[#EFF3F4] rounded-bl-xl "
+                value="components"
+              >
+                <div className="flex  gap-x-2">
+                  <IoGrid className="" size={20} />
+                  <p>Components</p>
+                </div>
+              </TabsTrigger>
+              <TabsTrigger
+                className="w-full data-[state=inactive]:bg-[#EFF3F4]  rounded-bl-xl"
+                value="styles"
+              >
+                <div className="flex  gap-x-2">
+                  <FaGlobe className="" size={20} />
+                  <p> Global Styles</p>
+                </div>
+              </TabsTrigger>
+            </TabsList>
+
+            {isEditComponent &&
+              selectedComponent?.get("type") !== "wrapper" && (
+                <div className="flex items-center justify-between   border-b p-4 shadow-sm ">
+                  <p className="font-semibold">
+                    {selectedComponent?.get("blockLabel")}
+                  </p>
+
+                  <TooltipProvider delayDuration={100}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button onClick={handleCloseComponent} variant="ghost">
+                          <IoGrid className=" cursor-pointer" size={20} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Components</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              )}
+
+            {(!isEditComponent ||
+              selectedComponent?.get("type") === "wrapper") &&
+              activeTab === "components" && (
+                <div className="relative  p-5">
+                  <Input
+                    value={searchBlock || ""}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    className="rounded-full  pr-10"
+                    placeholder="Search..."
+                  />
+
+                  <div className="absolute top-[30px] right-10 z-10 ">
+                    <HiMagnifyingGlass className="text-slate-400" />
+                  </div>
+                </div>
+              )}
+          </div>
+
+          {/* Scrollable Content */}
+          <div className="flex-1 h-screen overflow-y-auto  space-y-4 bg-gray-50">
+            <TabsContent
+              className="data-[state=inactive]:bg-[#EFF3F4] bg-[#FEEBDB] !m-0"
+              value="components"
+            >
+              <div className="relative">
+                {isEditComponent &&
+                selectedComponent &&
+                selectedComponent?.get("type") !== "wrapper" ? (
+                  <div
+                    // style={{
+                    //   minHeight: "calc(100vh - 200px)",
+                    // }}
+                    className=""
+                  >
+                    <ComponentStyleEditor
+                      selectedComponent={selectedComponent}
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <BlocksProvider>
+                      {(props) => (
+                        <CustomBlockManager
+                          {...props}
+                          searchBlock={searchBlock}
+                        />
+                      )}
+                    </BlocksProvider>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent
+              className="bg-[#FEEBDB] h-screen m-0 p-4"
+              value="styles"
+            >
+              <GlobalStyles selectedComponent={selectedComponent} />
+            </TabsContent>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="sticky bottom-0 z-10 bg-white shadow p-2 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]">
+            <div className="flex justify-between gap-x-5 p-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost">
+                    <IoSettingsSharp />
+                    Settings
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={exportProjectAsFile}
+                  >
+                    {" "}
+                    <CiExport /> Export Project
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={importProjectFromFile}
+                  >
+                    {" "}
+                    <CiImport /> Import Project
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Button className="bg-[#102442] rounded-full">
+                Save <Save />
+              </Button>
+            </div>
+          </div>
+        </Tabs>
+      </div>
+
+      {/* <div
         id="blocks"
-        className="relative top-0 left-0 w-[420px] h-full   overflow-y-auto z-20 bg-white shadow-xl border-r-2 "
+        className="relative top-0 left-0 w-full h-full   overflow-y-auto z-20  shadow-xl px-2    "
       >
         <Tabs
           value={activeTab}
@@ -155,7 +314,6 @@ const Sidebar = ({
           className="w-full"
         >
           <TabsList
-            // className="w-full"
             className={`w-full ${
               !isEditComponent || selectedComponent?.get("type") === "wrapper"
                 ? ""
@@ -238,10 +396,10 @@ const Sidebar = ({
                 </div>
               ) : (
                 <div
-                  className=""
+                  className="min-h-screen"
                   style={{
                     overflowY: "auto",
-                    height: "calc(100vh - 230px)",
+                    // height: "calc(100vh - 300px)",
                   }}
                 >
                   <BlocksProvider>
@@ -294,7 +452,7 @@ const Sidebar = ({
             </Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

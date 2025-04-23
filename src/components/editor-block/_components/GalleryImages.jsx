@@ -28,9 +28,22 @@ import {
   useDeleteImagePurgeCacheMutation,
   useGetImagesQuery,
 } from "@/redux/services/galleryApi";
-import { Loader2 } from "lucide-react";
 import clsx from "clsx";
+import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { HiViewfinderCircle } from "react-icons/hi2";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { IoEllipsisHorizontalSharp } from "react-icons/io5";
+import { useRef } from "react";
+import { MdClose } from "react-icons/md";
 
 const GalleryImages = ({
   isOpen,
@@ -53,16 +66,16 @@ const GalleryImages = ({
     }
   );
 
-  console.log("🚀 ~ images:", images);
-
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [viewDetail, setViewDetail] = useState(null);
+
+  const detailRef = useRef(null);
 
   const [deleteImagePurgeCache, { isLoading: isDeleting, isError }] =
     useDeleteImagePurgeCacheMutation();
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  console.log("🚀 ~ selectedImage:", selectedImage);
-  const [searchValue, setSearchValue] = useState("");
   const filteredImages = useMemo(() => {
     return images?.filter((image) =>
       image.name.includes(searchValue.toLowerCase())
@@ -74,6 +87,12 @@ const GalleryImages = ({
       setIsOpenUploadModal(true);
     }, 1000);
   };
+
+  useEffect(() => {
+    if (viewDetail && detailRef.current) {
+      detailRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [viewDetail]);
 
   const handleDelete = async () => {
     const { fileId, url } = selectedImage || {};
@@ -92,8 +111,6 @@ const GalleryImages = ({
       const pollUntilDeleted = setInterval(async () => {
         const { data: images } = await refetch();
 
-        console.log("RUN REFETCH");
-
         const stillExists = images?.some((img) => img.fileId === fileId);
 
         if (!stillExists || attempt >= maxAttempts) {
@@ -109,13 +126,6 @@ const GalleryImages = ({
       setSelectedImage({});
     }
   };
-
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     console.log("RUN EFFECT REFETCH");
-  //     refetch();
-  //   }
-  // }, [isOpen, refetch]);
 
   const ModalDelete = ({ isOpenDelete, onCloseDelete }) => {
     const [showModal, setShowModal] = useState(isOpenDelete);
@@ -191,7 +201,7 @@ const GalleryImages = ({
         {isLoading ? (
           <div className="w-full p-2 grid grid-cols-5 gap-5 max-h-[400px]">
             {[...Array(5)].map((_, index) => (
-              <Skeleton key={index} className="h-[150px] w-full rounded-lg" />
+              <Skeleton key={index} className="h-[200px] w-full rounded-lg" />
             ))}
           </div>
         ) : images?.length > 0 ? (
@@ -237,50 +247,154 @@ const GalleryImages = ({
               </div>
             </div>
 
-            {filteredImages?.length > 0 ? (
-              <div
-                className={`w-full p-2 grid grid-cols-5 gap-5 max-h-[400px] overflow-y-auto    `}
-              >
-                {filteredImages?.map((image) => {
-                  const isSelected = image.url === selectedImage?.url;
+            <div className="max-h-[450px] overflow-y-auto p-3">
+              {viewDetail && (
+                <div
+                  ref={detailRef}
+                  className="relative group overflow-hidden w-full h-[350px] mb-4 border rounded-lg p-3"
+                >
+                  <LazyLoadImage
+                    src={viewDetail.url}
+                    alt="my-gallery"
+                    effect="blur"
+                    className="w-full rounded-lg object-contain cursor-pointer h-full  "
+                    wrapperProps={{
+                      style: { transitionDelay: "0.5s" },
+                    }}
+                  />
 
-                  return (
-                    <div key={image?.fileId}>
-                      <div
-                        className={`relative group w-full h-[120px] overflow-hidden rounded-md  ${
-                          isSelected && "ring-2 ring-orange-500 ring-offset-2"
-                        }`}
-                      >
-                        <LazyLoadImage
-                          src={image?.url}
-                          alt={"my-gallery"}
-                          className={`cursor-pointer object-cover h-full w-full `}
-                          effect="blur"
-                          wrapperProps={{
-                            style: { transitionDelay: "0.5s" },
+                  <div className="absolute inset-0 bg-neutral-300/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md cursor-pointer " />
+                  <TooltipProvider>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger asChild>
+                        <Button
+                          onClick={() => {
+                            setSelectedImage(null);
+                            setViewDetail(null);
                           }}
-                          onClick={() => setSelectedImage(image)}
-                        />
+                          variant="outline"
+                          size=""
+                          className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-8 w-8 z-10 shadow-sm"
+                        >
+                          <MdClose />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Close</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              )}
 
-                        {isDeleting && isSelected && (
-                          <>
-                            <div className="absolute inset-0 bg-black/50  opacity-100 transition-opacity duration-300 rounded-md " />
+              {filteredImages?.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 ">
+                  {Array.from({ length: 4 }).map((_, columnIndex) => (
+                    <div key={columnIndex} className="grid gap-4">
+                      {filteredImages
+                        .filter((_, i) => i % 4 === columnIndex)
+                        .map((image) => {
+                          const isSelected = image.url === selectedImage?.url;
 
-                            <Loader2 className="animate-spin absolute  top-1/2 left-[45%]" />
-                          </>
-                        )}
-                      </div>
+                          return (
+                            <div
+                              key={image.fileId}
+                              className={` relative group overflow-hidden   rounded-lg ${
+                                isSelected &&
+                                "ring-2 ring-orange-500 ring-offset-2"
+                              }`}
+                              onClick={() => setSelectedImage(image)}
+                            >
+                              <LazyLoadImage
+                                src={image.url}
+                                alt="my-gallery"
+                                effect="blur"
+                                className="w-full rounded-lg object-cover cursor-pointer h-full  "
+                                wrapperProps={{
+                                  style: { transitionDelay: "0.5s" },
+                                }}
+                              />
+                              {!isDeleting && (
+                                <>
+                                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md cursor-pointer " />
+                                  <TooltipProvider>
+                                    <Tooltip delayDuration={100}>
+                                      <TooltipTrigger asChild>
+                                        <Button
+                                          onClick={() => {
+                                            setSelectedImage(image);
+                                            setViewDetail(image);
+                                          }}
+                                          variant="outline"
+                                          size=""
+                                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-8 w-8 z-10"
+                                        >
+                                          <HiViewfinderCircle />
+                                        </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        <p>View Detail</p>
+                                      </TooltipContent>
+                                    </Tooltip>
+                                  </TooltipProvider>
 
-                      <p className="truncate max-w-36 mt-2">{image?.name}</p>
+                                  <div className=" absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p className="truncate max-w-28 text-white">
+                                      {image.name}
+                                    </p>
+                                  </div>
+
+                                  <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <DropdownMenu>
+                                      <DropdownMenuTrigger asChild>
+                                        <Button
+                                          className="w-8 h-8 rounded-full"
+                                          variant="outline"
+                                          size="icon"
+                                        >
+                                          <IoEllipsisHorizontalSharp className="text-black" />
+                                        </Button>
+                                      </DropdownMenuTrigger>
+                                      <DropdownMenuContent
+                                        onFocusOutside={(e) =>
+                                          e.preventDefault()
+                                        }
+                                      >
+                                        <DropdownMenuLabel>
+                                          Image Options
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem
+                                          onClick={() => setIsOpenModal(true)}
+                                          className="cursor-pointer"
+                                        >
+                                          <FaTrashCan className="text-red-500" />
+                                          Delete{" "}
+                                        </DropdownMenuItem>
+                                      </DropdownMenuContent>
+                                    </DropdownMenu>
+                                  </div>
+                                </>
+                              )}
+
+                              {isDeleting && isSelected && (
+                                <>
+                                  <div className="absolute inset-0 bg-black/50 rounded-md transition-opacity duration-300" />
+                                  <Loader2 className="animate-spin absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
                     </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="flex w-full justify-center mt-5">
-                Images Not Found!
-              </div>
-            )}
+                  ))}
+                </div>
+              ) : (
+                <div className="flex w-full justify-center mt-5">
+                  Images Not Found!
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <div className="flex flex-col gap-y-3 items-center">

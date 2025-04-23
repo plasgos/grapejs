@@ -57,9 +57,9 @@ export default function CustomBlockManager({
   }, [searchBlock]);
 
   return (
-    <div className="gjs-custom-block-manager text-left px-5  pb-5">
+    <div className="gjs-custom-block-manager text-left px-5  ">
       {Array.from(filteredBlocks).length > 0 ? (
-        <div>
+        <div className="pb-[280px]">
           {Array.from(filteredBlocks).map(([category, blocks]) => (
             <div key={category}>
               <Accordion
@@ -135,7 +135,12 @@ export default function CustomBlockManager({
           ))}
         </div>
       ) : (
-        <div className="text-center mt-10">
+        <div
+          style={{
+            height: "calc(100vh - 200px)",
+          }}
+          className="flex flex-col  justify-center items-center text-center !pb-0 "
+        >
           <p>Not Found!</p>
         </div>
       )}

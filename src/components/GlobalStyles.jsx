@@ -50,7 +50,7 @@ const GlobalStyles = () => {
   };
 
   return (
-    <div className="p-5 flex flex-col gap-y-5">
+    <div className="p-5 flex flex-col gap-y-5 rounded-lg bg-white">
       <SelectOptions
         label="Width Page"
         options={widthPageOptions}

@@ -6,6 +6,12 @@ import { createRoot } from "react-dom/client";
 import "../index.css";
 import Watermark from "./Watermark";
 
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+
 // import basicPlugin from "grapesjs-blocks-basic";
 
 import { useState } from "react";
@@ -307,8 +313,54 @@ const MainWebEditor = () => {
         }}
       >
         <div>
-          <div className="flex flex-col h-screen overflow-auto">
-            {/* Custom Navbar */}
+          <WithEditor>
+            <Navbar
+              setIsPreviewActive={(value) => setIsPreviewActive(value)}
+              selectedComponent={selectedComponent}
+              components={canvasComponents}
+              onReorder={handleReorder}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              setIsDragging={setIsDragging}
+            />
+          </WithEditor>
+          <ResizablePanelGroup direction="horizontal">
+            <ResizablePanel
+              className={`${isPreviewActive ? "hidden" : ""}`}
+              defaultSize={25}
+            >
+              <WithEditor>
+                <Sidebar
+                  selectedComponent={selectedComponent}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  setCanvasComponents={setCanvasComponents}
+                />
+              </WithEditor>
+            </ResizablePanel>
+
+            <ResizableHandle withHandle />
+
+            <ResizablePanel defaultSize={isPreviewActive ? 100 : 75}>
+              <div
+                className={`flex flex-col justify-center ${
+                  isPreviewActive ? "h-screen" : "h-full"
+                } items-center relative z-50`}
+              >
+                <Canvas
+                  style={{
+                    backgroundColor: "#FFF4EA",
+                    width: "100%",
+                    minHeight: isDragging ? "200%" : "100%",
+                    transform: isDragging ? "scale(0.5)" : "scale(1)",
+                    transformOrigin: "center center",
+                  }}
+                />
+              </div>
+            </ResizablePanel>
+          </ResizablePanelGroup>
+
+          {/* <div className="flex flex-col h-screen overflow-auto">
             <WithEditor>
               <Navbar
                 setIsPreviewActive={(value) => setIsPreviewActive(value)}
@@ -321,7 +373,6 @@ const MainWebEditor = () => {
               />
             </WithEditor>
 
-            {/* Main Content with Sidebar */}
             <div className="flex flex-row  h-full  ">
               {isPreviewActive ? null : (
                 <WithEditor>
@@ -350,7 +401,7 @@ const MainWebEditor = () => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </GjsEditor>
     </div>

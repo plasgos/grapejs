@@ -42,25 +42,39 @@ const TabsEditor = ({
       defaultValue={activeTab}
       className=""
     >
-      <TabsList className="w-full sticky top-0 bg-white z-10">
-        {filteredTabs.map((tab) => (
-          <TabsTrigger key={tab.value} className="w-full p-0" value={tab.value}>
-            <div className="flex flex-col items-center">
-              <div
-                className={`flex justify-center items-center rounded-full ${
-                  activeTab === tab.value
-                    ? "bg-[#FF8E29] text-[#FFF4EA]"
-                    : "bg-muted"
-                } p-2`}
-              >
-                {tab.icon}
+      <div className="relative z-10 bg-white shadow pt-3 ">
+        <TabsList className="">
+          {filteredTabs.map((tab) => (
+            <TabsTrigger
+              key={tab.value}
+              className="w-full p-0"
+              value={tab.value}
+            >
+              <div className="flex flex-col  items-center">
+                <div
+                  className={`flex justify-center items-center rounded-full ${
+                    activeTab === tab.value
+                      ? "bg-[#FF8E29] text-[#FFF4EA]"
+                      : "bg-muted"
+                  } p-2`}
+                >
+                  {tab.icon}
+                </div>
+                <p className="font-normal text-sm my-2">{tab.label}</p>
               </div>
-              <p className="font-normal text-sm my-2">{tab.label}</p>
-            </div>
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {children}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
+
+      <div
+        style={{
+          height: "calc(100vh - 200px)",
+        }}
+        className="overflow-y-auto"
+      >
+        {children}
+      </div>
     </Tabs>
   );
 };
