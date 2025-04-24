@@ -6,7 +6,7 @@ export const floatingButtonComponent = (editor) => {
   injectComponents(editor, {
     type: "floating-button",
     label: "Floating Button",
-    icon: <CiSquareMore size={40} />,
+    icon: <CiSquareMore />,
     category: "Floating Widgets",
     ViewComponent: ViewFLoatingButton,
     defaultCustomComponent: {
@@ -82,6 +82,11 @@ export const floatingButtonComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: true,
       },
     },
   });

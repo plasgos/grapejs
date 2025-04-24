@@ -1,17 +1,16 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { TabsContent } from "@/components/ui/tabs";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import BackgroundEditor from "../../_components/BackgroundEditor";
 import ColorPicker from "../../_components/ColorPicker";
+import RangeInputSlider from "../../_components/RangeInputSlider";
+import SectionAddScrollTargetId from "../../_components/SectionAddScrollTargetId";
 import SelectFontFamily from "../../_components/SelectFontFamily";
 import SelectFontSize from "../../_components/SelectFontSize";
-import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import SelectTextAligment from "../../_components/SelectTextAligment";
-import TabsEditor from "@/components/TabsEditor";
-import { TabsContent } from "@/components/ui/tabs";
-import SectionAddScrollTargetId from "../../_components/SectionAddScrollTargetId";
-import BackgroundEditor from "../../_components/BackgroundEditor";
-import RangeInputSlider from "../../_components/RangeInputSlider";
 import SelectOptions from "../../_components/SelectOptions";
+import SelectTextAligment from "../../_components/SelectTextAligment";
 
 const animateByOptions = [
   { value: "words", label: "Words" },
@@ -42,7 +41,7 @@ const EditorBlurText = ({ selectedComponent }) => {
   } = currentComponent;
 
   return (
-    <TabsEditor withoutStyles withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -130,7 +129,7 @@ const EditorBlurText = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

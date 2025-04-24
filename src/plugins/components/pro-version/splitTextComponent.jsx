@@ -8,7 +8,7 @@ export const splitTextComponent = (editor) => {
     type: "split-text",
     label: "Split Text",
     category: "Text",
-    icon: <MdOutlineTextFields size={40} />,
+    icon: <MdOutlineTextFields />,
     ViewComponent: ViewSplitText,
     defaultCustomComponent: {
       isLocked: false,
@@ -37,6 +37,11 @@ export const splitTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

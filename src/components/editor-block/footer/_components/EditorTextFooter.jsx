@@ -2,8 +2,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RangeInputSlider from "../../_components/RangeInputSlider";
 
+import RichTextEditor from "@/components/rich-text-editor";
 import IconPicker from "../../_components/IconPicker";
-import TextEditor from "../../_components/TextEditor";
 
 const EditorTextFooter = ({ item, handleComponentChange }) => {
   const handleSelectIcon = (key, value) => {
@@ -38,7 +38,7 @@ const EditorTextFooter = ({ item, handleComponentChange }) => {
         max={600}
       />
 
-      <TextEditor
+      <RichTextEditor
         label="Text"
         value={item.text}
         onChange={(value) => {

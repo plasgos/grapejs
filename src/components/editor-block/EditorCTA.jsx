@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import TabsEditor from "../TabsEditor";
 import { TabsContent } from "../ui/tabs";
 
 import { produce } from "immer";
-import TextEditor from "./_components/TextEditor";
 
+import RichTextEditor from "../rich-text-editor";
 import BackgroundEditor from "./_components/BackgroundEditor";
 import SectionAddScrollTargetId from "./_components/SectionAddScrollTargetId";
 import TransitionEditor from "./_components/TransitionEditor";
@@ -41,7 +40,7 @@ const EditorCTA = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutStyles>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -49,13 +48,13 @@ const EditorCTA = ({ selectedComponent }) => {
         <div className="flex flex-col gap-y-5 py-1">
           <SectionAddScrollTargetId selectedComponent={selectedComponent} />
 
-          <TextEditor
+          <RichTextEditor
             label="Title"
             value={content.title}
             onChange={(value) => handleContentChange("title", value)}
           />
 
-          <TextEditor
+          <RichTextEditor
             label="Description"
             value={content.description}
             onChange={(value) => handleContentChange("description", value)}
@@ -70,7 +69,7 @@ const EditorCTA = ({ selectedComponent }) => {
       <TabsContent className="px-4 pb-5" value="background">
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

@@ -6,7 +6,7 @@ export const formCheckoutComponent = (editor) => {
   injectComponents(editor, {
     type: "checkout-form",
     label: "Form Checkout",
-    icon: <FaClipboardList size={40} />,
+    icon: <FaClipboardList />,
     category: "Form",
     ViewComponent: ViewFormCheckout,
     defaultCustomComponent: {
@@ -42,6 +42,22 @@ export const formCheckoutComponent = (editor) => {
           size: 24,
           position: "right",
         },
+      },
+      background: {
+        bgType: null,
+        bgColor: "",
+        bgImage: "",
+        blur: 0,
+        opacity: 0,
+        paddingY: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        paddingType: "vertical",
+        direction: "to right",
+        fromColor: "",
+        toColor: "",
+        isRevert: false,
+        pattern: "",
       },
     },
   });

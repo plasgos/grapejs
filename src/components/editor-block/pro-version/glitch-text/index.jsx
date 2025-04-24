@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -31,7 +30,7 @@ const EditorGlitchText = ({ selectedComponent }) => {
   } = currentComponent;
 
   return (
-    <TabsEditor withoutStyles withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -124,7 +123,7 @@ const EditorGlitchText = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

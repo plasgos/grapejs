@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
@@ -31,21 +30,21 @@ import {
   FaRegImages,
   FaWhatsapp,
 } from "react-icons/fa";
-import BackgroundEditor from "../_components/BackgroundEditor";
-import StylesTab from "./StylesTab";
-import EditorGroupLink from "./_components/EditorGroupLink";
-import EditorImagesFooter from "./_components/EditorImagesFooter";
-import EditorTextFooter from "./_components/EditorTextFooter";
-import EditorContactInfo from "./_components/EditorContactInfo";
+import { FaSquareXTwitter } from "react-icons/fa6";
 import {
   IoCall,
   IoMailUnreadOutline,
   IoShareSocialSharp,
 } from "react-icons/io5";
-import EditorSocialMedia from "./_components/EditorSocialMedia";
-import { FaSquareXTwitter } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
+import BackgroundEditor from "../_components/BackgroundEditor";
+import StylesTab from "./StylesTab";
+import EditorContactInfo from "./_components/EditorContactInfo";
+import EditorGroupLink from "./_components/EditorGroupLink";
+import EditorImagesFooter from "./_components/EditorImagesFooter";
 import EditorNewsletter from "./_components/EditorNewsletter";
+import EditorSocialMedia from "./_components/EditorSocialMedia";
+import EditorTextFooter from "./_components/EditorTextFooter";
 
 const fieldOptions = [
   {
@@ -345,7 +344,7 @@ const EditorFooter = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -401,7 +400,7 @@ const EditorFooter = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

@@ -7,7 +7,7 @@ export const heroSectionComponent = (editor) => {
   injectComponents(editor, {
     type: "hero-section",
     label: "Hero Section",
-    icon: <BsGrid1X2Fill size={40} />,
+    icon: <BsGrid1X2Fill />,
     ViewComponent: ViewHeroSection,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -156,6 +156,11 @@ export const heroSectionComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: false,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

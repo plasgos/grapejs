@@ -45,7 +45,7 @@ const plasgosPlugin = (editor) => {
     marqueImagesComponent(editor);
 
     //media
-    scrollRevealComponent(editor);
+    // scrollRevealComponent(editor);
     galleryMasonryComponent(editor);
 
     buttonsComponent(editor);

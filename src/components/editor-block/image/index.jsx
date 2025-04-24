@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
@@ -30,7 +29,7 @@ const EditorImage = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   return (
-    <TabsEditor>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -118,7 +117,7 @@ const EditorImage = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

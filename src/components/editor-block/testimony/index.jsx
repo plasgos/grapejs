@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import { produce } from "immer";
 import BackgroundEditor from "../_components/BackgroundEditor";
@@ -6,6 +5,7 @@ import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
 import avatar5 from "@/assets/avatar5.jpg";
+import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +19,6 @@ import { FaStar } from "react-icons/fa";
 import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import SelectOptions from "../_components/SelectOptions";
-import TextEditor from "../_components/TextEditor";
 
 const layoutVariants = [
   { value: "1", label: "1" },
@@ -118,7 +117,7 @@ const EditorTestimony = ({ selectedComponent }) => {
           </div>
         </div>
 
-        <TextEditor
+        <RichTextEditor
           label="Content"
           value={contents[0].description}
           onChange={(value) =>
@@ -130,7 +129,7 @@ const EditorTestimony = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -175,7 +174,7 @@ const EditorTestimony = ({ selectedComponent }) => {
           </div>
 
           <div className="w-full flex flex-col gap-y-5 p-3 bg-white rounded-lg">
-            <TextEditor
+            <RichTextEditor
               label="Header"
               value={wrapperStyle.header}
               onChange={(value) =>
@@ -216,7 +215,7 @@ const EditorTestimony = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

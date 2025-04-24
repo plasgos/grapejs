@@ -12,7 +12,7 @@ export const testimonyComponent = (editor) => {
   injectComponents(editor, {
     type: "testimony",
     label: "Testimony",
-    icon: <BsChatRightQuoteFill size={40} />,
+    icon: <BsChatRightQuoteFill />,
     ViewComponent: ViewTestimony,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -99,6 +99,11 @@ export const testimonyComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

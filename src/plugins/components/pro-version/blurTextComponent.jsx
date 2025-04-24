@@ -8,7 +8,7 @@ export const blurTextComponent = (editor) => {
     type: "blur-text",
     label: "Blur Text",
     category: "Text",
-    icon: <MdBlurOn size={40} />,
+    icon: <MdBlurOn />,
     ViewComponent: ViewBlurText,
     defaultCustomComponent: {
       isLocked: false,
@@ -39,6 +39,11 @@ export const blurTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

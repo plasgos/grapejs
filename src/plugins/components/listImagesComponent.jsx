@@ -9,7 +9,7 @@ export const listImagesComponent = (editor) => {
   injectComponents(editor, {
     type: "list-images",
     label: "List Images",
-    icon: <FaRegImages size={40} />,
+    icon: <FaRegImages />,
     ViewComponent: ViewListImages,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -64,6 +64,11 @@ export const listImagesComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

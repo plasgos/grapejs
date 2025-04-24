@@ -73,7 +73,7 @@ const TransitionEditor = ({
   };
 
   return (
-    <div className="my-5 rounded-lg bg-white p-3">
+    <div className=" rounded-lg bg-white p-3">
       <p className="font-semibold mb-3">{label}</p>
 
       <div className="flex items-center gap-3 w-full">

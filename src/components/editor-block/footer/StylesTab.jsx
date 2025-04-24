@@ -1,6 +1,6 @@
+import RichTextEditor from "@/components/rich-text-editor";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import TextEditor from "../_components/TextEditor";
 import ColorPicker from "../_components/ColorPicker";
 import RangeInputSlider from "../_components/RangeInputSlider";
 
@@ -35,7 +35,7 @@ const StylesTab = ({ selectedComponent }) => {
       </div>
 
       <div className="bg-white rounded-lg p-3">
-        <TextEditor
+        <RichTextEditor
           label="Copyright"
           value={copyright.text}
           onChange={(value) => handleComponentChange("copyright.text", value)}

@@ -10,7 +10,7 @@ export const contentShowcaseComponent = (editor) => {
   injectComponents(editor, {
     type: "content-showcase",
     label: "Content Showcase",
-    icon: <HiMiniViewColumns size={40} />,
+    icon: <HiMiniViewColumns />,
     ViewComponent: ContentShowcase,
     defaultCustomComponent: {
       isLocked: false,
@@ -85,6 +85,11 @@ export const contentShowcaseComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

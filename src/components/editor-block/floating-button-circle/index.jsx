@@ -1,12 +1,4 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 import { Button } from "@/components/ui/button";
 import { generateId } from "@/lib/utils";
@@ -117,70 +109,59 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutBackground withoutStyles withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
-        <div className="flex flex-col gap-y-5 py-1 mt-3">
-          <Accordion defaultValue="button" type="single" collapsible>
-            <AccordionItem value="button">
-              <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
-                Button
-              </AccordionTrigger>
-              <AccordionContent className="bg-white p-2 rounded-b-lg ">
-                <div className="flex flex-col gap-y-5">
-                  <RangeInputSlider
-                    asChild
-                    label="Position"
-                    value={wrapperStyle.position}
-                    onChange={(value) =>
-                      handleComponentChange("wrapperStyle.position", value)
-                    }
-                    min={10}
-                    max={500}
-                  />
+        <div className="flex flex-col gap-y-5 p-3  rounded-lg bg-white">
+          <RangeInputSlider
+            asChild
+            label="Position"
+            value={wrapperStyle.position}
+            onChange={(value) =>
+              handleComponentChange("wrapperStyle.position", value)
+            }
+            min={10}
+            max={500}
+          />
 
-                  {currentComponent.buttons.length > 1 && (
-                    <SelectOptions
-                      options={spaceOptions}
-                      asChild
-                      label="Space"
-                      value={wrapperStyle.space}
-                      onChange={(value) =>
-                        handleComponentChange("wrapperStyle.space", value)
-                      }
-                    />
-                  )}
+          {currentComponent.buttons.length > 1 && (
+            <SelectOptions
+              options={spaceOptions}
+              asChild
+              label="Space"
+              value={wrapperStyle.space}
+              onChange={(value) =>
+                handleComponentChange("wrapperStyle.space", value)
+              }
+            />
+          )}
 
-                  <DraggableList
-                    contents={currentComponent.buttons}
-                    path="buttons"
-                    renderContents={(value) => renderContents(value)}
-                    setCurrentComponent={setCurrentComponent}
-                    editItem={editItem}
-                    selectedComponent={selectedComponent}
-                    setEditItem={setEditItem}
-                  >
-                    <Button
-                      onClick={handleAddButton}
-                      variant="outline"
-                      className="my-3 w-full"
-                    >
-                      Add Button <Plus />
-                    </Button>
-                  </DraggableList>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <DraggableList
+            contents={currentComponent.buttons}
+            path="buttons"
+            renderContents={(value) => renderContents(value)}
+            setCurrentComponent={setCurrentComponent}
+            editItem={editItem}
+            selectedComponent={selectedComponent}
+            setEditItem={setEditItem}
+          >
+            <Button
+              onClick={handleAddButton}
+              variant="outline"
+              className="my-3 w-full"
+            >
+              Add Button <Plus />
+            </Button>
+          </DraggableList>
         </div>
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
         <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

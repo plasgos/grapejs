@@ -7,7 +7,7 @@ export const videoComponent = (editor) => {
   injectComponents(editor, {
     type: "video-content",
     label: "Video",
-    icon: <MdOutlineOndemandVideo size={40} />,
+    icon: <MdOutlineOndemandVideo />,
     ViewComponent: ViewVideo,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -45,6 +45,11 @@ export const videoComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: false,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

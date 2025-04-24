@@ -7,7 +7,7 @@ export const glitchTextComponent = (editor) => {
     type: "glitch-text",
     label: "Glitch Text",
     category: "Text",
-    icon: <PiTornadoFill size={40} />,
+    icon: <PiTornadoFill />,
     ViewComponent: ViewGlitchText,
     defaultCustomComponent: {
       isLocked: false,
@@ -39,6 +39,11 @@ export const glitchTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

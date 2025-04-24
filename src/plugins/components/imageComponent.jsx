@@ -7,7 +7,7 @@ export const imageComponent = (editor) => {
   injectComponents(editor, {
     type: "image-content",
     label: "Image",
-    icon: <FaImage size={40} />,
+    icon: <FaImage />,
     ViewComponent: ViewImage,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -53,6 +53,11 @@ export const imageComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: false,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

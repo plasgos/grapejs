@@ -33,7 +33,7 @@ export const marqueImagesComponent = (editor) => {
     type: "marquee-images",
     label: "Marquee Images",
     category: "Media",
-    icon: <LiaImagesSolid size={40} />,
+    icon: <LiaImagesSolid />,
     ViewComponent: ViewMarqueeImages,
     defaultCustomComponent: {
       isLocked: false,
@@ -59,6 +59,11 @@ export const marqueImagesComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

@@ -21,7 +21,7 @@ export const galleryMasonryComponent = (editor) => {
     type: "gallery-masonry",
     label: "Gallery Masonry",
     category: "Media",
-    icon: <TfiGallery size={40} />,
+    icon: <TfiGallery />,
     ViewComponent: ViewGalleryMasonry,
     defaultCustomComponent: {
       isLocked: false,
@@ -47,6 +47,11 @@ export const galleryMasonryComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

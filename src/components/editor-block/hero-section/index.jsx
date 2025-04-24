@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
@@ -20,12 +19,12 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import ImageUploader from "../_components/ImageUploader";
 import RangeInputSlider from "../_components/RangeInputSlider";
-import TextEditor from "../_components/TextEditor";
 import TransitionEditor from "../_components/TransitionEditor";
 
 import { BsAlignCenter, BsAlignEnd, BsAlignStart } from "react-icons/bs";
 import SelectCircle from "../_components/SelectCircle";
 
+import RichTextEditor from "@/components/rich-text-editor";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { CiImageOff, CiImageOn } from "react-icons/ci";
@@ -135,7 +134,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -231,7 +230,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
             </Accordion>
           )}
 
-          <TextEditor
+          <RichTextEditor
             label="Content"
             value={currentComponent?.contents[0].textBanner}
             onChange={(value) =>
@@ -251,8 +250,8 @@ const EditorHeroSection = ({ selectedComponent }) => {
               </AccordionTrigger>
               <AccordionContent className="bg-white  rounded-b-lg ">
                 <div className="flex flex-col gap-y-5">
-                  <div className="flex justify-between items-center mx-3">
-                    <Label className="font-normal">With Button</Label>
+                  <div className="flex justify-between items-center m-3">
+                    <Label className="">With Button</Label>
                     <Switch
                       checked={wrapperStyle.withButton}
                       onCheckedChange={(checked) =>
@@ -267,8 +266,8 @@ const EditorHeroSection = ({ selectedComponent }) => {
                   {wrapperStyle.withButton && (
                     <>
                       {wrapperStyle.variant === "basic" && (
-                        <div className="flex justify-between items-center">
-                          <Label className="font-normal">Position</Label>
+                        <div className="flex justify-between items-center mx-3">
+                          <Label className="">Position</Label>
 
                           <div className="flex items-center gap-x-2">
                             {btnPostionOptions.map((item) => (
@@ -327,7 +326,10 @@ const EditorHeroSection = ({ selectedComponent }) => {
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
-      <TabsContent className="px-4 pb-5" value="transition">
+      <TabsContent
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        value="transition"
+      >
         <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
@@ -337,7 +339,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

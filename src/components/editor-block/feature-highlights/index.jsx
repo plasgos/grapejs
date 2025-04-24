@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import { produce } from "immer";
 import BackgroundEditor from "../_components/BackgroundEditor";
@@ -86,7 +85,7 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -126,7 +125,7 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

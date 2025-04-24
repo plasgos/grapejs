@@ -9,8 +9,9 @@ import { Color } from "@tiptap/extension-color";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { FontSize } from "./extensions";
+import { Label } from "../ui/label";
 
-export default function RichTextEditor({ content, onChange }) {
+export default function RichTextEditor({ value, onChange, label }) {
   const timeoutRef = useRef(null);
 
   const editor = useEditor({
@@ -37,7 +38,7 @@ export default function RichTextEditor({ content, onChange }) {
       FontSize,
       Color,
     ],
-    content: content,
+    content: value,
     editorProps: {
       attributes: {
         class:
@@ -96,11 +97,14 @@ export default function RichTextEditor({ content, onChange }) {
   }, [editor]);
 
   return (
-    <div className="relative">
-      <MenuBar editor={editor} />
+    <div className="">
+      {label && <Label className="">{label}</Label>}
+      <div className="relative mt-2">
+        <MenuBar editor={editor} />
 
-      <div className="custom-tip-tap-editor">
-        <EditorContent editor={editor} />
+        <div className="custom-tip-tap-editor">
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </div>
   );

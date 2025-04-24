@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
@@ -122,7 +121,7 @@ const EditorModalPopup = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -200,7 +199,7 @@ const EditorModalPopup = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

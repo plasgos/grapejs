@@ -6,7 +6,7 @@ export const modalPopupComponent = (editor) => {
   injectComponents(editor, {
     type: "modal-popup",
     label: "Modal Popup",
-    icon: <VscMultipleWindows size={40} />,
+    icon: <VscMultipleWindows />,
     category: "Floating Widgets",
     ViewComponent: ModalPopup,
     defaultCustomComponent: {
@@ -40,6 +40,11 @@ export const modalPopupComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

@@ -8,7 +8,7 @@ export const countUpComponent = (editor) => {
     type: "count-up-text",
     label: "Count Up",
     category: "Text",
-    icon: <RiSortNumberDesc size={40} />,
+    icon: <RiSortNumberDesc />,
     ViewComponent: ViewCountUp,
     defaultCustomComponent: {
       isLocked: false,
@@ -43,6 +43,11 @@ export const countUpComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

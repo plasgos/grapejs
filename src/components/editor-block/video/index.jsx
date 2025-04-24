@@ -1,12 +1,11 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
 import VideoEditorControl from "@/components/editor-block/video/VideoEditorControl";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
-import TransitionEditor from "../_components/TransitionEditor";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import TransitionEditor from "../_components/TransitionEditor";
 
 const EditorVideo = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -15,7 +14,7 @@ const EditorVideo = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   return (
-    <TabsEditor withoutStyles>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -32,7 +31,10 @@ const EditorVideo = ({ selectedComponent }) => {
         </div>
       </TabsContent>
 
-      <TabsContent className="px-4 pb-5" value="transition">
+      <TabsContent
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        value="transition"
+      >
         <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
@@ -42,7 +44,7 @@ const EditorVideo = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

@@ -278,7 +278,7 @@ const ViewFormCheckout = ({ section, editor }) => {
       }}
     >
       <Form {...form}>
-        <form className="space-y-3">
+        <form className="space-y-3 relative p-5">
           <ViewTitle
             content={{ value: "Data Penerima" }}
             titleSize={titleSize}

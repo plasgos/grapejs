@@ -70,7 +70,12 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       )}
 
       {selectedComponent.get("type") === "content-showcase" && (
-        <EditorContentShowcase selectedComponent={selectedComponent} />
+        <EditorContentShowcase
+          selectedComponent={selectedComponent}
+          setTabConfig={{
+            withoutTransition: false,
+          }}
+        />
       )}
 
       {selectedComponent.get("type") === "modal-popup" && (

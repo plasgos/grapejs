@@ -9,7 +9,7 @@ export const registerCallToAction = (editor, canvasFrame) => {
     category: "Contents",
     content: { type: "call-to-action" },
     activate: true,
-    media: renderToString(<MdOutlineCallToAction size={40} />),
+    media: renderToString(<MdOutlineCallToAction />),
   });
 
   editor.Components.addType("call-to-action", {
@@ -73,6 +73,11 @@ export const registerCallToAction = (editor, canvasFrame) => {
             toColor: "",
             isRevert: false,
             pattern: "",
+          },
+          editorTabConfig: {
+            disableTransition: false,
+            disableStyles: false,
+            disableBackground: false,
           },
         },
       },

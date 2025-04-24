@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import {
@@ -24,8 +23,8 @@ import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { TbMinusVertical } from "react-icons/tb";
 import BackgroundEditor from "../_components/BackgroundEditor";
-import { btnPostionOptions } from "../hero-section";
 import TargetOptions from "../_components/TargetOptions";
+import { btnPostionOptions } from "../hero-section";
 const buttonPosition = [
   { value: "flex-row", label: "Row", icon: <MdOutlineHorizontalRule /> },
   { value: "flex-col", label: "Column", icon: <TbMinusVertical /> },
@@ -125,7 +124,7 @@ const EditorButton = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutStyles withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -218,7 +217,7 @@ const EditorButton = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

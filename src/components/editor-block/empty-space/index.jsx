@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
@@ -15,7 +14,7 @@ const EditorEmptySpace = ({ selectedComponent }) => {
   const { wrapperStyle } = currentComponent;
 
   return (
-    <TabsEditor withoutStyles withoutTransition withoutBackground>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -36,7 +35,7 @@ const EditorEmptySpace = ({ selectedComponent }) => {
           />
         </div>
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

@@ -6,7 +6,7 @@ export const buttonsComponent = (editor) => {
   injectComponents(editor, {
     type: "button-content",
     label: "Button",
-    icon: <TbSquareRoundedLetterBFilled size={40} />,
+    icon: <TbSquareRoundedLetterBFilled />,
     ViewComponent: ViewButton,
     defaultCustomComponent: {
       isLocked: true,
@@ -82,6 +82,11 @@ export const buttonsComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

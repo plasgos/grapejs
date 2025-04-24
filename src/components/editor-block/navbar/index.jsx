@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
@@ -143,7 +142,7 @@ const EditorNavbar = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -215,7 +214,7 @@ const EditorNavbar = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

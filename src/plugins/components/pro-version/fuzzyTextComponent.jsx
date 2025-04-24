@@ -8,7 +8,7 @@ export const fuzzyTextComponent = (editor) => {
     type: "fuzzy-text",
     label: "Fuzzy Text",
     category: "Text",
-    icon: <RiTornadoFill size={40} />,
+    icon: <RiTornadoFill />,
     ViewComponent: ViewFuzzyText,
     defaultCustomComponent: {
       isLocked: false,
@@ -39,6 +39,11 @@ export const fuzzyTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

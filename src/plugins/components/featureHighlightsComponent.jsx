@@ -6,7 +6,7 @@ export const featureHighlightsComponent = (editor) => {
   injectComponents(editor, {
     type: "feature-highlights",
     label: "Feature Highlights",
-    icon: <PiListChecksBold size={40} />,
+    icon: <PiListChecksBold />,
     ViewComponent: ViewFeatureHighlights,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -82,6 +82,11 @@ export const featureHighlightsComponent = (editor) => {
         duration: 1,
         delay: null,
         isReplay: false,
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

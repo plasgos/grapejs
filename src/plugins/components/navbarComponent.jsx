@@ -12,7 +12,7 @@ export const navbarComponent = (editor) => {
   injectComponents(editor, {
     type: "navbar",
     label: "Navbar",
-    icon: <TbLayoutNavbarFilled size={40} />,
+    icon: <TbLayoutNavbarFilled />,
     category: "Navbar",
     ViewComponent: ViewNavbar,
     defaultCustomComponent: {
@@ -120,6 +120,11 @@ export const navbarComponent = (editor) => {
       logo: plgLogo,
       logoWidth: 150,
       side: "right",
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
+      },
     },
   });
 };

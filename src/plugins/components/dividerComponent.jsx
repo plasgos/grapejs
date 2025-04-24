@@ -6,7 +6,7 @@ export const dividerComponent = (editor) => {
   injectComponents(editor, {
     type: "divider",
     label: "Divider",
-    icon: <RxDividerHorizontal size={40} />,
+    icon: <RxDividerHorizontal />,
     ViewComponent: ViewDivider,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -22,6 +22,11 @@ export const dividerComponent = (editor) => {
           size: 24,
           position: "center",
         },
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: true,
       },
     },
   });

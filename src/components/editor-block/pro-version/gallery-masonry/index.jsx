@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
@@ -82,7 +81,7 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutStyles withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -117,7 +116,7 @@ const EditorGalleryMasonry = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import {
@@ -124,73 +123,57 @@ const EditorFloatingButton = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutBackground withoutStyles withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
-        <div className="flex flex-col gap-y-5 py-1 mt-3">
-          <Accordion defaultValue="button" type="single" collapsible>
-            <AccordionItem value="button">
-              <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
-                Button
-              </AccordionTrigger>
-              <AccordionContent className="bg-white p-2 rounded-b-lg ">
-                <div className="flex flex-col gap-y-5">
-                  <div className="flex justify-between items-center">
-                    <Label className="font-normal">Position</Label>
+        <div className="flex flex-col gap-y-5 p-3 bg-white rounded-lg">
+          <div className="flex justify-between items-center">
+            <Label className="font-normal">Position</Label>
 
-                    <div className="flex items-center gap-x-2">
-                      {buttonPosition.map((item) => (
-                        <Button
-                          key={item.value}
-                          onClick={() => {
-                            handleComponentChange(
-                              "wrapperStyle.position",
-                              item.value
-                            );
-                          }}
-                          variant={
-                            item.value === wrapperStyle.position
-                              ? ""
-                              : "outline"
-                          }
-                          size="sm"
-                        >
-                          {item.icon}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
+            <div className="flex items-center gap-x-2">
+              {buttonPosition.map((item) => (
+                <Button
+                  key={item.value}
+                  onClick={() => {
+                    handleComponentChange("wrapperStyle.position", item.value);
+                  }}
+                  variant={
+                    item.value === wrapperStyle.position ? "" : "outline"
+                  }
+                  size="sm"
+                >
+                  {item.icon}
+                </Button>
+              ))}
+            </div>
+          </div>
 
-                  <DraggableList
-                    contents={buttons}
-                    path="buttons"
-                    renderContents={(value) => renderContents(value)}
-                    setCurrentComponent={setCurrentComponent}
-                    editItem={editItem}
-                    selectedComponent={selectedComponent}
-                    setEditItem={setEditItem}
-                  >
-                    <Button
-                      onClick={handleAddButton}
-                      variant="outline"
-                      className="my-3 w-full"
-                    >
-                      Add Button <Plus />
-                    </Button>
-                  </DraggableList>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <DraggableList
+            contents={buttons}
+            path="buttons"
+            renderContents={(value) => renderContents(value)}
+            setCurrentComponent={setCurrentComponent}
+            editItem={editItem}
+            selectedComponent={selectedComponent}
+            setEditItem={setEditItem}
+          >
+            <Button
+              onClick={handleAddButton}
+              variant="outline"
+              className="my-3 w-full"
+            >
+              Add Button <Plus />
+            </Button>
+          </DraggableList>
         </div>
       </TabsContent>
 
       <TabsContent className="px-4 pb-5" value="transition">
         <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

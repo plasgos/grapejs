@@ -38,7 +38,7 @@ const ViewVideoText = ({ section, editor }) => {
             className={`${getClassName()} `}
             style={{
               transform: `rotate(${content.rotation}deg)`,
-              zIndex: 999,
+              zIndex: 2,
               overflow: "hidden",
               // margin: "auto",
               aspectRatio: content.ratio,

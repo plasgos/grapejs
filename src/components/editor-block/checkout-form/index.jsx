@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
@@ -31,6 +30,7 @@ import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { BiSolidImageAdd } from "react-icons/bi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { RxDividerHorizontal, RxDropdownMenu } from "react-icons/rx";
+import BackgroundEditor from "../_components/BackgroundEditor";
 import ColorPicker from "../_components/ColorPicker";
 import IconPicker from "../_components/IconPicker";
 import BasicInputProps from "./_components/BasicInputProps";
@@ -260,7 +260,7 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition withoutBackground>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -342,7 +342,14 @@ const EditorCheckoutForm = ({ selectedComponent }) => {
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+
+      <TabsContent
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        value="background"
+      >
+        <BackgroundEditor selectedComponent={selectedComponent} />
+      </TabsContent>
+    </>
   );
 };
 

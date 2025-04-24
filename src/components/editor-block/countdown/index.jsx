@@ -1,10 +1,10 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
 
 import { Label } from "@/components/ui/label";
 
+import RichTextEditor from "@/components/rich-text-editor";
 import { textShadowOptions } from "@/components/SelectOptions";
 import { Input } from "@/components/ui/input";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
@@ -19,7 +19,6 @@ import { SiStagetimer } from "react-icons/si";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SelectCircle from "../_components/SelectCircle";
 import SelectOptions from "../_components/SelectOptions";
-import TextEditor from "../_components/TextEditor";
 import TransitionEditor from "../_components/TransitionEditor";
 import StylesTab from "./StylesTab";
 
@@ -155,7 +154,7 @@ const EditorCountdown = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -263,7 +262,7 @@ const EditorCountdown = ({ selectedComponent }) => {
                 onChange={(value) => handleFinishedChange("textShadow", value)}
               />
 
-              <TextEditor
+              <RichTextEditor
                 label="Content"
                 value={finished.text}
                 onChange={(value) => handleFinishedChange("text", value)}
@@ -280,7 +279,10 @@ const EditorCountdown = ({ selectedComponent }) => {
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
-      <TabsContent className="px-4 pb-5" value="transition">
+      <TabsContent
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        value="transition"
+      >
         <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
@@ -290,7 +292,7 @@ const EditorCountdown = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

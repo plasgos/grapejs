@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
@@ -35,7 +34,7 @@ const EditorDivider = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutStyles withoutTransition withoutBackground>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -102,7 +101,7 @@ const EditorDivider = ({ selectedComponent }) => {
           />
         </div>
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

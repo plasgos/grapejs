@@ -26,7 +26,7 @@ export const footerComponent = (editor) => {
   injectComponents(editor, {
     type: "footer",
     label: "Footer",
-    icon: <TbBoxAlignBottomFilled size={40} />,
+    icon: <TbBoxAlignBottomFilled />,
     category: "Footer",
     ViewComponent: ViewFooter,
     defaultCustomComponent: {
@@ -244,6 +244,11 @@ export const footerComponent = (editor) => {
       },
       copyright: {
         text: `<p style="text-align:center;">© Copyright 2025 Plasgos</p>`,
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

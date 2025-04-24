@@ -8,7 +8,7 @@ export const scrollRevealComponent = (editor) => {
     type: "scroll-reveal",
     label: "Scroll Reveal",
     category: "Text",
-    icon: <SiScrollreveal size={40} />,
+    icon: <SiScrollreveal />,
     ViewComponent: ViewScrollReveal,
     defaultCustomComponent: {
       isLocked: false,
@@ -39,6 +39,11 @@ export const scrollRevealComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

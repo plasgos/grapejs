@@ -16,7 +16,7 @@ export const countdownComponent = (editor) => {
   injectComponents(editor, {
     type: "countdown",
     label: "Countdown",
-    icon: <PiClockCountdownFill size={40} />,
+    icon: <PiClockCountdownFill />,
     ViewComponent: ViewCountDown,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -76,6 +76,11 @@ export const countdownComponent = (editor) => {
         duration: 1,
         delay: null,
         isReplay: false,
+      },
+      editorTabConfig: {
+        disableTransition: false,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

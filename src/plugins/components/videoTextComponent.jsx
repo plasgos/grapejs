@@ -6,7 +6,7 @@ export const videoTextComponent = (editor) => {
   injectComponents(editor, {
     type: "video-text-banner",
     label: "Video Text Banner",
-    icon: <BiSolidVideos size={40} />,
+    icon: <BiSolidVideos />,
     ViewComponent: ViewVideoText,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -52,6 +52,11 @@ export const videoTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: false,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

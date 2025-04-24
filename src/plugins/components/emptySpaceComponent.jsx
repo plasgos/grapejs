@@ -6,12 +6,17 @@ export const emptySpaceComponent = (editor) => {
   injectComponents(editor, {
     type: "empty-space",
     label: "Empty Space",
-    icon: <FaRegSquare size={40} />,
+    icon: <FaRegSquare />,
     ViewComponent: ViewEmptySpace,
     defaultCustomComponent: {
       scrollTarget: undefined,
       wrapperStyle: {
         height: 50,
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: true,
       },
     },
   });

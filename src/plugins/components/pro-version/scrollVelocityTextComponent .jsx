@@ -8,7 +8,7 @@ export const scrollVelocityTextComponent = (editor) => {
     type: "scroll-velocity-text",
     label: "Scroll Velocity Text",
     category: "Text",
-    icon: <PiSlidersHorizontalFill size={40} />,
+    icon: <PiSlidersHorizontalFill />,
     ViewComponent: ViewScrollVelocity,
     defaultCustomComponent: {
       isLocked: false,
@@ -39,6 +39,11 @@ export const scrollVelocityTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

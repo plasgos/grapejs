@@ -4,6 +4,8 @@ const initialState = {
   isEditComponent: false,
   isFocusContent: "",
   googleFonts: [],
+  sidebarWidth: undefined,
+  isCollapsedSideBar: false,
 };
 
 export const landingPageSlice = createSlice({
@@ -19,10 +21,21 @@ export const landingPageSlice = createSlice({
     setGoogleFont: (state, action) => {
       state.googleFonts = action.payload;
     },
+    setSidebarWidth: (state, action) => {
+      state.sidebarWidth = action.payload;
+    },
+    setIsCollapsedSideBar: (state, action) => {
+      state.isCollapsedSideBar = action.payload;
+    },
   },
 });
 
-export const { setIsEditComponent, setIsFocusContent, setGoogleFont } =
-  landingPageSlice.actions;
+export const {
+  setIsEditComponent,
+  setIsFocusContent,
+  setGoogleFont,
+  setSidebarWidth,
+  setIsCollapsedSideBar,
+} = landingPageSlice.actions;
 
 export default landingPageSlice.reducer;

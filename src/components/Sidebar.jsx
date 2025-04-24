@@ -3,17 +3,9 @@ import { BlocksProvider, useEditor } from "@grapesjs/react";
 import { Save } from "lucide-react";
 import { useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import ComponentStyleEditor from "./ComponentStyleEditor";
 import CustomBlockManager from "./CustomBlockProvider";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 import {
   DropdownMenu,
@@ -22,27 +14,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { injectExternalCSS } from "@/utils/injectExternalCSS";
-import { CiExport, CiImport } from "react-icons/ci";
-import { IoGrid, IoSettingsSharp } from "react-icons/io5";
-import { handleAddWatermark, updateCanvasComponents } from "./MainWebEditor";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
-import GlobalStyles from "./GlobalStyles";
+import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { useEffect } from "react";
+import { CiExport, CiImport } from "react-icons/ci";
 import { FaGlobe } from "react-icons/fa";
+import { IoGrid, IoSettingsSharp } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import EditorBlockComponents from "./EditorBlockComponents";
+import GlobalStyles from "./GlobalStyles";
+import { handleAddWatermark, updateCanvasComponents } from "./MainWebEditor";
+import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Sidebar = ({
   selectedComponent,
   activeTab,
   setActiveTab,
   setCanvasComponents,
+  onToggleSidebar,
 }) => {
   const editor = useEditor();
   const { toast } = useToast();
 
-  const { isEditComponent } = useSelector((state) => state.landingPage);
+  const { isEditComponent, sidebarWidth, isCollapsedSideBar } = useSelector(
+    (state) => state.landingPage
+  );
+  console.log("🚀 ~ isCollapsedSideBar:", isCollapsedSideBar);
   const dispatch = useDispatch();
 
   const [searchBlock, setSearchBlock] = useState("");
@@ -145,314 +149,148 @@ const Sidebar = ({
 
   return (
     <>
-      <div
-        style={{
-          height: "calc(100vh - 60px)",
-        }}
-        className="flex flex-col  "
-      >
-        <Tabs
-          value={activeTab}
-          onValueChange={(value) => setActiveTab(value)}
-          className="w-full"
+      {isEditComponent &&
+      selectedComponent &&
+      selectedComponent?.get("type") !== "wrapper" ? (
+        <>
+          <EditorBlockComponents
+            isEditComponent={isEditComponent}
+            selectedComponent={selectedComponent}
+            handleCloseComponent={handleCloseComponent}
+          />
+        </>
+      ) : (
+        <div
+          style={{
+            height: "calc(100vh - 60px)",
+          }}
+          className="flex flex-col   "
         >
-          {/* Top Bar */}
-          <div className="sticky top-0 z-10 bg-white shadow ">
-            <TabsList
-              className={`w-full  ${
-                !isEditComponent || selectedComponent?.get("type") === "wrapper"
-                  ? ""
-                  : "hidden"
-              }`}
-            >
-              <TabsTrigger
-                className="w-full data-[state=inactive]:bg-[#EFF3F4] rounded-bl-xl "
-                value="components"
+          <Tabs
+            value={activeTab}
+            onValueChange={(value) => setActiveTab(value)}
+            className="w-full"
+          >
+            {/* Top Bar */}
+            <div className="sticky top-0 z-10 bg-white shadow ">
+              <TabsList
+                className={`w-full  ${
+                  !isEditComponent ||
+                  selectedComponent?.get("type") === "wrapper"
+                    ? ""
+                    : "hidden"
+                }`}
               >
-                <div className="flex  gap-x-2">
-                  <IoGrid className="" size={20} />
-                  <p>Components</p>
-                </div>
-              </TabsTrigger>
-              <TabsTrigger
-                className="w-full data-[state=inactive]:bg-[#EFF3F4]  rounded-bl-xl"
-                value="styles"
-              >
-                <div className="flex  gap-x-2">
-                  <FaGlobe className="" size={20} />
-                  <p> Global Styles</p>
-                </div>
-              </TabsTrigger>
-            </TabsList>
-
-            {isEditComponent &&
-              selectedComponent?.get("type") !== "wrapper" && (
-                <div className="flex items-center justify-between   border-b p-4 shadow-sm ">
-                  <p className="font-semibold">
-                    {selectedComponent?.get("blockLabel")}
-                  </p>
-
-                  <TooltipProvider delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button onClick={handleCloseComponent} variant="ghost">
-                          <IoGrid className=" cursor-pointer" size={20} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Components</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              )}
-
-            {(!isEditComponent ||
-              selectedComponent?.get("type") === "wrapper") &&
-              activeTab === "components" && (
-                <div className="relative  p-5">
-                  <Input
-                    value={searchBlock || ""}
-                    onChange={(e) => handleSearchChange(e.target.value)}
-                    className="rounded-full  pr-10"
-                    placeholder="Search..."
-                  />
-
-                  <div className="absolute top-[30px] right-10 z-10 ">
-                    <HiMagnifyingGlass className="text-slate-400" />
+                <TabsTrigger
+                  className="w-full data-[state=inactive]:bg-[#EFF3F4] rounded-bl-xl "
+                  value="components"
+                >
+                  <div className="flex  gap-x-2">
+                    <IoGrid className="" size={20} />
+                    <p>Components</p>
                   </div>
-                </div>
-              )}
-          </div>
+                </TabsTrigger>
+                <TabsTrigger
+                  className="w-full data-[state=inactive]:bg-[#EFF3F4]  rounded-bl-xl"
+                  value="styles"
+                >
+                  <div className="flex  gap-x-2">
+                    <FaGlobe className="" size={20} />
+                    <p> Global Styles</p>
+                  </div>
+                </TabsTrigger>
+              </TabsList>
 
-          {/* Scrollable Content */}
-          <div className="flex-1 h-screen overflow-y-auto  space-y-4 bg-gray-50">
-            <TabsContent
-              className="data-[state=inactive]:bg-[#EFF3F4] bg-[#FEEBDB] !m-0"
-              value="components"
-            >
-              <div className="relative">
-                {isEditComponent &&
-                selectedComponent &&
-                selectedComponent?.get("type") !== "wrapper" ? (
-                  <div
-                    // style={{
-                    //   minHeight: "calc(100vh - 200px)",
-                    // }}
-                    className=""
-                  >
-                    <ComponentStyleEditor
-                      selectedComponent={selectedComponent}
+              {(!isEditComponent ||
+                selectedComponent?.get("type") === "wrapper") &&
+                activeTab === "components" && (
+                  <div className="relative  p-5 ">
+                    <Input
+                      value={searchBlock || ""}
+                      onChange={(e) => handleSearchChange(e.target.value)}
+                      className="rounded-full  pr-10"
+                      placeholder="Search..."
                     />
-                  </div>
-                ) : (
-                  <div>
-                    <BlocksProvider>
-                      {(props) => (
-                        <CustomBlockManager
-                          {...props}
-                          searchBlock={searchBlock}
-                        />
-                      )}
-                    </BlocksProvider>
+
+                    <div className="absolute top-[30px] right-10 z-10 ">
+                      <HiMagnifyingGlass className="text-slate-400" />
+                    </div>
                   </div>
                 )}
-              </div>
-            </TabsContent>
-
-            <TabsContent
-              className="bg-[#FEEBDB] h-screen m-0 p-4"
-              value="styles"
-            >
-              <GlobalStyles selectedComponent={selectedComponent} />
-            </TabsContent>
-          </div>
-
-          {/* Bottom Bar */}
-          <div className="sticky bottom-0 z-10 bg-white shadow p-2 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]">
-            <div className="flex justify-between gap-x-5 p-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost">
-                    <IoSettingsSharp />
-                    Settings
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem
-                    className="cursor-pointer"
-                    onClick={exportProjectAsFile}
-                  >
-                    {" "}
-                    <CiExport /> Export Project
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="cursor-pointer"
-                    onClick={importProjectFromFile}
-                  >
-                    {" "}
-                    <CiImport /> Import Project
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <Button className="bg-[#102442] rounded-full">
-                Save <Save />
-              </Button>
             </div>
-          </div>
-        </Tabs>
-      </div>
 
-      {/* <div
-        id="blocks"
-        className="relative top-0 left-0 w-full h-full   overflow-y-auto z-20  shadow-xl px-2    "
-      >
-        <Tabs
-          value={activeTab}
-          onValueChange={(value) => setActiveTab(value)}
-          className="w-full"
-        >
-          <TabsList
-            className={`w-full ${
-              !isEditComponent || selectedComponent?.get("type") === "wrapper"
-                ? ""
-                : "hidden"
-            }`}
-          >
-            <TabsTrigger
-              className="w-full data-[state=inactive]:bg-[#EFF3F4] rounded-bl-xl "
-              value="components"
-            >
-              <div className="flex  gap-x-2">
-                <IoGrid className="" size={20} />
-                <p>Components</p>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger
-              className="w-full data-[state=inactive]:bg-[#EFF3F4]  rounded-bl-xl"
-              value="styles"
-            >
-              <div className="flex  gap-x-2">
-                <FaGlobe className="" size={20} />
-                <p> Global Styles</p>
-              </div>
-            </TabsTrigger>
-          </TabsList>
+            {/* Scrollable Content */}
+            <div className="flex-1  overflow-y-auto  space-y-4 bg-[#FEEBDB]">
+              <TabsContent
+                style={{
+                  height: "calc(100vh - 245px)",
+                }}
+                className="data-[state=inactive]:bg-[#EFF3F4] bg-[#FEEBDB] !m-0"
+                value="components"
+              >
+                <BlocksProvider>
+                  {(props) => (
+                    <CustomBlockManager {...props} searchBlock={searchBlock} />
+                  )}
+                </BlocksProvider>
+              </TabsContent>
 
-          {isEditComponent && selectedComponent?.get("type") !== "wrapper" && (
-            <div className="flex items-center justify-between   border-b p-4 shadow-sm ">
-              <p className="font-semibold">
-                {selectedComponent?.get("blockLabel")}
-              </p>
+              <TabsContent
+                style={{
+                  height: "calc(100vh - 150px)",
+                }}
+                className="bg-[#FEEBDB]  m-0 p-4"
+                value="styles"
+              >
+                <GlobalStyles selectedComponent={selectedComponent} />
+              </TabsContent>
+            </div>
 
-              <TooltipProvider delayDuration={100}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button onClick={handleCloseComponent} variant="ghost">
-                      <IoGrid className=" cursor-pointer" size={20} />
+            {/* Bottom Bar */}
+            <div className="sticky bottom-0 z-10 bg-white shadow p-2 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]">
+              <div className="flex justify-between gap-x-5 p-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost">
+                      <IoSettingsSharp />
+                      Settings
                     </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Components</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          )}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={exportProjectAsFile}
+                    >
+                      {" "}
+                      <CiExport /> Export Project
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={importProjectFromFile}
+                    >
+                      {" "}
+                      <CiImport /> Import Project
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-          {(!isEditComponent || selectedComponent?.get("type") === "wrapper") &&
-            activeTab === "components" && (
-              <div className="relative my-5 px-5">
-                <Input
-                  value={searchBlock || ""}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  className="rounded-full  pr-10"
-                  placeholder="Search..."
-                />
-
-                <div className="absolute right-10 top-2.5 z-10 ">
-                  <HiMagnifyingGlass className="text-slate-400" />
+                <div className="flex gap-x-2">
+                  <Button className="bg-[#102442] rounded-full">
+                    Save <Save />
+                  </Button>
+                  <Button
+                    onClick={() => onToggleSidebar()}
+                    variant="ghost"
+                    size="icon"
+                  >
+                    <TbLayoutSidebarLeftCollapseFilled />
+                  </Button>
                 </div>
               </div>
-            )}
-
-          <TabsContent
-            className="data-[state=inactive]:bg-[#EFF3F4] bg-[#FEEBDB] "
-            value="components"
-          >
-            <div className="">
-              {isEditComponent &&
-              selectedComponent &&
-              selectedComponent?.get("type") !== "wrapper" ? (
-                <div
-                  className="bg-[#FEEBDB]"
-                  style={{
-                    overflowY: "auto",
-                    height: "calc(100vh - 177px)",
-                  }}
-                >
-                  <ComponentStyleEditor selectedComponent={selectedComponent} />
-                </div>
-              ) : (
-                <div
-                  className="min-h-screen"
-                  style={{
-                    overflowY: "auto",
-                    // height: "calc(100vh - 300px)",
-                  }}
-                >
-                  <BlocksProvider>
-                    {(props) => (
-                      <CustomBlockManager
-                        {...props}
-                        searchBlock={searchBlock}
-                      />
-                    )}
-                  </BlocksProvider>
-                </div>
-              )}
             </div>
-          </TabsContent>
-
-          <TabsContent value="styles">
-            <GlobalStyles selectedComponent={selectedComponent} />
-          </TabsContent>
-        </Tabs>
-
-        <div className="absolute bottom-0 left-0 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]    w-full h-14 shadow-xl ">
-          <div className="flex justify-between gap-x-5 p-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost">
-                  <IoSettingsSharp />
-                  Settings
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={exportProjectAsFile}
-                >
-                  {" "}
-                  <CiExport /> Export Project
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onClick={importProjectFromFile}
-                >
-                  {" "}
-                  <CiImport /> Import Project
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Button className="bg-[#102442] rounded-full">
-              Save <Save />
-            </Button>
-          </div>
+          </Tabs>
         </div>
-      </div> */}
+      )}
     </>
   );
 };

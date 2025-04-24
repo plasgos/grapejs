@@ -6,7 +6,7 @@ export const floatingButtonCircleComponent = (editor) => {
   injectComponents(editor, {
     type: "floating-button-circle",
     label: "Floating Button Circle",
-    icon: <IoIosRadioButtonOn size={40} />,
+    icon: <IoIosRadioButtonOn />,
     category: "Floating Widgets",
     ViewComponent: ViewFLoatingButtonCircle,
     defaultCustomComponent: {
@@ -39,6 +39,11 @@ export const floatingButtonCircleComponent = (editor) => {
       wrapperStyle: {
         position: 20,
         space: 20,
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: true,
+        disableBackground: true,
       },
     },
   });

@@ -12,8 +12,6 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
-// import basicPlugin from "grapesjs-blocks-basic";
-
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
@@ -22,7 +20,9 @@ import plasgosPlugin from "@/plugins";
 
 import {
   setGoogleFont,
+  setIsCollapsedSideBar,
   setIsEditComponent,
+  setSidebarWidth,
 } from "@/redux/modules/landing-page/landingPageSlice";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { onCustomToolbar } from "@/utils/onCustomToolbar";
@@ -33,6 +33,7 @@ import { useDispatch } from "react-redux";
 
 import { googleFonts } from "@/lib/googleFonts";
 import { generateGoogleFontsImportWithWeights } from "@/utils/injectGoogleFonts";
+import { useRef } from "react";
 
 const rootMap = new Map();
 
@@ -292,6 +293,17 @@ const MainWebEditor = () => {
     dispatch(setGoogleFont(fontOptions));
   };
 
+  const sidebarRef = useRef(null);
+
+  const handleToggleSidebar = () => {
+    if (!sidebarRef.current) return;
+    if (sidebarRef.current.isCollapsed()) {
+      sidebarRef.current.expand();
+    } else {
+      sidebarRef.current.collapse();
+    }
+  };
+
   return (
     <div>
       <GjsEditor
@@ -326,6 +338,20 @@ const MainWebEditor = () => {
           </WithEditor>
           <ResizablePanelGroup direction="horizontal">
             <ResizablePanel
+              ref={sidebarRef}
+              onResize={(value) => {
+                const widthPanel = Math.round(value);
+
+                dispatch(setSidebarWidth(widthPanel));
+                if (widthPanel === 5) {
+                  dispatch(setIsCollapsedSideBar(true));
+                } else {
+                  dispatch(setIsCollapsedSideBar(false));
+                }
+              }}
+              minSize={5}
+              collapsible
+              collapsedSize={5}
               className={`${isPreviewActive ? "hidden" : ""}`}
               defaultSize={25}
             >
@@ -335,6 +361,7 @@ const MainWebEditor = () => {
                   activeTab={activeTab}
                   setActiveTab={setActiveTab}
                   setCanvasComponents={setCanvasComponents}
+                  onToggleSidebar={handleToggleSidebar}
                 />
               </WithEditor>
             </ResizablePanel>
@@ -359,49 +386,6 @@ const MainWebEditor = () => {
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>
-
-          {/* <div className="flex flex-col h-screen overflow-auto">
-            <WithEditor>
-              <Navbar
-                setIsPreviewActive={(value) => setIsPreviewActive(value)}
-                selectedComponent={selectedComponent}
-                components={canvasComponents}
-                onReorder={handleReorder}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                setIsDragging={setIsDragging}
-              />
-            </WithEditor>
-
-            <div className="flex flex-row  h-full  ">
-              {isPreviewActive ? null : (
-                <WithEditor>
-                  <Sidebar
-                    selectedComponent={selectedComponent}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    setCanvasComponents={setCanvasComponents}
-                  />
-                </WithEditor>
-              )}
-
-              <div
-                className={`flex-1 relative overflow-y-auto ${
-                  isDragging && "flex"
-                } bg-[#FFF4EA] justify-center items-center`}
-              >
-                <Canvas
-                  style={{
-                    backgroundColor: "#FFF4EA",
-                    width: "100%",
-                    minHeight: isDragging ? "200%" : "100%",
-                    transform: isDragging ? "scale(0.5)" : "scale(1)",
-                    transformOrigin: "center center",
-                  }}
-                />
-              </div>
-            </div>
-          </div> */}
         </div>
       </GjsEditor>
     </div>

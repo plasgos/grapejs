@@ -5,7 +5,7 @@ export const quoteComponent = (editor) => {
   injectComponents(editor, {
     type: "quotes",
     label: "Quotes",
-    icon: <FaQuoteLeft size={40} />,
+    icon: <FaQuoteLeft />,
     ViewComponent: ViewQuote,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -41,6 +41,11 @@ export const quoteComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: false,
+        disableStyles: true,
+        disableBackground: false,
       },
     },
   });

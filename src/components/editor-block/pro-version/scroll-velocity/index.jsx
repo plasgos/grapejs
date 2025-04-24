@@ -1,20 +1,19 @@
-import TabsEditor from "@/components/TabsEditor";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { generateId } from "@/lib/utils";
+import { produce } from "immer";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 import BackgroundEditor from "../../_components/BackgroundEditor";
 import ColorPicker from "../../_components/ColorPicker";
+import DraggableList from "../../_components/DraggableList";
 import RangeInputSlider from "../../_components/RangeInputSlider";
 import SectionAddScrollTargetId from "../../_components/SectionAddScrollTargetId";
 import SelectFontFamily from "../../_components/SelectFontFamily";
-import DraggableList from "../../_components/DraggableList";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { useState } from "react";
-import { produce } from "immer";
-import { generateId } from "@/lib/utils";
 
 const EditorScrollVelocity = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -72,7 +71,7 @@ const EditorScrollVelocity = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutStyles withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -147,7 +146,7 @@ const EditorScrollVelocity = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

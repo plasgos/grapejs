@@ -11,7 +11,7 @@ export const sliderImagesComponent = (editor) => {
   injectComponents(editor, {
     type: "slider-images",
     label: "Slider Images",
-    icon: <TfiLayoutSliderAlt size={40} />,
+    icon: <TfiLayoutSliderAlt />,
     ViewComponent: ViewSliderImages,
 
     defaultCustomComponent: {
@@ -86,6 +86,11 @@ export const sliderImagesComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

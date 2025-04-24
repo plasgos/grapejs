@@ -6,7 +6,7 @@ export const FAQComponent = (editor) => {
   injectComponents(editor, {
     type: "faq",
     label: "FAQ",
-    icon: <TfiLayoutAccordionList size={40} />,
+    icon: <TfiLayoutAccordionList />,
     ViewComponent: ViewFAQ,
     defaultCustomComponent: {
       scrollTarget: undefined,
@@ -63,6 +63,11 @@ export const FAQComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
+      },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
       },
     },
   });

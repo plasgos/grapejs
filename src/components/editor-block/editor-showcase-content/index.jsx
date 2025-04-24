@@ -1,4 +1,3 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import { produce } from "immer";
 import BackgroundEditor from "../_components/BackgroundEditor";
@@ -6,6 +5,7 @@ import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
 import products4 from "@/assets/products4.jpg";
+import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,8 +17,6 @@ import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
-import TextEditor from "../_components/TextEditor";
-import RichTextEditor from "@/components/rich-text-editor";
 
 const EditorContentShowcase = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -96,25 +94,18 @@ const EditorContentShowcase = ({ selectedComponent }) => {
         </div>
 
         <RichTextEditor
-          content={item.description}
-          onChange={(value) => {
-            handleComponentChange(`contents.${item.id}.description`, value);
-          }}
-        />
-
-        {/* <TextEditor
           label="Description"
           value={item.description}
           onChange={(value) => {
             handleComponentChange(`contents.${item.id}.description`, value);
           }}
-        /> */}
+        />
       </>
     );
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -154,7 +145,7 @@ const EditorContentShowcase = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 

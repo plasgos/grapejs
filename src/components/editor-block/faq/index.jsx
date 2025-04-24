@@ -1,10 +1,10 @@
-import TabsEditor from "@/components/TabsEditor";
 import { TabsContent } from "@/components/ui/tabs";
 import { produce } from "immer";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
+import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +14,6 @@ import { generateId } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
-import TextEditor from "../_components/TextEditor";
 
 const EditorFAQ = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -67,7 +66,7 @@ const EditorFAQ = ({ selectedComponent }) => {
           />
         </div>
 
-        <TextEditor
+        <RichTextEditor
           label="Content"
           value={contents[0].description}
           onChange={(value) =>
@@ -79,7 +78,7 @@ const EditorFAQ = ({ selectedComponent }) => {
   };
 
   return (
-    <TabsEditor withoutTransition>
+    <>
       <TabsContent
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
@@ -119,7 +118,7 @@ const EditorFAQ = ({ selectedComponent }) => {
       >
         <BackgroundEditor selectedComponent={selectedComponent} />
       </TabsContent>
-    </TabsEditor>
+    </>
   );
 };
 
