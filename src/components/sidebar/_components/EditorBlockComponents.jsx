@@ -11,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "./ui/button";
+import { Button } from "../../ui/button";
 import { IoGrid } from "react-icons/io5";
 import ComponentStyleEditor from "./ComponentStyleEditor";
 import { useMemo } from "react";
@@ -55,7 +55,7 @@ const EditorBlockComponents = ({
   return (
     <div
       style={{
-        height: "calc(100vh - 60px)",
+        height: "calc(100vh - 125px)",
       }}
       className="flex flex-col"
     >
@@ -112,7 +112,7 @@ const EditorBlockComponents = ({
 
         <div
           style={{
-            height: "calc(100vh - 200px)",
+            height: "calc(100vh - 260px)",
           }}
           className="flex-1  overflow-y-auto  space-y-4 bg-[#FEEBDB] py-2 pb-5"
         >

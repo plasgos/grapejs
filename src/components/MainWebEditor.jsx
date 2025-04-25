@@ -14,7 +14,6 @@ import {
 
 import { useState } from "react";
 import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
 
 import plasgosPlugin from "@/plugins";
 
@@ -34,6 +33,7 @@ import { useDispatch } from "react-redux";
 import { googleFonts } from "@/lib/googleFonts";
 import { generateGoogleFontsImportWithWeights } from "@/utils/injectGoogleFonts";
 import { useRef } from "react";
+import Sidebar from "./sidebar";
 
 const rootMap = new Map();
 

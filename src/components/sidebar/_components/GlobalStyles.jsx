@@ -1,9 +1,9 @@
 import { useEditor } from "@grapesjs/react";
-import SelectOptions from "./editor-block/_components/SelectOptions";
-import { widthPageOptions } from "./SelectOptions";
 import { useEffect } from "react";
 import { useState } from "react";
-import ColorPicker from "./editor-block/_components/ColorPicker";
+import SelectOptions from "../../editor-block/_components/SelectOptions";
+import ColorPicker from "../../editor-block/_components/ColorPicker";
+import { widthPageOptions } from "../../SelectOptions";
 
 const GlobalStyles = () => {
   const editor = useEditor();

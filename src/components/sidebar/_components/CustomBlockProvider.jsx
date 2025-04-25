@@ -8,7 +8,6 @@ import {
 import { useState } from "react";
 import { useEffect } from "react";
 import { MdLockOutline } from "react-icons/md";
-import { Button } from "./ui/button";
 
 import {
   Tooltip,
@@ -17,6 +16,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useSelector } from "react-redux";
+import { Fragment } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function CustomBlockManager({
   mapCategoryBlocks,
@@ -96,13 +97,12 @@ export default function CustomBlockManager({
                         const isLocked = block.get("attributes")?.isLocked;
 
                         return (
-                          <>
+                          <Fragment key={block.getId()}>
                             {isCollapsedSideBar ? (
                               <TooltipProvider delayDuration={100}>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <div
-                                      key={block.getId()}
                                       draggable={!isLocked}
                                       className={cx(
                                         "relative flex flex-col justify-center items-center border p-3 transition-colors bg-white rounded-md shadow-sm ",
@@ -213,7 +213,7 @@ export default function CustomBlockManager({
                                 )}
                               </div>
                             )}
-                          </>
+                          </Fragment>
                         );
                       })}
                     </div>

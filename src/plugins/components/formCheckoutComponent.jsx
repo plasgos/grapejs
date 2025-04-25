@@ -59,6 +59,11 @@ export const formCheckoutComponent = (editor) => {
         isRevert: false,
         pattern: "",
       },
+      editorTabConfig: {
+        disableTransition: true,
+        disableStyles: false,
+        disableBackground: false,
+      },
     },
   });
 };
