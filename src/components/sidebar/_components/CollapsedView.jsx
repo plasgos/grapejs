@@ -25,6 +25,8 @@ import CustomBlockManager from "./CustomBlockProvider";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 
+import { motion } from "framer-motion";
+
 const CollapsedView = ({
   searchBlock,
   handleSearchChange,
@@ -96,7 +98,7 @@ const CollapsedView = ({
                 <TooltipProvider delayDuration={100}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <PopoverTrigger opoverTrigger asChild>
+                      <PopoverTrigger asChild>
                         <Button className="" variant="ghost ">
                           <HiMagnifyingGlass className="text-slate-400" />
                         </Button>
@@ -128,7 +130,10 @@ const CollapsedView = ({
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1  overflow-y-auto  space-y-4 bg-[#FEEBDB]">
+      <motion.div
+        layout
+        className="flex-1  overflow-y-auto  space-y-4 bg-[#FEEBDB]"
+      >
         <TabsContent
           style={{
             height: "calc(100vh - 245px)",
@@ -161,7 +166,7 @@ const CollapsedView = ({
             </PopoverContent>
           </Popover>
         </TabsContent>
-      </div>
+      </motion.div>
     </Tabs>
   );
 };

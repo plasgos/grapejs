@@ -241,8 +241,6 @@ const EditorHeroSection = ({ selectedComponent }) => {
             }
           />
 
-          {/* <LexicalTextEditor /> */}
-
           <Accordion defaultValue="button" type="single" collapsible>
             <AccordionItem value="button">
               <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">

@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Toggle } from "../ui/toggle";
 
+import { AiOutlineSlack } from "react-icons/ai";
+
 import {
   Command,
   CommandEmpty,
@@ -42,6 +44,18 @@ import { useSelector } from "react-redux";
 import ColorPicker from "../editor-block/_components/ColorPicker";
 import { Button } from "../ui/button";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Textarea } from "../ui/textarea";
+import { IoIosSend } from "react-icons/io";
+
+import ollama from "ollama";
+import { Loader2 } from "lucide-react";
+
 const fontSizes = [
   "12px",
   "14px",
@@ -65,6 +79,8 @@ export default function MenuBar({ editor }) {
   const [open, setOpen] = useState(false);
   const [isOpenFontSizes, setIsOpenFontSizes] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  const [aiPrompt, setAiPrompt] = useState("");
 
   const virtualizerRef = useRef(null);
   const viewportRef = useRef(null);
@@ -114,26 +130,70 @@ export default function MenuBar({ editor }) {
     });
   }, [open, fontFamily, activeIndex]);
 
-  if (!editor) {
-    return null;
-  }
+  const [isStream, setIsStream] = useState(false);
+
+  const [aiResponse, setAiResponse] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const generateAiChat = async () => {
+    setIsLoading(true);
+    setAiPrompt("");
+    try {
+      const response = await ollama.chat({
+        model: "deepseek-r1:1.5b",
+        messages: [
+          {
+            role: "system",
+            content: `
+                Kamu adalah AI profesional yang ahli membuat konten untuk website dan landing page. 
+                Fokus hanya membuat struktur hero section: title, subtitle, description, Call to action. 
+                , jangan melebar kemana-mana.`,
+          },
+          {
+            role: "user",
+            content: aiPrompt,
+          },
+        ],
+        stream: isStream,
+      });
+
+      if (isStream) {
+        for await (const part of response) {
+          const message = part.message.content;
+          setAiResponse((prevMessage) => (prevMessage += message));
+        }
+      } else {
+        const result = response.message.content;
+        setAiResponse(result);
+        console.log("🚀 ~ generateAi ~ result:", result);
+
+        return result;
+      }
+    } catch (error) {
+      console.log("🚀 ~ generateAiChat ~ error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const Options = [
-    {
-      icon: <Heading1 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-      preesed: editor.isActive("heading", { level: 1 }),
-    },
-    {
-      icon: <Heading2 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-      preesed: editor.isActive("heading", { level: 2 }),
-    },
-    {
-      icon: <Heading3 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-      preesed: editor.isActive("heading", { level: 3 }),
-    },
+    // {
+    //   icon: <Heading1 className="size-4" />,
+    //   onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    //   preesed: editor.isActive("heading", { level: 1 }),
+    // },
+    // {
+    //   icon: <Heading2 className="size-4" />,
+    //   onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    //   preesed: editor.isActive("heading", { level: 2 }),
+    // },
+    // {
+    //   icon: <Heading3 className="size-4" />,
+    //   onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+    //   preesed: editor.isActive("heading", { level: 3 }),
+    // },
+
     {
       icon: <AlignLeft className="size-4" />,
       onClick: () => editor.chain().focus().setTextAlign("left").run(),
@@ -185,6 +245,10 @@ export default function MenuBar({ editor }) {
   ];
 
   const currentFontSize = editor.getAttributes("textStyle")?.fontSize;
+
+  if (!editor) {
+    return null;
+  }
 
   return (
     <div className="border rounded-md p-1 mb-1 bg-slate-50  z-50 flex gap-x-1.5">
@@ -349,6 +413,56 @@ export default function MenuBar({ editor }) {
           {option.icon}
         </Toggle>
       ))}
+
+      <Popover>
+        <TooltipProvider delayDuration={100}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button variant="ghost">
+                  <AiOutlineSlack className="size-4" />
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Ask AI</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <PopoverContent side="top">
+          <div className="mb-3">
+            {isLoading && <Loader2 className="animate-spin" />}
+            {aiResponse && (
+              <div className="my-1 max-h-[200px] overflow-y-auto">
+                <p className="text-xs">{aiResponse}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="w-full border rounded-lg p-2">
+            <div className="w-full">
+              <Textarea
+                className="shadow-none border-none focus:outline-none focus:ring-0 focus:!ring-transparent focus:shadow-none focus:!border-none resize-none"
+                placeholder="Ask AI about your title, description and etc..."
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+              />
+            </div>
+
+            <div className="flex justify-end mt-1 ">
+              <Button
+                onClick={generateAiChat}
+                variant="ghost"
+                size="icon"
+                className="w-6 h-6"
+              >
+                <IoIosSend />
+              </Button>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }

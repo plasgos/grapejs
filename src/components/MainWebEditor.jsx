@@ -34,6 +34,10 @@ import { googleFonts } from "@/lib/googleFonts";
 import { generateGoogleFontsImportWithWeights } from "@/utils/injectGoogleFonts";
 import { useRef } from "react";
 import Sidebar from "./sidebar";
+import { cn } from "@/lib/utils";
+import { useSelector } from "react-redux";
+
+import { motion } from "framer-motion";
 
 const rootMap = new Map();
 
@@ -102,6 +106,8 @@ export const updateCanvasComponents = (editor, setCanvasComponents) => {
 };
 
 const MainWebEditor = () => {
+  const { isCollapsedSideBar } = useSelector((state) => state.landingPage);
+
   const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(undefined);
   const [activeTab, setActiveTab] = useState("components");
@@ -350,20 +356,25 @@ const MainWebEditor = () => {
                 }
               }}
               minSize={5}
-              collapsible
               collapsedSize={5}
-              className={`${isPreviewActive ? "hidden" : ""}`}
+              collapsible
+              className={cn(
+                isCollapsedSideBar && "!w-[100px] min-w-[100px] max-w-[100px]",
+                isPreviewActive && "hidden"
+              )}
               defaultSize={25}
             >
-              <WithEditor>
-                <Sidebar
-                  selectedComponent={selectedComponent}
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
-                  setCanvasComponents={setCanvasComponents}
-                  onToggleSidebar={handleToggleSidebar}
-                />
-              </WithEditor>
+              <motion.nav layout>
+                <WithEditor>
+                  <Sidebar
+                    selectedComponent={selectedComponent}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    setCanvasComponents={setCanvasComponents}
+                    onToggleSidebar={handleToggleSidebar}
+                  />
+                </WithEditor>
+              </motion.nav>
             </ResizablePanel>
 
             <ResizableHandle withHandle />
