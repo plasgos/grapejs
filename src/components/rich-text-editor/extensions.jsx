@@ -48,3 +48,18 @@ export const FontSize = Extension.create({
     };
   },
 });
+
+export const InsertTextExtension = Extension.create({
+  name: "insertTextExtension",
+
+  addCommands() {
+    return {
+      insertCustomText:
+        (text) =>
+        ({ commands, editor }) => {
+          const endPos = editor.state.doc.content.size;
+          return commands.insertContentAt(endPos, text);
+        },
+    };
+  },
+});

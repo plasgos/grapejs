@@ -38,6 +38,7 @@ import { cn } from "@/lib/utils";
 import { useSelector } from "react-redux";
 
 import { motion } from "framer-motion";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 const rootMap = new Map();
 
@@ -106,6 +107,8 @@ export const updateCanvasComponents = (editor, setCanvasComponents) => {
 };
 
 const MainWebEditor = () => {
+  const windowWidth = useWindowWidth();
+
   const { isCollapsedSideBar } = useSelector((state) => state.landingPage);
 
   const [isPreviewActive, setIsPreviewActive] = useState(false);
@@ -362,7 +365,7 @@ const MainWebEditor = () => {
                 isCollapsedSideBar && "!w-[100px] min-w-[100px] max-w-[100px]",
                 isPreviewActive && "hidden"
               )}
-              defaultSize={25}
+              defaultSize={windowWidth <= 768 ? 35 : 25}
             >
               <motion.nav layout>
                 <WithEditor>

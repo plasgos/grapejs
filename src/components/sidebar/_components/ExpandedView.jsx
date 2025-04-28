@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import CustomBlockManager from "./CustomBlockProvider";
 import { Input } from "../../ui/input";
 import GlobalStyles from "./GlobalStyles";
+import useWindowWidth from "@/hooks/useWindowWidth";
 
 const ExpandedView = ({
   searchBlock,
@@ -17,7 +18,11 @@ const ExpandedView = ({
   activeTab,
   setActiveTab,
 }) => {
-  const { isEditComponent } = useSelector((state) => state.landingPage);
+  const { isEditComponent, sidebarWidth } = useSelector(
+    (state) => state.landingPage
+  );
+
+  const windowWidth = useWindowWidth();
 
   return (
     <Tabs
@@ -27,9 +32,13 @@ const ExpandedView = ({
       orientation="vertical"
     >
       {/* Top Bar */}
-      <div className="sticky top-0 z-10 bg-white shadow ">
+      <div className={`sticky top-0 z-10 bg-white shadow `}>
         <TabsList
-          className={`w-full   ${
+          className={`w-full ${
+            sidebarWidth <= 25 && windowWidth <= 768
+              ? "flex flex-col gap-y-1"
+              : ""
+          }   ${
             !isEditComponent || selectedComponent?.get("type") === "wrapper"
               ? ""
               : "hidden"

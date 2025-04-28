@@ -8,7 +8,7 @@ import FontFamily from "@tiptap/extension-font-family";
 import { Color } from "@tiptap/extension-color";
 import { useRef } from "react";
 import { useEffect } from "react";
-import { FontSize } from "./extensions";
+import { FontSize, InsertTextExtension } from "./extensions";
 import { Label } from "../ui/label";
 
 export default function RichTextEditor({ value, onChange, label }) {
@@ -37,12 +37,13 @@ export default function RichTextEditor({ value, onChange, label }) {
       FontFamily,
       FontSize,
       Color,
+      InsertTextExtension,
     ],
     content: value,
     editorProps: {
       attributes: {
         class:
-          "min-h-[156px] max-h-[250px] overflow-y-auto border rounded-md bg-slate-50 py-2 px-3 leading-normal ",
+          "min-h-[156px] max-h-[250px] overflow-y-auto border border-slate-300 rounded-md bg-slate-50 py-2 px-3 leading-normal focus:border-indigo-500  focus:outline-none",
       },
     },
     onUpdate: ({ editor }) => {
