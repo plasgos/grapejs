@@ -64,11 +64,6 @@ export const FAQComponent = (editor) => {
         isRevert: false,
         pattern: "",
       },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: false,
-        disableBackground: false,
-      },
     },
   });
 };

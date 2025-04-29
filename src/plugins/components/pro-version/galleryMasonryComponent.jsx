@@ -31,7 +31,7 @@ export const galleryMasonryComponent = (editor) => {
         image: item.image,
         height: item.height,
       })),
-      wrapperStyle: {},
+
       background: {
         bgType: null,
         bgColor: "",
@@ -47,11 +47,6 @@ export const galleryMasonryComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

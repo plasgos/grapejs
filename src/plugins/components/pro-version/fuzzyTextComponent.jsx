@@ -23,7 +23,7 @@ export const fuzzyTextComponent = (editor) => {
       baseIntensity: 0.2,
       enableHover: true,
       contents: [],
-      wrapperStyle: {},
+
       background: {
         bgType: "bgColor",
         bgColor: "rgba(0, 0, 0, 1)",
@@ -39,11 +39,6 @@ export const fuzzyTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

@@ -157,11 +157,6 @@ export const heroSectionComponent = (editor) => {
         isRevert: false,
         pattern: "",
       },
-      editorTabConfig: {
-        disableTransition: false,
-        disableStyles: false,
-        disableBackground: false,
-      },
     },
   });
 };

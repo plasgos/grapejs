@@ -74,11 +74,6 @@ export const registerCallToAction = (editor, canvasFrame) => {
             isRevert: false,
             pattern: "",
           },
-          editorTabConfig: {
-            disableTransition: false,
-            disableStyles: false,
-            disableBackground: false,
-          },
         },
       },
     },

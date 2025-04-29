@@ -77,11 +77,6 @@ export const countdownComponent = (editor) => {
         delay: null,
         isReplay: false,
       },
-      editorTabConfig: {
-        disableTransition: false,
-        disableStyles: false,
-        disableBackground: false,
-      },
     },
   });
 };

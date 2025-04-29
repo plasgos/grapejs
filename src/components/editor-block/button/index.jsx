@@ -44,7 +44,7 @@ const EditorButton = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { wrapperStyle } = currentComponent;
+  const { mainStyle } = currentComponent;
 
   const [editItem, setEditItem] = useState("");
 
@@ -146,12 +146,12 @@ const EditorButton = ({ selectedComponent }) => {
                           key={item.value}
                           onClick={() => {
                             handleComponentChange(
-                              "wrapperStyle.align",
+                              "mainStyle.align",
                               item.value
                             );
                           }}
                           variant={
-                            item.value === wrapperStyle.align ? "" : "outline"
+                            item.value === mainStyle.align ? "" : "outline"
                           }
                           size="sm"
                         >
@@ -170,14 +170,12 @@ const EditorButton = ({ selectedComponent }) => {
                           key={item.value}
                           onClick={() => {
                             handleComponentChange(
-                              "wrapperStyle.position",
+                              "mainStyle.position",
                               item.value
                             );
                           }}
                           variant={
-                            item.value === wrapperStyle.position
-                              ? ""
-                              : "outline"
+                            item.value === mainStyle.position ? "" : "outline"
                           }
                           size="sm"
                         >

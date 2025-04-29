@@ -23,7 +23,7 @@ export const blurTextComponent = (editor) => {
       animateBy: "words",
       direction: "top",
       contents: [],
-      wrapperStyle: {},
+
       background: {
         bgType: null,
         bgColor: "",
@@ -39,11 +39,6 @@ export const blurTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

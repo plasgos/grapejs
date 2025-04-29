@@ -6,7 +6,7 @@ import * as Icons from "react-icons/fa";
 
 const ViewFLoatingButtonCircle = ({ section, editor }) => {
   const { buttons } = section;
-  const { position, space } = section.wrapperStyle;
+  const { position, space } = section.mainStyle;
 
   const sizeClassesMap = {
     sm: 40,

@@ -4,7 +4,7 @@ import * as Icons from "react-icons/fa";
 
 const ViewDivider = ({ section, editor }) => {
   const { variant, width, fullWidth, height, color, iconBtn } =
-    section.wrapperStyle;
+    section.mainStyles;
 
   return (
     <ContainerView

@@ -54,11 +54,6 @@ export const imageComponent = (editor) => {
         isRevert: false,
         pattern: "",
       },
-      editorTabConfig: {
-        disableTransition: false,
-        disableStyles: false,
-        disableBackground: false,
-      },
     },
   });
 };

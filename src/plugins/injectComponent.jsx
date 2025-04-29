@@ -45,6 +45,14 @@ export const injectComponents = (editor, options) => {
         blockIcon: icon,
         customComponent: defaultCustomComponent,
       },
+      init() {
+        const attrs = this.get("attributes") || {};
+        this.set("customComponent", {
+          ...(defaultCustomComponent || {}),
+          ...attrs,
+        });
+        console.log("🚀 ~ init ~ attrs:", attrs);
+      },
     },
 
     view: {

@@ -9,7 +9,7 @@ export const buttonsComponent = (editor) => {
     icon: <TbSquareRoundedLetterBFilled />,
     ViewComponent: ViewButton,
     defaultCustomComponent: {
-      isLocked: true,
+      isLocked: false,
       scrollTarget: undefined,
       buttons: [
         {
@@ -61,7 +61,7 @@ export const buttonsComponent = (editor) => {
           },
         },
       ],
-      wrapperStyle: {
+      mainStyle: {
         space: 20,
         position: "flex-row",
         align: "justify-center",
@@ -82,11 +82,6 @@ export const buttonsComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

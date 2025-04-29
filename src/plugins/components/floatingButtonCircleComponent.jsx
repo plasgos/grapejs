@@ -36,14 +36,9 @@ export const floatingButtonCircleComponent = (editor) => {
           },
         },
       ],
-      wrapperStyle: {
+      mainStyle: {
         position: 20,
         space: 20,
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: true,
       },
     },
   });

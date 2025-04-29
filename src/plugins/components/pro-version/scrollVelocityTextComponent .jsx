@@ -23,7 +23,7 @@ export const scrollVelocityTextComponent = (editor) => {
         { id: `text-01-${generateId()}`, title: "Plasgos Web" },
         { id: `text-02-${generateId()}`, title: "Scroll Down" },
       ],
-      wrapperStyle: {},
+
       background: {
         bgType: "bgColor",
         bgColor: "rgba(0, 0, 0, 1)",
@@ -39,11 +39,6 @@ export const scrollVelocityTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

@@ -28,41 +28,48 @@ const EditorBlockComponents = ({
   selectedComponent,
   handleCloseComponent,
 }) => {
-  console.log("🚀 ~ isEditComponent:", isEditComponent);
   const { isCollapsedSideBar } = useSelector((state) => state.landingPage);
 
   const [activeTab, setActiveTab] = useState("content");
 
   const [isOpenEditor] = useState(isCollapsedSideBar || isEditComponent);
 
-  const { disableTransition, disableStyles, disableBackground } =
-    selectedComponent.get("customComponent").editorTabConfig || {};
+  const component = selectedComponent.get("customComponent");
+
+  const isEditableTransition = "animation" in component;
+  const isEditableStyles = "wrapperStyle" in component;
+  const isEditableBackground = "background" in component;
 
   const tabs = useMemo(() => {
     return [
-      { label: "Content", value: "content", icon: <TbEdit size={20} /> },
+      {
+        label: "Content",
+        value: "content",
+        icon: <TbEdit size={20} />,
+        isEditable: true,
+      },
       {
         label: "Styles",
         value: "styles",
         icon: <HiAdjustments size={20} />,
-        disabled: disableStyles,
+        isEditable: isEditableStyles,
       },
       {
         label: "Transition",
         value: "transition",
         icon: <MdDeblur size={20} />,
-        disabled: disableTransition,
+        isEditable: isEditableTransition,
       },
       {
         label: "Background",
         value: "background",
         icon: <BsImageAlt size={18} />,
-        disabled: disableBackground,
+        isEditable: isEditableBackground,
       },
     ];
-  }, [disableBackground, disableStyles, disableTransition]);
+  }, [isEditableBackground, isEditableStyles, isEditableTransition]);
 
-  const filteredTabs = tabs.filter((tab) => !tab.disabled);
+  const filteredTabs = tabs.filter((tab) => tab.isEditable);
 
   return (
     <div

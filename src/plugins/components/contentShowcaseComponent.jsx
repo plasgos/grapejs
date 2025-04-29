@@ -12,6 +12,7 @@ export const contentShowcaseComponent = (editor) => {
     label: "Content Showcase",
     icon: <HiMiniViewColumns />,
     ViewComponent: ContentShowcase,
+
     defaultCustomComponent: {
       isLocked: false,
       scrollTarget: undefined,
@@ -21,7 +22,8 @@ export const contentShowcaseComponent = (editor) => {
           title: "Panduan Lengkap Memulai Bisnis Online",
           description:
             "Temukan langkah-langkah praktis memulai bisnis online dari nol. Pelajari strategi pemasaran, manajemen produk, dan tips meningkatkan penjualan secara efektif.",
-          image: products1,
+          // image: products1,
+          image: "https://placehold.co/600x400",
           target: {
             actionType: "link",
             options: {
@@ -85,11 +87,6 @@ export const contentShowcaseComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: false,
-        disableBackground: false,
       },
     },
   });

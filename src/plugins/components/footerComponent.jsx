@@ -245,11 +245,6 @@ export const footerComponent = (editor) => {
       copyright: {
         text: `<p style="text-align:center;">© Copyright 2025 Plasgos</p>`,
       },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: false,
-        disableBackground: false,
-      },
     },
   });
 };

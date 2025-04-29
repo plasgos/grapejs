@@ -42,11 +42,6 @@ export const quoteComponent = (editor) => {
         isRevert: false,
         pattern: "",
       },
-      editorTabConfig: {
-        disableTransition: false,
-        disableStyles: true,
-        disableBackground: false,
-      },
     },
   });
 };

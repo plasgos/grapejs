@@ -5,7 +5,7 @@ import CustomButton from "../_components/CustomButton";
 
 const ViewFLoatingButton = ({ section, editor }) => {
   const { buttons } = section;
-  const { position } = section.wrapperStyle;
+  const { position } = section.mainStyle;
 
   return (
     <div

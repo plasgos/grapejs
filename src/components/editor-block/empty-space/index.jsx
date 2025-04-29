@@ -11,7 +11,7 @@ const EditorEmptySpace = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { wrapperStyle } = currentComponent;
+  const { mainStyle } = currentComponent;
 
   return (
     <>
@@ -26,9 +26,9 @@ const EditorEmptySpace = ({ selectedComponent }) => {
         <div className="w-full bg-white p-3 flex flex-col gap-y-5 rounded-lg">
           <RangeInputSlider
             label="Height"
-            value={wrapperStyle.height}
+            value={mainStyle.height}
             onChange={(value) =>
-              handleComponentChange("wrapperStyle.height", value)
+              handleComponentChange("mainStyle.height", value)
             }
             min={10}
             max={1200}

@@ -23,7 +23,7 @@ export const glitchTextComponent = (editor) => {
       enableShadows: true,
       enableOnHover: false,
       contents: [],
-      wrapperStyle: {},
+
       background: {
         bgType: "bgColor",
         bgColor: "rgba(6, 6, 6, 1)",
@@ -39,11 +39,6 @@ export const glitchTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

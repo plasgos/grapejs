@@ -83,11 +83,6 @@ export const featureHighlightsComponent = (editor) => {
         delay: null,
         isReplay: false,
       },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: false,
-        disableBackground: false,
-      },
     },
   });
 };

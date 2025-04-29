@@ -30,7 +30,7 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { wrapperStyle } = currentComponent;
+  const { mainStyle } = currentComponent;
 
   const [editItem, setEditItem] = useState("");
 
@@ -118,9 +118,9 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
           <RangeInputSlider
             asChild
             label="Position"
-            value={wrapperStyle.position}
+            value={mainStyle.position}
             onChange={(value) =>
-              handleComponentChange("wrapperStyle.position", value)
+              handleComponentChange("mainStyle.position", value)
             }
             min={10}
             max={500}
@@ -131,9 +131,9 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
               options={spaceOptions}
               asChild
               label="Space"
-              value={wrapperStyle.space}
+              value={mainStyle.space}
               onChange={(value) =>
-                handleComponentChange("wrapperStyle.space", value)
+                handleComponentChange("mainStyle.space", value)
               }
             />
           )}

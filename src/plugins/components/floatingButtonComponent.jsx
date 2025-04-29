@@ -62,31 +62,10 @@ export const floatingButtonComponent = (editor) => {
           },
         },
       ],
-      wrapperStyle: {
+      mainStyle: {
         space: 20,
         position: "flex-row",
         shadow: "shadow",
-      },
-      background: {
-        bgType: null,
-        bgColor: "#2196f3",
-        bgImage: "",
-        blur: 0,
-        opacity: 0,
-        paddingY: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        paddingType: "vertical",
-        direction: "to right",
-        fromColor: "",
-        toColor: "",
-        isRevert: false,
-        pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: true,
       },
     },
   });

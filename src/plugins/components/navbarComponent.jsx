@@ -120,11 +120,6 @@ export const navbarComponent = (editor) => {
       logo: plgLogo,
       logoWidth: 150,
       side: "right",
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: false,
-        disableBackground: false,
-      },
     },
   });
 };

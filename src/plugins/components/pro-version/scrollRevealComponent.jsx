@@ -23,7 +23,7 @@ export const scrollRevealComponent = (editor) => {
       textAlign: "text-center",
       fontSize: 36,
       contents: [],
-      wrapperStyle: {},
+
       background: {
         bgType: "bgColor",
         bgColor: "rgba(0, 0, 0, 1)",
@@ -39,11 +39,6 @@ export const scrollRevealComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

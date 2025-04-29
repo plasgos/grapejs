@@ -27,7 +27,7 @@ export const countUpComponent = (editor) => {
       direction: "up",
       duration: 1,
       contents: [],
-      wrapperStyle: {},
+
       background: {
         bgType: null,
         bgColor: "",
@@ -43,11 +43,6 @@ export const countUpComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

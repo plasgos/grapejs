@@ -10,13 +10,8 @@ export const emptySpaceComponent = (editor) => {
     ViewComponent: ViewEmptySpace,
     defaultCustomComponent: {
       scrollTarget: undefined,
-      wrapperStyle: {
+      mainStyle: {
         height: 50,
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: true,
       },
     },
   });

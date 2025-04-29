@@ -21,7 +21,7 @@ export const splitTextComponent = (editor) => {
       textAlign: "text-center",
       fontSize: 36,
       contents: [],
-      wrapperStyle: {},
+
       background: {
         bgType: null,
         bgColor: "",
@@ -37,11 +37,6 @@ export const splitTextComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

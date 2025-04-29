@@ -22,6 +22,8 @@ import { LuPencilLine } from "react-icons/lu";
 import { useDispatch } from "react-redux";
 import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 import { cloneElement } from "react";
+import { cx } from "class-variance-authority";
+import { PiTargetBold } from "react-icons/pi";
 
 const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
   const editor = useEditor();
@@ -120,16 +122,18 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
     },
   ];
 
+  const itHasScrollTarget = item.model.attributes.customComponent.scrollTarget;
+
   return (
     <div
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className={`py-2 px-2 bg-white shadow ${
+      className={cx(
+        "relative p-4 bg-white shadow rounded-xl",
+        isDragging ? "z-20 bg-purple-200 ring-2 ring-purple-700" : "",
         isFloatingComponent ? "cursor-not-allowed" : "cursor-move "
-      } rounded-xl relative ${
-        isDragging ? "z-20 bg-purple-200 ring-2 ring-purple-700" : ""
-      }`}
+      )}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -146,7 +150,16 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
+      {!!itHasScrollTarget && (
+        <div className=" rounded-b-lg px-2 border absolute top-0 left-7 bg-yellow-300 ">
+          <div className=" text-xs text-muted-foreground font-semibold flex items-center gap-x-1">
+            Scroll Target Active
+            <PiTargetBold />
+          </div>
+        </div>
+      )}
+
+      <div className="flex items-center justify-between relative">
         <div className="pl-5 flex items-center gap-x-2">
           {cloneElement(item.model.attributes.blockIcon, { size: 24 })}
           <div className=" font-semibold text-sm">
@@ -191,6 +204,7 @@ const Navigator = ({
   setIsDragging,
   isFloatingComponent,
 }) => {
+  console.log("🚀 ~ components:", components);
   const editor = useEditor();
 
   const handleDragStart = (event) => {

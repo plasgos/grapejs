@@ -6,6 +6,9 @@ import RichTextEditor from "@/components/rich-text-editor";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import TransitionEditor from "../_components/TransitionEditor";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import ColorPicker from "../_components/ColorPicker";
 
 const EditorQuote = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -21,9 +24,8 @@ const EditorQuote = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="content"
       >
-        <div className="flex flex-col gap-y-5 py-1">
-          <SectionAddScrollTargetId selectedComponent={selectedComponent} />
-
+        <SectionAddScrollTargetId selectedComponent={selectedComponent} />
+        <div className="flex flex-col gap-y-5  p-3 bg-white rounded-lg my-5">
           <RichTextEditor
             label="Content"
             value={contents[0].quoteText}
@@ -31,6 +33,30 @@ const EditorQuote = ({ selectedComponent }) => {
               handleComponentChange(
                 `contents.${contents[0].id}.quoteText`,
                 value
+              )
+            }
+          />
+
+          <div className="space-y-2 ">
+            <Label>Writer</Label>
+            <Input
+              value={contents[0].writer}
+              onChange={(e) =>
+                handleComponentChange(
+                  `contents.${contents[0].id}.writer`,
+                  e.target.value
+                )
+              }
+            />
+          </div>
+
+          <ColorPicker
+            label="Writer Color"
+            value={contents[0].writerColor}
+            onChange={(color) =>
+              handleComponentChange(
+                `contents.${contents[0].id}.writerColor`,
+                color
               )
             }
           />

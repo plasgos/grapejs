@@ -1,12 +1,5 @@
 import { TabsContent } from "@/components/ui/tabs";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
 import { Button } from "@/components/ui/button";
 import { generateId } from "@/lib/utils";
 import { produce } from "immer";
@@ -43,7 +36,7 @@ const EditorFloatingButton = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { buttons, wrapperStyle } = currentComponent;
+  const { buttons, mainStyle } = currentComponent;
 
   const [editItem, setEditItem] = useState("");
 
@@ -137,11 +130,9 @@ const EditorFloatingButton = ({ selectedComponent }) => {
                 <Button
                   key={item.value}
                   onClick={() => {
-                    handleComponentChange("wrapperStyle.position", item.value);
+                    handleComponentChange("mainStyle.position", item.value);
                   }}
-                  variant={
-                    item.value === wrapperStyle.position ? "" : "outline"
-                  }
+                  variant={item.value === mainStyle.position ? "" : "outline"}
                   size="sm"
                 >
                   {item.icon}

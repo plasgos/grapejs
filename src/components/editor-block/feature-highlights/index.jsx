@@ -14,6 +14,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
 import IconPicker from "../_components/IconPicker";
+import TransitionEditor from "../_components/TransitionEditor";
 
 const EditorFeatureHighlights = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -117,6 +118,17 @@ const EditorFeatureHighlights = ({ selectedComponent }) => {
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
+      </TabsContent>
+
+      <TabsContent
+        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        value="transition"
+      >
+        <TransitionEditor
+          selectedComponent={selectedComponent}
+          label="Video Transition"
+          type="animation"
+        />
       </TabsContent>
 
       <TabsContent

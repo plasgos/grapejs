@@ -27,10 +27,10 @@ const EditorDivider = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { wrapperStyle } = currentComponent;
+  const { mainStyles } = currentComponent;
 
   const handleSelectIcon = (key, value) => {
-    handleComponentChange(`wrapperStyle.iconBtn.${key}`, value);
+    handleComponentChange(`mainStyles.iconBtn.${key}`, value);
   };
 
   return (
@@ -47,25 +47,25 @@ const EditorDivider = ({ selectedComponent }) => {
           <SelectOptions
             label="Divider Style"
             options={borderStyleOptions}
-            value={wrapperStyle.variant}
+            value={mainStyles.variant}
             onChange={(value) =>
-              handleComponentChange("wrapperStyle.variant", value)
+              handleComponentChange("mainStyles.variant", value)
             }
           />
 
           <ColorPicker
             label="Color"
-            value={wrapperStyle.color}
+            value={mainStyles.color}
             onChange={(color) =>
-              handleComponentChange("wrapperStyle.color", color)
+              handleComponentChange("mainStyles.color", color)
             }
           />
 
           <RangeInputSlider
             label="Height"
-            value={wrapperStyle.height}
+            value={mainStyles.height}
             onChange={(value) =>
-              handleComponentChange("wrapperStyle.height", value)
+              handleComponentChange("mainStyles.height", value)
             }
             min={1}
             max={100}
@@ -74,19 +74,19 @@ const EditorDivider = ({ selectedComponent }) => {
           <div className="flex justify-between items-center">
             <Label className="font-normal">Full Width</Label>
             <Switch
-              checked={wrapperStyle.fullWidth}
+              checked={mainStyles.fullWidth}
               onCheckedChange={(checked) =>
-                handleComponentChange("wrapperStyle.fullWidth", checked)
+                handleComponentChange("mainStyles.fullWidth", checked)
               }
             />
           </div>
 
-          {!wrapperStyle.fullWidth && (
+          {!mainStyles.fullWidth && (
             <RangeInputSlider
               label="Width"
-              value={wrapperStyle.width}
+              value={mainStyles.width}
               onChange={(value) =>
-                handleComponentChange("wrapperStyle.width", value)
+                handleComponentChange("mainStyles.width", value)
               }
               min={30}
               max={1440}
@@ -96,7 +96,7 @@ const EditorDivider = ({ selectedComponent }) => {
           <IconPicker
             label="Icon"
             onSelectIcon={(key, value) => handleSelectIcon(key, value)}
-            value={wrapperStyle.iconBtn}
+            value={mainStyles.iconBtn}
             withCenterPosition
           />
         </div>

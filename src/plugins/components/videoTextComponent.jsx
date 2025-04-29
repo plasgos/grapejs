@@ -53,11 +53,6 @@ export const videoTextComponent = (editor) => {
         isRevert: false,
         pattern: "",
       },
-      editorTabConfig: {
-        disableTransition: false,
-        disableStyles: true,
-        disableBackground: false,
-      },
     },
   });
 };

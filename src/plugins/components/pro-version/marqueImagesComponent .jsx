@@ -43,7 +43,7 @@ export const marqueImagesComponent = (editor) => {
         image: item.image,
         height: item.height,
       })),
-      wrapperStyle: {},
+
       background: {
         bgType: "bgColor",
         bgColor: "rgba(0, 0, 0, 1)",
@@ -59,11 +59,6 @@ export const marqueImagesComponent = (editor) => {
         toColor: "",
         isRevert: false,
         pattern: "",
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: false,
       },
     },
   });

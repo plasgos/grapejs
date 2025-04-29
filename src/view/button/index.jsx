@@ -6,7 +6,7 @@ import CustomButton from "../_components/CustomButton";
 
 const ViewButton = ({ section, editor }) => {
   const { buttons } = section;
-  const { position, align } = section.wrapperStyle;
+  const { position, align } = section.mainStyle;
 
   const classesPositionRow =
     position === "flex-row" && `flex-row ${align} items-center`;

@@ -10,7 +10,7 @@ export const dividerComponent = (editor) => {
     ViewComponent: ViewDivider,
     defaultCustomComponent: {
       scrollTarget: undefined,
-      wrapperStyle: {
+      mainStyles: {
         variant: "solid",
         fullWidth: true,
         width: 800,
@@ -22,11 +22,6 @@ export const dividerComponent = (editor) => {
           size: 24,
           position: "center",
         },
-      },
-      editorTabConfig: {
-        disableTransition: true,
-        disableStyles: true,
-        disableBackground: true,
       },
     },
   });

@@ -53,7 +53,7 @@ const StylesTab = ({ selectedComponent }) => {
         }}
       />
 
-      <Accordion type="single" collapsible>
+      <Accordion defaultValue="image" type="single" collapsible>
         <AccordionItem value="image">
           <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
             Image
