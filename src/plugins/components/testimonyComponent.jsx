@@ -65,7 +65,6 @@ export const testimonyComponent = (editor) => {
       ],
       wrapperStyle: {
         variant: "1",
-
         nameColor: "#000000",
         fontWeight: "font-semibold",
         fontFamily: "Roboto",

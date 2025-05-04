@@ -242,7 +242,7 @@ const Navbar = ({
                   Navigator <BiSolidLayer />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="p-0 relative right-2 bg-neutral-100 w-[350px] ">
+              <PopoverContent className="p-0 relative right-2 bg-neutral-100 w-[400px] ">
                 <div className="flex items-center justify-between p-2 bg-white rounded">
                   <p className="font-semibold">Navigator</p>
 

@@ -153,7 +153,8 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
       {!!itHasScrollTarget && (
         <div className=" rounded-b-lg px-2 border absolute top-0 left-7 bg-yellow-300 ">
           <div className=" text-xs text-muted-foreground font-semibold flex items-center gap-x-1">
-            Scroll Target Active
+            Scroll Target{" "}
+            {`( ${item.model.attributes.customComponent.scrollTarget.value} )`}
             <PiTargetBold />
           </div>
         </div>

@@ -45,13 +45,19 @@ export const injectComponents = (editor, options) => {
         blockIcon: icon,
         customComponent: defaultCustomComponent,
       },
+
       init() {
         const attrs = this.get("attributes") || {};
-        this.set("customComponent", {
-          ...(defaultCustomComponent || {}),
-          ...attrs,
-        });
-        console.log("🚀 ~ init ~ attrs:", attrs);
+        const hasAIAttributes = this.get("isFromAI");
+        console.log("🚀 ~ init ~ hasAIAttributes:", hasAIAttributes);
+        const existingCustomComponent = this.get("customComponent");
+
+        this.set(
+          "customComponent",
+          hasAIAttributes
+            ? { ...attrs } // dari AI → attributes sudah lengkap
+            : { ...(existingCustomComponent || {}) } // default drag
+        );
       },
     },
 

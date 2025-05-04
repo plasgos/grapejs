@@ -286,24 +286,24 @@ export default function MenuBar({ editor }) {
     dangerouslyAllowBrowser: true,
   });
 
-  // const getGrogChatyCompletion = async () => {
-  //   setIsLoading(true);
-  //   setAiPrompt("");
+  const getGrogChatyCompletion = async () => {
+    setIsLoading(true);
+    setAiPrompt("");
 
-  //   try {
-  //     const completion = await groq.chat.completions.create({
-  //       messages: [{ role: "user", content: aiPrompt }],
-  //       model: "llama-3.3-70b-versatile",
-  //     });
-  //     console.log("🚀 ~ getGrogChatyCompletion ~ completion:", completion);
+    try {
+      const completion = await groq.chat.completions.create({
+        messages: [{ role: "user", content: aiPrompt }],
+        model: "llama-3.3-70b-versatile",
+      });
+      console.log("🚀 ~ getGrogChatyCompletion ~ completion:", completion);
 
-  //     setAiResponse(completion.choices[0].message.content);
-  //   } catch (error) {
-  //     console.log("🚀 ~ getGrogChatyCompletion ~ error:", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+      setAiResponse(completion.choices[0].message.content);
+    } catch (error) {
+      console.log("🚀 ~ getGrogChatyCompletion ~ error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const importGeneratedSection = (rawJson) => {
     try {
@@ -320,106 +320,6 @@ export default function MenuBar({ editor }) {
       console.log("🚀 Section berhasil di-import ke GrapesJS!");
     } catch (error) {
       console.error("🚀 Import error:", error);
-    }
-  };
-
-  const getGrogChatyCompletion = async () => {
-    setIsLoading(true);
-
-    try {
-      const systemInstruction = `
-  Kamu adalah AI yang tugasnya membuat *section website* untuk builder.
-  
-  ⚡ FORMAT OUTPUT WAJIB:
-  {
-    "pages": [
-      {
-        "frames": [
-          {
-            "component": {
-              "type": "content-showcase",
-              "attributes": {
-                "id": "id_bebas"
-              },
-              "customComponent": {
-                "isLocked": false,
-                "scrollTarget": null,
-                "contents": [
-                  {
-                    "id": "id_bebas",
-                    "title": "Judul",
-                    "description": "Deskripsi",
-                    "image": "https://urlgambar.jpg",
-                    "target": {
-                      "actionType": "link",
-                      "options": {
-                        "isOpenNewTab": true,
-                        "link": "https://link.com",
-                        "type": "url"
-                      }
-                    }
-                  }
-                ],
-                "wrapperStyle": {
-                  "column": "1",
-                  "aspectRatio": 2,
-                  "titleColor": "#000000",
-                  "fontWeight": "font-semibold",
-                  "descriptionColor": "#000000",
-                  "fontSizeTitle": "tw-text-sm",
-                  "imagePosition": "center",
-                  "fontFamily": "Roboto",
-                  "fontSize": 16,
-                  "textAligment": "text-center"
-                },
-                "background": {
-                  "bgType": null,
-                  "bgColor": "",
-                  "bgImage": "",
-                  "blur": 0,
-                  "opacity": 0,
-                  "paddingY": 0,
-                  "paddingTop": 0,
-                  "paddingBottom": 0,
-                  "paddingType": "vertical",
-                  "direction": "to right",
-                  "fromColor": "",
-                  "toColor": "",
-                  "isRevert": false,
-                  "pattern": ""
-                }
-              }
-            }
-          }
-        ]
-      }
-    ]
-  }
-  
-  ⚡ CATATAN:
-  - Kirim hanya JSON valid, jangan pakai komentar.
-  - Field gambar pakai URL random dari Unsplash atau dummy.
-  `;
-
-      const completion = await groq.chat.completions.create({
-        messages: [
-          { role: "system", content: systemInstruction },
-          { role: "user", content: aiPrompt }, // ini dari user input bebas
-        ],
-        model: "llama-3-70b-8192",
-        response_format: { type: "json_object" }, // WAJIBKAN JSON mode
-      });
-
-      const result = completion.choices[0]?.message?.content;
-      console.log("🚀 AI Result:", result);
-
-      if (result) {
-        importGeneratedSection(result);
-      }
-    } catch (error) {
-      console.error("🚀 Error Generating:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
