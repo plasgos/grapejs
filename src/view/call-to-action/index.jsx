@@ -172,15 +172,11 @@ const CallToAction = ({ section, canvas, editor, isDragging }) => {
             >
               <div>{buttonText}</div>
 
-              {iconBtn && Icons[iconBtn?.icon] && (
-                <div
-                  style={{
-                    color: iconBtn?.color,
-                  }}
-                >
-                  {createElement(Icons[iconBtn?.icon], { size: iconBtn?.size })}
+              {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                <div style={{ color: iconBtn?.color }}>
+                  {createElement(Icons[iconBtn.icon], { size: iconBtn?.size })}
                 </div>
-              )}
+              ) : null}
             </div>
           ) : (
             <div
@@ -190,15 +186,11 @@ const CallToAction = ({ section, canvas, editor, isDragging }) => {
                 gap: 10,
               }}
             >
-              {iconBtn && Icons[iconBtn?.icon] && (
-                <div
-                  style={{
-                    color: iconBtn?.color,
-                  }}
-                >
-                  {createElement(Icons[iconBtn?.icon], { size: iconBtn?.size })}
+              {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                <div style={{ color: iconBtn?.color }}>
+                  {createElement(Icons[iconBtn.icon], { size: iconBtn?.size })}
                 </div>
-              )}
+              ) : null}
 
               <div>{buttonText}</div>
             </div>

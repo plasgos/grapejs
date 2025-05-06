@@ -67,7 +67,7 @@ const ContentShowcase = ({ section, editor }) => {
                   style={{
                     aspectRatio,
                   }}
-                  className={`w-full object-contain my-3 ${
+                  className={`w-full object-cover my-3 ${
                     content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
                   onClick={() => onActionClickTarget(content?.target, editor)}
@@ -96,7 +96,7 @@ const ContentShowcase = ({ section, editor }) => {
                   style={{
                     aspectRatio,
                   }}
-                  className={`w-full object-contain my-3 ${
+                  className={`w-full object-cover my-3 ${
                     content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
                   onClick={() => onActionClickTarget(content?.target, editor)}
@@ -125,7 +125,7 @@ const ContentShowcase = ({ section, editor }) => {
                   style={{
                     aspectRatio,
                   }}
-                  className={`w-full object-contain my-3 ${
+                  className={`w-full object-cover my-3 ${
                     content?.target?.options?.type ? "cursor-pointer" : ""
                   }`}
                   onClick={() => onActionClickTarget(content?.target, editor)}

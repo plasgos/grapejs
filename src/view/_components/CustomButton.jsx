@@ -79,31 +79,23 @@ const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
         <div className="flex justify-center items-center gap-x-2">
           <p className={`${sizeClasses}`}>{btn.stylesBtn.title}</p>
 
-          {iconBtn && Icons[iconBtn?.icon] && (
-            <div
-              style={{
-                color: iconBtn?.color,
-              }}
-            >
-              {createElement(Icons[iconBtn?.icon], {
+          {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+            <div style={{ color: iconBtn?.color }}>
+              {createElement(Icons[iconBtn.icon], {
                 size: iconSizeClasses,
               })}
             </div>
-          )}
+          ) : null}
         </div>
       ) : (
         <div className="flex justify-center items-center gap-x-2">
-          {iconBtn && Icons[iconBtn?.icon] && (
-            <div
-              style={{
-                color: iconBtn?.color,
-              }}
-            >
-              {createElement(Icons[iconBtn?.icon], {
+          {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+            <div style={{ color: iconBtn?.color }}>
+              {createElement(Icons[iconBtn.icon], {
                 size: iconSizeClasses,
               })}
             </div>
-          )}
+          ) : null}
 
           <p className={`${sizeClasses}`}>{btn.stylesBtn.title}</p>
         </div>

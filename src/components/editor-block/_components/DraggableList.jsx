@@ -151,7 +151,7 @@ const SortableItem = ({
             />
           ) : null}
 
-          {item?.iconBtn?.icon ? (
+          {item?.iconBtn?.icon?.startsWith("Fa") && item?.iconBtn?.icon ? (
             <div>
               {createElement(Icons[item.iconBtn?.icon], {
                 size: 24,
@@ -159,9 +159,9 @@ const SortableItem = ({
             </div>
           ) : null}
 
-          {item?.icon ? (
+          {/* {item?.icon ? (
             <div style={{ fontSize: 20, marginLeft: 5 }}>{item.icon}</div>
-          ) : null}
+          ) : null} */}
 
           {item?.label ? (
             <p className="truncate text-sm font-semibold">

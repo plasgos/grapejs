@@ -43,17 +43,13 @@ const ViewFeatureHighlights = ({ section, editor }) => {
               >
                 {iconBtn.position === "left" ? (
                   <>
-                    {iconBtn && Icons[iconBtn?.icon] && (
-                      <div
-                        style={{
-                          color: iconBtn?.color,
-                        }}
-                      >
-                        {createElement(Icons[iconBtn?.icon], {
+                    {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                      <div style={{ color: iconBtn?.color }}>
+                        {createElement(Icons[iconBtn.icon], {
                           size: iconBtn?.size,
                         })}
                       </div>
-                    )}
+                    ) : null}
 
                     <p
                       style={{
@@ -81,17 +77,13 @@ const ViewFeatureHighlights = ({ section, editor }) => {
                       {content.title}
                     </p>
 
-                    {iconBtn && Icons[iconBtn?.icon] && (
-                      <div
-                        style={{
-                          color: iconBtn?.color,
-                        }}
-                      >
-                        {createElement(Icons[iconBtn?.icon], {
+                    {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                      <div style={{ color: iconBtn?.color }}>
+                        {createElement(Icons[iconBtn.icon], {
                           size: iconBtn?.size,
                         })}
                       </div>
-                    )}
+                    ) : null}
                   </>
                 )}
               </div>

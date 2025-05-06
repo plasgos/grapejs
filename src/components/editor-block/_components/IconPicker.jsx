@@ -102,15 +102,15 @@ const IconPicker = ({
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline">
-                {value?.icon
-                  ? Icons[value.icon] && (
-                      <>
-                        <div style={{ color: value.color }}>
-                          {createElement(Icons[value.icon], { size: 24 })}
-                        </div>
-                      </>
-                    )
-                  : "Search..."}
+                {value?.icon?.startsWith("Fa") && Icons[value.icon] ? (
+                  <div style={{ color: value?.color }}>
+                    {createElement(Icons[value.icon], {
+                      size: 24,
+                    })}
+                  </div>
+                ) : (
+                  "Search..."
+                )}
               </Button>
             </DialogTrigger>
 

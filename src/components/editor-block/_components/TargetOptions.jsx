@@ -233,10 +233,10 @@ const TargetOptions = ({
   };
 
   useEffect(() => {
-    if (target.options.type) {
+    if (target?.options?.type) {
       setToggleOptions(true);
     }
-  }, [target.options.type]);
+  }, [target?.options?.type]);
 
   return (
     <Accordion

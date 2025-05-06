@@ -49,14 +49,17 @@ export const injectComponents = (editor, options) => {
       init() {
         const attrs = this.get("attributes") || {};
         const hasAIAttributes = this.get("isFromAI");
-        console.log("🚀 ~ init ~ hasAIAttributes:", hasAIAttributes);
         const existingCustomComponent = this.get("customComponent");
+
+        const listTypeDefaultComponents = ["footer", "navbar"];
 
         this.set(
           "customComponent",
-          hasAIAttributes
-            ? { ...attrs } // dari AI → attributes sudah lengkap
-            : { ...(existingCustomComponent || {}) } // default drag
+          hasAIAttributes && listTypeDefaultComponents.includes(type)
+            ? { ...defaultCustomComponent }
+            : hasAIAttributes
+            ? { ...attrs }
+            : { ...(existingCustomComponent || {}) }
         );
       },
     },

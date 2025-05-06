@@ -17,56 +17,6 @@ export const heroSectionComponent = (editor) => {
           width: 800,
           image: heroImg,
           imagePosition: "left",
-          buttons: [
-            {
-              id: "button-01",
-              stylesBtn: {
-                title: "Get Started",
-                btnColor: "",
-                textColor: "",
-                size: "default",
-                variant: "default",
-                rounded: 10,
-                shadow: "",
-              },
-              iconBtn: {
-                icon: "",
-                color: "rgba(0,0,0,0,1)",
-                size: 24,
-                position: "right",
-              },
-              target: {
-                actionType: "link",
-                options: {
-                  type: null,
-                },
-              },
-            },
-            {
-              id: "button-02",
-              stylesBtn: {
-                title: "Explore Demo",
-                btnColor: "rgb(228 223 223 ,1)",
-                textColor: "",
-                size: "default",
-                variant: "outline",
-                rounded: 10,
-                shadow: "",
-              },
-              iconBtn: {
-                icon: "",
-                color: "rgba(0,0,0,0,1)",
-                size: 24,
-                position: "right",
-              },
-              target: {
-                actionType: "link",
-                options: {
-                  type: null,
-                },
-              },
-            },
-          ],
           textBanner: `<p><span style="font-size:36px;"><strong>Eksplorasi Teknologi Masa Depan</strong></span></p><p><span style="color:hsl(0, 0%, 0%);font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Noto Sans&quot;, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, Oxygen, &quot;Open Sans&quot;, sans-serif;font-size:16.002px;">Temukan inovasi terbaru dalam dunia teknologi dan bagaimana hal itu akan mengubah hidup kita. Saksikan video penjelasannya di sini.</span></p>`,
           textShadow: null,
         },

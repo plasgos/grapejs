@@ -16,17 +16,13 @@ const ViewDivider = ({ section, editor }) => {
         <div className="flex justify-center items-center w-full gap-x-3">
           {iconBtn?.position === "left" && (
             <>
-              {iconBtn && Icons[iconBtn?.icon] && (
-                <div
-                  style={{
-                    color: iconBtn?.color,
-                  }}
-                >
-                  {createElement(Icons[iconBtn?.icon], {
-                    size: iconBtn.size,
+              {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                <div style={{ color: iconBtn?.color }}>
+                  {createElement(Icons[iconBtn.icon], {
+                    size: iconBtn?.size,
                   })}
                 </div>
-              )}
+              ) : null}
 
               <div
                 style={{
@@ -68,13 +64,13 @@ const ViewDivider = ({ section, editor }) => {
                   border: `${height}px ${variant} ${color} `,
                 }}
               />
-              {iconBtn && Icons[iconBtn?.icon] && (
+              {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
                 <div style={{ color: iconBtn?.color }}>
-                  {createElement(Icons[iconBtn?.icon], {
-                    size: iconBtn.size,
+                  {createElement(Icons[iconBtn.icon], {
+                    size: iconBtn?.size,
                   })}
                 </div>
-              )}
+              ) : null}
             </>
           )}
         </div>

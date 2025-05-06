@@ -45,6 +45,7 @@ const EditorButton = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { mainStyle } = currentComponent;
+  console.log("🚀 ~ EditorButton ~ currentComponent:", currentComponent);
 
   const [editItem, setEditItem] = useState("");
 

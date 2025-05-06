@@ -181,6 +181,7 @@ const Sidebar = ({
         ...data,
         isFromAI: true,
       }));
+      console.log("🚀 ~ parsedData ~ parsedData:", parsedData);
       const resultComponent = produce(schema, (draft) => {
         draft.pages[0].frames[0].component.components = parsedData;
       });

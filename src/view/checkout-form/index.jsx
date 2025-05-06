@@ -598,27 +598,19 @@ const ViewFormCheckout = ({ section, editor }) => {
               <div className="flex justify-center items-center gap-x-2">
                 <p> {buttonText}</p>
 
-                {iconBtn && Icons[iconBtn?.icon] && (
-                  <div
-                    style={{
-                      color: iconBtn?.color,
-                    }}
-                  >
-                    {createElement(Icons[iconBtn?.icon], {})}
+                {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                  <div style={{ color: iconBtn?.color }}>
+                    {createElement(Icons[iconBtn.icon], {})}
                   </div>
-                )}
+                ) : null}
               </div>
             ) : (
               <div className="flex justify-center items-center gap-x-2">
-                {iconBtn && Icons[iconBtn?.icon] && (
-                  <div
-                    style={{
-                      color: iconBtn?.color,
-                    }}
-                  >
-                    {createElement(Icons[iconBtn?.icon], {})}
+                {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                  <div style={{ color: iconBtn?.color }}>
+                    {createElement(Icons[iconBtn.icon], {})}
                   </div>
-                )}
+                ) : null}
 
                 <p>{buttonText}</p>
               </div>

@@ -67,17 +67,13 @@ const ViewFLoatingButtonCircle = ({ section, editor }) => {
                 onClick={() => onActionClickTarget(button.target, editor)}
               >
                 <div className="flex justify-center items-center">
-                  {iconBtn && Icons[iconBtn?.icon] && (
-                    <div
-                      style={{
-                        color: iconBtn?.color,
-                      }}
-                    >
-                      {createElement(Icons[iconBtn?.icon], {
+                  {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
+                    <div style={{ color: iconBtn?.color }}>
+                      {createElement(Icons[iconBtn.icon], {
                         size: iconSizeClasses,
                       })}
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </button>
             </div>
