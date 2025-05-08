@@ -66,6 +66,8 @@ const GalleryImages = ({
     }
   );
 
+  console.log("🚀 ~ images:", images);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -77,10 +79,12 @@ const GalleryImages = ({
     useDeleteImagePurgeCacheMutation();
 
   const filteredImages = useMemo(() => {
-    return images?.filter((image) =>
-      image.name.includes(searchValue.toLowerCase())
-    );
+    return images
+      ?.filter((image) => image.name.includes(searchValue.toLowerCase()))
+      .sort((a, b) => b - a)
+      .reverse();
   }, [images, searchValue]);
+
   const handleUploadImages = () => {
     onClose();
     setTimeout(() => {

@@ -38,8 +38,6 @@ export const FAQComponent = (editor) => {
       ],
       wrapperStyle: {
         variant: "basic",
-        space: 20,
-        textShadow: null,
         color: "#000000",
         fontWeight: 500,
         fontFamily: "Roboto",

@@ -10,7 +10,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { useDropzone } from "react-dropzone";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-// import "react-lazy-load-image-component/src/effects/blur.css";
 
 import {
   Tooltip,
@@ -23,7 +22,7 @@ import { FcOk } from "react-icons/fc";
 import { useLazyGetAuthImagekitQuery } from "@/redux/services/authImagekit";
 import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { FaCheck, FaCloudUploadAlt } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { RiGalleryView } from "react-icons/ri";
 import { TbUpload } from "react-icons/tb";
@@ -32,15 +31,43 @@ import GalleryImages from "./GalleryImages";
 
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { useGetImagesQuery } from "@/redux/services/galleryApi";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { HiOutlineSave } from "react-icons/hi";
 import { VscDebugRestart } from "react-icons/vsc";
 
 const ImageUploader = ({ label, handleFileUpload, image }) => {
+  const { data: images, refetch } = useGetImagesQuery(
+    {
+      path: "/sample-folder",
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    }
+  );
+
+  const cleanUrl = (url) => {
+    try {
+      const parsed = new URL(url);
+      return parsed.origin + parsed.pathname;
+    } catch (e) {
+      console.log("🚀 ~ cleanUrl ~ e:", e);
+      return url; // fallback kalau bukan URL valid
+    }
+  };
+
+  const isNotExistImageOnGallery = !images?.some(
+    (img) => cleanUrl(img.url) === cleanUrl(image)
+  );
+
   const [getAuthImagekit] = useLazyGetAuthImagekitQuery();
 
   const [isOpenUploadModal, setIsOpenUploadModal] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
+
   const [isOpenGallery, setIsOpenGallery] = useState(false);
   const [fadingOutImages, setFadingOutImages] = useState([]);
 
@@ -51,7 +78,7 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
   }, []);
 
   const [uploadStatuses, setUploadStatuses] = useState([]);
-  console.log("🚀 ~ ImageUploader ~ uploadStatuses:", uploadStatuses);
+
   const updateStatus = (fileName, updates) => {
     setUploadStatuses((prev) =>
       prev.map((file) =>
@@ -59,6 +86,31 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
       )
     );
   };
+
+  const [uploadStatus, setUploadStatus] = useState(null);
+  console.log("🚀 ~ ImageUploader ~ uploadStatus:", uploadStatus);
+  const updateStatusSingleImage = (fileName, updates) => {
+    console.log("🚀 ~ updateStatusSingleImage ~ updates:", updates);
+    const payload = {
+      ...updates,
+      name: fileName,
+    };
+    setUploadStatus((prev) => ({
+      ...prev,
+      ...payload,
+    }));
+
+    // if (updates.status === "success") {
+    //   handleFileUpload(updates?.data?.url);
+    // }
+  };
+
+  useEffect(() => {
+    if (uploadStatus && uploadStatus.status === "success") {
+      handleFileUpload(uploadStatus?.data?.url);
+      refetch();
+    }
+  }, [handleFileUpload, refetch, uploadStatus]);
 
   const urlEndpoint = "https://ik.imagekit.io/ez1ffaf6o/";
 
@@ -121,10 +173,17 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
     file,
     { auth, onUploadProgress, onSuccess, onError } = {}
   ) => {
+    const timestamp = Date.now() + Math.random();
+
     try {
+      const isFileObject = typeof file !== "string";
+
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("fileName", file.name);
+      formData.append(
+        "fileName",
+        isFileObject ? file.name : `img-${timestamp}`
+      );
       formData.append("publicKey", publicKey);
       formData.append("urlEndpoint", urlEndpoint);
 
@@ -248,8 +307,40 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
     }, 1000);
   };
 
+  const handleSaveToGallerry = async () => {
+    const timestamp = Date.now() + Math.random(); // biar unik
+    const { data: auth } = await getAuthImagekit(timestamp);
+
+    try {
+      const uploadTasks = await uploadWithSignature(image, {
+        auth, // lempar auth ke dalam kalau perlu
+        onUploadProgress: (progress, file) =>
+          updateStatusSingleImage(file, {
+            name: file,
+            progress,
+            status: "uploading",
+          }),
+        onSuccess: (data, file) =>
+          updateStatusSingleImage(file, {
+            status: "success",
+            isUploaded: true,
+            progress: 100,
+            data,
+          }),
+        onError: (error, file) =>
+          updateStatusSingleImage(file, { status: "error", error }),
+      });
+
+      return uploadTasks;
+    } catch (error) {
+      console.log("Upload failed", error);
+      updateStatusSingleImage(image.name, { status: "error", error });
+      return null;
+    }
+  };
+
   return (
-    <div className="space-y-2">
+    <div className="relative space-y-2">
       <Label>{label}</Label>
       <div
         style={{
@@ -269,6 +360,39 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
           }}
         />
       </div>
+
+      {isNotExistImageOnGallery && uploadStatus?.status !== "success" && (
+        <div className="absolute top-7 right-3">
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  disabled={uploadStatus?.status === "uploading"}
+                  onClick={handleSaveToGallerry}
+                  className={`${
+                    uploadStatus?.status === "success"
+                      ? "bg-green-500 hover:bg-green-600"
+                      : "bg-sky-500 hover:bg-sky-600"
+                  }`}
+                  size="icon"
+                >
+                  {" "}
+                  {uploadStatus?.status === "uploading" ? (
+                    <Loader2 className="animate-spin" />
+                  ) : uploadStatus?.status === "success" ? (
+                    <FaCheck className="text-white" />
+                  ) : (
+                    <HiOutlineSave />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Save to gallery</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      )}
 
       <div className="flex justify-between gap-3">
         <Dialog open={isOpenUploadModal} onOpenChange={setIsOpenUploadModal}>

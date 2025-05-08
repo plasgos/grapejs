@@ -15,12 +15,11 @@ import { listImagesComponent } from "./components/listImagesComponent";
 import { modalPopupComponent } from "./components/modalPopupComponent";
 import { navbarComponent } from "./components/navbarComponent";
 import { blurTextComponent } from "./components/pro-version/blurTextComponent";
-import { countUpComponent } from "./components/pro-version/countUpComponent";
+import { businessOverviewComponent } from "./components/pro-version/businessOverviewComponent";
 import { fuzzyTextComponent } from "./components/pro-version/fuzzyTextComponent";
 import { galleryMasonryComponent } from "./components/pro-version/galleryMasonryComponent";
 import { glitchTextComponent } from "./components/pro-version/glitchTextComponent ";
 import { marqueImagesComponent } from "./components/pro-version/marqueImagesComponent ";
-import { scrollRevealComponent } from "./components/pro-version/scrollRevealComponent";
 import { scrollVelocityTextComponent } from "./components/pro-version/scrollVelocityTextComponent ";
 import { splitTextComponent } from "./components/pro-version/splitTextComponent";
 
@@ -41,7 +40,7 @@ const plasgosPlugin = (editor) => {
     fuzzyTextComponent(editor);
     glitchTextComponent(editor);
     scrollVelocityTextComponent(editor);
-    countUpComponent(editor);
+
     marqueImagesComponent(editor);
 
     //media
@@ -49,6 +48,7 @@ const plasgosPlugin = (editor) => {
     galleryMasonryComponent(editor);
 
     buttonsComponent(editor);
+    businessOverviewComponent(editor);
     // registerCallToAction(editor);
     contentShowcaseComponent(editor);
     imageComponent(editor);

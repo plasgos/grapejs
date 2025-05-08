@@ -159,6 +159,12 @@ const SortableItem = ({
             </div>
           ) : null}
 
+          {item?.rangeValue ? (
+            <div className="flex gap-x-2">
+              <p className="pl-2 font-semibold">{item.rangeValue}</p>
+            </div>
+          ) : null}
+
           {/* {item?.icon ? (
             <div style={{ fontSize: 20, marginLeft: 5 }}>{item.icon}</div>
           ) : null} */}

@@ -16,7 +16,7 @@ import EditorListImages from "../../editor-block/list-images";
 import EditorModalPopup from "../../editor-block/modal-popup";
 import EditorNavbar from "../../editor-block/navbar";
 import EditorBlurText from "../../editor-block/pro-version/blur-text";
-import EditorCountUp from "../../editor-block/pro-version/count-up";
+import EditorBusinessOverview from "../../editor-block/pro-version/business-overview";
 import EditorFuzzyText from "../../editor-block/pro-version/fuzzy-text";
 import EditorGalleryMasonry from "../../editor-block/pro-version/gallery-masonry";
 import EditorGlitchText from "../../editor-block/pro-version/glitch-text";
@@ -56,8 +56,8 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       {selectedComponent.get("type") === "gallery-masonry" && (
         <EditorGalleryMasonry selectedComponent={selectedComponent} />
       )}
-      {selectedComponent.get("type") === "count-up-text" && (
-        <EditorCountUp selectedComponent={selectedComponent} />
+      {selectedComponent.get("type") === "business-overview" && (
+        <EditorBusinessOverview selectedComponent={selectedComponent} />
       )}
       {selectedComponent.get("type") === "marquee-images" && (
         <EditorMarqueeImages selectedComponent={selectedComponent} />

@@ -18,6 +18,7 @@ const ContentShowcase = ({ section, editor }) => {
     fontWeight,
     fontSize,
     textAligment,
+    rounded,
   } = section?.wrapperStyle || {};
 
   const columnClass =
@@ -40,7 +41,7 @@ const ContentShowcase = ({ section, editor }) => {
       section={section}
     >
       <div
-        className={`relative 
+        className={`relative items-stretch
     grid 
     gap-2 
     p-5 
@@ -57,25 +58,31 @@ const ContentShowcase = ({ section, editor }) => {
             className={`  ${getContentFocusStyle(
               isFocusContent,
               content.id
-            )} text-center flex flex-col items-center p-2 `}
+            )} w-full text-center flex flex-col items-center p-2 `}
           >
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col ">
               {imagePosition === "top" && (
-                <LazyLoadImage
-                  src={content?.image}
-                  alt={content?.alt ? content.alt : ""}
+                <div
+                  className="w-full relative my-3"
                   style={{
                     aspectRatio,
+                    borderRadius: rounded,
+                    overflow: "hidden",
                   }}
-                  className={`w-full object-cover my-3 ${
-                    content?.target?.options?.type ? "cursor-pointer" : ""
-                  }`}
-                  onClick={() => onActionClickTarget(content?.target, editor)}
-                  effect="blur"
-                  wrapperProps={{
-                    style: { transitionDelay: "1s" },
-                  }}
-                />
+                >
+                  <LazyLoadImage
+                    src={content?.image}
+                    alt={content?.alt || ""}
+                    className={`w-full h-full object-cover ${
+                      content?.target?.options?.type ? "cursor-pointer" : ""
+                    }`}
+                    onClick={() => onActionClickTarget(content?.target, editor)}
+                    effect="blur"
+                    wrapperProps={{
+                      style: { transitionDelay: "1s" },
+                    }}
+                  />
+                </div>
               )}
 
               <p
@@ -90,21 +97,27 @@ const ContentShowcase = ({ section, editor }) => {
               </p>
 
               {imagePosition === "center" && (
-                <LazyLoadImage
-                  src={content?.image}
-                  alt={content?.alt ? content.alt : ""}
+                <div
+                  className="w-full relative my-3"
                   style={{
                     aspectRatio,
+                    borderRadius: rounded,
+                    overflow: "hidden",
                   }}
-                  className={`w-full object-cover my-3 ${
-                    content?.target?.options?.type ? "cursor-pointer" : ""
-                  }`}
-                  onClick={() => onActionClickTarget(content?.target, editor)}
-                  effect="blur"
-                  wrapperProps={{
-                    style: { transitionDelay: "1s" },
-                  }}
-                />
+                >
+                  <LazyLoadImage
+                    src={content?.image}
+                    alt={content?.alt || ""}
+                    className={`w-full h-full object-cover ${
+                      content?.target?.options?.type ? "cursor-pointer" : ""
+                    }`}
+                    onClick={() => onActionClickTarget(content?.target, editor)}
+                    effect="blur"
+                    wrapperProps={{
+                      style: { transitionDelay: "1s" },
+                    }}
+                  />
+                </div>
               )}
 
               <div
@@ -119,21 +132,27 @@ const ContentShowcase = ({ section, editor }) => {
               />
 
               {imagePosition === "bottom" && (
-                <LazyLoadImage
-                  src={content?.image}
-                  alt={content?.alt ? content.alt : ""}
+                <div
+                  className="w-full relative my-3"
                   style={{
                     aspectRatio,
+                    borderRadius: rounded,
+                    overflow: "hidden",
                   }}
-                  className={`w-full object-cover my-3 ${
-                    content?.target?.options?.type ? "cursor-pointer" : ""
-                  }`}
-                  onClick={() => onActionClickTarget(content?.target, editor)}
-                  effect="blur"
-                  wrapperProps={{
-                    style: { transitionDelay: "1s" },
-                  }}
-                />
+                >
+                  <LazyLoadImage
+                    src={content?.image}
+                    alt={content?.alt || ""}
+                    className={`w-full h-full object-cover ${
+                      content?.target?.options?.type ? "cursor-pointer" : ""
+                    }`}
+                    onClick={() => onActionClickTarget(content?.target, editor)}
+                    effect="blur"
+                    wrapperProps={{
+                      style: { transitionDelay: "1s" },
+                    }}
+                  />
+                </div>
               )}
             </div>
           </div>

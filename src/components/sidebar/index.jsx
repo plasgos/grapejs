@@ -214,13 +214,12 @@ const Sidebar = ({
   };
 
   useEffect(() => {
-    if (!editor) return;
-    if (isLoadingGenerateAI) {
+    if (isLoadingGenerateAI && !isError) {
       injectLoadingAIGenerateCanvas(editor);
     } else {
-      removeLoadingFromCanvas();
+      removeLoadingFromCanvas(editor);
     }
-  }, [editor, isLoadingGenerateAI]);
+  }, [isError, isLoadingGenerateAI, editor]);
 
   return (
     <>

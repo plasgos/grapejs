@@ -62,11 +62,11 @@ export const contentShowcaseComponent = (editor) => {
       ],
       wrapperStyle: {
         column: "3",
-        aspectRatio: 2 / 1,
+        aspectRatio: 4 / 5,
+        rounded: 20,
         titleColor: "#000000",
         fontWeight: "font-semibold",
         descriptionColor: "#000000",
-        fontSizeTitle: "tw-text-sm",
         imagePosition: "center",
         fontFamily: "Roboto",
         fontSize: 16,

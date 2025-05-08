@@ -388,26 +388,6 @@ const MainWebEditor = () => {
                   isPreviewActive ? "h-screen" : "h-full"
                 } items-center relative z-50`}
               >
-                {/* {isLoadingGenerateAI ? (
-                  <div className="flex flex-col ">
-                    <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </div>
-                ) : (
-                  <Canvas
-                    style={{
-                      backgroundColor: "#FFF4EA",
-                      width: "100%",
-                      minHeight: isDragging ? "200%" : "100%",
-                      transform: isDragging ? "scale(0.5)" : "scale(1)",
-                      transformOrigin: "center center",
-                    }}
-                  />
-                )} */}
-
                 <Canvas
                   style={{
                     backgroundColor: "#FFF4EA",
@@ -417,8 +397,6 @@ const MainWebEditor = () => {
                     transformOrigin: "center center",
                   }}
                 />
-
-                {/* {isLoadingGenerateAI && <LoadingGenerateAICanvas />} */}
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>

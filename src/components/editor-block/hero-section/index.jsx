@@ -32,6 +32,8 @@ import ButtonStylesEditor from "../_components/ButtonStylesEditor";
 import DraggableList from "../_components/DraggableList";
 import IconPicker from "../_components/IconPicker";
 import TargetOptions from "../_components/TargetOptions";
+import SelectOptions from "../_components/SelectOptions";
+import { textShadowOptions } from "@/components/SelectOptions";
 
 const imagePostionOptions = [
   { value: "left", label: "Left", icon: <BsAlignStart /> },
@@ -154,7 +156,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
           <SectionAddScrollTargetId selectedComponent={selectedComponent} />
 
           {wrapperStyle.variant === "basic" && (
-            <Accordion type="single" collapsible>
+            <Accordion defaultValue="image" type="single" collapsible>
               <AccordionItem value="image">
                 <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
                   Image
@@ -236,6 +238,18 @@ const EditorHeroSection = ({ selectedComponent }) => {
             onChange={(value) =>
               handleComponentChange(
                 `contents.${contents[0].id}.textBanner`,
+                value
+              )
+            }
+          />
+
+          <SelectOptions
+            label="Text Shadow"
+            options={textShadowOptions}
+            value={currentComponent.contents[0].textShadow}
+            onChange={(value) =>
+              handleComponentChange(
+                `contents.${currentComponent.contents[0].id}.textShadow`,
                 value
               )
             }
@@ -328,7 +342,17 @@ const EditorHeroSection = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="transition"
       >
-        <TransitionEditor selectedComponent={selectedComponent} />
+        <TransitionEditor
+          selectedComponent={selectedComponent}
+          label="Image Transition"
+          type="animation"
+        />
+
+        <TransitionEditor
+          selectedComponent={selectedComponent}
+          label="Text Transition"
+          type="animationText"
+        />
       </TabsContent>
 
       <TabsContent

@@ -50,8 +50,9 @@ const ViewHeroSection = ({ section, editor }) => {
                         alt={content?.alt ? content.alt : ""}
                         style={{
                           width: content.width,
+                          aspectRatio: 5 / 3,
                         }}
-                        className={`object-contain  ${
+                        className={`object-cover  ${
                           content?.target?.options?.type ? "cursor-pointer" : ""
                         }`}
                         onClick={() =>
@@ -152,8 +153,9 @@ const ViewHeroSection = ({ section, editor }) => {
                         alt={content?.alt ? content.alt : ""}
                         style={{
                           width: content.width,
+                          aspectRatio: 5 / 3,
                         }}
-                        className={`object-contain  ${
+                        className={`object-cover  ${
                           content?.target?.options?.type ? "cursor-pointer" : ""
                         }`}
                         onClick={() =>

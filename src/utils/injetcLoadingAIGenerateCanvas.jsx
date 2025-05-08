@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 let root = null;
 
 export const injectLoadingAIGenerateCanvas = (editor) => {
-  console.log("🚀 ~ injectLoadingAIGenerateCanvas ~ editor:", editor);
   const canvasEl = editor.Canvas.getFrameEl();
   if (!canvasEl) return;
 
@@ -34,11 +33,30 @@ export const injectLoadingAIGenerateCanvas = (editor) => {
   root.render(<LoadingGenerateAICanvas />);
 };
 
-export const removeLoadingFromCanvas = () => {
-  const canvas = document.getElementById("ai-loading-overlay");
+// export const removeLoadingFromCanvas = () => {
+//   console.log("🚨 removeLoadingFromCanvas dipanggil!");
+//   const canvas = document.getElementById("ai-loading-overlay");
+//   if (canvas && root) {
+//     root.unmount();
+//     canvas.remove();
+//     root = null;
+//   }
+// };
+
+export const removeLoadingFromCanvas = (editor) => {
+  const canvasEl = editor?.Canvas.getFrameEl();
+  const canvasDoc = canvasEl?.contentDocument;
+
+  if (!canvasDoc) return;
+
+  const canvas = canvasDoc.getElementById("ai-loading-overlay");
+
   if (canvas && root) {
-    root.unmount();
-    canvas.remove();
-    root = null;
+    setTimeout(() => {
+      root.unmount();
+      canvas.remove();
+      root = null;
+      console.log("✅ Loading overlay berhasil dihapus");
+    }, 0);
   }
 };

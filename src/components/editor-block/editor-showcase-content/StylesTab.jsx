@@ -19,6 +19,7 @@ import ColorPicker from "../_components/ColorPicker";
 import SelectFontFamily from "../_components/SelectFontFamily";
 import SelectFontSize from "../_components/SelectFontSize";
 import SelectTextAligment from "../_components/SelectTextAligment";
+import RangeInputSlider from "../_components/RangeInputSlider";
 
 const imagePositionOptions = [
   { value: "top", label: "Top", icon: <TbBoxAlignTopFilled size={24} /> },
@@ -76,6 +77,16 @@ const StylesTab = ({ selectedComponent }) => {
                 onChange={(value) => {
                   handleComponentChange("wrapperStyle.aspectRatio", value);
                 }}
+              />
+
+              <RangeInputSlider
+                label="Rounded"
+                value={wrapperStyle.rounded}
+                onChange={(value) =>
+                  handleComponentChange("wrapperStyle.rounded", value)
+                }
+                min={0}
+                max={50}
               />
             </div>
           </AccordionContent>

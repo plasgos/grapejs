@@ -8,7 +8,6 @@ const ViewFAQ = ({ section, editor }) => {
 
   const { contents } = section;
   const {
-    textShadow,
     color,
     fontWeight,
     fontFamily,
@@ -75,7 +74,6 @@ const ViewFAQ = ({ section, editor }) => {
                       color: color,
                       fontFamily: fontFamily,
                       fontSize: fontSize,
-                      textShadow: textShadow,
                       fontWeight,
                     }}
                     className={`w-full break-all italic   `}
@@ -137,8 +135,7 @@ const ViewFAQ = ({ section, editor }) => {
                       color: color,
                       fontFamily: fontFamily,
                       fontSize: fontSize,
-                      textShadow: textShadow,
-                    }}
+                        }}
                     className={`w-full break-all ${fontFamily} ${fontWeight}`}
                   >
                     {content.title}
@@ -163,9 +160,6 @@ const ViewFAQ = ({ section, editor }) => {
                   <div className="p-2">
                     <div
                       className="text-muted-foreground"
-                      style={{
-                        textShadow: content?.textShadow,
-                      }}
                       dangerouslySetInnerHTML={{ __html: content.description }}
                     />
                   </div>
