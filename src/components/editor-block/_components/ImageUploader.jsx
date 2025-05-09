@@ -70,6 +70,7 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
 
   const [isOpenGallery, setIsOpenGallery] = useState(false);
   const [fadingOutImages, setFadingOutImages] = useState([]);
+  const [showSuccessIcon, setShowSuccessIcon] = useState(false);
 
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -100,17 +101,25 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
       ...payload,
     }));
 
-    // if (updates.status === "success") {
-    //   handleFileUpload(updates?.data?.url);
-    // }
+    if (updates.status === "success") {
+      handleFileUpload(updates?.data?.url);
+
+      setTimeout(() => {
+        refetch();
+      }, 100);
+    }
   };
 
   useEffect(() => {
-    if (uploadStatus && uploadStatus.status === "success") {
-      handleFileUpload(uploadStatus?.data?.url);
-      refetch();
+    if (uploadStatus?.status === "success") {
+      setShowSuccessIcon(true);
+      const timeout = setTimeout(() => {
+        setShowSuccessIcon(false);
+      }, 2000); // tampil selama 2 detik
+
+      return () => clearTimeout(timeout);
     }
-  }, [handleFileUpload, refetch, uploadStatus]);
+  }, [uploadStatus?.status]);
 
   const urlEndpoint = "https://ik.imagekit.io/ez1ffaf6o/";
 
@@ -361,38 +370,39 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
         />
       </div>
 
-      {isNotExistImageOnGallery && uploadStatus?.status !== "success" && (
-        <div className="absolute top-7 right-3">
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  disabled={uploadStatus?.status === "uploading"}
-                  onClick={handleSaveToGallerry}
-                  className={`${
-                    uploadStatus?.status === "success"
-                      ? "bg-green-500 hover:bg-green-600"
-                      : "bg-sky-500 hover:bg-sky-600"
-                  }`}
-                  size="icon"
-                >
-                  {" "}
-                  {uploadStatus?.status === "uploading" ? (
-                    <Loader2 className="animate-spin" />
-                  ) : uploadStatus?.status === "success" ? (
-                    <FaCheck className="text-white" />
-                  ) : (
-                    <HiOutlineSave />
-                  )}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Save to gallery</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      )}
+      {isNotExistImageOnGallery &&
+        (uploadStatus?.status !== "success" || showSuccessIcon) && (
+          <div className="absolute top-7 right-3">
+            <TooltipProvider delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    disabled={uploadStatus?.status === "uploading"}
+                    onClick={handleSaveToGallerry}
+                    className={`${
+                      uploadStatus?.status === "success"
+                        ? "bg-green-500 hover:bg-green-600"
+                        : "bg-sky-500 hover:bg-sky-600"
+                    }`}
+                    size="icon"
+                  >
+                    {" "}
+                    {uploadStatus?.status === "uploading" ? (
+                      <Loader2 className="animate-spin" />
+                    ) : uploadStatus?.status === "success" ? (
+                      <FaCheck className="text-white" />
+                    ) : (
+                      <HiOutlineSave />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Save to gallery</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        )}
 
       <div className="flex justify-between gap-3">
         <Dialog open={isOpenUploadModal} onOpenChange={setIsOpenUploadModal}>

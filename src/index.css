@@ -265,3 +265,7 @@
   margin: 0 0 15px 0;
   position: relative;
 }
+
+.rich-text * {
+  color: var(--descriptionColor);
+}

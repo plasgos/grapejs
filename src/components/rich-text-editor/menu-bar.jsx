@@ -205,24 +205,24 @@ export default function MenuBar({ editor }) {
   };
 
   const Options = [
-    {
-      label: "Heading 1",
-      icon: <Heading1 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
-      preesed: editor.isActive("heading", { level: 1 }),
-    },
-    {
-      label: "Heading 2",
-      icon: <Heading2 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-      preesed: editor.isActive("heading", { level: 2 }),
-    },
-    {
-      label: "Heading 3",
-      icon: <Heading3 className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
-      preesed: editor.isActive("heading", { level: 3 }),
-    },
+    // {
+    //   label: "Heading 1",
+    //   icon: <Heading1 className="size-4" />,
+    //   onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    //   preesed: editor.isActive("heading", { level: 1 }),
+    // },
+    // {
+    //   label: "Heading 2",
+    //   icon: <Heading2 className="size-4" />,
+    //   onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    //   preesed: editor.isActive("heading", { level: 2 }),
+    // },
+    // {
+    //   label: "Heading 3",
+    //   icon: <Heading3 className="size-4" />,
+    //   onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+    //   preesed: editor.isActive("heading", { level: 3 }),
+    // },
 
     {
       label: "Text Left",

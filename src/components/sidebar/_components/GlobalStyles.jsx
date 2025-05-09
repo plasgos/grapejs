@@ -4,6 +4,7 @@ import { useState } from "react";
 import SelectOptions from "../../editor-block/_components/SelectOptions";
 import ColorPicker from "../../editor-block/_components/ColorPicker";
 import { widthPageOptions } from "../../SelectOptions";
+import ColorPalettesOptions from "@/components/theme-colors/ColorPalettesOptions";
 
 const GlobalStyles = () => {
   const editor = useEditor();
@@ -63,6 +64,8 @@ const GlobalStyles = () => {
         value={globalOptions.bgColor}
         onChange={(color) => changeBackgroundColor(color)}
       />
+
+      <ColorPalettesOptions />
     </div>
   );
 };

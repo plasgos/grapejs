@@ -20,10 +20,12 @@ export const contentShowcaseComponent = (editor) => {
         {
           id: generateId(),
           title: "Panduan Lengkap Memulai Bisnis Online",
-          description:
-            "Temukan langkah-langkah praktis memulai bisnis online dari nol. Pelajari strategi pemasaran, manajemen produk, dan tips meningkatkan penjualan secara efektif.",
-          // image: products1,
-          image: "https://placehold.co/600x400",
+          description: `<p>
+          <span>
+          Temukan langkah-langkah praktis memulai bisnis online dari nol. Pelajari strategi pemasaran, manajemen produk, dan tips meningkatkan penjualan secara efektif.
+          </span
+          </p>`,
+          image: products1,
           target: {
             actionType: "link",
             options: {
@@ -36,8 +38,11 @@ export const contentShowcaseComponent = (editor) => {
         {
           id: generateId(),
           title: "Tips Meningkatkan Kualitas Produk Anda",
-          description:
-            "Pelajari cara meningkatkan kualitas produk Anda dengan bahan terbaik dan proses produksi yang efisien. Dapatkan kepercayaan pelanggan dan tingkatkan loyalitas merek.",
+          description: `<p>
+          <span>
+         Pelajari cara meningkatkan kualitas produk Anda dengan bahan terbaik dan proses produksi yang efisien. Dapatkan kepercayaan pelanggan dan tingkatkan loyalitas merek.
+          </span
+          </p>`,
           image: products2,
           target: {
             actionType: "link",
@@ -49,8 +54,11 @@ export const contentShowcaseComponent = (editor) => {
         {
           id: generateId(),
           title: "Langkah Menciptakan Produk Inovatif",
-          description:
-            "Ketahui langkah-langkah menciptakan produk inovatif yang memenuhi kebutuhan pasar. Mulai dari riset hingga peluncuran, raih peluang bisnis yang lebih besar.",
+          description: `<p>
+          
+         Ketahui langkah-langkah menciptakan produk inovatif yang memenuhi kebutuhan pasar. Mulai dari riset hingga peluncuran, raih peluang bisnis yang lebih besar.
+        
+          </p>`,
           image: products3,
           target: {
             actionType: "link",

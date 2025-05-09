@@ -91,11 +91,15 @@ export const injectComponents = (editor, options) => {
           this.root = createRoot(this.el);
         }
 
+        const allComponents = editor.getWrapper().components();
+        const index = allComponents.indexOf(this.model);
+
         this.root.render(
           <Provider store={store}>
             <ViewComponent
               section={this.model.get("customComponent")}
               editor={editor}
+              index={index}
             />
           </Provider>
         );

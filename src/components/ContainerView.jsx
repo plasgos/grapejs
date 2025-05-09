@@ -1,4 +1,5 @@
 import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
+import { useSelector } from "react-redux";
 
 const ContainerView = ({
   children,
@@ -8,11 +9,21 @@ const ContainerView = ({
   customStyles,
   customClassName,
   isFullwidth,
+  schemaColorBackground,
 }) => {
+  const { selectedColorScheme } = useSelector((state) => state.landingPage);
+
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
-
   const stylesBg = useBackgroundStyles(section);
+
+  const backgroundColor =
+    selectedColorScheme && section?.background?.bgType !== "bgColor"
+      ? `#${schemaColorBackground}`
+      : section?.background?.bgType === "bgColor"
+      ? section?.background?.bgColor
+      : "transparent";
+
   return (
     <div
       className={`${customClassName} mx-auto`}
@@ -20,10 +31,7 @@ const ContainerView = ({
       style={{
         paddingTop: stylesBg.paddingTop,
         paddingBottom: stylesBg.paddingBottom,
-        backgroundColor:
-          section?.background?.bgType === "bgColor"
-            ? section?.background?.bgColor
-            : "transparent",
+        backgroundColor,
         position: "relative",
         maxWidth: isFullwidth ? "100%" : globalOptions?.maxWidthPage,
         ...customStyles,

@@ -6,6 +6,7 @@ const initialState = {
   googleFonts: [],
   sidebarWidth: undefined,
   isCollapsedSideBar: false,
+  selectedColorScheme: undefined,
 };
 
 export const landingPageSlice = createSlice({
@@ -27,6 +28,9 @@ export const landingPageSlice = createSlice({
     setIsCollapsedSideBar: (state, action) => {
       state.isCollapsedSideBar = action.payload;
     },
+    setSelectedColorScheme: (state, action) => {
+      state.selectedColorScheme = action.payload;
+    },
   },
 });
 
@@ -36,6 +40,7 @@ export const {
   setGoogleFont,
   setSidebarWidth,
   setIsCollapsedSideBar,
+  setSelectedColorScheme,
 } = landingPageSlice.actions;
 
 export default landingPageSlice.reducer;
