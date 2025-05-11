@@ -205,7 +205,6 @@ const Navigator = ({
   setIsDragging,
   isFloatingComponent,
 }) => {
-  console.log("🚀 ~ components:", components);
   const editor = useEditor();
 
   const handleDragStart = (event) => {

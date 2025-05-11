@@ -1,51 +1,44 @@
-import { useEditor } from "@grapesjs/react";
-import { useEffect } from "react";
-import { useState } from "react";
-import SelectOptions from "../../editor-block/_components/SelectOptions";
-import ColorPicker from "../../editor-block/_components/ColorPicker";
-import { widthPageOptions } from "../../SelectOptions";
 import ColorPalettesOptions from "@/components/theme-colors/ColorPalettesOptions";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { useEditor } from "@grapesjs/react";
+import ColorPicker from "../../editor-block/_components/ColorPicker";
+import SelectOptions from "../../editor-block/_components/SelectOptions";
+import { widthPageOptions } from "../../SelectOptions";
 
 const GlobalStyles = () => {
   const editor = useEditor();
-  const editorModel = editor.getModel();
 
-  // State untuk menyimpan globalOptions agar bisa re-render otomatis
-  const [globalOptions, setGlobalOptions] = useState(
-    editorModel.get("globalOptions") || {}
-  );
-  useEffect(() => {
-    const updateGlobalOptions = () => {
-      setGlobalOptions({ ...(editorModel.get("globalOptions") || {}) });
-    };
+  const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
 
-    // Listen perubahan globalOptions di editorModel
-    editorModel.on("change:globalOptions", updateGlobalOptions);
-
-    return () => {
-      editorModel.off("change:globalOptions", updateGlobalOptions);
-    };
-  }, [editorModel]);
+  const wrapper = editor.getWrapper();
 
   const handleChangeWidthPage = (value) => {
-    // Update globalOptions di editorModel
-    editorModel.set("globalOptions", {
-      ...globalOptions,
+    updateGlobalOptions({
       maxWidthPage: value,
     });
   };
 
   const changeBackgroundColor = (color) => {
-    editorModel.set("globalOptions", {
-      ...globalOptions,
+    updateGlobalOptions({
       bgColor: color,
     });
 
-    const wrapper = editor.getWrapper();
+    if (wrapper) {
+      wrapper.addStyle({
+        "background-color": color,
+      });
+    }
+  };
+
+  const handleChangeSchemeColor = (value) => {
+    updateGlobalOptions({
+      schemeColor: value,
+      bgColor: value.baseColor,
+    });
 
     if (wrapper) {
       wrapper.addStyle({
-        "background-color": color, // Mengganti background color
+        "background-color": value.baseColor,
       });
     }
   };
@@ -53,19 +46,23 @@ const GlobalStyles = () => {
   return (
     <div className="p-5 flex flex-col gap-y-5 rounded-lg bg-white">
       <SelectOptions
-        label="Width Page"
+        label="Max Width Page"
         options={widthPageOptions}
         value={globalOptions.maxWidthPage}
         onChange={(value) => handleChangeWidthPage(value)}
       />
 
       <ColorPicker
-        label="Background Color"
+        label="Base Background Color"
         value={globalOptions.bgColor}
         onChange={(color) => changeBackgroundColor(color)}
       />
 
-      <ColorPalettesOptions />
+      <ColorPalettesOptions
+        label="Color Palettes"
+        value={globalOptions.schemeColor}
+        onChange={(value) => handleChangeSchemeColor(value)}
+      />
     </div>
   );
 };

@@ -72,6 +72,13 @@ export const injectComponents = (editor, options) => {
           this.renderReactComponent
         );
 
+        //ths action for monitoring schema colours index component
+        if (this.model.collection) {
+          this.listenTo(this.model.collection, "add remove reset sort", () => {
+            this.renderReactComponent();
+          });
+        }
+
         const editorModel = editor.getModel();
         this.listenTo(
           editorModel,
@@ -91,15 +98,18 @@ export const injectComponents = (editor, options) => {
           this.root = createRoot(this.el);
         }
 
-        const allComponents = editor.getWrapper().components();
-        const index = allComponents.indexOf(this.model);
+        const components = editor?.getComponents().models;
+        const componentId = this.model.getId();
+        const currentIndex = components.findIndex(
+          (c) => c.ccid === componentId
+        );
 
         this.root.render(
           <Provider store={store}>
             <ViewComponent
               section={this.model.get("customComponent")}
               editor={editor}
-              index={index}
+              index={currentIndex}
             />
           </Provider>
         );

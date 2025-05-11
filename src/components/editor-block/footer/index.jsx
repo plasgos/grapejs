@@ -22,21 +22,8 @@ import mandiri from "@/assets/mandiri.png";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { BsInfoSquareFill } from "react-icons/bs";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLink,
-  FaMapMarkerAlt,
-  FaRegImages,
-  FaWhatsapp,
-} from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import {
-  IoCall,
-  IoMailUnreadOutline,
-  IoShareSocialSharp,
-} from "react-icons/io5";
-import { MdOutlineMailOutline } from "react-icons/md";
+import { FaLink, FaRegImages } from "react-icons/fa";
+import { IoMailUnreadOutline, IoShareSocialSharp } from "react-icons/io5";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import StylesTab from "./StylesTab";
 import EditorContactInfo from "./_components/EditorContactInfo";
@@ -165,24 +152,24 @@ const fieldOptions = [
         id: `address-${generateId()}`,
         label: "Address",
         value: "Jl Sudirman 31 Jakarta Selatan",
-        icon: <FaMapMarkerAlt />,
+        icon: "FaMapMarkerAlt",
       },
       {
         id: `phoneNumber-${generateId()}`,
         label: "Phone Number",
-        icon: <IoCall />,
+        icon: "FaPhoneAlt",
         value: "(021) 2248 1664",
       },
       {
         id: `email-${generateId()}`,
         label: "Email",
-        icon: <MdOutlineMailOutline />,
+        icon: "FaEnvelope",
         value: "costumer.care@plasgos.co.id",
       },
       {
         id: `whatsapp-${generateId()}`,
         label: "whatsapp",
-        icon: <FaWhatsapp />,
+        icon: "FaWhatsapp",
         value: "0853-1111-1010",
       },
     ],
@@ -205,20 +192,20 @@ const fieldOptions = [
         id: `fb-${generateId()}`,
         label: "Facebook",
         value: "",
-        icon: <FaFacebook size={32} />,
+        icon: "FaFacebook",
         placeholder: "https://facebook.com/username",
       },
       {
         id: `ig-${generateId()}`,
         label: "Instagram",
-        icon: <FaInstagram size={32} />,
+        icon: "FaInstagram",
         value: "",
         placeholder: "https://instagram.com/username",
       },
       {
         id: `x-${generateId()}`,
         label: "Twitter (X)",
-        icon: <FaSquareXTwitter size={32} />,
+        icon: "FaSquareXTwitter",
         value: "",
         placeholder: "https://x.com/username",
       },

@@ -1,24 +1,98 @@
 export const schemeColours = [
   {
-    name: "warm-01",
+    name: "base-01",
+    baseColor: "#FFFFFF",
     colours: [
       {
-        background: "ccd5ae",
+        background: "F5F5F5",
         primary: "000000",
         secondary: "5B4A4A",
       },
       {
-        background: "e9edc9",
+        background: "FFFFFF",
         primary: "000000",
         secondary: "5B4A4A",
       },
       {
-        background: "fefae0",
+        background: "F5F5F5",
+        primary: "000000",
+        secondary: "5B4A4A",
+      },
+    ],
+  },
+  {
+    name: "base-02",
+    baseColor: "#FFFFFF",
+    colours: [
+      {
+        background: "F9F4DA",
         primary: "000000",
         secondary: "5B4A4A",
       },
       {
-        background: "d4a373",
+        background: "764ABC",
+        primary: "000000",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "FFFFFF",
+        primary: "000000",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "F5F6F7",
+        primary: "000000",
+        secondary: "5B4A4A",
+      },
+    ],
+  },
+  {
+    name: "dark-02",
+    baseColor: "#1B1B1D",
+    colours: [
+      {
+        background: "1C1E21",
+        primary: "C4C9CE",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "764ABC",
+        primary: "C4C9CE",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "1B1B1D",
+        primary: "C4C9CE",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "1C1E21",
+        primary: "C4C9CE",
+        secondary: "5B4A4A",
+      },
+    ],
+  },
+  {
+    name: "warm-02",
+    baseColor: "#E16A54",
+    colours: [
+      {
+        background: "7C444F",
+        primary: "000000",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "9F5255",
+        primary: "000000",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "E16A54",
+        primary: "000000",
+        secondary: "5B4A4A",
+      },
+      {
+        background: "F39E60",
         primary: "000000",
         secondary: "5B4A4A",
       },
@@ -26,6 +100,8 @@ export const schemeColours = [
   },
   {
     name: "halloween",
+    baseColor: "#fb8b24",
+
     colours: [
       {
         background: "5f0f40",

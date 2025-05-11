@@ -76,7 +76,7 @@ const CustomPortal = ({ children }) => {
   return createPortal(children, target);
 };
 
-const ViewNavbar = ({ section, editor }) => {
+const ViewNavbar = ({ section, editor, index }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
 
   const { contents, side, logoWidth, wrapperStyle } = section;
@@ -219,6 +219,7 @@ const ViewNavbar = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
       isFullwidth={true}
     >
       <div

@@ -1,5 +1,4 @@
 import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
-import { useSelector } from "react-redux";
 
 const ContainerView = ({
   children,
@@ -9,16 +8,34 @@ const ContainerView = ({
   customStyles,
   customClassName,
   isFullwidth,
-  schemaColorBackground,
+  index,
 }) => {
-  const { selectedColorScheme } = useSelector((state) => state.landingPage);
+  const globalOptions = editor.getModel()?.get("globalOptions");
 
-  const editorModel = editor.getModel();
-  const globalOptions = editorModel.get("globalOptions");
+  const { maxWidthPage, schemeColor } = globalOptions || {};
+
+  const components = editor?.getComponents()?.models;
+
+  const schemaColorLastIndex =
+    schemeColor?.colours[schemeColor?.colours.length - 1];
+
+  const isLastIndex = index === components.length - 1;
+
+  const colours = schemeColor?.colours || [];
+  const colorIndex = (() => {
+    if (isLastIndex) return null; // nanti pakai schemaColorLastIndex
+    if (index < colours.length - 1) return index;
+    return colours.length - 2; // pakai warna sebelum terakhir
+  })();
+
+  const schemaColorBackground = isLastIndex
+    ? schemaColorLastIndex?.background
+    : colours[colorIndex]?.background;
+
   const stylesBg = useBackgroundStyles(section);
 
   const backgroundColor =
-    selectedColorScheme && section?.background?.bgType !== "bgColor"
+    schemeColor && section?.background?.bgType !== "bgColor"
       ? `#${schemaColorBackground}`
       : section?.background?.bgType === "bgColor"
       ? section?.background?.bgColor
@@ -33,7 +50,7 @@ const ContainerView = ({
         paddingBottom: stylesBg.paddingBottom,
         backgroundColor,
         position: "relative",
-        maxWidth: isFullwidth ? "100%" : globalOptions?.maxWidthPage,
+        maxWidth: isFullwidth ? "100%" : maxWidthPage,
         ...customStyles,
       }}
     >

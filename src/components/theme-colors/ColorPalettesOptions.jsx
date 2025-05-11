@@ -1,20 +1,14 @@
-import { setSelectedColorScheme } from "@/redux/modules/landing-page/landingPageSlice";
 import { cx } from "class-variance-authority";
-import { useDispatch, useSelector } from "react-redux";
 import { schemeColours } from ".";
 
-const ColorPalettesOptions = () => {
-  const { selectedColorScheme } = useSelector((state) => state.landingPage);
-
-  const dispatch = useDispatch();
-
+const ColorPalettesOptions = ({ label, value, onChange }) => {
   return (
     <div className="flex flex-col gap-y-3">
-      <p>Color Palettes</p>
+      <p>{label}</p>
 
       <div className="grid grid-cols-4 gap-3">
         {schemeColours.map((schemeColor, index) => {
-          const selected = schemeColor?.name === selectedColorScheme?.name;
+          const selected = schemeColor?.name === value?.name;
 
           return (
             <div
@@ -23,7 +17,7 @@ const ColorPalettesOptions = () => {
                 "flex rounded-lg overflow-hidden max-w-full cursor-pointer",
                 selected && "ring-2 ring-purple-500  ring-offset-2"
               )}
-              onClick={() => dispatch(setSelectedColorScheme(schemeColor))}
+              onClick={() => onChange(schemeColor)}
             >
               {schemeColor.colours.map((color, indexColor) => {
                 return (

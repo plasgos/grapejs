@@ -227,11 +227,13 @@ const MainWebEditor = () => {
 
     const intialStateGlobalData = {
       maxWidthPage: 1360,
+      schemeColor: null,
       bgColor: "",
       scrollTarget: [
         { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
       ],
       popup: [],
+      isFocusComponent: "",
     };
 
     // Set global options

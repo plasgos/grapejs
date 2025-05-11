@@ -5,6 +5,7 @@ import ColorPicker from "../_components/ColorPicker";
 import RangeInputSlider from "../_components/RangeInputSlider";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { useEffect } from "react";
+import { useEditor } from "@grapesjs/react";
 
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -12,14 +13,16 @@ const StylesTab = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
+  const editor = useEditor();
+
   const { wrapperStyle } = currentComponent;
-  const { maxWidthPage } = useGlobalOptions();
+  const [globalOptions] = useGlobalOptions(editor);
 
   useEffect(() => {
-    if (wrapperStyle.width > maxWidthPage) {
-      handleComponentChange("wrapperStyle.width", maxWidthPage);
+    if (wrapperStyle.width > globalOptions?.maxWidthPage) {
+      handleComponentChange("wrapperStyle.width", globalOptions?.maxWidthPage);
     }
-  }, [handleComponentChange, maxWidthPage, wrapperStyle.width]);
+  }, [handleComponentChange, globalOptions?.maxWidthPage, wrapperStyle.width]);
 
   return (
     <div className="flex flex-col gap-5">
@@ -33,7 +36,7 @@ const StylesTab = ({ selectedComponent }) => {
             handleComponentChange("wrapperStyle.width", value)
           }
           min={320}
-          max={maxWidthPage}
+          max={globalOptions?.maxWidthPage}
         />
 
         <RangeInputSlider

@@ -167,7 +167,7 @@ import ContainerView from "@/components/ContainerView";
 import { useSelector } from "react-redux";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
-const ViewFormCheckout = ({ section, editor }) => {
+const ViewFormCheckout = ({ section, editor, index }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
 
   const { contents } = section;
@@ -273,6 +273,7 @@ const ViewFormCheckout = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
       customStyles={{
         width,
       }}

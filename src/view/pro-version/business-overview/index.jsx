@@ -4,7 +4,7 @@ import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { useSelector } from "react-redux";
 
-const ViewBusinessOverview = ({ section, editor }) => {
+const ViewBusinessOverview = ({ section, editor, index }) => {
   const {
     textShadow,
     fontFamily,
@@ -29,6 +29,7 @@ const ViewBusinessOverview = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
     >
       <div
         style={{

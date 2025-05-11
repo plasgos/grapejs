@@ -6,7 +6,7 @@ import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 import { useSelector } from "react-redux";
 
-const ViewFeatureHighlights = ({ section, editor }) => {
+const ViewFeatureHighlights = ({ section, editor, index }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
 
   const { contents, animation } = section;
@@ -21,6 +21,7 @@ const ViewFeatureHighlights = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
     >
       <div className={`flex ${textAligment}`}>
         <div

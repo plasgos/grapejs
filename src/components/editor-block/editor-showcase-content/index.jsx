@@ -21,10 +21,6 @@ import TargetOptions from "../_components/TargetOptions";
 const EditorContentShowcase = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
-  console.log(
-    "🚀 ~ EditorContentShowcase ~ currentComponent:",
-    currentComponent.contents
-  );
 
   useSyncWithUndoRedo(setCurrentComponent);
 

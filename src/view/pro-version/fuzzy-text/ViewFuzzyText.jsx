@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import FuzzyText from "@/components/pro-version/FuzzyText";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewFuzzyText = ({ section, editor }) => {
+const ViewFuzzyText = ({ section, editor, index }) => {
   const {
     text,
     fontFamily = "Squada One",
@@ -22,6 +22,7 @@ const ViewFuzzyText = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
     >
       <div className={`p-10 flex ${textAlign}`}>
         <FuzzyText

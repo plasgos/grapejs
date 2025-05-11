@@ -11,7 +11,7 @@ import Heading from "./Heading";
 import { useSelector } from "react-redux";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
-const ViewFooter = ({ section, editor }) => {
+const ViewFooter = ({ section, editor, index }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
 
   const { contents, copyright, wrapperStyle } = section;
@@ -24,6 +24,7 @@ const ViewFooter = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
       isFullwidth={true}
     >
       <div

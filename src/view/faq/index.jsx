@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const ViewFAQ = ({ section, editor }) => {
+const ViewFAQ = ({ section, editor, index }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
 
   const { contents } = section;
@@ -51,6 +51,7 @@ const ViewFAQ = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
     >
       {variant === "basic" && (
         <div className="flex flex-col p-5 relative ">
@@ -135,7 +136,7 @@ const ViewFAQ = ({ section, editor }) => {
                       color: color,
                       fontFamily: fontFamily,
                       fontSize: fontSize,
-                        }}
+                    }}
                     className={`w-full break-all ${fontFamily} ${fontWeight}`}
                   >
                     {content.title}

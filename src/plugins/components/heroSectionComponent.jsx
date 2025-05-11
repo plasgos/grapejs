@@ -84,6 +84,7 @@ export const heroSectionComponent = (editor) => {
         variant: "no-image",
         btnPosition: "justify-start",
         shadow: "shadow-none",
+        isFullWidth: false,
       },
       animationText: {
         type: null,

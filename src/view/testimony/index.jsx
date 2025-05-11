@@ -8,7 +8,7 @@ import Layout2 from "./layout/Layout2";
 import Layout3 from "./layout/Layout3";
 import Layout4 from "./layout/Layout4";
 
-const ViewTestimony = ({ section, editor }) => {
+const ViewTestimony = ({ section, editor, index }) => {
   const { contents } = section;
   const { variant, header, withSlider, autoPlaySlider } = section.wrapperStyle;
 
@@ -17,8 +17,10 @@ const ViewTestimony = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
+      index={index}
     >
-      <div className="p-5">
+      <div className="relative p-5">
         <div
           style={{
             marginBottom: variant === "2" ? 40 : 20,

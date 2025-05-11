@@ -1,3 +1,6 @@
+import { createElement } from "react";
+import * as Icons from "react-icons/fa6";
+
 const ViewSocialMedia = ({ children, content, index }) => {
   const onClick = (link) => {
     if (link) {
@@ -14,7 +17,6 @@ const ViewSocialMedia = ({ children, content, index }) => {
       className="max-w-full"
     >
       {children}
-
       <div className="flex  flex-wrap gap-5  ">
         {content.options.map((opt) => {
           return (
@@ -23,7 +25,13 @@ const ViewSocialMedia = ({ children, content, index }) => {
               className={`${opt.value ? "cursor-pointer" : ""}`}
               onClick={() => onClick(opt.value)}
             >
-              {opt.icon}
+              {Icons[opt.icon] ? (
+                <div>
+                  {createElement(Icons[opt.icon], {
+                    size: 28,
+                  })}
+                </div>
+              ) : null}
             </div>
           );
         })}

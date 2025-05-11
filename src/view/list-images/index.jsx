@@ -6,7 +6,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useSelector } from "react-redux";
 
-const ViewListImages = ({ section, editor }) => {
+const ViewListImages = ({ section, editor, index }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
   const { contents } = section;
   const { column, aspectRatio } = section?.wrapperStyle || {};
@@ -29,6 +29,7 @@ const ViewListImages = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
     >
       <div
         className={`  relative     

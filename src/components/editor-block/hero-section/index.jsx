@@ -151,6 +151,16 @@ const EditorHeroSection = ({ selectedComponent }) => {
                 handleComponentChange("wrapperStyle.variant", value);
               }}
             />
+
+            <div className="flex justify-between items-center m-3">
+              <Label className="">Full Width</Label>
+              <Switch
+                checked={wrapperStyle.isFullWidth}
+                onCheckedChange={(checked) =>
+                  handleComponentChange("wrapperStyle.isFullWidth", checked)
+                }
+              />
+            </div>
           </div>
 
           <SectionAddScrollTargetId selectedComponent={selectedComponent} />

@@ -1,7 +1,7 @@
 import ContainerView from "@/components/ContainerView";
 import GalleryMasonry from "@/components/pro-version/GalleryMasonry";
 
-const ViewGalleryMasonry = ({ section, editor }) => {
+const ViewGalleryMasonry = ({ section, editor, index }) => {
   const { contents } = section;
 
   return (
@@ -9,6 +9,7 @@ const ViewGalleryMasonry = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
     >
       <GalleryMasonry data={contents} editor={editor} />
     </ContainerView>

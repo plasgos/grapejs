@@ -1,3 +1,6 @@
+import { createElement } from "react";
+import * as Icons from "react-icons/fa";
+
 const ViewContactInfo = ({ children, content, index }) => {
   return (
     <div
@@ -13,7 +16,14 @@ const ViewContactInfo = ({ children, content, index }) => {
         {content.options.map((opt) => {
           return (
             <div key={opt.id} className="flex items-center gap-3">
-              {opt.icon} <p>{opt.value}</p>
+              {Icons[opt.icon] ? (
+                <div>
+                  {createElement(Icons[opt.icon], {
+                    size: 24,
+                  })}
+                </div>
+              ) : null}
+              <p>{opt.value}</p>
             </div>
           );
         })}

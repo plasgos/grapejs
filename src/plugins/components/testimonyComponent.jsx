@@ -71,7 +71,7 @@ export const testimonyComponent = (editor) => {
         fontSize: 18,
         textAligment: "justify-center",
         borderColor: "rgba(223, 221, 221, 1)",
-        bgColor: "rgba(255, 255, 255, 1)",
+        bgColor: "transparent",
         quoteColor: "rgba(245, 245, 245, 1)",
         profectionColor: "rgba(148, 148, 150, 1)",
 

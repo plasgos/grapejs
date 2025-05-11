@@ -206,9 +206,7 @@ const Navbar = ({
                               onClick={() => {
                                 select(deviceItem.id);
 
-                                setTimeout(() => {
-                                  editor.refresh();
-                                }, 50);
+                                editor.refresh();
                               }}
                               className={` hover:bg-accent hover:text-accent-foreground p-2 rounded-md ${
                                 selected === deviceItem.id

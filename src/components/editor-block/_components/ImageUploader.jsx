@@ -54,11 +54,20 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
       const parsed = new URL(url);
       return parsed.origin + parsed.pathname;
     } catch (e) {
-      console.log("🚀 ~ cleanUrl ~ e:", e);
+      console.warn("🚀 ~ cleanUrl ~ e:", e);
       return url; // fallback kalau bukan URL valid
     }
   };
 
+  const isValidUrl = () => {
+    try {
+      new URL(image);
+      return true;
+    } catch (e) {
+      console.warn("🚀 ~ isValidUrl ~ e:", e);
+      return false;
+    }
+  };
   const isNotExistImageOnGallery = !images?.some(
     (img) => cleanUrl(img.url) === cleanUrl(image)
   );
@@ -89,9 +98,7 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
   };
 
   const [uploadStatus, setUploadStatus] = useState(null);
-  console.log("🚀 ~ ImageUploader ~ uploadStatus:", uploadStatus);
   const updateStatusSingleImage = (fileName, updates) => {
-    console.log("🚀 ~ updateStatusSingleImage ~ updates:", updates);
     const payload = {
       ...updates,
       name: fileName,
@@ -371,6 +378,7 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
       </div>
 
       {isNotExistImageOnGallery &&
+        isValidUrl() &&
         (uploadStatus?.status !== "success" || showSuccessIcon) && (
           <div className="absolute top-7 right-3">
             <TooltipProvider delayDuration={100}>

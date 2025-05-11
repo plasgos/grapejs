@@ -27,7 +27,7 @@ const Layout1 = ({ content, styles }) => {
         border: `1px solid  ${borderColor}`,
       }}
       key={content.id}
-      className={`p-3 rounded-lg  shadow      ${getContentFocusStyle(
+      className={`  p-3 rounded-lg  shadow      ${getContentFocusStyle(
         isFocusContent,
         content.id
       )}`}

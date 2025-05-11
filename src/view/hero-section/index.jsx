@@ -6,9 +6,9 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 import CustomButton from "../_components/CustomButton";
 
-const ViewHeroSection = ({ section, editor }) => {
+const ViewHeroSection = ({ section, editor, index }) => {
   const { contents, animation, animationText, buttons } = section;
-  const { withButton, variant, btnPosition, rotation, shadow } =
+  const { withButton, variant, btnPosition, rotation, shadow, isFullWidth } =
     section.wrapperStyle;
 
   const { elementRef, getClassName, duration } =
@@ -25,6 +25,8 @@ const ViewHeroSection = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
+      isFullwidth={isFullWidth}
     >
       {variant === "basic" && (
         <div className="relative ">

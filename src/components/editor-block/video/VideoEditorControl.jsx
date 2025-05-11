@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { useEditor } from "@grapesjs/react";
 import { useEffect } from "react";
 
 const videoOptions = [
@@ -15,13 +16,16 @@ const videoOptions = [
 ];
 
 const VideoEditorControl = ({ contents, handleComponentChange }) => {
-  const { maxWidthPage } = useGlobalOptions();
-
+  const editor = useEditor();
+  const [globalOptions] = useGlobalOptions(editor);
   useEffect(() => {
-    if (contents[0].width > maxWidthPage) {
-      handleComponentChange(`contents.${contents[0].id}.width`, maxWidthPage);
+    if (contents[0].width > globalOptions?.maxWidthPage) {
+      handleComponentChange(
+        `contents.${contents[0].id}.width`,
+        globalOptions?.maxWidthPage
+      );
     }
-  }, [contents, handleComponentChange, maxWidthPage]);
+  }, [contents, globalOptions?.maxWidthPage, handleComponentChange]);
 
   return (
     <>
@@ -75,7 +79,7 @@ const VideoEditorControl = ({ contents, handleComponentChange }) => {
           handleComponentChange(`contents.${contents[0].id}.width`, value)
         }
         min={100}
-        max={maxWidthPage}
+        max={globalOptions?.maxWidthPage}
       />
 
       <RangeInputSlider

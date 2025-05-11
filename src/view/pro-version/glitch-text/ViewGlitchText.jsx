@@ -3,7 +3,7 @@ import GlitchText from "@/components/pro-version/GlitchText";
 import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewGlitchText = ({ section, editor }) => {
+const ViewGlitchText = ({ section, editor, index }) => {
   const {
     text,
     fontFamily = "Squada One",
@@ -27,6 +27,7 @@ const ViewGlitchText = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      index={index}
     >
       <div className={`p-10 flex ${textAlign}`}>
         <GlitchText

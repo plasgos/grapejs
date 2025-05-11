@@ -1,19 +1,22 @@
 import ContainerView from "@/components/ContainerView";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
+import { memo } from "react";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useSelector } from "react-redux";
 
-const ContentShowcase = ({ section, editor, index }) => {
-  const { isFocusContent, selectedColorScheme } = useSelector(
-    (state) => state.landingPage
-  );
+function ContentShowcase({ section, editor, index }) {
+  const { isFocusContent } = useSelector((state) => state.landingPage);
+
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor } = globalOptions || {};
 
   const { contents } = section;
 
-  const schemaColor = selectedColorScheme?.colours[index];
+  const textColor = schemeColor?.colours[index];
 
   const {
     column,
@@ -40,13 +43,17 @@ const ContentShowcase = ({ section, editor, index }) => {
       ? "md:grid-cols-2"
       : "md:grid-cols-1";
 
+  const computedTitleColor =
+    titleColor.toLowerCase() !== `#${textColor?.primary?.toLowerCase()}`
+      ? titleColor
+      : `#${textColor?.primary}`;
+
   return (
     <ContainerView
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
       index={index}
-      schemaColorBackground={schemaColor?.background}
     >
       <div
         className={`relative items-stretch
@@ -98,9 +105,7 @@ const ContentShowcase = ({ section, editor, index }) => {
 
                 <p
                   style={{
-                    color: schemaColor
-                      ? `#${schemaColor?.primary}`
-                      : titleColor,
+                    color: computedTitleColor,
                     fontFamily: fontFamily,
                     fontSize: fontSize,
                   }}
@@ -137,7 +142,7 @@ const ContentShowcase = ({ section, editor, index }) => {
 
                 <div
                   className="rich-text break-all"
-                  style={{ "--descriptionColor": `#${schemaColor?.secondary}` }}
+                  style={{ "--descriptionColor": `#${textColor?.secondary}` }}
                   dangerouslySetInnerHTML={{
                     __html: content.description,
                   }}
@@ -175,6 +180,6 @@ const ContentShowcase = ({ section, editor, index }) => {
       </div>
     </ContainerView>
   );
-};
+}
 
-export default ContentShowcase;
+export default memo(ContentShowcase);
