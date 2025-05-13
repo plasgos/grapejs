@@ -1,8 +1,3 @@
-import slider1 from "@/assets/slider1.jpg";
-import slider2 from "@/assets/slider2.jpg";
-import slider3 from "@/assets/slider3.jpg";
-import slider4 from "@/assets/slider4.jpg";
-
 import ViewSliderImages from "@/view/slider-images";
 import { TfiLayoutSliderAlt } from "react-icons/tfi";
 import { injectComponents } from "../injectComponent";
@@ -19,7 +14,8 @@ export const sliderImagesComponent = (editor) => {
       contents: [
         {
           id: "slider-01",
-          image: slider1,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/slider5.jpg?updatedAt=1747124028834",
           alt: "",
           target: {
             actionType: "link",
@@ -30,7 +26,8 @@ export const sliderImagesComponent = (editor) => {
         },
         {
           id: "slider-02",
-          image: slider2,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/slider2.jpg?updatedAt=1747124028654",
           alt: "",
           target: {
             actionType: "link",
@@ -41,7 +38,8 @@ export const sliderImagesComponent = (editor) => {
         },
         {
           id: "slider-03",
-          image: slider3,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/slider4.jpg?updatedAt=1747123866454",
           alt: "",
           target: {
             actionType: "link",
@@ -52,7 +50,8 @@ export const sliderImagesComponent = (editor) => {
         },
         {
           id: "slider-04",
-          image: slider4,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/slider1.jpg?updatedAt=1747123866368",
           alt: "",
           target: {
             actionType: "link",

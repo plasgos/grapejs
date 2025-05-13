@@ -1,6 +1,3 @@
-import products1 from "@/assets/products1.webp";
-import products2 from "@/assets/products2.webp";
-import products3 from "@/assets/products3.webp";
 import { generateId } from "@/lib/utils";
 import ContentShowcase from "@/view/content-showcase";
 import { HiMiniViewColumns } from "react-icons/hi2";
@@ -25,7 +22,8 @@ export const contentShowcaseComponent = (editor) => {
           Temukan langkah-langkah praktis memulai bisnis online dari nol. Pelajari strategi pemasaran, manajemen produk, dan tips meningkatkan penjualan secara efektif.
           </span
           </p>`,
-          image: products1,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/products1.webp?updatedAt=1747115975853",
           target: {
             actionType: "link",
             options: {
@@ -43,7 +41,8 @@ export const contentShowcaseComponent = (editor) => {
          Pelajari cara meningkatkan kualitas produk Anda dengan bahan terbaik dan proses produksi yang efisien. Dapatkan kepercayaan pelanggan dan tingkatkan loyalitas merek.
           </span
           </p>`,
-          image: products2,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/products2.webp?updatedAt=1747115975781",
           target: {
             actionType: "link",
             options: {
@@ -59,7 +58,8 @@ export const contentShowcaseComponent = (editor) => {
          Ketahui langkah-langkah menciptakan produk inovatif yang memenuhi kebutuhan pasar. Mulai dari riset hingga peluncuran, raih peluang bisnis yang lebih besar.
         
           </p>`,
-          image: products3,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
           target: {
             actionType: "link",
             options: {

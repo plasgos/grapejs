@@ -18,7 +18,6 @@ const ViewTestimony = ({ section, editor, index }) => {
       editor={editor}
       section={section}
       index={index}
-      index={index}
     >
       <div className="relative p-5">
         <div

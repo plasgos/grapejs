@@ -2,6 +2,7 @@ import { Label } from "@/components/ui/label";
 import { SketchPicker, SwatchesPicker } from "react-color";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ReactColorPicker } from "react-color-picker-tool";
 
 import {
   Popover,
@@ -52,6 +53,24 @@ const ColorPicker = ({
     }
   };
 
+  const handlePickColor = async () => {
+    if (!("EyeDropper" in window)) {
+      alert("Eyedropper API not supported on this browser.");
+
+      return;
+    }
+
+    const eyeDropper = new EyeDropper();
+
+    try {
+      const result = await eyeDropper.open();
+
+      handleChange(result.sRGBHex);
+    } catch (error) {
+      console.log("🚀 ~ handlePickColor ~ error:", error);
+    }
+  };
+
   return (
     <div className="flex justify-between items-center  gap-2 relative w-full">
       {label && (
@@ -76,6 +95,9 @@ const ColorPicker = ({
               <TabsTrigger className="text-sm w-full" value="sketch-colours">
                 Sketch Colours
               </TabsTrigger>
+              <TabsTrigger className="text-sm w-full" value="eyedrop">
+                eyedrop
+              </TabsTrigger>
             </TabsList>
             <TabsContent className="m-0" value="pallete-colours">
               <SwatchesPicker
@@ -92,6 +114,16 @@ const ColorPicker = ({
                 color={parseRGBA(value)}
                 onChange={(color) => handleChange(color.rgb)}
               />
+            </TabsContent>
+
+            <TabsContent className="m-2" value="eyedrop">
+              <ReactColorPicker
+                width={275}
+                color={parseRGBA(value)}
+                onChange={(color) => handleChange(color.rgba)}
+              ></ReactColorPicker>
+
+              <button onClick={handlePickColor}>PICK</button>
             </TabsContent>
           </Tabs>
         </PopoverContent>

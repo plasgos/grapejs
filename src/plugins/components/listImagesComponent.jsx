@@ -1,6 +1,3 @@
-import products1 from "@/assets/products1.webp";
-import products2 from "@/assets/products2.webp";
-import products3 from "@/assets/products3.webp";
 import { generateId } from "@/lib/utils";
 import ViewListImages from "@/view/list-images";
 import { FaRegImages } from "react-icons/fa";
@@ -16,7 +13,8 @@ export const listImagesComponent = (editor) => {
       contents: [
         {
           id: generateId(),
-          image: products1,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/products1.webp?updatedAt=1747115975853",
           target: {
             actionType: "link",
             options: {
@@ -26,7 +24,8 @@ export const listImagesComponent = (editor) => {
         },
         {
           id: generateId(),
-          image: products2,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/products2.webp?updatedAt=1747115975781",
           target: {
             actionType: "link",
             options: {
@@ -36,7 +35,8 @@ export const listImagesComponent = (editor) => {
         },
         {
           id: generateId(),
-          image: products3,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
           target: {
             actionType: "link",
             options: {
@@ -48,6 +48,7 @@ export const listImagesComponent = (editor) => {
       wrapperStyle: {
         column: "3",
         aspectRatio: 1 / 1,
+        rounded: 20,
       },
       background: {
         bgType: null,

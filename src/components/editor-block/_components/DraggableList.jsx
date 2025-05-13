@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/accordion";
 
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -27,15 +29,12 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useEditor } from "@grapesjs/react";
+import { useEffect, useRef } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { MdClose, MdOutlineFilterCenterFocus } from "react-icons/md";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { TbEdit } from "react-icons/tb";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { Label } from "@/components/ui/label";
-import { useDispatch } from "react-redux";
-import { setIsFocusContent } from "@/redux/modules/landing-page/landingPageSlice";
 
 const SortableItem = ({
   item,
@@ -54,18 +53,19 @@ const SortableItem = ({
     isDragging,
   } = useSortable({ id: item.id });
 
+  const editor = useEditor();
+  const [_, updateGlobalOptions] = useGlobalOptions(editor);
+
   const handleEdit = () => {
     setEditItem(item.id);
     handleFocusItem();
   };
 
-  const dispatch = useDispatch();
-
   const handleFocusItem = () => {
-    dispatch(setIsFocusContent(item.id));
+    updateGlobalOptions({ isFocusContent: item.id });
 
     setTimeout(() => {
-      dispatch(setIsFocusContent(""));
+      updateGlobalOptions({ isFocusContent: "" });
     }, 1500);
   };
 
@@ -140,14 +140,10 @@ const SortableItem = ({
       <div className="flex items-center justify-between  ml-4">
         <div className="flex gap-x-3  items-center">
           {item.image ? (
-            <LazyLoadImage
+            <img
               src={item.image}
               alt={"items-list"}
               className="object-cover w-14 max-h-11 "
-              effect="blur"
-              wrapperProps={{
-                style: { transitionDelay: "1s" },
-              }}
             />
           ) : null}
 
@@ -237,7 +233,9 @@ const DraggableList = ({
   withoutFocusItem,
 }) => {
   const itemRefs = useRef({}); // Ref untuk setiap item
-  const dispatch = useDispatch();
+
+  const editor = useEditor();
+  const [_, updateGlobalOptions] = useGlobalOptions(editor);
 
   useEffect(() => {
     if (editItem && itemRefs.current[editItem]) {
@@ -273,10 +271,10 @@ const DraggableList = ({
 
     selectedComponent?.set("customComponent", updatedComponent);
 
-    dispatch(setIsFocusContent(active.id));
+    updateGlobalOptions({ isFocusContent: active.id });
 
     setTimeout(() => {
-      dispatch(setIsFocusContent(""));
+      updateGlobalOptions({ isFocusContent: "" });
     }, 1500);
 
     setCurrentComponent((prevComponent) =>
@@ -325,6 +323,7 @@ const DraggableList = ({
                       selectedComponent={selectedComponent}
                       setEditItem={setEditItem}
                       withoutFocusItem={withoutFocusItem}
+                      updateGlobalOptions={updateGlobalOptions}
                     />
                     <AccordionContent className="bg-white  rounded-b-lg   ">
                       <div className="flex flex-col gap-y-3">

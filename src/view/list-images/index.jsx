@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const ViewListImages = ({ section, editor, index }) => {
   const { isFocusContent } = useSelector((state) => state.landingPage);
   const { contents } = section;
-  const { column, aspectRatio } = section?.wrapperStyle || {};
+  const { column, aspectRatio, rounded } = section?.wrapperStyle || {};
 
   const columnClass =
     column === "6"
@@ -32,7 +32,7 @@ const ViewListImages = ({ section, editor, index }) => {
       index={index}
     >
       <div
-        className={`  relative     
+        className={`  relative  items-stretch   
     grid 
     gap-5
     p-5 
@@ -49,23 +49,32 @@ const ViewListImages = ({ section, editor, index }) => {
             className={`  ${getContentFocusStyle(
               isFocusContent,
               content.id
-            )}   `}
+            )}  w-full  `}
           >
-            <LazyLoadImage
-              src={content?.image}
-              alt={content?.alt ? content.alt : ""}
+            <div
+              className="w-full relative "
               style={{
                 aspectRatio,
+                borderRadius: rounded,
+                overflow: "hidden",
               }}
-              className={`w-full object-contain  ${
-                content?.target?.options?.type ? "cursor-pointer" : ""
-              } `}
-              onClick={() => onActionClickTarget(content?.target, editor)}
-              effect="blur"
-              wrapperProps={{
-                style: { transitionDelay: "1s" },
-              }}
-            />
+            >
+              <LazyLoadImage
+                src={content?.image}
+                alt={content?.alt ? content.alt : ""}
+                style={{
+                  aspectRatio,
+                }}
+                className={`w-full h-full object-cover  ${
+                  content?.target?.options?.type ? "cursor-pointer" : ""
+                } `}
+                onClick={() => onActionClickTarget(content?.target, editor)}
+                effect="blur"
+                wrapperProps={{
+                  style: { transitionDelay: "1s" },
+                }}
+              />
+            </div>
           </div>
         ))}
       </div>

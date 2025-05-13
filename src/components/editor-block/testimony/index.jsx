@@ -4,7 +4,6 @@ import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
-import avatar5 from "@/assets/avatar5.jpg";
 import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +43,8 @@ const EditorTestimony = ({ selectedComponent }) => {
 
     const newContent = {
       id: newId,
-      image: avatar5,
+      image:
+        "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar5.jpg?updatedAt=1747122493266",
       name: "David",
       profetion: "Freelancer",
       description:

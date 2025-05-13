@@ -1,4 +1,3 @@
-import products4 from "@/assets/products4.jpg";
 import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
@@ -29,7 +28,8 @@ const EditorListImages = ({ selectedComponent }) => {
     const newId = generateId();
     const newContent = {
       id: newId,
-      image: products4,
+      image:
+        "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
       target: {
         actionType: "link",
         options: {

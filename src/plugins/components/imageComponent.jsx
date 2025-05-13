@@ -1,4 +1,3 @@
-import products1 from "@/assets/products1.webp";
 import ViewImage from "@/view/image";
 import { FaImage } from "react-icons/fa6";
 import { injectComponents } from "../injectComponent";
@@ -14,7 +13,8 @@ export const imageComponent = (editor) => {
       contents: [
         {
           id: "img-01",
-          image: products1,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
           alt: "",
           isDownloadImage: false,
           target: {

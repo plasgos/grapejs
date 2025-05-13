@@ -4,7 +4,6 @@ import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
-import products4 from "@/assets/products4.jpg";
 import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,7 +35,8 @@ const EditorContentShowcase = ({ selectedComponent }) => {
       title: "Strategi Efektif Meningkatkan Penjualan Produk",
       description:
         "Temukan strategi terbaik untuk meningkatkan penjualan produk Anda, mulai dari optimasi pemasaran digital hingga membangun hubungan yang kuat dengan pelanggan.",
-      image: products4,
+      image:
+        "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
       target: {
         actionType: "link",
         options: {

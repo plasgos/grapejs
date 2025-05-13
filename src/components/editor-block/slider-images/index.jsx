@@ -2,8 +2,6 @@ import { TabsContent } from "@/components/ui/tabs";
 import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
-import slider5 from "@/assets/slider5.jpg";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,7 +39,8 @@ const EditorSliderImages = ({ selectedComponent }) => {
     const newId = generateId();
     const newContent = {
       id: newId,
-      image: slider5,
+      image:
+        "https://ik.imagekit.io/ez1ffaf6o/default-images/slider3.jpg?updatedAt=1747123866248",
       alt: "",
       target: {
         actionType: "link",

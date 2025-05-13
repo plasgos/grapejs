@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useDropzone } from "react-dropzone";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import {
   Tooltip,
@@ -38,7 +37,11 @@ import { HiOutlineSave } from "react-icons/hi";
 import { VscDebugRestart } from "react-icons/vsc";
 
 const ImageUploader = ({ label, handleFileUpload, image }) => {
-  const { data: images, refetch } = useGetImagesQuery(
+  const {
+    data: images,
+    isLoading,
+    refetch,
+  } = useGetImagesQuery(
     {
       path: "/sample-folder",
     },
@@ -366,14 +369,10 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
         }}
         className="mx-auto mb-3 border rounded-md  "
       >
-        <LazyLoadImage
+        <img
           style={{ objectFit: "contain", width: "100%", height: 120 }}
           src={image}
           alt="img"
-          effect="blur"
-          wrapperProps={{
-            style: { transitionDelay: "0.5s" },
-          }}
         />
       </div>
 
@@ -597,6 +596,9 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
 
         {isOpenGallery && (
           <GalleryImages
+            images={images}
+            isLoading={isLoading}
+            refetch={refetch}
             isOpen={isOpenGallery}
             onClose={setIsOpenGallery}
             handleFileUpload={handleFileUpload}

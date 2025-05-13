@@ -1,9 +1,3 @@
-import avatar1 from "@/assets/avatar1.jpg";
-import avatar2 from "@/assets/avatar2.jpg";
-import avatar3 from "@/assets/avatar3.jpg";
-import avatar4 from "@/assets/avatar4.jpg";
-import avatar6 from "@/assets/avatar6.jpg";
-
 import ViewTestimony from "@/view/testimony";
 import { BsChatRightQuoteFill } from "react-icons/bs";
 import { injectComponents } from "../injectComponent";
@@ -19,7 +13,8 @@ export const testimonyComponent = (editor) => {
       contents: [
         {
           id: "testimony-01",
-          image: avatar1,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar3.jpg?updatedAt=1747122493693",
           name: "John",
           profetion: "Designer",
           description:
@@ -28,7 +23,8 @@ export const testimonyComponent = (editor) => {
         },
         {
           id: "testimony-02",
-          image: avatar2,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar2.jpg?updatedAt=1747122493339",
           name: "Emily",
           profetion: "Developer",
           description:
@@ -37,7 +33,8 @@ export const testimonyComponent = (editor) => {
         },
         {
           id: "testimony-03",
-          image: avatar3,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar1.jpg?updatedAt=1747122493302",
           name: "Michael",
           profetion: "Entrepreneur",
           description:
@@ -46,7 +43,8 @@ export const testimonyComponent = (editor) => {
         },
         {
           id: "testimony-04",
-          image: avatar4,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar4.jpg?updatedAt=1747122493268",
           name: "Sophia",
           profetion: "Marketing ",
           description:
@@ -55,7 +53,8 @@ export const testimonyComponent = (editor) => {
         },
         {
           id: "testimony-05",
-          image: avatar6,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar6.jpg?updatedAt=1747122493203",
           name: "Elena",
           profetion: "Freelance",
           description:

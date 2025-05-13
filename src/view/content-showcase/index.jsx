@@ -2,17 +2,15 @@ import ContainerView from "@/components/ContainerView";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
+import { useMemo } from "react";
 import { memo } from "react";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useSelector } from "react-redux";
 
 function ContentShowcase({ section, editor, index }) {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
-
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor } = globalOptions || {};
+  const { schemeColor, isFocusContent } = globalOptions || {};
 
   const { contents } = section;
 
@@ -30,18 +28,22 @@ function ContentShowcase({ section, editor, index }) {
     rounded,
   } = section?.wrapperStyle || {};
 
-  const columnClass =
-    column === "6"
-      ? "md:grid-cols-6"
-      : column === "5"
-      ? "md:grid-cols-5"
-      : column === "4"
-      ? "md:grid-cols-4"
-      : column === "3"
-      ? "md:grid-cols-3"
-      : column === "2"
-      ? "md:grid-cols-2"
-      : "md:grid-cols-1";
+  const columnClass = useMemo(() => {
+    switch (column) {
+      case "6":
+        return "md:grid-cols-6";
+      case "5":
+        return "md:grid-cols-5";
+      case "4":
+        return "md:grid-cols-4";
+      case "3":
+        return "md:grid-cols-3";
+      case "2":
+        return "md:grid-cols-2";
+      default:
+        return "md:grid-cols-1";
+    }
+  }, [column]);
 
   const computedTitleColor =
     titleColor.toLowerCase() !== `#${textColor?.primary?.toLowerCase()}`

@@ -233,7 +233,7 @@ const MainWebEditor = () => {
         { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
       ],
       popup: [],
-      isFocusComponent: "",
+      isFocusContent: "",
     };
 
     // Set global options
