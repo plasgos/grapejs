@@ -72,6 +72,7 @@ import { Heading3 } from "lucide-react";
 import { cx } from "class-variance-authority";
 import { IoEllipsisHorizontal } from "react-icons/io5";
 import { useEditor } from "@grapesjs/react";
+import { produce } from "immer";
 
 const fontSizes = [
   "12px",
@@ -88,9 +89,36 @@ const fontSizes = [
   "128px",
 ];
 
-export default function MenuBar({ editor, handleColorChange }) {
+export default function MenuBar({
+  editor,
+  handleColorChange,
+  onChange,
+  schemeColor,
+}) {
   const editorCanvas = useEditor();
-  const selectedComponent = editorCanvas.getSelected()?.get("customComponent");
+  const selectedComponent = editorCanvas.getSelected();
+
+  const currentComponent = selectedComponent?.get("customComponent");
+
+  function resetKeyInObject(obj, targetKey) {
+    if (Array.isArray(obj)) {
+      obj.forEach((item) => resetKeyInObject(item, targetKey));
+      return;
+    }
+
+    if (typeof obj !== "object" || obj === null) return;
+
+    for (const key in obj) {
+      if (key === targetKey) {
+        obj[key] = "";
+      } else {
+        const val = obj[key];
+        if (typeof val === "object" && val !== null) {
+          resetKeyInObject(val, targetKey);
+        }
+      }
+    }
+  }
 
   const { googleFonts: fontOptions } = useSelector(
     (state) => state.landingPage
@@ -367,9 +395,15 @@ export default function MenuBar({ editor, handleColorChange }) {
               </Toggle>
             ))}
             <ColorPicker
-              value={selectedComponent?.wrapperStyle?.descriptionColor}
+              value={editor.getAttributes("textStyle")?.fontSize}
               onChange={(color) => {
-                handleColorChange(color);
+                editor.chain().focus().setColor(color).run();
+
+                const updated = produce(currentComponent, (draft) => {
+                  resetKeyInObject(draft, schemeColor);
+                });
+
+                selectedComponent.set("customComponent", updated);
               }}
             />
           </div>

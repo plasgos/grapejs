@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const ViewNewsletter = ({ children, content, index }) => {
+const ViewNewsletter = ({ children, content, index, wrapperStyle }) => {
   return (
     <div
       style={{
@@ -10,7 +10,13 @@ const ViewNewsletter = ({ children, content, index }) => {
       key={index}
     >
       {children}
-      <p>{content.subTitle}</p>
+      <p
+        style={{
+          color: wrapperStyle.subHeadingColor,
+        }}
+      >
+        {content.subTitle}
+      </p>
 
       <div className="flex   gap-2 my-2 ">
         <Input placeholder={content.placeholder} />

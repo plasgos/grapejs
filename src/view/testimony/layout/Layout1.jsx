@@ -1,20 +1,13 @@
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
-import { getColorOverride } from "@/utils/getColorOverride";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { FaStar } from "react-icons/fa";
 import { ImQuotesLeft } from "react-icons/im";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const Layout1 = ({
-  content,
-  styles,
-  editor,
-  isOverrideSchemeColor,
-  colorScheme,
-}) => {
+const Layout1 = ({ content, styles, editor }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent, schemeColor } = globalOptions || {};
+  const { isFocusContent } = globalOptions || {};
 
   const {
     nameColor,
@@ -29,27 +22,6 @@ const Layout1 = ({
     starsSize,
     descriptionColor,
   } = styles;
-
-  const primaryDescriptionColor = getColorOverride(
-    schemeColor,
-    isOverrideSchemeColor,
-    descriptionColor,
-    `#${colorScheme?.primary}`
-  );
-
-  const secondaryColorProfetion = getColorOverride(
-    schemeColor,
-    isOverrideSchemeColor,
-    profectionColor,
-    `#${colorScheme?.secondary}`
-  );
-
-  const primaryColorName = getColorOverride(
-    schemeColor,
-    isOverrideSchemeColor,
-    nameColor,
-    `#${colorScheme?.primary}`
-  );
 
   return (
     <div
@@ -99,7 +71,7 @@ const Layout1 = ({
             className="text-muted-foreground text-center text-base"
             style={{
               textShadow: content?.textShadow,
-              color: primaryDescriptionColor,
+              color: descriptionColor,
             }}
             dangerouslySetInnerHTML={{
               __html: content.description,
@@ -110,7 +82,7 @@ const Layout1 = ({
         <div className="text-center">
           <p
             style={{
-              color: primaryColorName,
+              color: nameColor,
               fontFamily: fontFamily,
               fontSize: fontSize,
             }}
@@ -120,7 +92,7 @@ const Layout1 = ({
           </p>
           <p
             style={{
-              color: secondaryColorProfetion,
+              color: profectionColor,
             }}
             className="text-muted-foreground text-sm"
           >

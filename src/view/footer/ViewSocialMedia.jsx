@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import * as Icons from "react-icons/fa6";
 
-const ViewSocialMedia = ({ children, content, index }) => {
+const ViewSocialMedia = ({ children, content, index, wrapperStyle }) => {
   const onClick = (link) => {
     if (link) {
       window.open(link, "_blank", "noopener noreferrer");
@@ -29,6 +29,7 @@ const ViewSocialMedia = ({ children, content, index }) => {
                 <div>
                   {createElement(Icons[opt.icon], {
                     size: 28,
+                    color: wrapperStyle.subHeadingColor,
                   })}
                 </div>
               ) : null}

@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewContactInfo = ({ children, content, index }) => {
+const ViewContactInfo = ({ children, content, index, wrapperStyle }) => {
   return (
     <div
       style={{
@@ -20,10 +20,17 @@ const ViewContactInfo = ({ children, content, index }) => {
                 <div>
                   {createElement(Icons[opt.icon], {
                     size: 24,
+                    color: wrapperStyle.subHeadingColor,
                   })}
                 </div>
               ) : null}
-              <p>{opt.value}</p>
+              <p
+                style={{
+                  color: wrapperStyle.subHeadingColor,
+                }}
+              >
+                {opt.value}
+              </p>
             </div>
           );
         })}

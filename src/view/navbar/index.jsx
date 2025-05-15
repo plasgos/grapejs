@@ -3,7 +3,6 @@ import {
   NavigationMenu,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { TfiMenuAlt } from "react-icons/tfi";
@@ -57,13 +56,12 @@ export const componentsNavbar = [
   },
 ];
 
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import ViewMenuNavbar from "./_components/ViewMenuNavbar";
 import ViewSingleLinkNavbar from "./_components/ViewSingleLinkNavbar";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
-import { getColorOverride } from "@/utils/getColorOverride";
 
 const CustomPortal = ({ children }) => {
   const [target, setTarget] = useState(null);
@@ -80,31 +78,13 @@ const CustomPortal = ({ children }) => {
 
 const ViewNavbar = ({ section, editor, index }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent, maxWidthPage } = globalOptions || {};
+  const { isFocusContent, maxWidthPage } = globalOptions || {};
 
-  const { contents, side, logoWidth, wrapperStyle, isOverrideSchemeColor } =
-    section;
-
-  const color = schemeColor?.colours[index];
-
-  const headingColorPrimary = getColorOverride(
-    schemeColor,
-    isOverrideSchemeColor,
-    wrapperStyle?.headingColor,
-    `#${color?.primary}`
-  );
-
-  const navMenuColorPrimary = getColorOverride(
-    schemeColor,
-    isOverrideSchemeColor,
-    wrapperStyle?.menuBgColor,
-    `#${color?.background}`
-  );
+  const { contents, side, logoWidth, wrapperStyle } = section;
 
   const [responsiveImage, setResponsiveImage] = useState(section.logoWidth);
   const [isActiveSheet, setIsActiveSheet] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const target = document.querySelector(".gjs-frame");
 
   const handleScrollToTop = () => {
     const iframe = document.querySelector(".gjs-frame");
@@ -211,7 +191,6 @@ const ViewNavbar = ({ section, editor, index }) => {
                       content={content}
                       editor={editor}
                       styles={wrapperStyle}
-                      headingColorPrimary={headingColorPrimary}
                     />
                   )}
 
@@ -221,8 +200,6 @@ const ViewNavbar = ({ section, editor, index }) => {
                       editor={editor}
                       isMobile={isMobile}
                       styles={wrapperStyle}
-                      headingColorPrimary={headingColorPrimary}
-                      navMenuColorPrimary={navMenuColorPrimary}
                     />
                   )}
                 </div>

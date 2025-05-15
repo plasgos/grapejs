@@ -211,6 +211,7 @@ export const footerComponent = (editor) => {
       ],
       wrapperStyle: {
         headingColor: "rgba(0, 0, 0, 1)",
+        subHeadingColor: "rgba(0, 0, 0, 1)",
         headingFontSize: 18,
       },
       background: {

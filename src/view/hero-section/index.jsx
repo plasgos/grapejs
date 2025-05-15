@@ -5,6 +5,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import CustomButton from "../_components/CustomButton";
+import { cn } from "@/lib/utils";
 
 const ViewHeroSection = ({ section, editor, index }) => {
   const { contents, animation, animationText, buttons } = section;
@@ -114,8 +115,10 @@ const ViewHeroSection = ({ section, editor, index }) => {
                         }}
                       >
                         <div
+                          className="break-all"
                           style={{
                             textShadow: content?.textShadow,
+                            color: content?.textBannerColor,
                           }}
                           dangerouslySetInnerHTML={{
                             __html: content.textBanner,
@@ -179,41 +182,72 @@ const ViewHeroSection = ({ section, editor, index }) => {
 
       {variant === "no-image" && (
         <div className="w-full flex justify-center items-center relative">
-          {contents.map((content) => (
-            <div key={content.id} className="">
-              <div className="p-3 w-full">
-                <div
-                  ref={elementRefContent}
-                  className={`${getClassNameContent()} mb-3 `}
-                  style={{
-                    "--animation-duration": `${durationContent}s`,
-                  }}
-                >
-                  <div
-                    style={{
-                      textShadow: content?.textShadow,
-                    }}
-                    dangerouslySetInnerHTML={{ __html: content.textBanner }}
-                  />
-                </div>
+          {contents.map((content) => {
+            console.log("🚀 ~ {contents.map ~ content:", content);
 
-                {withButton && (
-                  <div className={` flex !flex-wrap  gap-3 justify-center `}>
-                    {buttons.map((btn) => {
-                      return (
-                        <CustomButton
-                          key={btn.id}
-                          btn={btn}
-                          editor={editor}
-                          onActionClickTarget={onActionClickTarget}
-                        />
-                      );
-                    })}
+            const isUsingSchemeColor = content?.textBannerColor
+              ? {
+                  "--richTextColor": content?.textBannerColor,
+                }
+              : {};
+
+            const useSchemeColor = !!content?.textBannerColor;
+
+            return (
+              <div key={content.id} className="">
+                <div className="p-3 w-full">
+                  <div
+                    ref={elementRefContent}
+                    className={`${getClassNameContent()} mb-3 `}
+                    style={{
+                      "--animation-duration": `${durationContent}s`,
+                    }}
+                  >
+                    {/* <div
+                      className="rich-text break-all"
+                      style={{
+                        textShadow: content?.textShadow,
+                        ...isUsingSchemeColor,
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: content.textBanner,
+                      }}
+                    /> */}
+
+                    <div
+                      className={cn("rich-text break-all", {
+                        "with-scheme-color": useSchemeColor,
+                      })}
+                      style={{
+                        textShadow: content?.textShadow,
+                        ...(useSchemeColor
+                          ? { "--richTextColor": content?.textBannerColor }
+                          : {}),
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: content.textBanner,
+                      }}
+                    />
                   </div>
-                )}
+
+                  {withButton && (
+                    <div className={` flex !flex-wrap  gap-3 justify-center `}>
+                      {buttons.map((btn) => {
+                        return (
+                          <CustomButton
+                            key={btn.id}
+                            btn={btn}
+                            editor={editor}
+                            onActionClickTarget={onActionClickTarget}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </ContainerView>

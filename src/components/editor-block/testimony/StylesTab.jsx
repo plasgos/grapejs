@@ -24,7 +24,6 @@ const StylesTab = ({ selectedComponent }) => {
     const update = (component) => {
       return produce(component, (draft) => {
         draft.wrapperStyle[key] = value;
-        draft.isOverrideSchemeColor = true;
       });
     };
 

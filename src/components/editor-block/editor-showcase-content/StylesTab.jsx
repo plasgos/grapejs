@@ -40,13 +40,10 @@ const StylesTab = ({ selectedComponent }) => {
     useChangeComponentValue(selectedComponent);
 
   const { wrapperStyle } = currentComponent;
-  console.log("🚀 ~ StylesTab ~ wrapperStyle:", wrapperStyle);
-
   useSyncWithUndoRedo(setCurrentComponent);
 
   const handleChangeColor = (key, value) => {
     handleComponentChange(key, value);
-    // handleComponentChange("isOverrideSchemeColor", true);
   };
 
   return (

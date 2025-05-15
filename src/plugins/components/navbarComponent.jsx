@@ -15,7 +15,6 @@ export const navbarComponent = (editor) => {
     ViewComponent: ViewNavbar,
     defaultCustomComponent: {
       scrollTarget: undefined,
-      isOverrideSchemeColor: false,
       contents: [
         {
           id: `single-link-${generateId()}`,
@@ -93,7 +92,7 @@ export const navbarComponent = (editor) => {
         fontFamily: "",
 
         description: {
-          color: "",
+          descriptionColor: "",
           fontWeight: "",
           fontFamily: "",
         },

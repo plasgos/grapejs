@@ -10,8 +10,6 @@ const ContainerSlider = ({
   section,
   LayoutComponent,
   isOverImage,
-  isOverrideSchemeColor,
-  colorScheme,
 }) => {
   const { contents } = section;
 
@@ -76,8 +74,6 @@ const ContainerSlider = ({
             content={content}
             styles={section.wrapperStyle}
             editor={editor}
-            isOverrideSchemeColor={isOverrideSchemeColor}
-            colorScheme={colorScheme}
           />
         </SwiperSlide>
       ))}

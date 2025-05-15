@@ -266,6 +266,6 @@
   position: relative;
 }
 
-.rich-text * {
-  color: var(--descriptionColor) !important;
+.rich-text.with-scheme-color * {
+  color: var(--richTextColor) !important;
 }

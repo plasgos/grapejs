@@ -97,7 +97,6 @@ const EditorContentShowcase = ({ selectedComponent }) => {
           }}
           handleColorChange={(color) => {
             handleComponentChange(`wrapperStyle.descriptionColor`, color);
-            handleComponentChange("isOverrideSchemeColor", true);
           }}
         />
       </>

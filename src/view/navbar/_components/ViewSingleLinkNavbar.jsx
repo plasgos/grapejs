@@ -4,12 +4,7 @@ import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { useState } from "react";
 import Heading from "./Heading";
 
-const ViewSingleLinkNavbar = ({
-  content,
-  editor,
-  styles,
-  headingColorPrimary,
-}) => {
+const ViewSingleLinkNavbar = ({ content, editor, styles }) => {
   const [isHover, setIsHover] = useState(false);
 
   const { headingColor, headingFontSize, fontWeight, fontFamily } = styles;

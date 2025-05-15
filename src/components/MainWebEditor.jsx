@@ -39,6 +39,7 @@ import Sidebar from "./sidebar";
 
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { motion } from "framer-motion";
+import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 
 const rootMap = new Map();
 
@@ -172,6 +173,10 @@ const MainWebEditor = () => {
 
     editor.on("component:add", () => {
       updateCanvasComponents(editor, setCanvasComponents);
+
+      const globalOptions = editor.getModel().get("globalOptions");
+
+      onSyncSchemeColor(editor, globalOptions?.schemeColor);
     });
     editor.on("component:remove", () =>
       updateCanvasComponents(editor, setCanvasComponents)

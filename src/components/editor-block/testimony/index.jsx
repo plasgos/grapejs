@@ -125,7 +125,6 @@ const EditorTestimony = ({ selectedComponent }) => {
           }
           handleColorChange={(color) => {
             handleComponentChange(`wrapperStyle.descriptionColor`, color);
-            handleComponentChange(`isOverrideSchemeColor`, color);
           }}
         />
       </>
@@ -186,7 +185,6 @@ const EditorTestimony = ({ selectedComponent }) => {
               }
               handleColorChange={(color) => {
                 handleComponentChange(`wrapperStyle.headerColor`, color);
-                handleComponentChange("isOverrideSchemeColor", true);
               }}
             />
           </div>

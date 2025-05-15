@@ -16,6 +16,7 @@ export default function RichTextEditor({
   value,
   onChange,
   handleColorChange,
+  schemeColor,
 }) {
   const timeoutRef = useRef(null);
 
@@ -106,7 +107,12 @@ export default function RichTextEditor({
     <div className="">
       {label && <Label className="">{label}</Label>}
       <div className="relative mt-2">
-        <MenuBar editor={editor} handleColorChange={handleColorChange} />
+        <MenuBar
+          editor={editor}
+          handleColorChange={handleColorChange}
+          onChange={onChange}
+          schemeColor={schemeColor}
+        />
 
         <div className="custom-tip-tap-editor">
           <EditorContent editor={editor} />

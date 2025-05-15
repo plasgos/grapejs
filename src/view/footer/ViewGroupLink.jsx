@@ -1,6 +1,6 @@
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 
-const ViewGroupLink = ({ children, content, index, editor }) => {
+const ViewGroupLink = ({ children, content, index, editor, wrapperStyle }) => {
   return (
     <div
       style={{
@@ -15,6 +15,9 @@ const ViewGroupLink = ({ children, content, index, editor }) => {
         {content.options.map((opt) => {
           return (
             <p
+              style={{
+                color: wrapperStyle.subHeadingColor,
+              }}
               className={` ${
                 opt?.target?.options?.type ? "cursor-pointer" : ""
               }`}

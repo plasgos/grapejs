@@ -55,6 +55,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
   const { contents, buttons } = currentComponent;
+  console.log("🚀 ~ EditorHeroSection ~ contents:", contents);
   const { wrapperStyle } = currentComponent;
 
   useSyncWithUndoRedo(setCurrentComponent);
@@ -245,12 +246,13 @@ const EditorHeroSection = ({ selectedComponent }) => {
           <RichTextEditor
             label="Content"
             value={currentComponent?.contents[0].textBanner}
-            onChange={(value) =>
+            onChange={(value) => {
               handleComponentChange(
                 `contents.${contents[0].id}.textBanner`,
                 value
-              )
-            }
+              );
+            }}
+            schemeColor={"textBannerColor"}
           />
 
           <SelectOptions

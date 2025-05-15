@@ -80,7 +80,6 @@ export const contentShowcaseComponent = (editor) => {
         fontSize: 16,
         textAligment: "text-center",
       },
-      isOverrideSchemeColor: false,
       background: {
         bgType: null,
         bgColor: "#hsjdhj",

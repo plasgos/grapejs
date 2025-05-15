@@ -18,18 +18,16 @@ import Heading from "./Heading";
 import { useState } from "react";
 import { darkenRgbaColor } from "@/utils/darkenRgbaColor";
 
-const ViewMenuNavbar = ({
-  content,
-  editor,
-  isMobile,
-  styles,
-  headingColorPrimary,
-  navMenuColorPrimary,
-}) => {
-  const { headingFontSize, fontWeight, fontFamily, description } = styles || {};
-
+const ViewMenuNavbar = ({ content, editor, isMobile, styles }) => {
+  const {
+    headingColor,
+    headingFontSize,
+    fontWeight,
+    fontFamily,
+    description,
+    menuBgColor,
+  } = styles || {};
   const { column } = content;
-
   const columnClass =
     column === "4"
       ? "md:grid-cols-4"
@@ -40,7 +38,7 @@ const ViewMenuNavbar = ({
       : "md:grid-cols-1";
 
   const [isHover, setIsHover] = useState(false);
-  const hoverColorConversion = darkenRgbaColor(headingColorPrimary, 0.1);
+  const hoverColorConversion = darkenRgbaColor(headingColor, 0.1);
 
   return (
     <NavigationMenuItem className="w-full">
@@ -49,7 +47,7 @@ const ViewMenuNavbar = ({
           <AccordionItem className="!rounded-lg" value={content?.id}>
             <AccordionTrigger
               style={{
-                color: isHover ? hoverColorConversion : headingColorPrimary,
+                color: isHover ? hoverColorConversion : headingColor,
                 fontSize: headingFontSize,
                 fontWeight,
                 fontFamily,
@@ -62,7 +60,7 @@ const ViewMenuNavbar = ({
             </AccordionTrigger>
             <AccordionContent
               style={{
-                backgroundColor: navMenuColorPrimary,
+                backgroundColor: menuBgColor,
               }}
               className="p-2   "
             >
@@ -74,10 +72,10 @@ const ViewMenuNavbar = ({
                   styles={{
                     fontWeight,
                     fontFamily,
-                    color: headingColorPrimary,
+                    color: headingColor,
                   }}
                   descriptionStyle={description}
-                  menuBgColor={navMenuColorPrimary}
+                  menuBgColor={menuBgColor}
                 >
                   {opt.description}
                 </ListItem>
@@ -89,8 +87,7 @@ const ViewMenuNavbar = ({
         <>
           <NavigationMenuTrigger
             style={{
-              color: isHover ? hoverColorConversion : headingColorPrimary,
-
+              color: isHover ? hoverColorConversion : headingColor,
               fontSize: headingFontSize,
               fontWeight,
               fontFamily,
@@ -104,7 +101,7 @@ const ViewMenuNavbar = ({
 
           <NavigationMenuContent
             style={{
-              backgroundColor: navMenuColorPrimary,
+              backgroundColor: menuBgColor,
             }}
             className={``}
           >
@@ -123,10 +120,10 @@ const ViewMenuNavbar = ({
                   styles={{
                     fontWeight,
                     fontFamily,
-                    color: headingColorPrimary,
+                    color: headingColor,
                   }}
                   descriptionStyle={description}
-                  menuBgColor={navMenuColorPrimary}
+                  menuBgColor={menuBgColor}
                 >
                   {opt.description}
                 </ListItem>
@@ -181,6 +178,7 @@ const ListItem = forwardRef(
           <p
             style={{
               ...descriptionStyle,
+              color: descriptionStyle.descriptionColor,
             }}
             className="line-clamp-2 text-sm leading-snug text-muted-foreground"
           >

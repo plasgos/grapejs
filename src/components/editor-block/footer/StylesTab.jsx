@@ -14,12 +14,20 @@ const StylesTab = ({ selectedComponent }) => {
 
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="bg-white rounded-lg p-3 ">
+      <div className="bg-white rounded-lg p-3 flex flex-col gap-y-5 ">
         <ColorPicker
           label="Heading Color"
           value={wrapperStyle.headingColor}
           onChange={(color) =>
             handleComponentChange("wrapperStyle.headingColor", color)
+          }
+        />
+
+        <ColorPicker
+          label="Subheading Color"
+          value={wrapperStyle.subHeadingColor}
+          onChange={(color) =>
+            handleComponentChange("wrapperStyle.subHeadingColor", color)
           }
         />
 

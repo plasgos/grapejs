@@ -55,6 +55,7 @@ const ViewFooter = ({ section, editor, index }) => {
                     content={content}
                     index={index}
                     editor={editor}
+                    wrapperStyle={wrapperStyle}
                   >
                     <Heading content={content} wrapperStyle={wrapperStyle} />
                   </ViewGroupLink>
@@ -65,17 +66,29 @@ const ViewFooter = ({ section, editor, index }) => {
                   </ViewText>
                 )}
                 {content.type === "contact-info" && (
-                  <ViewContactInfo content={content} index={index}>
+                  <ViewContactInfo
+                    content={content}
+                    index={index}
+                    wrapperStyle={wrapperStyle}
+                  >
                     <Heading content={content} wrapperStyle={wrapperStyle} />
                   </ViewContactInfo>
                 )}
                 {content.type === "social-media" && (
-                  <ViewSocialMedia content={content} index={index}>
+                  <ViewSocialMedia
+                    content={content}
+                    index={index}
+                    wrapperStyle={wrapperStyle}
+                  >
                     <Heading content={content} wrapperStyle={wrapperStyle} />
                   </ViewSocialMedia>
                 )}
                 {content.type === "newsletter" && (
-                  <ViewNewsletter content={content} index={index}>
+                  <ViewNewsletter
+                    content={content}
+                    index={index}
+                    wrapperStyle={wrapperStyle}
+                  >
                     <Heading content={content} wrapperStyle={wrapperStyle} />
                   </ViewNewsletter>
                 )}

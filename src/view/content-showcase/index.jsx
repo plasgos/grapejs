@@ -1,59 +1,17 @@
 import ContainerView from "@/components/ContainerView";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
-import { getColorOverride } from "@/utils/getColorOverride";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
-import { useMemo } from "react";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-import { useEffect } from "react";
-
-export function useSyncColorToComponent({
-  editor,
-  schemeColor,
-  isOverrideSchemeColor,
-  colorKey = "titleColor",
-  fallbackColor,
-}) {
-  useEffect(() => {
-    if (!editor || !schemeColor) return;
-
-    const selected = editor.getSelected();
-    if (!selected) return;
-
-    const customComponent = selected.get("customComponent") || {};
-    const currentColor = customComponent[colorKey];
-
-    const shouldSetFallback =
-      schemeColor &&
-      !isOverrideSchemeColor &&
-      (!currentColor || currentColor === "");
-
-    if (shouldSetFallback) {
-      selected.set("customComponent", {
-        ...customComponent,
-        wrapperStyle: {
-          ...customComponent.wrapperStyle,
-          [colorKey]: fallbackColor,
-        },
-      });
-
-      // Paksa re-render atau refresh (jika perlu)
-      editor.trigger("component:update", { component: selected });
-    }
-  }, [editor, isOverrideSchemeColor, fallbackColor, colorKey, schemeColor]);
-}
-
 function ContentShowcase({ section, editor, index }) {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent } = globalOptions || {};
+  const { isFocusContent } = globalOptions || {};
 
-  const { contents, isOverrideSchemeColor } = section;
-
-  const textColor = schemeColor?.colours[index];
+  const { contents } = section;
 
   const {
     column,
@@ -84,28 +42,6 @@ function ContentShowcase({ section, editor, index }) {
         return "md:grid-cols-1";
     }
   }, [column]);
-
-  // const titleColorPrimary = getColorOverride(
-  //   schemeColor,
-  //   isOverrideSchemeColor,
-  //   titleColor,
-  //   `#${textColor?.primary}`
-  // );
-
-  // useSyncColorToComponent({
-  //   editor,
-  //   schemeColor,
-  //   isOverrideSchemeColor,
-  //   colorKey: "titleColor",
-  //   fallbackColor: `#${textColor?.primary}`,
-  // });
-
-  // const descriptionColorSecondary = getColorOverride(
-  //   schemeColor,
-  //   isOverrideSchemeColor,
-  //   descriptionColor,
-  //   `#${textColor?.secondary}`
-  // );
 
   return (
     <ContainerView
