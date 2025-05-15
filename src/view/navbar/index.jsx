@@ -62,6 +62,8 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import ViewMenuNavbar from "./_components/ViewMenuNavbar";
 import ViewSingleLinkNavbar from "./_components/ViewSingleLinkNavbar";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { getColorOverride } from "@/utils/getColorOverride";
 
 const CustomPortal = ({ children }) => {
   const [target, setTarget] = useState(null);
@@ -77,16 +79,32 @@ const CustomPortal = ({ children }) => {
 };
 
 const ViewNavbar = ({ section, editor, index }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent, maxWidthPage } = globalOptions || {};
 
-  const { contents, side, logoWidth, wrapperStyle } = section;
+  const { contents, side, logoWidth, wrapperStyle, isOverrideSchemeColor } =
+    section;
+
+  const color = schemeColor?.colours[index];
+
+  const headingColorPrimary = getColorOverride(
+    schemeColor,
+    isOverrideSchemeColor,
+    wrapperStyle?.headingColor,
+    `#${color?.primary}`
+  );
+
+  const navMenuColorPrimary = getColorOverride(
+    schemeColor,
+    isOverrideSchemeColor,
+    wrapperStyle?.menuBgColor,
+    `#${color?.background}`
+  );
+
   const [responsiveImage, setResponsiveImage] = useState(section.logoWidth);
   const [isActiveSheet, setIsActiveSheet] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const target = document.querySelector(".gjs-frame");
-
-  const editorModel = editor.getModel();
-  const globalOptions = editorModel.get("globalOptions");
 
   const handleScrollToTop = () => {
     const iframe = document.querySelector(".gjs-frame");
@@ -193,6 +211,7 @@ const ViewNavbar = ({ section, editor, index }) => {
                       content={content}
                       editor={editor}
                       styles={wrapperStyle}
+                      headingColorPrimary={headingColorPrimary}
                     />
                   )}
 
@@ -202,6 +221,8 @@ const ViewNavbar = ({ section, editor, index }) => {
                       editor={editor}
                       isMobile={isMobile}
                       styles={wrapperStyle}
+                      headingColorPrimary={headingColorPrimary}
+                      navMenuColorPrimary={navMenuColorPrimary}
                     />
                   )}
                 </div>
@@ -224,7 +245,7 @@ const ViewNavbar = ({ section, editor, index }) => {
     >
       <div
         style={{
-          maxWidth: globalOptions.maxWidthPage,
+          maxWidth: maxWidthPage,
         }}
         className={` mx-auto relative  w-full`}
       >

@@ -161,14 +161,15 @@ import ViewTextArea from "./components/ViewTextArea";
 import ViewTitle from "./components/ViewTitle";
 import ViewRating from "./components/ViewtRating";
 
+import ContainerView from "@/components/ContainerView";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
-import ContainerView from "@/components/ContainerView";
-import { useSelector } from "react-redux";
-import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
 const ViewFormCheckout = ({ section, editor, index }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent } = globalOptions || {};
 
   const { contents } = section;
   const {

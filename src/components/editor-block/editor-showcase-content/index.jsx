@@ -95,6 +95,10 @@ const EditorContentShowcase = ({ selectedComponent }) => {
           onChange={(value) => {
             handleComponentChange(`contents.${item.id}.description`, value);
           }}
+          handleColorChange={(color) => {
+            handleComponentChange(`wrapperStyle.descriptionColor`, color);
+            handleComponentChange("isOverrideSchemeColor", true);
+          }}
         />
       </>
     );

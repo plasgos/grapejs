@@ -2,8 +2,6 @@ import { generateId } from "@/lib/utils";
 import { TbLayoutNavbarFilled } from "react-icons/tb";
 import { injectComponents } from "../injectComponent";
 
-import plgLogo from "@/assets/plg-logo.png";
-
 import ViewNavbar, { componentsNavbar } from "@/view/navbar";
 import { FaLink } from "react-icons/fa";
 import { TfiLayoutAccordionList } from "react-icons/tfi";
@@ -17,6 +15,7 @@ export const navbarComponent = (editor) => {
     ViewComponent: ViewNavbar,
     defaultCustomComponent: {
       scrollTarget: undefined,
+      isOverrideSchemeColor: false,
       contents: [
         {
           id: `single-link-${generateId()}`,
@@ -32,7 +31,7 @@ export const navbarComponent = (editor) => {
           titleHeading: "About",
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },
@@ -81,14 +80,14 @@ export const navbarComponent = (editor) => {
           column: "1",
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },
         },
       ],
       wrapperStyle: {
-        headingColor: "rgba(0, 0, 0, 1)",
+        headingColor: "",
         headingFontSize: 16,
         fontWeight: "",
         fontFamily: "",
@@ -117,7 +116,7 @@ export const navbarComponent = (editor) => {
         isRevert: false,
         pattern: "",
       },
-      logo: plgLogo,
+      logo: "https://ik.imagekit.io/ez1ffaf6o/default-images/plg-logo.png?updatedAt=1747224274623",
       logoWidth: 150,
       side: "right",
     },

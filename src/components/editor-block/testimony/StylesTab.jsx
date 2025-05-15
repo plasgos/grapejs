@@ -11,14 +11,30 @@ import SelectFontSize from "../_components/SelectFontSize";
 
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import { produce } from "immer";
 
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
   useSyncWithUndoRedo(setCurrentComponent);
+  const { wrapperStyle } = currentComponent || {};
 
-  const { wrapperStyle } = currentComponent;
+  const handleChangeMainColor = (key, value) => {
+    const update = (component) => {
+      return produce(component, (draft) => {
+        draft.wrapperStyle[key] = value;
+        draft.isOverrideSchemeColor = true;
+      });
+    };
+
+    selectedComponent?.set(
+      "customComponent",
+      update(selectedComponent.get("customComponent"))
+    );
+
+    setCurrentComponent((prevComponent) => update(prevComponent));
+  };
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -72,7 +88,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Color"
                 value={wrapperStyle.nameColor}
                 onChange={(value) => {
-                  handleComponentChange("wrapperStyle.nameColor", value);
+                  handleChangeMainColor("nameColor", value);
                 }}
               />
 
@@ -108,7 +124,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Profection"
           value={wrapperStyle.profectionColor}
           onChange={(value) => {
-            handleComponentChange("wrapperStyle.profectionColor", value);
+            handleChangeMainColor("profectionColor", value);
           }}
         />
       </div>

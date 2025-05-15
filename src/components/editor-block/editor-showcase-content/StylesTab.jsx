@@ -40,8 +40,14 @@ const StylesTab = ({ selectedComponent }) => {
     useChangeComponentValue(selectedComponent);
 
   const { wrapperStyle } = currentComponent;
+  console.log("🚀 ~ StylesTab ~ wrapperStyle:", wrapperStyle);
 
   useSyncWithUndoRedo(setCurrentComponent);
+
+  const handleChangeColor = (key, value) => {
+    handleComponentChange(key, value);
+    // handleComponentChange("isOverrideSchemeColor", true);
+  };
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -105,7 +111,7 @@ const StylesTab = ({ selectedComponent }) => {
                 label="Color"
                 value={wrapperStyle.titleColor}
                 onChange={(value) => {
-                  handleComponentChange("wrapperStyle.titleColor", value);
+                  handleChangeColor("wrapperStyle.titleColor", value);
                 }}
               />
 

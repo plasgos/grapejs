@@ -73,14 +73,14 @@ export const testimonyComponent = (editor) => {
         bgColor: "transparent",
         quoteColor: "rgba(245, 245, 245, 1)",
         profectionColor: "rgba(148, 148, 150, 1)",
-
         starsColor: "rgba(255,210,80,1)",
         starsSize: 20,
-
         withSlider: true,
         autoPlaySlider: false,
+        descriptionColor: "#000000",
 
         header: `<p style="text-align:center;"><span style="font-size:26px;"><strong>Testimonials</strong></span></p><p style="text-align:center;"><span style="font-size:40px;">What our clients saya about us</span></p>`,
+        headerColor: "",
       },
       background: {
         bgType: null,

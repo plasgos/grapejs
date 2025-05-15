@@ -1,9 +1,10 @@
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
-import { useSelector } from "react-redux";
 
 const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent } = globalOptions || {};
 
   const fontSize = {
     default: "text-base", // Ukuran default (16px)

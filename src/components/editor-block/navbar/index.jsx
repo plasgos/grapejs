@@ -27,6 +27,9 @@ import RangeInputSlider from "../_components/RangeInputSlider";
 import StylesTab from "./StylesTab";
 import EditorMenuLink from "./_components/EditorMenuLink";
 import EditorSingleLink from "./_components/EditorSingleLink";
+import { useEditor } from "@grapesjs/react";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { useEffect } from "react";
 
 const fieldOptions = [
   {
@@ -85,8 +88,20 @@ const EditorNavbar = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { contents, logo, logoWidth } = currentComponent;
+  const editor = useEditor();
 
+  const components = editor?.getComponents().models;
+  const componentId = editor?.getSelected().getId();
+  const currentIndex = components.findIndex((c) => c.ccid === componentId);
+
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor } = globalOptions || {};
+
+  const color = schemeColor?.colours[currentIndex];
+
+  const { contents, logo, logoWidth, isOverrideSchemeColor, wrapperStyle } =
+    currentComponent;
+  console.log("🚀 ~ EditorNavbar ~ wrapperStyle:", wrapperStyle);
   const [isOpenFields, setisOpenFields] = useState(false);
 
   const [editItem, setEditItem] = useState("");
@@ -140,6 +155,17 @@ const EditorNavbar = ({ selectedComponent }) => {
       </>
     );
   };
+
+  // useEffect(() => {
+  //   if (schemeColor && !isOverrideSchemeColor) {
+  //     handleComponentChange("wrapperStyle.headingColor", `#${color?.primary}`);
+  //   }
+  // }, [
+  //   color?.primary,
+  //   handleComponentChange,
+  //   isOverrideSchemeColor,
+  //   schemeColor,
+  // ]);
 
   return (
     <>
@@ -205,7 +231,11 @@ const EditorNavbar = ({ selectedComponent }) => {
         className="p-4 mt-0 animate__animated animate__fadeInLeft"
         value="styles"
       >
-        <StylesTab selectedComponent={selectedComponent} />
+        <StylesTab
+          selectedComponent={selectedComponent}
+          currentComponent={currentComponent}
+          setCurrentComponent={setCurrentComponent}
+        />
       </TabsContent>
 
       <TabsContent

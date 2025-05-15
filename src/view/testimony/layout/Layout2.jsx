@@ -1,12 +1,20 @@
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { getColorOverride } from "@/utils/getColorOverride";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { FaStar } from "react-icons/fa";
 import { ImQuotesLeft } from "react-icons/im";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useSelector } from "react-redux";
 
-const Layout2 = ({ content, styles }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+const Layout2 = ({
+  content,
+  styles,
+  editor,
+  isOverrideSchemeColor,
+  colorScheme,
+}) => {
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent } = globalOptions || {};
 
   const {
     nameColor,
@@ -19,7 +27,30 @@ const Layout2 = ({ content, styles }) => {
     quoteColor,
     starsColor,
     starsSize,
+    descriptionColor,
   } = styles;
+
+  const primaryDescriptionColor = getColorOverride(
+    schemeColor,
+    isOverrideSchemeColor,
+    descriptionColor,
+    `#${colorScheme?.primary}`
+  );
+
+  const secondaryColorProfetion = getColorOverride(
+    schemeColor,
+    isOverrideSchemeColor,
+    profectionColor,
+    `#${colorScheme?.secondary}`
+  );
+
+  const primaryColorName = getColorOverride(
+    schemeColor,
+    isOverrideSchemeColor,
+    nameColor,
+    `#${colorScheme?.primary}`
+  );
+
   return (
     <div
       style={{
@@ -51,7 +82,7 @@ const Layout2 = ({ content, styles }) => {
       <div className="text-center">
         <p
           style={{
-            color: nameColor,
+            color: primaryColorName,
             fontFamily: fontFamily,
             fontSize: fontSize,
           }}
@@ -61,7 +92,7 @@ const Layout2 = ({ content, styles }) => {
         </p>
         <p
           style={{
-            color: profectionColor,
+            color: secondaryColorProfetion,
           }}
           className="text-muted-foreground text-sm"
         >
@@ -84,6 +115,7 @@ const Layout2 = ({ content, styles }) => {
             className="text-muted-foreground text-center text-base"
             style={{
               textShadow: content?.textShadow,
+              color: primaryDescriptionColor,
             }}
             dangerouslySetInnerHTML={{
               __html: content.description,

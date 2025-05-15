@@ -11,7 +11,12 @@ import { useEffect } from "react";
 import { FontSize, InsertTextExtension } from "./extensions";
 import { Label } from "../ui/label";
 
-export default function RichTextEditor({ value, onChange, label }) {
+export default function RichTextEditor({
+  label,
+  value,
+  onChange,
+  handleColorChange,
+}) {
   const timeoutRef = useRef(null);
 
   const editor = useEditor({
@@ -101,7 +106,7 @@ export default function RichTextEditor({ value, onChange, label }) {
     <div className="">
       {label && <Label className="">{label}</Label>}
       <div className="relative mt-2">
-        <MenuBar editor={editor} />
+        <MenuBar editor={editor} handleColorChange={handleColorChange} />
 
         <div className="custom-tip-tap-editor">
           <EditorContent editor={editor} />

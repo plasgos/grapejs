@@ -6,6 +6,10 @@ import {
 } from "@/components/ui/tooltip";
 import { produce } from "immer";
 
+import { createElement } from "react";
+import * as Icons from "react-icons/fa";
+import * as IconsSosmed from "react-icons/fa6";
+
 import {
   Accordion,
   AccordionContent,
@@ -29,6 +33,7 @@ import { RxDragHandleDots2 } from "react-icons/rx";
 import { TbEdit } from "react-icons/tb";
 
 const SortableItem = ({
+  contentType,
   item,
   array,
   contentId,
@@ -119,7 +124,21 @@ const SortableItem = ({
             />
           ) : null}
 
-          {item.icon && <div>{item.icon}</div>}
+          {}
+
+          {IconsSosmed[item.icon] && contentType === "social-media" ? (
+            <div>
+              {createElement(IconsSosmed[item.icon], {
+                size: 28,
+              })}
+            </div>
+          ) : Icons[item.icon] ? (
+            <div>
+              {createElement(Icons[item.icon], {
+                size: 28,
+              })}
+            </div>
+          ) : null}
 
           <div className=" font-semibold text-sm  max-w-44">
             <p className="truncate">{item?.label}</p>
@@ -255,6 +274,7 @@ const DraggableListNested = ({
                 >
                   <SortableItem
                     key={contentItem.id}
+                    contentType={item.type}
                     item={contentItem}
                     array={array}
                     contentId={item.id}

@@ -1,13 +1,14 @@
 import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
-import { useSelector } from "react-redux";
 
 const ViewFeatureHighlights = ({ section, editor, index }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent } = globalOptions || {};
 
   const { contents, animation } = section;
   const { textShadow, color, fontWeight, fontFamily, fontSize, textAligment } =

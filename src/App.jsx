@@ -12,7 +12,6 @@ import TestPage from "./pages/test";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 function App() {
-  "EyeDropper" in window;
   return (
     <>
       <BrowserRouter>

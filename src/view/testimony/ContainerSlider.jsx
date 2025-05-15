@@ -10,6 +10,8 @@ const ContainerSlider = ({
   section,
   LayoutComponent,
   isOverImage,
+  isOverrideSchemeColor,
+  colorScheme,
 }) => {
   const { contents } = section;
 
@@ -64,13 +66,19 @@ const ContainerSlider = ({
       {contents.map((content) => (
         <SwiperSlide
           style={{
-            paddingTop: isOverImage && 30,
+            paddingTop: isOverImage && 40,
           }}
           className="p-1 "
           key={content.id}
         >
           {children}
-          <LayoutComponent content={content} styles={section.wrapperStyle} />
+          <LayoutComponent
+            content={content}
+            styles={section.wrapperStyle}
+            editor={editor}
+            isOverrideSchemeColor={isOverrideSchemeColor}
+            colorScheme={colorScheme}
+          />
         </SwiperSlide>
       ))}
     </Swiper>

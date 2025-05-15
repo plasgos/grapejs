@@ -1,23 +1,21 @@
 import ContainerView from "@/components/ContainerView";
 
-import "react-lazy-load-image-component/src/effects/blur.css";
-import ViewImagesFooter from "./ViewImagesFooter";
-import ViewGroupLink from "./ViewGroupLink";
-import ViewText from "./ViewText";
-import ViewContactInfo from "./ViewContactInfo";
-import ViewSocialMedia from "./ViewSocialMedia";
-import ViewNewsletter from "./ViewNewsletter";
-import Heading from "./Heading";
-import { useSelector } from "react-redux";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import Heading from "./Heading";
+import ViewContactInfo from "./ViewContactInfo";
+import ViewGroupLink from "./ViewGroupLink";
+import ViewImagesFooter from "./ViewImagesFooter";
+import ViewNewsletter from "./ViewNewsletter";
+import ViewSocialMedia from "./ViewSocialMedia";
+import ViewText from "./ViewText";
 
 const ViewFooter = ({ section, editor, index }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent, maxWidthPage } = globalOptions || {};
 
   const { contents, copyright, wrapperStyle } = section;
-
-  const editorModel = editor.getModel();
-  const globalOptions = editorModel.get("globalOptions");
 
   return (
     <ContainerView
@@ -29,7 +27,7 @@ const ViewFooter = ({ section, editor, index }) => {
     >
       <div
         style={{
-          maxWidth: globalOptions.maxWidthPage,
+          maxWidth: maxWidthPage,
         }}
         className={` mx-auto relative `}
       >

@@ -123,6 +123,10 @@ const EditorTestimony = ({ selectedComponent }) => {
           onChange={(value) =>
             handleComponentChange(`contents.${item.id}.description`, value)
           }
+          handleColorChange={(color) => {
+            handleComponentChange(`wrapperStyle.descriptionColor`, color);
+            handleComponentChange(`isOverrideSchemeColor`, color);
+          }}
         />
       </>
     );
@@ -180,6 +184,10 @@ const EditorTestimony = ({ selectedComponent }) => {
               onChange={(value) =>
                 handleComponentChange("wrapperStyle.header", value)
               }
+              handleColorChange={(color) => {
+                handleComponentChange(`wrapperStyle.headerColor`, color);
+                handleComponentChange("isOverrideSchemeColor", true);
+              }}
             />
           </div>
 

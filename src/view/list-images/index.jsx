@@ -1,13 +1,14 @@
 import ContainerView from "@/components/ContainerView";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useSelector } from "react-redux";
 
 const ViewListImages = ({ section, editor, index }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent } = globalOptions || {};
   const { contents } = section;
   const { column, aspectRatio, rounded } = section?.wrapperStyle || {};
 

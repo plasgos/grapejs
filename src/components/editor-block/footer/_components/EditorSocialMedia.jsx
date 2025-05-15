@@ -4,6 +4,9 @@ import { generateId } from "@/lib/utils";
 import { produce } from "immer";
 import RangeInputSlider from "../../_components/RangeInputSlider";
 
+import { createElement } from "react";
+import * as Icons from "react-icons/fa6";
+
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -21,93 +24,81 @@ import {
 import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 
 import { Plus } from "lucide-react";
-import {
-  FaFacebook,
-  FaGithub,
-  FaInstagram,
-  FaLinkedin,
-  FaPinterest,
-  FaTiktok,
-  FaWhatsapp,
-  FaYoutube,
-} from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
 import { IoInformationCircleOutline } from "react-icons/io5";
-import { SiDiscord, SiTelegram, SiThreads } from "react-icons/si";
 import IconPicker from "../../_components/IconPicker";
 import DraggableListNested from "./DraggableListNested";
 
 const socialMediaOptions = [
   {
     label: "Facebook",
-    icon: <FaFacebook size={32} />,
+    icon: "FaFacebook",
     value: "",
     placeholder: "https://facebook.com/username",
   },
   {
     label: "Instagram",
-    icon: <FaInstagram size={32} />,
+    icon: "FaInstagram",
     value: "",
     placeholder: "https://instagram.com/username",
   },
   {
     label: "Twitter (X)",
-    icon: <FaSquareXTwitter size={32} />,
+    icon: "FaSquareXTwitter",
     value: "",
     placeholder: "https://x.com/username",
   },
   {
     label: "LinkedIn",
-    icon: <FaLinkedin size={32} />,
+    icon: "FaLinkedin",
     value: "",
     placeholder: "https://linkedin.com/in/username",
   },
   {
     label: "YouTube",
-    icon: <FaYoutube size={32} />,
+    icon: "FaYoutube",
     value: "",
     placeholder: "https://youtube.com/@channelname",
   },
   {
     label: "TikTok",
-    icon: <FaTiktok size={32} />,
+    icon: "FaTiktok",
     value: "",
     placeholder: "https://tiktok.com/@username",
   },
 
   {
     label: "Pinterest",
-    icon: <FaPinterest size={32} />,
+    icon: "FaPinterest",
     value: "",
     placeholder: "https://pinterest.com/username",
   },
   {
     label: "WhatsApp",
-    icon: <FaWhatsapp size={32} />,
+    icon: "FaWhatsapp",
     value: "",
     placeholder: "https://wa.me/1234567890",
   },
   {
     label: "Telegram",
-    icon: <SiTelegram size={32} />,
+    icon: "FaTelegram",
     value: "",
     placeholder: "https://t.me/username",
   },
   {
     label: "Threads",
-    icon: <SiThreads size={32} />,
+    icon: "FaSquareThreads",
     value: "",
     placeholder: "https://www.threads.net/@username",
   },
   {
     label: "Discord",
-    icon: <SiDiscord size={32} />,
+    icon: "FaDiscord",
     value: "",
     placeholder: "https://discord.gg/invitecode",
   },
   {
     label: "Github",
-    icon: <FaGithub size={32} />,
+    icon: "FaGithub",
     value: "",
     placeholder: "https://github.com/username",
   },
@@ -305,7 +296,13 @@ const EditorSocialMedia = ({
                           setisOpenFields(false);
                         }}
                       >
-                        {field.icon}
+                        {Icons[field.icon] ? (
+                          <div>
+                            {createElement(Icons[field.icon], {
+                              size: 28,
+                            })}
+                          </div>
+                        ) : null}
                         <p className="text-xs whitespace-nowrap">
                           {field.label}
                         </p>

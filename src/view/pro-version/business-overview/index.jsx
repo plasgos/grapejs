@@ -1,8 +1,8 @@
 import ContainerView from "@/components/ContainerView";
 import CountUp from "@/components/pro-version/CountUp";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
-import { useSelector } from "react-redux";
 
 const ViewBusinessOverview = ({ section, editor, index }) => {
   const {
@@ -18,7 +18,8 @@ const ViewBusinessOverview = ({ section, editor, index }) => {
     textAligment,
   } = section.wrapperStyle;
 
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent } = globalOptions || {};
 
   const { contents } = section;
 

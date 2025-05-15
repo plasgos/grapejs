@@ -267,5 +267,5 @@
 }
 
 .rich-text * {
-  color: var(--descriptionColor);
+  color: var(--descriptionColor) !important;
 }

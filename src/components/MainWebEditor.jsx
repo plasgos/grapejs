@@ -88,7 +88,7 @@ export const handleAddWatermark = (editor) => {
   moveWatermarkToEnd();
 };
 
-export const getAllComponents = (editor) => {
+const getAllComponents = (editor) => {
   return editor?.getComponents()?.map((comp, index) => ({
     id: comp.getId(),
     name: comp.get("tagName") || `Component ${index + 1}`,

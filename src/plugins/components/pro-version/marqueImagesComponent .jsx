@@ -1,31 +1,19 @@
 import { generateId } from "@/lib/utils";
 import { injectComponents } from "@/plugins/injectComponent";
-import { LiaImagesSolid } from "react-icons/lia";
-import svg01 from "@/assets/marquee/01.svg";
-import svg02 from "@/assets/marquee/02.svg";
-import svg03 from "@/assets/marquee/03.svg";
-import svg04 from "@/assets/marquee/04.svg";
-import svg05 from "@/assets/marquee/05.svg";
-import svg06 from "@/assets/marquee/06.svg";
-import svg07 from "@/assets/marquee/07.svg";
-import svg08 from "@/assets/marquee/08.svg";
-import svg09 from "@/assets/marquee/09.svg";
-import svg10 from "@/assets/marquee/10.svg";
-import svg11 from "@/assets/marquee/11.svg";
 import ViewMarqueeImages from "@/view/pro-version/marquee-images";
+import { LiaImagesSolid } from "react-icons/lia";
 
-const data = [
-  { id: 1, image: svg01, height: 300 },
-  { id: 2, image: svg02, height: 250 },
-  { id: 3, image: svg03, height: 320 },
-  { id: 4, image: svg04, height: 280 },
-  { id: 5, image: svg05, height: 350 },
-  { id: 6, image: svg06, height: 270 },
-  { id: 7, image: svg07, height: 310 },
-  { id: 8, image: svg08, height: 290 },
-  { id: 9, image: svg09, height: 330 },
-  { id: 10, image: svg10, height: 260 },
-  { id: 11, image: svg11, height: 340 },
+const images = [
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/04.svg?updatedAt=1747142438638",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/02.svg?updatedAt=1747142438724",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/10.svg?updatedAt=1747142438697",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/08.svg?updatedAt=1747142438768",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/03.svg?updatedAt=1747142438698",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/09.svg?updatedAt=1747142438741",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/07.svg?updatedAt=1747142438742",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/06.svg?updatedAt=1747142438873",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/05.svg?updatedAt=1747142438705",
+  "https://ik.imagekit.io/ez1ffaf6o/default-images/marque-images/01.svg?updatedAt=1747142438769",
 ];
 
 export const marqueImagesComponent = (editor) => {
@@ -38,10 +26,9 @@ export const marqueImagesComponent = (editor) => {
     defaultCustomComponent: {
       isLocked: false,
       scrollTarget: undefined,
-      contents: data.map((item, index) => ({
+      contents: images.map((image, index) => ({
         id: `img-${String(index + 1).padStart(2, "0")}-${generateId()}`,
-        image: item.image,
-        height: item.height,
+        image,
       })),
 
       background: {

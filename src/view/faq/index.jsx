@@ -1,10 +1,11 @@
 import ContainerView from "@/components/ContainerView";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
 
 const ViewFAQ = ({ section, editor, index }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent } = globalOptions || {};
 
   const { contents } = section;
   const {

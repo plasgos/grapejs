@@ -4,6 +4,9 @@ import { generateId } from "@/lib/utils";
 import { produce } from "immer";
 import RangeInputSlider from "../../_components/RangeInputSlider";
 
+import { createElement } from "react";
+import * as Icons from "react-icons/fa";
+
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 
@@ -14,29 +17,26 @@ import {
 } from "@/components/ui/popover";
 import { HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 
+import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
-import { FaMapMarkerAlt, FaWhatsapp } from "react-icons/fa";
-import { IoCall } from "react-icons/io5";
 import IconPicker from "../../_components/IconPicker";
 import DraggableListNested from "./DraggableListNested";
-import { MdOutlineMailOutline } from "react-icons/md";
-import { Textarea } from "@/components/ui/textarea";
 
 const infoOptions = [
   {
     label: "Address",
-    icon: <FaMapMarkerAlt />,
+    icon: "FaMapMarkerAlt",
     value: "Jl Sudirman 31 Jakarta Selatan",
   },
-  { label: "Phone Number", icon: <IoCall />, value: "(021) 2248 1664" },
+  { label: "Phone Number", icon: "FaPhoneAlt", value: "(021) 2248 1664" },
   {
     label: "Email",
-    icon: <MdOutlineMailOutline />,
+    icon: "FaEnvelope",
     value: "costumer.care@plasgos.co.id",
   },
   {
     label: "whatsapp",
-    icon: <FaWhatsapp />,
+    icon: "FaWhatsapp",
     value: "0853-1111-1010",
   },
 ];
@@ -234,7 +234,13 @@ const EditorContactInfo = ({
                           setisOpenFields(false);
                         }}
                       >
-                        {field.icon}
+                        {Icons[field.icon] ? (
+                          <div>
+                            {createElement(Icons[field.icon], {
+                              size: 28,
+                            })}
+                          </div>
+                        ) : null}
                         <p className="text-xs whitespace-nowrap">
                           {field.label}
                         </p>

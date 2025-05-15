@@ -5,13 +5,11 @@ import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import ViewModal from "@/view/_components/ViewModal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useSelector } from "react-redux";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const GalleryMasonry = ({ data, editor }) => {
-  const { isFocusContent } = useSelector((state) => state.landingPage);
-
-  const editorModel = editor.getModel();
-  const globalOptions = editorModel.get("globalOptions");
+  const [globalOptions] = useGlobalOptions(editor);
+  const { schemeColor, isFocusContent, maxWidthPage } = globalOptions || {};
 
   const [columns, setColumns] = useState(2);
 
@@ -68,8 +66,8 @@ const GalleryMasonry = ({ data, editor }) => {
       const wrapperDomEl = wrapper.view?.el;
       if (wrapperDomEl) {
         const widthContainer =
-          wrapperDomEl.clientWidth > globalOptions?.maxWidthPage
-            ? globalOptions?.maxWidthPage
+          wrapperDomEl.clientWidth > maxWidthPage
+            ? maxWidthPage
             : wrapperDomEl.clientWidth;
 
         setWidth(widthContainer);
@@ -84,7 +82,7 @@ const GalleryMasonry = ({ data, editor }) => {
     return () => {
       iframeWindow?.removeEventListener("resize", updateWidth);
     };
-  }, [editor, globalOptions]);
+  }, [editor, maxWidthPage]);
 
   const [heights, gridItems] = useMemo(() => {
     let heights = new Array(columns).fill(0);

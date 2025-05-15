@@ -71,6 +71,7 @@ import { Heading2 } from "lucide-react";
 import { Heading3 } from "lucide-react";
 import { cx } from "class-variance-authority";
 import { IoEllipsisHorizontal } from "react-icons/io5";
+import { useEditor } from "@grapesjs/react";
 
 const fontSizes = [
   "12px",
@@ -87,7 +88,10 @@ const fontSizes = [
   "128px",
 ];
 
-export default function MenuBar({ editor }) {
+export default function MenuBar({ editor, handleColorChange }) {
+  const editorCanvas = useEditor();
+  const selectedComponent = editorCanvas.getSelected()?.get("customComponent");
+
   const { googleFonts: fontOptions } = useSelector(
     (state) => state.landingPage
   );
@@ -363,8 +367,10 @@ export default function MenuBar({ editor }) {
               </Toggle>
             ))}
             <ColorPicker
-              value={editor.getAttributes("textStyle").color}
-              onChange={(value) => editor.chain().focus().setColor(value).run()}
+              value={selectedComponent?.wrapperStyle?.descriptionColor}
+              onChange={(color) => {
+                handleColorChange(color);
+              }}
             />
           </div>
 
