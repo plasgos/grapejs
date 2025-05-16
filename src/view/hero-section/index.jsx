@@ -183,14 +183,6 @@ const ViewHeroSection = ({ section, editor, index }) => {
       {variant === "no-image" && (
         <div className="w-full flex justify-center items-center relative">
           {contents.map((content) => {
-            console.log("🚀 ~ {contents.map ~ content:", content);
-
-            const isUsingSchemeColor = content?.textBannerColor
-              ? {
-                  "--richTextColor": content?.textBannerColor,
-                }
-              : {};
-
             const useSchemeColor = !!content?.textBannerColor;
 
             return (
@@ -203,17 +195,6 @@ const ViewHeroSection = ({ section, editor, index }) => {
                       "--animation-duration": `${durationContent}s`,
                     }}
                   >
-                    {/* <div
-                      className="rich-text break-all"
-                      style={{
-                        textShadow: content?.textShadow,
-                        ...isUsingSchemeColor,
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: content.textBanner,
-                      }}
-                    /> */}
-
                     <div
                       className={cn("rich-text break-all", {
                         "with-scheme-color": useSchemeColor,

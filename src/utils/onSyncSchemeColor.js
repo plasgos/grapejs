@@ -23,8 +23,13 @@ function getFallbackColorsByType(type, index, schemeColor) {
         titleColor: safe(colours.primary),
         descriptionColor: safe(colours.secondary),
       };
+    case "feature-highlights":
+      return {
+        titleColor: safe(colours.primary),
+      };
     case "testimony":
       return {
+        headerColor: safe(colours.primary),
         quoteColor: safe(colours.primary),
         descriptionColor: safe(colours.primary),
         nameColor: safe(colours.primary),
@@ -69,7 +74,17 @@ function applyFallbackColors(obj, fallbackColors) {
   }
 }
 
-const colorKeysToKeep = ["bgColor", "borderColor", "quoteColor", "starsColor"];
+const colorKeysToKeep = [
+  "bgColor",
+  "borderColor",
+  "quoteColor",
+  "starsColor",
+  "daysColor",
+  "hoursColor",
+  "minutesColor",
+  "secondsColor",
+  "color",
+];
 function resetColorValuesWithExclusion(obj) {
   if (Array.isArray(obj)) {
     obj.forEach((item) => resetColorValuesWithExclusion(item));

@@ -21,6 +21,9 @@ const Layout3 = ({ content, styles, editor }) => {
     starsColor,
     starsSize,
     descriptionColor,
+    descriptionFontWeight,
+    descriptionFontFamily,
+    descriptionFontSize,
   } = styles;
 
   return (
@@ -40,16 +43,17 @@ const Layout3 = ({ content, styles, editor }) => {
       </div>
       <div className="flex flex-col  gap-y-5">
         <div className="h-[120px] overflow-y-auto mt-2">
-          <div
-            className="text-muted-foreground text-base"
+          <p
             style={{
-              textShadow: content?.textShadow,
               color: descriptionColor,
+              fontFamily: descriptionFontFamily,
+              fontSize: descriptionFontSize,
+              fontWeight: descriptionFontWeight,
             }}
-            dangerouslySetInnerHTML={{
-              __html: content.description,
-            }}
-          />
+            className={`w-full break-all`}
+          >
+            {content.description}
+          </p>
         </div>
 
         <div className="flex  gap-x-3 items-center mb-5">
@@ -69,10 +73,11 @@ const Layout3 = ({ content, styles, editor }) => {
             <p
               style={{
                 color: nameColor,
-                fontFamily: fontFamily,
-                fontSize: fontSize,
+                fontFamily,
+                fontSize,
+                fontWeight,
               }}
-              className={`w-full break-all  ${fontFamily} ${fontWeight}`}
+              className={`w-full break-all `}
             >
               {content.name}
             </p>

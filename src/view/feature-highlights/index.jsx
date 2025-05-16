@@ -8,11 +8,17 @@ import * as Icons from "react-icons/fa";
 
 const ViewFeatureHighlights = ({ section, editor, index }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent } = globalOptions || {};
+  const { isFocusContent } = globalOptions || {};
 
   const { contents, animation } = section;
-  const { textShadow, color, fontWeight, fontFamily, fontSize, textAligment } =
-    section.wrapperStyle;
+  const {
+    textShadow,
+    titleColor,
+    fontWeight,
+    fontFamily,
+    fontSize,
+    textAligment,
+  } = section.wrapperStyle;
 
   const { elementRef, getClassName, duration } =
     useAnimatedVisibility(animation);
@@ -55,12 +61,13 @@ const ViewFeatureHighlights = ({ section, editor, index }) => {
 
                     <p
                       style={{
-                        color: color,
-                        fontFamily: fontFamily,
-                        fontSize: fontSize,
+                        color: titleColor,
+                        fontFamily,
+                        fontSize,
                         textShadow,
+                        fontWeight,
                       }}
-                      className={`w-full break-all  ${fontFamily}   ${fontWeight} `}
+                      className={`w-full break-all   `}
                     >
                       {content.title}
                     </p>
@@ -69,12 +76,13 @@ const ViewFeatureHighlights = ({ section, editor, index }) => {
                   <>
                     <p
                       style={{
-                        color: color,
-                        fontFamily: fontFamily,
-                        fontSize: fontSize,
+                        color: titleColor,
+                        fontFamily,
+                        fontSize,
                         textShadow,
+                        fontWeight,
                       }}
-                      className={`w-full break-all  ${fontFamily}   ${fontWeight} `}
+                      className={`w-full break-all   `}
                     >
                       {content.title}
                     </p>

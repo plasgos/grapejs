@@ -77,7 +77,11 @@ export const testimonyComponent = (editor) => {
         starsSize: 20,
         withSlider: true,
         autoPlaySlider: false,
-        descriptionColor: "#000000",
+
+        descriptionColor: "",
+        descriptionFontWeight: "",
+        descriptionFontFamily: "",
+        descriptionFontSize: 14,
 
         header: `<p style="text-align:center;"><span style="font-size:26px;"><strong>Testimonials</strong></span></p><p style="text-align:center;"><span style="font-size:40px;">What our clients saya about us</span></p>`,
         headerColor: "",

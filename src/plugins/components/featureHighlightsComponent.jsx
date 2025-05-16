@@ -55,8 +55,8 @@ export const featureHighlightsComponent = (editor) => {
       wrapperStyle: {
         space: 20,
         textShadow: null,
-        color: "#000000",
-        fontWeight: "font-semibold",
+        titleColor: "#000000",
+        fontWeight: 700,
         fontFamily: "Roboto",
         fontSize: 16,
         textAligment: "justify-center",

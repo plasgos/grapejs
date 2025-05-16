@@ -18,6 +18,7 @@ import { FaStar } from "react-icons/fa";
 import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import SelectOptions from "../_components/SelectOptions";
+import { Textarea } from "@/components/ui/textarea";
 
 const layoutVariants = [
   { value: "1", label: "1" },
@@ -117,16 +118,17 @@ const EditorTestimony = ({ selectedComponent }) => {
           </div>
         </div>
 
-        <RichTextEditor
-          label="Content"
-          value={contents[0].description}
-          onChange={(value) =>
-            handleComponentChange(`contents.${item.id}.description`, value)
-          }
-          handleColorChange={(color) => {
-            handleComponentChange(`wrapperStyle.descriptionColor`, color);
-          }}
-        />
+        <div className="space-y-2">
+          <Label>Profetion</Label>
+          <Textarea
+            placeholder="type your testimonial"
+            value={item.description || ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              handleComponentChange(`contents.${item.id}.description`, value);
+            }}
+          />
+        </div>
       </>
     );
   };
@@ -183,9 +185,7 @@ const EditorTestimony = ({ selectedComponent }) => {
               onChange={(value) =>
                 handleComponentChange("wrapperStyle.header", value)
               }
-              handleColorChange={(color) => {
-                handleComponentChange(`wrapperStyle.headerColor`, color);
-              }}
+              schemeColor={"headerColor"}
             />
           </div>
 

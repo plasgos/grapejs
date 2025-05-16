@@ -37,43 +37,52 @@ const StylesTab = ({ selectedComponent }) => {
 
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="w-full flex flex-col gap-y-3 bg-white p-3 rounded-lg">
-        <ColorPicker
-          asChild
-          label="Background Color"
-          value={wrapperStyle.bgColor}
-          onChange={(value) => {
-            handleComponentChange("wrapperStyle.bgColor", value);
-          }}
-        />
+      <Accordion defaultValue="card" type="single" collapsible>
+        <AccordionItem value="card">
+          <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
+            Card
+          </AccordionTrigger>
+          <AccordionContent className="bg-white p-2 rounded-b-lg ">
+            <div className="flex flex-col gap-y-5">
+              <ColorPicker
+                asChild
+                label="Background Color"
+                value={wrapperStyle.bgColor}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.bgColor", value);
+                }}
+              />
 
-        <ColorPicker
-          asChild
-          label="Border Color"
-          value={wrapperStyle.borderColor}
-          onChange={(value) => {
-            handleComponentChange("wrapperStyle.borderColor", value);
-          }}
-        />
+              <ColorPicker
+                asChild
+                label="Border Color"
+                value={wrapperStyle.borderColor}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.borderColor", value);
+                }}
+              />
 
-        <ColorPicker
-          asChild
-          label="Stars Color"
-          value={wrapperStyle.starsColor}
-          onChange={(value) => {
-            handleComponentChange("wrapperStyle.starsColor", value);
-          }}
-        />
+              <ColorPicker
+                asChild
+                label="Stars Color"
+                value={wrapperStyle.starsColor}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.starsColor", value);
+                }}
+              />
 
-        <ColorPicker
-          asChild
-          label="Quote Color"
-          value={wrapperStyle.quoteColor}
-          onChange={(value) => {
-            handleComponentChange("wrapperStyle.quoteColor", value);
-          }}
-        />
-      </div>
+              <ColorPicker
+                asChild
+                label="Quote Color"
+                value={wrapperStyle.quoteColor}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.quoteColor", value);
+                }}
+              />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
       <Accordion defaultValue="title" type="single" collapsible>
         <AccordionItem value="title">
@@ -110,6 +119,57 @@ const StylesTab = ({ selectedComponent }) => {
                 value={wrapperStyle.fontSize}
                 onChange={(value) => {
                   handleComponentChange("wrapperStyle.fontSize", value);
+                }}
+              />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <Accordion defaultValue="desc" type="single" collapsible>
+        <AccordionItem value="desc">
+          <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
+            Description
+          </AccordionTrigger>
+          <AccordionContent className="bg-white p-2 rounded-b-lg ">
+            <div className="flex flex-col gap-y-5">
+              <ColorPicker
+                asChild
+                label="Color"
+                value={wrapperStyle.descriptionColor}
+                onChange={(value) => {
+                  handleChangeMainColor("descriptionColor", value);
+                }}
+              />
+
+              <SelectFontFamily
+                asChild
+                label="Font Family"
+                fontFamily={wrapperStyle.descriptionFontFamily}
+                fontWeight={wrapperStyle.descriptionFontWeight}
+                onChangefontFamily={(value) => {
+                  handleComponentChange(
+                    "wrapperStyle.descriptionFontFamily",
+                    value
+                  );
+                }}
+                onChangefontWeight={(value) => {
+                  handleComponentChange(
+                    "wrapperStyle.descriptionFontWeight",
+                    value
+                  );
+                }}
+              />
+
+              <SelectFontSize
+                asChild
+                label="Size"
+                value={wrapperStyle.descriptionFontSize}
+                onChange={(value) => {
+                  handleComponentChange(
+                    "wrapperStyle.descriptionFontSize",
+                    value
+                  );
                 }}
               />
             </div>

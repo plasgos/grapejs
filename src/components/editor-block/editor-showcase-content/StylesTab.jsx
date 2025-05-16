@@ -41,7 +41,6 @@ const StylesTab = ({ selectedComponent }) => {
 
   const { wrapperStyle } = currentComponent;
   useSyncWithUndoRedo(setCurrentComponent);
-
   const handleChangeColor = (key, value) => {
     handleComponentChange(key, value);
   };

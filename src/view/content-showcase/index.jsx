@@ -101,10 +101,11 @@ function ContentShowcase({ section, editor, index }) {
                 <p
                   style={{
                     color: titleColor,
-                    fontFamily: fontFamily,
-                    fontSize: fontSize,
+                    fontFamily,
+                    fontSize,
+                    fontWeight,
                   }}
-                  className={`w-full break-all ${textAligment} ${fontFamily}   ${fontWeight} `}
+                  className={`w-full break-all ${textAligment}  `}
                 >
                   {content.title}
                 </p>

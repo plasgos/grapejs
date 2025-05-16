@@ -40,9 +40,9 @@ const StylesTab = ({ selectedComponent }) => {
               <ColorPicker
                 asChild
                 label="Color"
-                value={wrapperStyle.color}
+                value={wrapperStyle.titleColor}
                 onChange={(value) => {
-                  handleComponentChange("wrapperStyle.color", value);
+                  handleComponentChange("wrapperStyle.titleColor", value);
                 }}
               />
 

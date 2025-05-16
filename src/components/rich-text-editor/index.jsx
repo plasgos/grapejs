@@ -15,7 +15,6 @@ export default function RichTextEditor({
   label,
   value,
   onChange,
-  handleColorChange,
   schemeColor,
 }) {
   const timeoutRef = useRef(null);
@@ -109,7 +108,6 @@ export default function RichTextEditor({
       <div className="relative mt-2">
         <MenuBar
           editor={editor}
-          handleColorChange={handleColorChange}
           onChange={onChange}
           schemeColor={schemeColor}
         />

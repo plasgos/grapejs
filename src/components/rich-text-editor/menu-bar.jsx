@@ -89,12 +89,7 @@ const fontSizes = [
   "128px",
 ];
 
-export default function MenuBar({
-  editor,
-  handleColorChange,
-  onChange,
-  schemeColor,
-}) {
+export default function MenuBar({ editor, schemeColor }) {
   const editorCanvas = useEditor();
   const selectedComponent = editorCanvas.getSelected();
 
@@ -119,6 +114,38 @@ export default function MenuBar({
       }
     }
   }
+
+  function findValueByKey(obj, targetKey) {
+    if (Array.isArray(obj)) {
+      for (const item of obj) {
+        const result = findValueByKey(item, targetKey);
+        if (result !== undefined) return result;
+      }
+    } else if (typeof obj === "object" && obj !== null) {
+      for (const key in obj) {
+        if (key === targetKey) {
+          return obj[key];
+        }
+        const result = findValueByKey(obj[key], targetKey);
+        if (result !== undefined) return result;
+      }
+    }
+    return undefined;
+  }
+
+  const valueSchemeColor = findValueByKey(currentComponent, schemeColor);
+
+  useEffect(() => {
+    if (valueSchemeColor && editor) {
+      const docSize = editor.state.doc.content.size;
+
+      // Seleksi seluruh teks
+      editor.commands.setTextSelection({ from: 0, to: docSize });
+
+      // Terapkan warna ke semua teks
+      editor.commands.setColor(valueSchemeColor);
+    }
+  }, [editor, valueSchemeColor]);
 
   const { googleFonts: fontOptions } = useSelector(
     (state) => state.landingPage
@@ -395,7 +422,7 @@ export default function MenuBar({
               </Toggle>
             ))}
             <ColorPicker
-              value={editor.getAttributes("textStyle")?.fontSize}
+              value={editor.getAttributes("textStyle")?.color}
               onChange={(color) => {
                 editor.chain().focus().setColor(color).run();
 

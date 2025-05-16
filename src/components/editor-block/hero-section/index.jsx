@@ -55,7 +55,6 @@ const EditorHeroSection = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
   const { contents, buttons } = currentComponent;
-  console.log("🚀 ~ EditorHeroSection ~ contents:", contents);
   const { wrapperStyle } = currentComponent;
 
   useSyncWithUndoRedo(setCurrentComponent);

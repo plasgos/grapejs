@@ -176,7 +176,9 @@ const MainWebEditor = () => {
 
       const globalOptions = editor.getModel().get("globalOptions");
 
-      onSyncSchemeColor(editor, globalOptions?.schemeColor);
+      if (globalOptions?.schemeColor) {
+        onSyncSchemeColor(editor, globalOptions?.schemeColor);
+      }
     });
     editor.on("component:remove", () =>
       updateCanvasComponents(editor, setCanvasComponents)

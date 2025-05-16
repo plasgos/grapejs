@@ -21,6 +21,9 @@ const Layout1 = ({ content, styles, editor }) => {
     starsColor,
     starsSize,
     descriptionColor,
+    descriptionFontWeight,
+    descriptionFontFamily,
+    descriptionFontSize,
   } = styles;
 
   return (
@@ -66,27 +69,29 @@ const Layout1 = ({ content, styles, editor }) => {
           ))}
         </div>
 
-        <div className="h-[120px] overflow-y-auto">
-          <div
-            className="text-muted-foreground text-center text-base"
+        <div className="h-[120px] overflow-y-auto  ">
+          <p
             style={{
-              textShadow: content?.textShadow,
               color: descriptionColor,
+              fontFamily: descriptionFontFamily,
+              fontSize: descriptionFontSize,
+              fontWeight: descriptionFontWeight,
             }}
-            dangerouslySetInnerHTML={{
-              __html: content.description,
-            }}
-          />
+            className={`w-full break-all`}
+          >
+            {content.description}
+          </p>
         </div>
 
         <div className="text-center">
           <p
             style={{
               color: nameColor,
-              fontFamily: fontFamily,
-              fontSize: fontSize,
+              fontFamily,
+              fontSize,
+              fontWeight,
             }}
-            className={`w-full break-all ${fontFamily} ${fontWeight}`}
+            className={`w-full break-all `}
           >
             {content.name}
           </p>

@@ -7,11 +7,14 @@ import Layout1 from "./layout/Layout1";
 import Layout2 from "./layout/Layout2";
 import Layout3 from "./layout/Layout3";
 import Layout4 from "./layout/Layout4";
+import { cn } from "@/lib/utils";
 
 const ViewTestimony = ({ section, editor, index }) => {
   const { contents } = section;
   const { variant, header, headerColor, withSlider, autoPlaySlider } =
     section.wrapperStyle;
+
+  const useSchemeColor = !!headerColor;
 
   return (
     <ContainerView
@@ -22,11 +25,16 @@ const ViewTestimony = ({ section, editor, index }) => {
     >
       <div className="relative p-5">
         <div
+          className={cn("rich-text break-all", {
+            "with-scheme-color": useSchemeColor,
+          })}
           style={{
-            color: headerColor,
+            ...(useSchemeColor ? { "--richTextColor": headerColor } : {}),
             marginBottom: variant === "2" ? 40 : 20,
           }}
-          dangerouslySetInnerHTML={{ __html: header }}
+          dangerouslySetInnerHTML={{
+            __html: header,
+          }}
         />
 
         {variant === "1" && (
