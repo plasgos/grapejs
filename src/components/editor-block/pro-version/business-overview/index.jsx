@@ -8,14 +8,14 @@ import RangeInputSlider from "../../_components/RangeInputSlider";
 import SectionAddScrollTargetId from "../../_components/SectionAddScrollTargetId";
 import SelectOptions from "../../_components/SelectOptions";
 
-import RichTextEditor from "@/components/rich-text-editor";
-import StylesTab from "./StylesTab";
-import DraggableList from "../../_components/DraggableList";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { produce } from "immer";
+import { Textarea } from "@/components/ui/textarea";
 import { generateId } from "@/lib/utils";
+import { produce } from "immer";
+import { Plus } from "lucide-react";
 import { useState } from "react";
+import DraggableList from "../../_components/DraggableList";
+import StylesTab from "./StylesTab";
 
 const directionOptions = [
   { value: "up", label: "Up" },
@@ -44,7 +44,7 @@ const EditorBusinessOverview = ({ selectedComponent }) => {
 
     const newContent = {
       id: newId,
-      overview: `<p><span style="font-family:'Courier New', Courier, monospace;font-size:18px;"><strong>Followers</strong></span></p>`,
+      overview: `Followers`,
       from: 0,
       rangeValue: 100,
       symbol: "+",
@@ -91,13 +91,16 @@ const EditorBusinessOverview = ({ selectedComponent }) => {
           }
         />
 
-        <RichTextEditor
-          label="Description"
-          value={item.overview}
-          onChange={(value) => {
-            handleComponentChange(`contents.${item.id}.overview`, value);
-          }}
-        />
+        <div className="space-y-2">
+          <Label>Profetion</Label>
+          <Textarea
+            value={item.overview || ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              handleComponentChange(`contents.${item.id}.overview`, value);
+            }}
+          />
+        </div>
       </>
     );
   };

@@ -5,17 +5,21 @@ import { useState, useRef, useEffect } from "react";
 
 const ViewFAQ = ({ section, editor, index }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent } = globalOptions || {};
+  const { isFocusContent } = globalOptions || {};
 
   const { contents } = section;
   const {
-    color,
+    colorTitle,
     fontWeight,
     fontFamily,
     fontSize,
     borderColor,
     iconColor,
     variant,
+    descriptionColor,
+    descriptionFontWeight,
+    descriptionFontFamily,
+    descriptionFontSize,
   } = section.wrapperStyle;
   const [openItems, setOpenItems] = useState([]);
   const contentRefs = useRef({});
@@ -73,12 +77,12 @@ const ViewFAQ = ({ section, editor, index }) => {
                 <div className="flex justify-between items-center">
                   <p
                     style={{
-                      color: color,
+                      color: colorTitle,
                       fontFamily: fontFamily,
                       fontSize: fontSize,
                       fontWeight,
                     }}
-                    className={`w-full break-all italic   `}
+                    className={`w-full break-all  `}
                   >
                     {content.title}
                   </p>
@@ -100,13 +104,17 @@ const ViewFAQ = ({ section, editor, index }) => {
                   style={{ maxHeight: "0px" }}
                 >
                   <div className="p-2">
-                    <div
-                      className="text-muted-foreground"
+                    <p
                       style={{
-                        textShadow: content?.textShadow,
+                        color: descriptionColor,
+                        fontFamily: descriptionFontFamily,
+                        fontSize: descriptionFontSize,
+                        fontWeight: descriptionFontWeight,
                       }}
-                      dangerouslySetInnerHTML={{ __html: content.description }}
-                    />
+                      className={`w-full break-all    `}
+                    >
+                      {content.description}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -134,11 +142,12 @@ const ViewFAQ = ({ section, editor, index }) => {
                 <div className="flex justify-between items-center">
                   <p
                     style={{
-                      color: color,
+                      color: colorTitle,
                       fontFamily: fontFamily,
                       fontSize: fontSize,
+                      fontWeight,
                     }}
-                    className={`w-full break-all ${fontFamily} ${fontWeight}`}
+                    className={`w-full break-all `}
                   >
                     {content.title}
                   </p>
@@ -160,10 +169,17 @@ const ViewFAQ = ({ section, editor, index }) => {
                   style={{ maxHeight: "0px" }}
                 >
                   <div className="p-2">
-                    <div
-                      className="text-muted-foreground"
-                      dangerouslySetInnerHTML={{ __html: content.description }}
-                    />
+                    <p
+                      style={{
+                        color: descriptionColor,
+                        fontFamily: descriptionFontFamily,
+                        fontSize: descriptionFontSize,
+                        fontWeight: descriptionFontWeight,
+                      }}
+                      className={`w-full break-all    `}
+                    >
+                      {content.description}
+                    </p>
                   </div>
                 </div>
               </div>

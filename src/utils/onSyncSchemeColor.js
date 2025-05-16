@@ -27,6 +27,17 @@ function getFallbackColorsByType(type, index, schemeColor) {
       return {
         titleColor: safe(colours.primary),
       };
+    case "business-overview":
+      return {
+        colorRangeValue: safe(colours.primary),
+        colorOverview: safe(colours.primary),
+      };
+    case "faq":
+      return {
+        colorTitle: safe(colours.primary),
+        iconColor: safe(colours.primary),
+        descriptionColor: safe(colours.primary),
+      };
     case "testimony":
       return {
         headerColor: safe(colours.primary),

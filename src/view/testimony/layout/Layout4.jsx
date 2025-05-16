@@ -24,6 +24,7 @@ const Layout4 = ({ content, styles, editor }) => {
     descriptionFontWeight,
     descriptionFontFamily,
     descriptionFontSize,
+    textAligment,
   } = styles;
 
   return (
@@ -82,7 +83,7 @@ const Layout4 = ({ content, styles, editor }) => {
           </p>
         </div>
 
-        <div className="h-[120px] overflow-y-auto">
+        <div className={`h-[120px] overflow-y-auto ${textAligment}  `}>
           <p
             style={{
               color: descriptionColor,

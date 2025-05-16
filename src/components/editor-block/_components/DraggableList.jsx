@@ -161,6 +161,12 @@ const SortableItem = ({
             </div>
           ) : null}
 
+          {item?.overview ? (
+            <div className="flex gap-x-2">
+              <p className=""> | {item.overview}</p>
+            </div>
+          ) : null}
+
           {/* {item?.icon ? (
             <div style={{ fontSize: 20, marginLeft: 5 }}>{item.icon}</div>
           ) : null} */}

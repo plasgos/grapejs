@@ -4,7 +4,6 @@ import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
-import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +13,7 @@ import { generateId } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
+import { Textarea } from "@/components/ui/textarea";
 
 const EditorFAQ = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -66,13 +66,17 @@ const EditorFAQ = ({ selectedComponent }) => {
           />
         </div>
 
-        <RichTextEditor
-          label="Content"
-          value={contents[0].description}
-          onChange={(value) =>
-            handleComponentChange(`contents.${item.id}.description`, value)
-          }
-        />
+        <div className="space-y-2">
+          <Label>Profetion</Label>
+          <Textarea
+            placeholder="type your testimonial"
+            value={item.description || ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              handleComponentChange(`contents.${item.id}.description`, value);
+            }}
+          />
+        </div>
       </>
     );
   };

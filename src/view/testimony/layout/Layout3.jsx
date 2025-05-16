@@ -24,6 +24,7 @@ const Layout3 = ({ content, styles, editor }) => {
     descriptionFontWeight,
     descriptionFontFamily,
     descriptionFontSize,
+    textAligment,
   } = styles;
 
   return (
@@ -42,7 +43,7 @@ const Layout3 = ({ content, styles, editor }) => {
         <ImQuotesLeft color={quoteColor} size={36} />
       </div>
       <div className="flex flex-col  gap-y-5">
-        <div className="h-[120px] overflow-y-auto mt-2">
+        <div className={`h-[120px] overflow-y-auto mt-2 ${textAligment}  `}>
           <p
             style={{
               color: descriptionColor,

@@ -68,7 +68,7 @@ export const testimonyComponent = (editor) => {
         fontWeight: "font-semibold",
         fontFamily: "Roboto",
         fontSize: 18,
-        textAligment: "justify-center",
+        textAligment: "text-center",
         borderColor: "rgba(223, 221, 221, 1)",
         bgColor: "transparent",
         quoteColor: "rgba(245, 245, 245, 1)",

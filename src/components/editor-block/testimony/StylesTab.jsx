@@ -12,6 +12,7 @@ import SelectFontSize from "../_components/SelectFontSize";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { produce } from "immer";
+import SelectTextAligment from "../_components/SelectTextAligment";
 
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -170,6 +171,14 @@ const StylesTab = ({ selectedComponent }) => {
                     "wrapperStyle.descriptionFontSize",
                     value
                   );
+                }}
+              />
+
+              <SelectTextAligment
+                asChild
+                value={wrapperStyle.textAligment}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.textAligment", value);
                 }}
               />
             </div>

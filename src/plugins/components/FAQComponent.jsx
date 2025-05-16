@@ -38,13 +38,18 @@ export const FAQComponent = (editor) => {
       ],
       wrapperStyle: {
         variant: "basic",
-        color: "#000000",
+        colorTitle: "#000000",
         fontWeight: 500,
         fontFamily: "Roboto",
         fontSize: 16,
         textAligment: "justify-center",
         borderColor: "rgba(115, 115, 115, 0.5)",
         iconColor: "rgb(46, 30, 24,1)",
+
+        descriptionColor: "",
+        descriptionFontWeight: "",
+        descriptionFontFamily: "",
+        descriptionFontSize: 14,
       },
       background: {
         bgType: null,

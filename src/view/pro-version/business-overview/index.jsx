@@ -9,21 +9,28 @@ const ViewBusinessOverview = ({ section, editor, index }) => {
     textShadow,
     fontFamily,
     fontWeight,
-    color,
+    colorRangeValue,
     fontSize,
     separator,
     direction,
     duration,
     distance,
     textAligment,
+    fontSizeOverview,
+    fontFamilyOverview,
+    fontWeightOverview,
+    colorOverview,
   } = section.wrapperStyle;
 
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent } = globalOptions || {};
+  const { isFocusContent } = globalOptions || {};
 
   const { contents } = section;
 
   const { responsiveFontSize } = useResponsiveViewFontSize(editor, fontSize);
+
+  const { responsiveFontSize: responsoveFontSizeOverview } =
+    useResponsiveViewFontSize(editor, fontSizeOverview);
 
   return (
     <ContainerView
@@ -54,7 +61,7 @@ const ViewBusinessOverview = ({ section, editor, index }) => {
                   style={{
                     fontFamily,
                     fontWeight,
-                    color,
+                    color: colorRangeValue,
                     fontSize: responsiveFontSize,
                     textShadow,
                   }}
@@ -70,7 +77,7 @@ const ViewBusinessOverview = ({ section, editor, index }) => {
                   style={{
                     fontFamily,
                     fontWeight,
-                    color,
+                    color: colorRangeValue,
                     fontSize: responsiveFontSize,
                     textShadow,
                   }}
@@ -79,16 +86,18 @@ const ViewBusinessOverview = ({ section, editor, index }) => {
                 </p>
               </div>
 
-              <div
+              <p
                 className="break-all"
                 style={{
-                  lineHeight: 1.4,
+                  fontFamily: fontFamilyOverview,
+                  fontWeight: fontWeightOverview,
+                  color: colorOverview,
+                  fontSize: responsoveFontSizeOverview,
                   textShadow,
                 }}
-                dangerouslySetInnerHTML={{
-                  __html: overview,
-                }}
-              />
+              >
+                {overview}
+              </p>
             </div>
           );
         })}

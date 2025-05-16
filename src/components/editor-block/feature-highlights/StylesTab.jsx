@@ -27,6 +27,7 @@ const StylesTab = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { wrapperStyle } = currentComponent;
+  console.log("🚀 ~ StylesTab ~ wrapperStyle:", wrapperStyle);
 
   return (
     <div className="flex flex-col gap-y-5">
