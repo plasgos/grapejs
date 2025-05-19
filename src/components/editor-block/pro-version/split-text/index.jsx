@@ -17,8 +17,15 @@ const EditorSplitText = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { text, fontFamily, fontWeight, color, fontSize, textAlign, delay } =
-    currentComponent;
+  const {
+    text,
+    fontFamily,
+    fontWeight,
+    colorSplitText,
+    fontSize,
+    textAlign,
+    delay,
+  } = currentComponent;
 
   return (
     <>
@@ -43,9 +50,9 @@ const EditorSplitText = ({ selectedComponent }) => {
             <ColorPicker
               asChild
               label="Color"
-              value={color}
+              value={colorSplitText}
               onChange={(value) => {
-                handleComponentChange("color", value);
+                handleComponentChange("colorSplitText", value);
               }}
             />
 

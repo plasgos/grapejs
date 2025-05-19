@@ -5,6 +5,8 @@ import { useEditor } from "@grapesjs/react";
 import ColorPicker from "../../editor-block/_components/ColorPicker";
 import SelectOptions from "../../editor-block/_components/SelectOptions";
 import { widthPageOptions } from "../../SelectOptions";
+import { produce } from "immer";
+import { schemeColours } from "@/components/theme-colors";
 
 const GlobalStyles = () => {
   const editor = useEditor();
@@ -31,9 +33,13 @@ const GlobalStyles = () => {
     }
   };
 
-  const handleChangeSchemeColor = (schemeColorValue) => {
+  const handleChangeSchemeColor = (valueName) => {
+    const schemeColorValue = schemeColours.find(
+      (schemeColor) => schemeColor.name === valueName
+    );
+
     updateGlobalOptions({
-      schemeColor: schemeColorValue,
+      schemeColor: valueName,
       bgColor: schemeColorValue.baseColor,
     });
 
@@ -50,6 +56,50 @@ const GlobalStyles = () => {
     updateGlobalOptions({
       schemeColor: null,
       bgColor: "",
+    });
+
+    const colorKeysToKeep = [
+      // "bgColor",
+      "borderColor",
+      "quoteColor",
+      "starsColor",
+      "daysColor",
+      "hoursColor",
+      "minutesColor",
+      "secondsColor",
+      "color",
+    ];
+    function resetColorValuesWithExclusion(obj) {
+      const normalizedKeepKeys = colorKeysToKeep.map((k) => k.toLowerCase());
+
+      if (Array.isArray(obj)) {
+        obj.forEach((item) => resetColorValuesWithExclusion(item));
+        return;
+      }
+
+      for (const key in obj) {
+        const value = obj[key];
+
+        if (typeof value === "object" && value !== null) {
+          resetColorValuesWithExclusion(value);
+        } else if (
+          key.toLowerCase().includes("color") &&
+          !normalizedKeepKeys.includes(key.toLowerCase())
+        ) {
+          obj[key] = "";
+        }
+      }
+    }
+
+    const components = editor?.getComponents().models;
+    components.forEach((component) => {
+      const customComponent = component.get("customComponent") || {};
+
+      const updatedCustomComponent = produce(customComponent, (draft) => {
+        resetColorValuesWithExclusion(draft);
+      });
+
+      component.set("customComponent", updatedCustomComponent);
     });
 
     if (wrapper) {

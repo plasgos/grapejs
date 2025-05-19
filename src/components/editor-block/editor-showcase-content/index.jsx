@@ -4,7 +4,6 @@ import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 import StylesTab from "./StylesTab";
 
-import RichTextEditor from "@/components/rich-text-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +15,7 @@ import { useState } from "react";
 import DraggableList from "../_components/DraggableList";
 import ImageUploader from "../_components/ImageUploader";
 import TargetOptions from "../_components/TargetOptions";
+import { Textarea } from "@/components/ui/textarea";
 
 const EditorContentShowcase = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -89,16 +89,17 @@ const EditorContentShowcase = ({ selectedComponent }) => {
           />
         </div>
 
-        <RichTextEditor
-          label="Description"
-          value={item.description}
-          onChange={(value) => {
-            handleComponentChange(`contents.${item.id}.description`, value);
-          }}
-          handleColorChange={(color) => {
-            handleComponentChange(`wrapperStyle.descriptionColor`, color);
-          }}
-        />
+        <div className="space-y-2">
+          <Label>Description</Label>
+          <Textarea
+            placeholder="type your testimonial"
+            value={item.description || ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              handleComponentChange(`contents.${item.id}.description`, value);
+            }}
+          />
+        </div>
       </>
     );
   };

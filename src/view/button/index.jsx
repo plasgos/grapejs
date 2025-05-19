@@ -4,7 +4,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import ContainerView from "@/components/ContainerView";
 import CustomButton from "../_components/CustomButton";
 
-const ViewButton = ({ section, editor, index }) => {
+const ViewButton = ({ section, editor }) => {
   const { buttons } = section;
   const { position, align } = section.mainStyle;
 
@@ -26,7 +26,6 @@ const ViewButton = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <div
         className={`flex ${classesPositionRow} ${classesPositionCol}  w-full ${

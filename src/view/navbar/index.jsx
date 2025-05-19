@@ -76,7 +76,7 @@ const CustomPortal = ({ children }) => {
   return createPortal(children, target);
 };
 
-const ViewNavbar = ({ section, editor, index }) => {
+const ViewNavbar = ({ section, editor }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const { isFocusContent, maxWidthPage } = globalOptions || {};
 
@@ -217,7 +217,6 @@ const ViewNavbar = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
       isFullwidth={true}
     >
       <div
@@ -232,8 +231,15 @@ const ViewNavbar = ({ section, editor, index }) => {
           <Sheet open={isActiveSheet} onOpenChange={setIsActiveSheet}>
             <SheetTrigger asChild>
               {!isActiveSheet && isMobile && (
-                <Button onClick={() => setIsActiveSheet(true)} variant="ghost">
-                  <TfiMenuAlt className="scale-125" />
+                <Button
+                  className={`bg-transparent hover:bg-transparent`}
+                  onClick={() => setIsActiveSheet(true)}
+                  variant=""
+                >
+                  <TfiMenuAlt
+                    color={`${wrapperStyle.headingColor}`}
+                    className={`scale-125`}
+                  />
                 </Button>
               )}
             </SheetTrigger>

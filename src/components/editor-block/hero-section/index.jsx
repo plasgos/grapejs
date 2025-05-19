@@ -18,7 +18,6 @@ import { produce } from "immer";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import ImageUploader from "../_components/ImageUploader";
-import RangeInputSlider from "../_components/RangeInputSlider";
 import TransitionEditor from "../_components/TransitionEditor";
 
 import { BsAlignCenter, BsAlignEnd, BsAlignStart } from "react-icons/bs";
@@ -34,11 +33,6 @@ import IconPicker from "../_components/IconPicker";
 import TargetOptions from "../_components/TargetOptions";
 import SelectOptions from "../_components/SelectOptions";
 import { textShadowOptions } from "@/components/SelectOptions";
-
-const imagePostionOptions = [
-  { value: "left", label: "Left", icon: <BsAlignStart /> },
-  { value: "right", label: "Right", icon: <BsAlignEnd /> },
-];
 
 export const btnPostionOptions = [
   { value: "justify-start", label: "Left", icon: <BsAlignStart /> },
@@ -181,60 +175,6 @@ const EditorHeroSection = ({ selectedComponent }) => {
                         )
                       }
                       image={currentComponent?.contents[0].image}
-                    />
-
-                    <div className="flex justify-between items-center">
-                      <Label className="font-normal">Image Position</Label>
-
-                      <div className="flex items-center gap-x-2">
-                        {imagePostionOptions.map((item) => (
-                          <Button
-                            key={item.value}
-                            onClick={() => {
-                              handleComponentChange(
-                                `contents.${contents[0].id}.imagePosition`,
-                                item.value
-                              );
-                            }}
-                            variant={
-                              item.value === contents[0].imagePosition
-                                ? ""
-                                : "outline"
-                            }
-                            size="sm"
-                          >
-                            {item.icon}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <RangeInputSlider
-                      asChild
-                      label="Width"
-                      value={currentComponent?.contents[0].width}
-                      onChange={(value) =>
-                        handleComponentChange(
-                          `contents.${contents[0].id}.width`,
-                          value
-                        )
-                      }
-                      min={100}
-                      max={1440}
-                    />
-
-                    <RangeInputSlider
-                      asChild
-                      label="Rotation"
-                      value={currentComponent?.contents[0].rotation}
-                      onChange={(value) =>
-                        handleComponentChange(
-                          `contents.${contents[0].id}.rotation`,
-                          value
-                        )
-                      }
-                      min={-90}
-                      max={90}
                     />
                   </div>
                 </AccordionContent>

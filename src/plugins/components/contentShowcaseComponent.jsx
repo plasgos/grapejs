@@ -17,11 +17,7 @@ export const contentShowcaseComponent = (editor) => {
         {
           id: generateId(),
           title: "Panduan Lengkap Memulai Bisnis Online",
-          description: `<p>
-          <span>
-          Temukan langkah-langkah praktis memulai bisnis online dari nol. Pelajari strategi pemasaran, manajemen produk, dan tips meningkatkan penjualan secara efektif.
-          </span
-          </p>`,
+          description: `Temukan langkah-langkah praktis memulai bisnis online dari nol. Pelajari strategi pemasaran, manajemen produk, dan tips meningkatkan penjualan secara efekti`,
           image:
             "https://ik.imagekit.io/ez1ffaf6o/default-images/products1.webp?updatedAt=1747115975853",
           target: {
@@ -36,11 +32,7 @@ export const contentShowcaseComponent = (editor) => {
         {
           id: generateId(),
           title: "Tips Meningkatkan Kualitas Produk Anda",
-          description: `<p>
-          <span>
-         Pelajari cara meningkatkan kualitas produk Anda dengan bahan terbaik dan proses produksi yang efisien. Dapatkan kepercayaan pelanggan dan tingkatkan loyalitas merek.
-          </span
-          </p>`,
+          description: `Pelajari cara meningkatkan kualitas produk Anda dengan bahan terbaik dan proses produksi yang efisien. Dapatkan kepercayaan pelanggan dan tingkatkan loyalitas merek.`,
           image:
             "https://ik.imagekit.io/ez1ffaf6o/default-images/products2.webp?updatedAt=1747115975781",
           target: {
@@ -53,11 +45,7 @@ export const contentShowcaseComponent = (editor) => {
         {
           id: generateId(),
           title: "Langkah Menciptakan Produk Inovatif",
-          description: `<p>
-          
-         Ketahui langkah-langkah menciptakan produk inovatif yang memenuhi kebutuhan pasar. Mulai dari riset hingga peluncuran, raih peluang bisnis yang lebih besar.
-        
-          </p>`,
+          description: `Ketahui langkah-langkah menciptakan produk inovatif yang memenuhi kebutuhan pasar. Mulai dari riset hingga peluncuran, raih peluang bisnis yang lebih besar.`,
           image:
             "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
           target: {
@@ -73,12 +61,17 @@ export const contentShowcaseComponent = (editor) => {
         aspectRatio: 4 / 5,
         rounded: 20,
         titleColor: "#000000",
-        descriptionColor: "#000000",
         fontWeight: "font-semibold",
         imagePosition: "center",
         fontFamily: "Roboto",
         fontSize: 16,
         textAligment: "text-center",
+
+        descriptionColor: "",
+        descriptionFontWeight: "",
+        descriptionFontFamily: "",
+        descriptionFontSize: 14,
+        textAligmentDescription: "text-center",
       },
       background: {
         bgType: null,

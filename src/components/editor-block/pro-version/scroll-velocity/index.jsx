@@ -21,7 +21,7 @@ const EditorScrollVelocity = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { fontFamily, fontWeight, color, fontSize, velocity } =
+  const { fontFamily, fontWeight, colorVelocity, fontSize, velocity } =
     currentComponent;
 
   const [editItem, setEditItem] = useState("");
@@ -101,9 +101,9 @@ const EditorScrollVelocity = ({ selectedComponent }) => {
             <ColorPicker
               asChild
               label="Color"
-              value={color}
+              value={colorVelocity}
               onChange={(value) => {
-                handleComponentChange("color", value);
+                handleComponentChange("colorVelocity", value);
               }}
             />
 

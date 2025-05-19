@@ -1,4 +1,3 @@
-import heroImg from "@/assets/Devices-pana.svg";
 import ViewHeroSection from "@/view/hero-section";
 import { BsGrid1X2Fill } from "react-icons/bs";
 import { injectComponents } from "../injectComponent";
@@ -15,11 +14,13 @@ export const heroSectionComponent = (editor) => {
         {
           id: "hero-01",
           width: 800,
-          image: heroImg,
+          image:
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/Devices-pana.svg?updatedAt=1747622141355",
           imagePosition: "left",
           textBanner: `<p><span style="font-size:36px;"><strong>Eksplorasi Teknologi Masa Depan</strong></span></p><p><span style="color:hsl(0, 0%, 0%);font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Noto Sans&quot;, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, Oxygen, &quot;Open Sans&quot;, sans-serif;font-size:16.002px;">Temukan inovasi terbaru dalam dunia teknologi dan bagaimana hal itu akan mengubah hidup kita. Saksikan video penjelasannya di sini.</span></p>`,
           textShadow: null,
           textBannerColor: "",
+          rotation: 0,
         },
       ],
       buttons: [
@@ -27,8 +28,8 @@ export const heroSectionComponent = (editor) => {
           id: "button-01",
           stylesBtn: {
             title: "Get Started",
-            btnColor: "",
-            textColor: "",
+            btnColor: "#000000",
+            textColor: "#ffffff",
             size: "default",
             variant: "default",
             rounded: 10,
@@ -51,7 +52,7 @@ export const heroSectionComponent = (editor) => {
           id: "button-02",
           stylesBtn: {
             title: "Explore Demo",
-            btnColor: "rgb(228 223 223 ,1)",
+            btnColor: "#000000",
             textColor: "",
             size: "default",
             variant: "outline",
@@ -77,15 +78,18 @@ export const heroSectionComponent = (editor) => {
         duration: 1,
         delay: null,
         isReplay: false,
-        rotation: 0,
+
         shadow: null,
       },
       wrapperStyle: {
         withButton: true,
-        variant: "no-image",
+        variant: "basic",
         btnPosition: "justify-start",
         shadow: "shadow-none",
         isFullWidth: false,
+        alignText: "justify-center",
+        alignButtons: "justify-center",
+        widthText: 500,
       },
       animationText: {
         type: null,
@@ -95,11 +99,11 @@ export const heroSectionComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,
-        paddingY: 0,
+        paddingY: 120,
         paddingTop: 0,
         paddingBottom: 0,
         paddingType: "vertical",

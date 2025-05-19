@@ -16,7 +16,7 @@ export const blurTextComponent = (editor) => {
       text: "Isn't this so cool?!",
       fontFamily: "Roboto",
       fontWeight: 500,
-      color: "rgba(0, 0, 0, 1)",
+      colorBlurText: "rgba(0, 0, 0, 1)",
       delay: 200,
       textAlign: "justify-center",
       fontSize: 36,

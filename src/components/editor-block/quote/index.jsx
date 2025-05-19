@@ -3,12 +3,12 @@ import BackgroundEditor from "../_components/BackgroundEditor";
 import SectionAddScrollTargetId from "../_components/SectionAddScrollTargetId";
 
 import RichTextEditor from "@/components/rich-text-editor";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import TransitionEditor from "../_components/TransitionEditor";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import ColorPicker from "../_components/ColorPicker";
+import TransitionEditor from "../_components/TransitionEditor";
 
 const EditorQuote = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -17,7 +17,6 @@ const EditorQuote = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { contents } = currentComponent;
-
   return (
     <>
       <TabsContent
@@ -35,6 +34,7 @@ const EditorQuote = ({ selectedComponent }) => {
                 value
               )
             }
+            schemeColor={"quoteTextColor"}
           />
 
           <div className="space-y-2 ">

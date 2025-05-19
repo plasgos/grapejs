@@ -7,7 +7,7 @@ import { memo, useMemo } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-function ContentShowcase({ section, editor, index }) {
+function ContentShowcase({ section, editor }) {
   const [globalOptions] = useGlobalOptions(editor);
   const { isFocusContent } = globalOptions || {};
 
@@ -18,12 +18,16 @@ function ContentShowcase({ section, editor, index }) {
     aspectRatio,
     imagePosition,
     titleColor,
-    descriptionColor,
     fontFamily,
     fontWeight,
     fontSize,
     textAligment,
     rounded,
+    descriptionColor,
+    descriptionFontWeight,
+    descriptionFontFamily,
+    descriptionFontSize,
+    textAligmentDescription,
   } = section?.wrapperStyle || {};
 
   const columnClass = useMemo(() => {
@@ -48,7 +52,6 @@ function ContentShowcase({ section, editor, index }) {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <div
         className={`relative items-stretch
@@ -136,13 +139,17 @@ function ContentShowcase({ section, editor, index }) {
                   </div>
                 )}
 
-                <div
-                  className="rich-text break-all"
-                  style={{ color: descriptionColor }}
-                  dangerouslySetInnerHTML={{
-                    __html: content.description,
+                <p
+                  style={{
+                    color: descriptionColor,
+                    fontFamily: descriptionFontFamily,
+                    fontSize: descriptionFontSize,
+                    fontWeight: descriptionFontWeight,
                   }}
-                />
+                  className={`w-full break-all ${textAligmentDescription}  `}
+                >
+                  {content.description}
+                </p>
 
                 {imagePosition === "bottom" && (
                   <div

@@ -10,7 +10,7 @@ import ContentShowcase from "../content-showcase";
 import GjsEditor, { Canvas, WithEditor } from "@grapesjs/react";
 import grapesjs from "grapesjs";
 
-const ModalPopup = ({ section, editor, index }) => {
+const ModalPopup = ({ section, editor }) => {
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
 

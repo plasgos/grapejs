@@ -73,6 +73,27 @@ export const schemeColours = [
     ],
   },
   {
+    name: "dark-03",
+    baseColor: "#0F172A",
+    colours: [
+      {
+        background: "1A237E",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+      {
+        background: "0F172A",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+      {
+        background: "1A237E",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+    ],
+  },
+  {
     name: "warm-02",
     baseColor: "#E16A54",
     colours: [

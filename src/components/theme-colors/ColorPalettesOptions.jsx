@@ -16,7 +16,7 @@ const ColorPalettesOptions = ({
 
       <div className="grid grid-cols-4 gap-3">
         {schemeColours.map((schemeColor, index) => {
-          const selected = schemeColor?.name === value?.name;
+          const selected = schemeColor?.name === value;
 
           return (
             <div
@@ -25,7 +25,7 @@ const ColorPalettesOptions = ({
                 "flex rounded-lg overflow-hidden max-w-full cursor-pointer",
                 selected && "ring-2 ring-purple-500  ring-offset-2"
               )}
-              onClick={() => onChange(schemeColor)}
+              onClick={() => onChange(schemeColor.name)}
             >
               {schemeColor.colours.map((color, indexColor) => {
                 return (

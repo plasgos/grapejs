@@ -26,7 +26,7 @@ const DurationCountdown = ({ styles, content, finish }) => {
     variant,
   } = styles || {};
 
-  const { isFinished, text, textShadow } = finish;
+  const { isFinished, text, textShadow, textColor } = finish;
 
   const startTime = Date.now() / 1000;
   const endTime = startTime + hours * hourSeconds + minutes * minuteSeconds;
@@ -84,7 +84,13 @@ const DurationCountdown = ({ styles, content, finish }) => {
   }, [isFinished]);
 
   if (isPreviewFinished) {
-    return <FinishedContent text={text} textShadow={textShadow} />;
+    return (
+      <FinishedContent
+        text={text}
+        textShadow={textShadow}
+        textColor={textColor}
+      />
+    );
   }
 
   const renderTime = (dimension, time) => {
@@ -347,7 +353,11 @@ const DurationCountdown = ({ styles, content, finish }) => {
               </>
             </div>
           ) : (
-            <FinishedContent text={text} textShadow={textShadow} />
+            <FinishedContent
+              text={text}
+              textShadow={textShadow}
+              textColor={textColor}
+            />
           )}
         </div>
       )}

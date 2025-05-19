@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewDivider = ({ section, editor, index }) => {
+const ViewDivider = ({ section, editor }) => {
   const { variant, width, fullWidth, height, color, iconBtn } =
     section.mainStyles;
 
@@ -11,7 +11,6 @@ const ViewDivider = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       {iconBtn.icon ? (
         <div className="flex justify-center items-center w-full gap-x-3">

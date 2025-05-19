@@ -266,6 +266,7 @@ const EditorCountdown = ({ selectedComponent }) => {
                 label="Content"
                 value={finished.text}
                 onChange={(value) => handleFinishedChange("text", value)}
+                schemeColor={"textColor"}
               />
             </>
           )}

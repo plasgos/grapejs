@@ -11,7 +11,7 @@ import ViewNewsletter from "./ViewNewsletter";
 import ViewSocialMedia from "./ViewSocialMedia";
 import ViewText from "./ViewText";
 
-const ViewFooter = ({ section, editor, index }) => {
+const ViewFooter = ({ section, editor }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const { schemeColor, isFocusContent, maxWidthPage } = globalOptions || {};
 
@@ -22,7 +22,6 @@ const ViewFooter = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
       isFullwidth={true}
     >
       <div

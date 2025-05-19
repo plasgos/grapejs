@@ -3,7 +3,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 import CustomButton from "../_components/CustomButton";
 
-const ViewFLoatingButton = ({ section, editor, index }) => {
+const ViewFLoatingButton = ({ section, editor }) => {
   const { buttons } = section;
   const { position } = section.mainStyle;
 

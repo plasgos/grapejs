@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import ScrollReveal from "@/components/pro-version/ScrollReveal";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewScrollReveal = ({ section, editor, index }) => {
+const ViewScrollReveal = ({ section, editor }) => {
   const { text, delay, fontFamily, fontWeight, color, fontSize, textAlign } =
     section;
 
@@ -16,7 +16,6 @@ const ViewScrollReveal = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <ScrollReveal
         baseOpacity={0}

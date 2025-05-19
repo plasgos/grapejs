@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
@@ -11,14 +12,22 @@ const getTimeMinutes = (time) => ((time % hourSeconds) / minuteSeconds) | 0;
 const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 const getTimeDays = (time) => (time / daySeconds) | 0;
 
-export const FinishedContent = ({ text, textShadow }) => {
+export const FinishedContent = ({ text, textShadow, textColor }) => {
+  const useSchemeColor = !!textColor;
+
   return (
     <div className={`w-full`}>
       <div
+        className={cn("rich-text break-all", {
+          "with-scheme-color": useSchemeColor,
+        })}
         style={{
           textShadow: textShadow,
+          ...(useSchemeColor ? { "--richTextColor": textColor } : {}),
         }}
-        dangerouslySetInnerHTML={{ __html: text }}
+        dangerouslySetInnerHTML={{
+          __html: text,
+        }}
       />
     </div>
   );
@@ -35,7 +44,7 @@ const DateCountDown = ({ styles, content, finish }) => {
     variant,
   } = styles || {};
 
-  const { isFinished, text, textShadow } = finish;
+  const { isFinished, text, textShadow, textColor } = finish;
 
   const { date, month, years, hours, minutes } = content.datePicked;
 
@@ -119,7 +128,13 @@ const DateCountDown = ({ styles, content, finish }) => {
   const dynamicFontSize = (size / initialSize) * initialFontSize * 0.6;
 
   if (isPreviewFinished) {
-    return <FinishedContent text={text} textShadow={textShadow} />;
+    return (
+      <FinishedContent
+        text={text}
+        textShadow={textShadow}
+        textColor={textColor}
+      />
+    );
   }
 
   const renderTime = (dimension, time) => {
@@ -382,7 +397,11 @@ const DateCountDown = ({ styles, content, finish }) => {
               </>
             </div>
           ) : (
-            <FinishedContent text={text} textShadow={textShadow} />
+            <FinishedContent
+              text={text}
+              textShadow={textShadow}
+              textColor={textColor}
+            />
           )}
         </div>
       )}

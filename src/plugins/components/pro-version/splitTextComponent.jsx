@@ -16,12 +16,11 @@ export const splitTextComponent = (editor) => {
       text: "Hello World!",
       fontFamily: "Roboto",
       fontWeight: 500,
-      color: "rgba(0, 0, 0, 1)",
+      colorSplitText: "rgba(0, 0, 0, 1)",
       delay: 150,
       textAlign: "text-center",
       fontSize: 36,
       contents: [],
-
       background: {
         bgType: null,
         bgColor: "",

@@ -14,7 +14,7 @@ const Layout1 = ({ content, styles, editor }) => {
     fontWeight,
     fontFamily,
     fontSize,
-    bgColor,
+    cardColor,
     borderColor,
     profectionColor,
     quoteColor,
@@ -30,7 +30,7 @@ const Layout1 = ({ content, styles, editor }) => {
   return (
     <div
       style={{
-        backgroundColor: bgColor,
+        backgroundColor: cardColor,
         border: `1px solid  ${borderColor}`,
       }}
       key={content.id}

@@ -21,7 +21,7 @@ const EditorFuzzyText = ({ selectedComponent }) => {
     text,
     fontFamily,
     fontWeight,
-    color,
+    colorFuzzyText,
     fontSize,
     textAlign,
     enableHover,
@@ -52,9 +52,9 @@ const EditorFuzzyText = ({ selectedComponent }) => {
             <ColorPicker
               asChild
               label="Color"
-              value={color}
+              value={colorFuzzyText}
               onChange={(value) => {
-                handleComponentChange("color", value);
+                handleComponentChange("colorFuzzyText", value);
               }}
             />
 

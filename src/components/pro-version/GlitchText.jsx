@@ -10,7 +10,6 @@ const GlitchText = ({
   style,
   background,
 }) => {
-  console.log("🚀 ~ background:", background);
   const [key, setKey] = useState(0);
 
   const isBgColor =

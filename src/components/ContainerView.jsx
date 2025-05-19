@@ -8,38 +8,17 @@ const ContainerView = ({
   customStyles,
   customClassName,
   isFullwidth,
-  index,
 }) => {
   const globalOptions = editor.getModel()?.get("globalOptions");
 
-  const { maxWidthPage, schemeColor } = globalOptions || {};
-
-  const components = editor?.getComponents()?.models;
-
-  const schemaColorLastIndex =
-    schemeColor?.colours[schemeColor?.colours.length - 1];
-
-  const isLastIndex = index === components.length - 1;
-
-  const colours = schemeColor?.colours || [];
-  const colorIndex = (() => {
-    if (isLastIndex) return null; // nanti pakai schemaColorLastIndex
-    if (index < colours.length - 1) return index;
-    return colours.length - 2; // pakai warna sebelum terakhir
-  })();
-
-  const schemaColorBackground = isLastIndex
-    ? schemaColorLastIndex?.background
-    : colours[colorIndex]?.background;
+  const { maxWidthPage } = globalOptions || {};
 
   const stylesBg = useBackgroundStyles(section);
 
   const backgroundColor =
-    schemeColor && section?.background?.bgType !== "bgColor"
-      ? `#${schemaColorBackground}`
-      : section?.background?.bgType === "bgColor"
+    section?.background?.bgType === "bgColor"
       ? section?.background?.bgColor
-      : "transparent";
+      : "";
 
   return (
     <div

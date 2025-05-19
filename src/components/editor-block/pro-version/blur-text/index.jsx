@@ -32,7 +32,7 @@ const EditorBlurText = ({ selectedComponent }) => {
     text,
     fontFamily,
     fontWeight,
-    color,
+    colorBlurText,
     fontSize,
     textAlign,
     delay,
@@ -63,9 +63,9 @@ const EditorBlurText = ({ selectedComponent }) => {
             <ColorPicker
               asChild
               label="Color"
-              value={color}
+              value={colorBlurText}
               onChange={(value) => {
-                handleComponentChange("color", value);
+                handleComponentChange("colorBlurText", value);
               }}
             />
 

@@ -53,6 +53,7 @@ const EditorVideoText = ({ selectedComponent }) => {
                 value
               )
             }
+            schemeColor={"textBannerColor"}
           />
         </div>
       </TabsContent>

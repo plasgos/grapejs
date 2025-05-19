@@ -144,6 +144,68 @@ const StylesTab = ({ selectedComponent }) => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+
+      <Accordion defaultValue="desc" type="single" collapsible>
+        <AccordionItem value="desc">
+          <AccordionTrigger className="!no-underline font-semibold bg-white px-2 rounded-t-lg data-[state=closed]:rounded-lg">
+            Description
+          </AccordionTrigger>
+          <AccordionContent className="bg-white p-2 rounded-b-lg ">
+            <div className="flex flex-col gap-y-5">
+              <ColorPicker
+                asChild
+                label="Color"
+                value={wrapperStyle.descriptionColor}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.descriptionColor", value);
+                }}
+              />
+
+              <SelectFontFamily
+                asChild
+                label="Font Family"
+                fontFamily={wrapperStyle.descriptionFontFamily}
+                fontWeight={wrapperStyle.descriptionFontWeight}
+                onChangefontFamily={(value) => {
+                  handleComponentChange(
+                    "wrapperStyle.descriptionFontFamily",
+                    value
+                  );
+                }}
+                onChangefontWeight={(value) => {
+                  handleComponentChange(
+                    "wrapperStyle.descriptionFontWeight",
+                    value
+                  );
+                }}
+              />
+
+              <SelectFontSize
+                asChild
+                label="Size"
+                value={wrapperStyle.descriptionFontSize}
+                onChange={(value) => {
+                  handleComponentChange(
+                    "wrapperStyle.descriptionFontSize",
+                    value
+                  );
+                }}
+              />
+
+              <SelectTextAligment
+                asChild
+                value={wrapperStyle.textAligmentDescription}
+                onChange={(value) => {
+                  handleComponentChange(
+                    "wrapperStyle.textAligmentDescription",
+                    value
+                  );
+                }}
+              />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 };

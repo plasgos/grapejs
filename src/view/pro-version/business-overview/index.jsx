@@ -4,7 +4,7 @@ import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
-const ViewBusinessOverview = ({ section, editor, index }) => {
+const ViewBusinessOverview = ({ section, editor }) => {
   const {
     textShadow,
     fontFamily,
@@ -37,7 +37,6 @@ const ViewBusinessOverview = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <div
         style={{

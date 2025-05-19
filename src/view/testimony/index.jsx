@@ -9,7 +9,7 @@ import Layout3 from "./layout/Layout3";
 import Layout4 from "./layout/Layout4";
 import { cn } from "@/lib/utils";
 
-const ViewTestimony = ({ section, editor, index }) => {
+const ViewTestimony = ({ section, editor }) => {
   const { contents } = section;
   const { variant, header, headerColor, withSlider, autoPlaySlider } =
     section.wrapperStyle;
@@ -21,7 +21,6 @@ const ViewTestimony = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <div className="relative p-5">
         <div

@@ -1,6 +1,6 @@
 import ContainerView from "@/components/ContainerView";
 
-const ViewEmptySpace = ({ section, editor, index }) => {
+const ViewEmptySpace = ({ section, editor }) => {
   const { height } = section.mainStyle;
 
   return (
@@ -8,7 +8,6 @@ const ViewEmptySpace = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <div
         style={{

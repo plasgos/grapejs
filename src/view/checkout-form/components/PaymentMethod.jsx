@@ -1,8 +1,3 @@
-import bankTransfer from "@/assets/bankTransfer.png";
-import bca from "@/assets/bca.png";
-import bri from "@/assets/bri.png";
-import cod from "@/assets/cod.png";
-import mandiri from "@/assets/mandiri.png";
 import { useFormContext } from "react-hook-form";
 
 import {
@@ -27,7 +22,7 @@ const paymentMethod = [
     code_name: "bca",
     account_number: "3428843888",
     account_name: "PT. Plasa Grosir Indonesia",
-    logo: bca,
+    logo: "https://ik.imagekit.io/ez1ffaf6o/default-images/bca.png?updatedAt=1747622170410",
     is_default: true,
   },
   {
@@ -36,7 +31,7 @@ const paymentMethod = [
     code_name: "bri",
     account_number: "038601001383302",
     account_name: "PT. Plasa Grosir Indonesia",
-    logo: bri,
+    logo: "https://ik.imagekit.io/ez1ffaf6o/default-images/bri.png?updatedAt=1747622170403",
     is_default: false,
   },
   {
@@ -45,7 +40,7 @@ const paymentMethod = [
     code_name: "mandiri",
     account_number: "0060010352833",
     account_name: "PT. Plasa Grosir Indonesia",
-    logo: mandiri,
+    logo: "https://ik.imagekit.io/ez1ffaf6o/default-images/mandiri.png?updatedAt=1747622170397",
     is_default: false,
   },
 ];
@@ -54,13 +49,13 @@ const paymentMethodOptions = [
   {
     value: "bankTransfer",
     label: "Bank Transfer",
-    icon: bankTransfer,
+    icon: "https://ik.imagekit.io/ez1ffaf6o/default-images/bankTransfer.png?updatedAt=1747622420607",
     isDisabled: false,
   },
   {
     value: "cod",
     label: "COD (Bayar di Tempat)",
-    icon: cod,
+    icon: "https://ik.imagekit.io/ez1ffaf6o/default-images/cod.png?updatedAt=1747622420791",
     isDisabled: false,
   },
 ];

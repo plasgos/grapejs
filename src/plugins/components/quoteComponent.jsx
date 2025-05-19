@@ -12,7 +12,7 @@ export const quoteComponent = (editor) => {
       contents: [
         {
           id: "quote-01",
-          quoteText: "Kamu tidak bisa membangunkan orang yang pura-pura tidur",
+          quoteText: `<p>Kamu tidak bisa membangunkan orang yang pura-pura tidur</p>`,
           quoteTextColor: "#000000",
           quoteTagColor: "616161",
           writer: "Tere Liye",

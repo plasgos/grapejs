@@ -30,7 +30,6 @@ const layoutVariants = [
 const EditorTestimony = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
-
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { contents, wrapperStyle } = currentComponent;

@@ -14,12 +14,18 @@ const optionsFlex = [
   { value: "justify-end", icon: <TbAlignRight /> },
 ];
 
-const SelectTextAligment = ({ asChild, value, onChange, isFlex = false }) => {
+const SelectTextAligment = ({
+  asChild,
+  label = "Alignment",
+  value,
+  onChange,
+  isFlex = false,
+}) => {
   const listToRender = isFlex ? optionsFlex : options;
 
   return (
     <div className="flex justify-between items-center">
-      <Label className={`${asChild && "font-normal"}`}>Aligment</Label>
+      <Label className={`${asChild && "font-normal"}`}>{label}</Label>
       <div className="flex items-center gap-x-2">
         {listToRender.map((item) => (
           <Button

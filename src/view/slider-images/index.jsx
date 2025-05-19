@@ -16,7 +16,7 @@ import {
   Pagination,
 } from "swiper/modules";
 
-const ViewSliderImages = ({ section, editor, index }) => {
+const ViewSliderImages = ({ section, editor }) => {
   const { contents } = section;
   const {
     width,
@@ -35,7 +35,6 @@ const ViewSliderImages = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       {variant === "full-slider" && (
         <div

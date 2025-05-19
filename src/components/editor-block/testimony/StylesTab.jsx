@@ -20,6 +20,7 @@ const StylesTab = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
   const { wrapperStyle } = currentComponent || {};
+  console.log("🚀 ~ StylesTab ~ wrapperStyle:", wrapperStyle);
 
   const handleChangeMainColor = (key, value) => {
     const update = (component) => {
@@ -48,9 +49,9 @@ const StylesTab = ({ selectedComponent }) => {
               <ColorPicker
                 asChild
                 label="Background Color"
-                value={wrapperStyle.bgColor}
+                value={wrapperStyle.cardColor}
                 onChange={(value) => {
-                  handleComponentChange("wrapperStyle.bgColor", value);
+                  handleComponentChange("wrapperStyle.cardColor", value);
                 }}
               />
 

@@ -40,6 +40,7 @@ import Sidebar from "./sidebar";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { motion } from "framer-motion";
 import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
+import { schemeColours } from "./theme-colors";
 
 const rootMap = new Map();
 
@@ -177,7 +178,13 @@ const MainWebEditor = () => {
       const globalOptions = editor.getModel().get("globalOptions");
 
       if (globalOptions?.schemeColor) {
-        onSyncSchemeColor(editor, globalOptions?.schemeColor);
+        const schemeColorValue = schemeColours.find(
+          (schemeColor) => schemeColor.name === globalOptions?.schemeColor
+        );
+
+        if (schemeColorValue) {
+          onSyncSchemeColor(editor, schemeColorValue);
+        }
       }
     });
     editor.on("component:remove", () =>

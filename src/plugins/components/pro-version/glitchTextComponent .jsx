@@ -15,7 +15,7 @@ export const glitchTextComponent = (editor) => {
       text: "Plasgos",
       fontFamily: "",
       fontWeight: "",
-      color: "rgba(255, 255, 255, 1)",
+      colorGlitchText: "rgba(255, 255, 255, 1)",
       textAlign: "justify-center",
       fontSize: 120,
       speed: 5,

@@ -421,10 +421,17 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
           <DialogContent className="max-w-screen-md">
             <DialogHeader>
               <DialogTitle className="text-xl">Upload Images</DialogTitle>
-              <DialogDescription className="invisible">
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </DialogDescription>
+              <DialogDescription className="hidden">X</DialogDescription>
+
+              {isDragReject ? (
+                <div className="p-1 rounded-lg border bg-red-100">
+                  <p className="text-center  text-red-600">
+                    Maximum image(s) size 2 MB
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
 
               <div
                 className="text-center rounded-lg "

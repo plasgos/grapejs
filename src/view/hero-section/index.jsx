@@ -7,10 +7,18 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import CustomButton from "../_components/CustomButton";
 import { cn } from "@/lib/utils";
 
-const ViewHeroSection = ({ section, editor, index }) => {
+const ViewHeroSection = ({ section, editor }) => {
   const { contents, animation, animationText, buttons } = section;
-  const { withButton, variant, btnPosition, rotation, shadow, isFullWidth } =
-    section.wrapperStyle;
+  const {
+    withButton,
+    variant,
+    btnPosition,
+    shadow,
+    isFullWidth,
+    alignText,
+    alignButtons,
+    widthText,
+  } = section.wrapperStyle;
 
   const { elementRef, getClassName, duration } =
     useAnimatedVisibility(animation);
@@ -26,12 +34,13 @@ const ViewHeroSection = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
       isFullwidth={isFullWidth}
     >
       {variant === "basic" && (
         <div className="relative ">
           {contents.map((content) => {
+            const useSchemeColor = !!content?.textBannerColor;
+
             return (
               <div
                 key={content.id}
@@ -43,7 +52,7 @@ const ViewHeroSection = ({ section, editor, index }) => {
                       ref={elementRef}
                       className={`${shadow} ${getClassName()}`}
                       style={{
-                        transform: `rotate(${rotation}deg)`,
+                        transform: `rotate(${content.rotation}deg)`,
                         "--animation-duration": `${duration}s`,
                       }}
                       key={content.id}
@@ -77,8 +86,14 @@ const ViewHeroSection = ({ section, editor, index }) => {
                         }}
                       >
                         <div
+                          className={cn("rich-text break-all", {
+                            "with-scheme-color": useSchemeColor,
+                          })}
                           style={{
                             textShadow: content?.textShadow,
+                            ...(useSchemeColor
+                              ? { "--richTextColor": content?.textBannerColor }
+                              : {}),
                           }}
                           dangerouslySetInnerHTML={{
                             __html: content.textBanner,
@@ -115,10 +130,14 @@ const ViewHeroSection = ({ section, editor, index }) => {
                         }}
                       >
                         <div
-                          className="break-all"
+                          className={cn("rich-text break-all", {
+                            "with-scheme-color": useSchemeColor,
+                          })}
                           style={{
                             textShadow: content?.textShadow,
-                            color: content?.textBannerColor,
+                            ...(useSchemeColor
+                              ? { "--richTextColor": content?.textBannerColor }
+                              : {}),
                           }}
                           dangerouslySetInnerHTML={{
                             __html: content.textBanner,
@@ -148,7 +167,7 @@ const ViewHeroSection = ({ section, editor, index }) => {
                       ref={elementRef}
                       className={`${shadow} ${getClassName()}`}
                       style={{
-                        transform: `rotate(${rotation}deg)`,
+                        transform: `rotate(${content.rotation}deg)`,
                         "--animation-duration": `${duration}s`,
                       }}
                       key={content.id}
@@ -181,13 +200,19 @@ const ViewHeroSection = ({ section, editor, index }) => {
       )}
 
       {variant === "no-image" && (
-        <div className="w-full flex justify-center items-center relative">
+        <div className={`w-full flex ${alignText} items-center relative`}>
           {contents.map((content) => {
             const useSchemeColor = !!content?.textBannerColor;
 
             return (
-              <div key={content.id} className="">
-                <div className="p-3 w-full">
+              <div key={content.id} className="max-w-full">
+                <div
+                  style={{
+                    width: widthText,
+                    padding: 12,
+                    maxWidth: "100%",
+                  }}
+                >
                   <div
                     ref={elementRefContent}
                     className={`${getClassNameContent()} mb-3 `}
@@ -212,7 +237,9 @@ const ViewHeroSection = ({ section, editor, index }) => {
                   </div>
 
                   {withButton && (
-                    <div className={` flex !flex-wrap  gap-3 justify-center `}>
+                    <div
+                      className={` flex !flex-wrap ${alignButtons}  gap-3  `}
+                    >
                       {buttons.map((btn) => {
                         return (
                           <CustomButton

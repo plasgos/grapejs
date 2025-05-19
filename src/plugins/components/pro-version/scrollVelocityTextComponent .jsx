@@ -15,7 +15,7 @@ export const scrollVelocityTextComponent = (editor) => {
       scrollTarget: undefined,
       fontFamily: "",
       fontWeight: "",
-      color: "rgba(255, 255, 255, 1)",
+      colorVelocity: "rgba(255, 255, 255, 1)",
       textAlign: "justify-center",
       fontSize: 80,
       velocity: 100,

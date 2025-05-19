@@ -4,7 +4,7 @@ import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewImage = ({ section, editor, index }) => {
+const ViewImage = ({ section, editor }) => {
   const { contents, animation } = section;
   const { width, rotation, borderColor, shadow, variant } =
     section.wrapperStyle;
@@ -17,7 +17,6 @@ const ViewImage = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       {variant === "centerPage" && (
         <div

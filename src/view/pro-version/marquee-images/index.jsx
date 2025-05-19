@@ -1,6 +1,6 @@
 import ContainerView from "@/components/ContainerView";
 import MarqueeImages from "./MarqueImages";
-const ViewMarqueeImages = ({ section, editor, index }) => {
+const ViewMarqueeImages = ({ section, editor }) => {
   const { contents, speed } = section;
 
   return (
@@ -8,7 +8,6 @@ const ViewMarqueeImages = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <div className={` overflow-x-hidden flex `}>
         <MarqueeImages images={contents} speed={speed} />

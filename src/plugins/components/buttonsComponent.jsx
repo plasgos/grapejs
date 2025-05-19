@@ -16,8 +16,8 @@ export const buttonsComponent = (editor) => {
           id: "button-01",
           stylesBtn: {
             title: "Get Started",
-            btnColor: "",
-            textColor: "",
+            btnColor: "#000000",
+            textColor: "#ffffff",
             size: "default",
             variant: "default",
             rounded: 10,
@@ -39,13 +39,13 @@ export const buttonsComponent = (editor) => {
         {
           id: "button-02",
           stylesBtn: {
-            title: "Start Demo",
-            btnColor: "rgb(228 223 223 ,1)",
+            title: "Explore Demo",
+            btnColor: "#000000",
             textColor: "",
             size: "default",
             variant: "outline",
-            shadow: "",
             rounded: 10,
+            shadow: "",
           },
           iconBtn: {
             icon: "",
@@ -69,7 +69,7 @@ export const buttonsComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

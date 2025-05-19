@@ -1,8 +1,9 @@
 import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
+import { cn } from "@/lib/utils";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewQuote = ({ section, editor, index }) => {
+const ViewQuote = ({ section, editor }) => {
   const { contents, animation } = section;
 
   const {
@@ -16,7 +17,6 @@ const ViewQuote = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       {contents.map((content) => {
         const {
@@ -27,6 +27,8 @@ const ViewQuote = ({ section, editor, index }) => {
           writerColor,
           fontSize,
         } = content;
+
+        const useSchemeColor = !!content?.quoteTextColor;
 
         return (
           <div
@@ -46,11 +48,18 @@ const ViewQuote = ({ section, editor, index }) => {
               </span>
 
               <div
-                className={` text-center font-bold px-2 custom-quote ${fontSize}  `}
+                className={cn("rich-text break-all mx-3", {
+                  "with-scheme-color": useSchemeColor,
+                })}
                 style={{
-                  color: quoteTextColor,
+                  textShadow: content?.textShadow,
+                  ...(useSchemeColor
+                    ? { "--richTextColor": quoteTextColor }
+                    : {}),
                 }}
-                dangerouslySetInnerHTML={{ __html: quoteText }}
+                dangerouslySetInnerHTML={{
+                  __html: quoteText,
+                }}
               />
 
               <span

@@ -6,7 +6,7 @@ import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewFeatureHighlights = ({ section, editor, index }) => {
+const ViewFeatureHighlights = ({ section, editor }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const { isFocusContent } = globalOptions || {};
 
@@ -28,7 +28,6 @@ const ViewFeatureHighlights = ({ section, editor, index }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
-      index={index}
     >
       <div className={`flex ${textAligment}`}>
         <div

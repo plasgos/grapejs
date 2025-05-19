@@ -98,18 +98,11 @@ export const injectComponents = (editor, options) => {
           this.root = createRoot(this.el);
         }
 
-        const components = editor?.getComponents().models;
-        const componentId = this.model.getId();
-        const currentIndex = components.findIndex(
-          (c) => c.ccid === componentId
-        );
-
         this.root.render(
           <Provider store={store}>
             <ViewComponent
               section={this.model.get("customComponent")}
               editor={editor}
-              index={currentIndex}
             />
           </Provider>
         );

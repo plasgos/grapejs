@@ -21,7 +21,7 @@ const EditorGlitchText = ({ selectedComponent }) => {
     text,
     fontFamily,
     fontWeight,
-    color,
+    colorGlitchText,
     fontSize,
     textAlign,
     enableShadows,
@@ -52,9 +52,9 @@ const EditorGlitchText = ({ selectedComponent }) => {
             <ColorPicker
               asChild
               label="Color"
-              value={color}
+              value={colorGlitchText}
               onChange={(value) => {
-                handleComponentChange("color", value);
+                handleComponentChange("colorGlitchText", value);
               }}
             />
 

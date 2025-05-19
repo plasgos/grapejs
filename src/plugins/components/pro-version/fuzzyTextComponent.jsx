@@ -16,7 +16,7 @@ export const fuzzyTextComponent = (editor) => {
       text: "404",
       fontFamily: "Roboto",
       fontWeight: 500,
-      color: "rgba(255, 255, 255, 1)",
+      colorFuzzyText: "rgba(255, 255, 255, 1)",
       textAlign: "justify-center",
       fontSize: 120,
       hoverIntensity: 0.5,

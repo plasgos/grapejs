@@ -417,7 +417,6 @@ const BackgroundEditor = ({ selectedComponent }) => {
   useSyncWithUndoRedo(setCurrentComponent);
 
   const { background } = currentComponent;
-
   const handleFileUpload = () => {
     const input = document.createElement("input");
     input.type = "file";

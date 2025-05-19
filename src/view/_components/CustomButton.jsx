@@ -1,10 +1,25 @@
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
-import { createElement } from "react";
+import { darkenRgbaColor } from "@/utils/darkenRgbaColor";
+import { cx } from "class-variance-authority";
+import { createElement, useState } from "react";
 import * as Icons from "react-icons/fa";
 
 const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent } = globalOptions || {};
+  const { isFocusContent, schemeColor } = globalOptions || {};
+
+  const components = editor?.getComponents().models;
+  const currentComponent = components.find(
+    (component) =>
+      component.get("type") === "hero-section" ||
+      component.get("type") === "button-content"
+  );
+
+  const selectedComponent = currentComponent?.get("customComponent");
+
+  const bgColorComponent = selectedComponent?.background?.bgColor || "#ffffff";
+
+  const [isHover, setIsHover] = useState(false);
 
   const fontSize = {
     default: "text-base", // Ukuran default (16px)
@@ -29,17 +44,7 @@ const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
     icon: "h-9 w-9",
   };
 
-  const variantClassesOption = {
-    default: "bg-primary text-primary-foreground shadow hover:bg-primary/90   ",
-    destructive:
-      "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-    outline:
-      "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
-    secondary:
-      "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-    ghost: "hover:bg-accent hover:text-accent-foreground",
-    link: "text-primary underline-offset-4 hover:underline",
-  };
+  const hoverColorConversion = darkenRgbaColor(btn.stylesBtn.btnColor, 0.1);
 
   const variant = btn.stylesBtn.variant;
   const iconBtn = btn.iconBtn;
@@ -51,30 +56,49 @@ const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
   const iconSizeClasses =
     iconSizeMap[btn.stylesBtn.size] || iconSizeMap.default;
 
-  const variantClasses =
-    variantClassesOption[variant] || variantClassesOption.default;
+  const ghostVariant =
+    variant === "ghost" && "hover:bg-accent hover:text-accent-foreground";
+
+  let btnColorWithHover = "";
+
+  if (variant === "default") {
+    btnColorWithHover = isHover ? hoverColorConversion : btn.stylesBtn.btnColor;
+  } else if (variant === "outline") {
+    btnColorWithHover = isHover ? hoverColorConversion : "transparent";
+  }
+
+  let btnTextColorWithHover = "";
+
+  if (variant === "outline") {
+    btnTextColorWithHover = isHover
+      ? bgColorComponent
+      : schemeColor
+      ? btn.stylesBtn.btnColor
+      : btn.stylesBtn.textColor;
+  } else if (variant === "default") {
+    btnTextColorWithHover = btn.stylesBtn.textColor;
+  }
 
   return (
     <button
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
       style={{
         borderRadius: btn.stylesBtn.rounded,
-        color: btn.stylesBtn.textColor,
+        color: btnTextColorWithHover,
         border:
           variant === "outline" ? `1px solid ${btn.stylesBtn.btnColor}` : "",
-        backgroundColor: variant === "default" ? btn.stylesBtn.btnColor : "",
+        backgroundColor: btnColorWithHover,
       }}
-      className={`${
-        btn.stylesBtn.shadow
-      } ${sizeBtnClasses}    ${variantClasses} flex justify-center items-center ${
-        fullWidth && "w-full  "
-      }  
-      
-      ${
+      className={cx(
+        "flex justify-center items-center shadow-sm",
         isFocusContent === btn.id &&
-        "ring-2 !ring-offset-4 ring-purple-600  bg-orange-100 p-0.5   "
-      }
-      
-      `}
+          "ring-2 !ring-offset-4 ring-purple-600  bg-orange-100 p-0.5",
+        btn.stylesBtn.shadow,
+        sizeBtnClasses,
+        ghostVariant,
+        fullWidth && "w-full  "
+      )}
       onClick={() => onActionClickTarget(btn.target, editor)}
     >
       {iconBtn?.position === "right" ? (
