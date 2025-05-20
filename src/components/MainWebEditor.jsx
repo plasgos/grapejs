@@ -170,6 +170,33 @@ const MainWebEditor = () => {
       addGlobalOptions(editor);
       handleAddWatermark(editor);
       handleAddGoogleFont();
+
+      const iframe = editor.Canvas.getFrameEl();
+
+      const style = document.createElement("style");
+      style.innerHTML = `
+   
+
+        ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5);
+    border-radius: 4px;
+  }
+
+    /* Firefox support */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(150,150,150,0.7) transparent;
+    }
+  `;
+
+      iframe.contentDocument.head.appendChild(style);
     });
 
     editor.on("component:add", () => {
@@ -337,6 +364,7 @@ const MainWebEditor = () => {
         plugins={[plasgosPlugin]}
         options={{
           storageManager: false,
+
           canvasCss: `
           .gjs-selected {
           border : 2px solid

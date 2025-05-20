@@ -14,15 +14,14 @@ const ColorPalettesOptions = ({
     <div className="flex flex-col gap-y-3">
       <Label>{label}</Label>
 
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-5 gap-3">
         {schemeColours.map((schemeColor, index) => {
           const selected = schemeColor?.name === value;
-
           return (
             <div
               key={index}
               className={cx(
-                "flex rounded-lg overflow-hidden max-w-full cursor-pointer",
+                "flex rounded-lg overflow-hidden max-w-full cursor-pointer shadow-sm",
                 selected && "ring-2 ring-purple-500  ring-offset-2"
               )}
               onClick={() => onChange(schemeColor.name)}
@@ -31,7 +30,7 @@ const ColorPalettesOptions = ({
                 return (
                   <div
                     key={indexColor}
-                    className=" h-12 w-10 "
+                    className=" h-10 w-10 "
                     style={{
                       backgroundColor: `#${color.background}`,
                     }}

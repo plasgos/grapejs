@@ -8,8 +8,11 @@ const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const { isFocusContent, schemeColor } = globalOptions || {};
 
-  const components = editor?.getComponents().models;
-  const currentComponent = components.find(
+  // const components = editor?.getComponents()?.models;
+
+  const components = editor.getWrapper()?.get("components")?.models;
+
+  const currentComponent = components?.find(
     (component) =>
       component.get("type") === "hero-section" ||
       component.get("type") === "button-content"

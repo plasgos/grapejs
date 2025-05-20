@@ -23,6 +23,8 @@ import {
   injectLoadingAIGenerateCanvas,
   removeLoadingFromCanvas,
 } from "@/utils/injetcLoadingAIGenerateCanvas";
+import { schemeColours } from "../theme-colors";
+import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 
 const Sidebar = ({
   selectedComponent,
@@ -144,6 +146,10 @@ const Sidebar = ({
 
   const importGeneratedSection = (dataFromAI) => {
     try {
+      const schemeColorValue = schemeColours.find(
+        (schemeColor) => schemeColor.name === dataFromAI?.schemeColor
+      );
+
       const schema = {
         assets: [],
         styles: [],
@@ -169,30 +175,45 @@ const Sidebar = ({
         dataSources: [],
         globalOptions: {
           maxWidthPage: 1360,
-          bgColor: "",
+          bgColor: schemeColorValue ? schemeColorValue.baseColor : "",
+          schemeColor: dataFromAI.schemeColor ? dataFromAI.schemeColor : null,
           scrollTarget: [
             { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
           ],
           popup: [],
+          isFocusContent: "",
         },
       };
 
-      const parsedData = dataFromAI.map((data) => ({
+      const parsedData = dataFromAI?.components.map((data) => ({
         ...data,
         isFromAI: true,
       }));
-      console.log("🚀 ~ parsedData ~ parsedData:", parsedData);
       const resultComponent = produce(schema, (draft) => {
         draft.pages[0].frames[0].component.components = parsedData;
       });
+
       editor.loadProjectData(resultComponent);
+
       const editorModel = editor.getModel();
       if (resultComponent.globalOptions) {
         editorModel.set("globalOptions", resultComponent.globalOptions);
-        console.log("Global Options loaded:", resultComponent.globalOptions);
       }
-      handleAddWatermark(editor);
 
+      if (schemeColorValue) {
+        onSyncSchemeColor(editor, schemeColorValue);
+
+        setTimeout(() => {
+          const wrapper = editor.getWrapper();
+          if (wrapper) {
+            wrapper.addStyle({
+              "background-color": schemeColorValue.baseColor,
+            });
+          }
+        }, 100);
+      }
+
+      handleAddWatermark(editor);
       injectExternalCSS(editor);
 
       updateCanvasComponents(editor, setCanvasComponents);
@@ -206,7 +227,7 @@ const Sidebar = ({
       const result = await generateComponentFromAI({ prompt: aiPrompt });
 
       if (result?.data) {
-        importGeneratedSection(result?.data.data);
+        importGeneratedSection(result?.data?.data);
       }
     } catch (error) {
       console.log("🚀 ~ handleGenerateComponentFromAI ~ error:", error);

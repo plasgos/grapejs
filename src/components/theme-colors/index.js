@@ -1,6 +1,6 @@
 export const schemeColours = [
   {
-    name: "base-01",
+    name: "base-grey",
     baseColor: "#FFFFFF",
     colours: [
       {
@@ -47,33 +47,265 @@ export const schemeColours = [
     ],
   },
   {
-    name: "dark-02",
-    baseColor: "#1B1B1D",
+    name: "base-blue",
+    baseColor: "#EDF0F6",
     colours: [
       {
-        background: "1C1E21",
-        primary: "C4C9CE",
-        secondary: "5B4A4A",
+        background: "3B599A",
+        primary: "ffffff",
+        secondary: "C6C2BE",
       },
       {
-        background: "764ABC",
-        primary: "C4C9CE",
-        secondary: "5B4A4A",
+        background: "EDF0F6",
+        primary: "000000",
+        secondary: "675C4E",
       },
       {
-        background: "1B1B1D",
-        primary: "C4C9CE",
-        secondary: "5B4A4A",
-      },
-      {
-        background: "1C1E21",
-        primary: "C4C9CE",
-        secondary: "5B4A4A",
+        background: "3B599A",
+        primary: "ffffff",
+        secondary: "ffffff",
       },
     ],
   },
   {
-    name: "dark-03",
+    name: "base-green",
+    baseColor: "#EDF0F6",
+    colours: [
+      {
+        background: "06522C",
+        primary: "ffffff",
+        secondary: "C6C2BE",
+      },
+      {
+        background: "EDF0F6",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "06522C",
+        primary: "ffffff",
+        secondary: "ffffff",
+      },
+    ],
+  },
+
+  {
+    name: "base-teal",
+    baseColor: "#FFFBDE",
+    colours: [
+      {
+        background: "129990",
+        primary: "ffffff",
+        secondary: "C6C2BE",
+      },
+      {
+        background: "FFFBDE",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "129990",
+        primary: "ffffff",
+        secondary: "ffffff",
+      },
+    ],
+  },
+  {
+    name: "base-red",
+    baseColor: "#EDF0F6",
+    colours: [
+      {
+        background: "C5172E",
+        primary: "ffffff",
+        secondary: "C6C2BE",
+      },
+      {
+        background: "EDF0F6",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "C5172E",
+        primary: "ffffff",
+        secondary: "ffffff",
+      },
+    ],
+  },
+  {
+    name: "base-peach",
+    baseColor: "#EAEBD0",
+    colours: [
+      {
+        background: "AF3E3E",
+        primary: "ffffff",
+        secondary: "C6C2BE",
+      },
+      {
+        background: "EAEBD0",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "AF3E3E",
+        primary: "ffffff",
+        secondary: "ffffff",
+      },
+    ],
+  },
+  {
+    name: "base-yellow",
+    baseColor: "#FEF3E2",
+    colours: [
+      {
+        background: "F3C623",
+        primary: "000000",
+        secondary: "ffffff",
+      },
+      {
+        background: "FEF3E2",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "F3C623",
+        primary: "000000",
+        secondary: "000000",
+      },
+    ],
+  },
+  {
+    name: "base-orange",
+    baseColor: "#FAEDCA",
+    colours: [
+      {
+        background: "FE5D26",
+        primary: "000000",
+        secondary: "ffffff",
+      },
+      {
+        background: "FEF3E2",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "FE5D26",
+        primary: "000000",
+        secondary: "000000",
+      },
+    ],
+  },
+  {
+    name: "base-beige",
+    baseColor: "#FAEDCA",
+    colours: [
+      {
+        background: "F2C078",
+        primary: "000000",
+        secondary: "ffffff",
+      },
+      {
+        background: "FAEDCA",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "F2C078",
+        primary: "000000",
+        secondary: "000000",
+      },
+    ],
+  },
+  {
+    name: "base-brown",
+    baseColor: "#F8F4E1",
+    colours: [
+      {
+        background: "4B352A",
+        primary: "ffffff",
+        secondary: "ffffff",
+      },
+      {
+        background: "F8F4E1",
+        primary: "000000",
+        secondary: "675C4E",
+      },
+      {
+        background: "4B352A",
+        primary: "ffffff",
+        secondary: "ffffff",
+      },
+    ],
+  },
+  {
+    name: "base-pink",
+    baseColor: "#F8F4E1",
+    colours: [
+      {
+        background: "F564A9",
+        primary: "533B4D",
+        secondary: "ffffff",
+      },
+      {
+        background: "FAE3C6",
+        primary: "533B4D",
+        secondary: "675C4E",
+      },
+      {
+        background: "F564A9",
+        primary: "533B4D",
+        secondary: "533B4D",
+      },
+    ],
+  },
+  {
+    name: "base-purple",
+    baseColor: "#FFE1E0",
+    colours: [
+      {
+        background: "7C4585",
+        primary: "ffffff",
+        secondary: "F1E7E7",
+      },
+      {
+        background: "FFE1E0",
+        primary: "533B4D",
+        secondary: "675C4E",
+      },
+      {
+        background: "7C4585",
+        primary: "ffffff",
+        secondary: "F1E7E7",
+      },
+    ],
+  },
+  {
+    name: "dark-01",
+    baseColor: "#1B1B1D",
+    colours: [
+      {
+        background: "1C1E21",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "764ABC",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "1B1B1D",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "1C1E21",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+    ],
+  },
+  {
+    name: "dark-02",
     baseColor: "#0F172A",
     colours: [
       {

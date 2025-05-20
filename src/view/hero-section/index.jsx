@@ -20,6 +20,11 @@ const ViewHeroSection = ({ section, editor }) => {
     widthText,
   } = section.wrapperStyle;
 
+  const globalOptions = editor.getModel()?.get("globalOptions");
+
+  const { maxWidthPage } = globalOptions || {};
+  console.log("🚀 ~ ViewHeroSection ~ maxWidthPage:", maxWidthPage);
+
   const { elementRef, getClassName, duration } =
     useAnimatedVisibility(animation);
 
@@ -37,7 +42,12 @@ const ViewHeroSection = ({ section, editor }) => {
       isFullwidth={isFullWidth}
     >
       {variant === "basic" && (
-        <div className="relative ">
+        <div
+          style={{
+            width: isFullWidth ? maxWidthPage : "",
+          }}
+          className={`relative mx-auto`}
+        >
           {contents.map((content) => {
             const useSchemeColor = !!content?.textBannerColor;
 

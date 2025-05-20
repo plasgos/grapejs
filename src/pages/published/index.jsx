@@ -43,6 +43,20 @@ const PublishedPage = () => {
       wrapper.set("hoverable", false);
       wrapper.set("highlightable", false);
 
+      const iframe = editor.Canvas.getFrameEl();
+
+      const style = document.createElement("style");
+      style.innerHTML = `
+   
+    /* Firefox support */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(150,150,150,0.7) transparent;
+    }
+  `;
+
+      iframe.contentDocument.head.appendChild(style);
+
       // Fungsi rekursif untuk menonaktifkan interaksi pada semua komponen
       const disableEditing = (component) => {
         component.set({

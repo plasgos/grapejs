@@ -61,7 +61,7 @@ export const contentShowcaseComponent = (editor) => {
         aspectRatio: 4 / 5,
         rounded: 20,
         titleColor: "#000000",
-        fontWeight: "font-semibold",
+        fontWeight: 900,
         imagePosition: "center",
         fontFamily: "Roboto",
         fontSize: 16,

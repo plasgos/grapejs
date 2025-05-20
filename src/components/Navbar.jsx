@@ -26,6 +26,7 @@ import { MdClose } from "react-icons/md";
 import Navigator from "./Navigator";
 import { useCanvas } from "./CanvasProvider";
 import { useNavigate } from "react-router-dom";
+import { produce } from "immer";
 
 const Navbar = ({
   setIsPreviewActive,
@@ -114,29 +115,38 @@ const Navbar = ({
       const editorModel = editor.getModel();
       const projectData = editor.getProjectData();
 
-      //disable preview finished mode countdown
-      if (projectData?.pages && Array.isArray(projectData.pages)) {
-        projectData.pages.forEach((page) => {
-          if (page.frames && Array.isArray(page.frames)) {
-            page.frames.forEach((frame) => {
-              if (frame.component && frame.component.components) {
-                frame.component.components.forEach((component) => {
-                  if (
-                    component.type === "countdown" &&
-                    component.customComponent?.finish
-                  ) {
-                    component.customComponent.finish.isFinished = false;
-                  }
-                });
-              }
-            });
-          }
-        });
-      }
+      const updatedProjectData = produce(projectData, (draft) => {
+        // Disable preview finished mode countdown
+        if (draft?.pages && Array.isArray(draft.pages)) {
+          draft.pages.forEach((page) => {
+            if (page.frames && Array.isArray(page.frames)) {
+              page.frames.forEach((frame) => {
+                if (frame.component && frame.component.components) {
+                  frame.component.components.forEach((component) => {
+                    component.isFromAI = false;
 
-      projectData.globalOptions = editorModel.get("globalOptions");
+                    if (
+                      component.type === "countdown" &&
+                      component.customComponent?.finish
+                    ) {
+                      component.customComponent.finish.isFinished = false;
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
 
-      const jsonString = JSON.stringify(projectData, null, 2);
+        // Update global options
+        draft.globalOptions = editorModel.get("globalOptions");
+      });
+      console.log(
+        "🚀 ~ updatedProjectData ~ updatedProjectData:",
+        updatedProjectData
+      );
+
+      const jsonString = JSON.stringify(updatedProjectData, null, 2);
 
       setCanvasData({ html: jsonString });
       navigate("/published");
