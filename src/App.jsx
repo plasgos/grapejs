@@ -9,6 +9,8 @@ import { CanvasProvider } from "./components/CanvasProvider";
 import MainWebEditor from "./components/MainWebEditor";
 import PublishedPage from "./pages/published";
 import TestPage from "./pages/test";
+import FilesPage from "./pages/files";
+import CreateNewProjectPage from "./pages/create-new-project";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
             <Route path="/" element={<MainWebEditor />} />
             <Route path="/published" element={<PublishedPage />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/files" element={<FilesPage />} />
+            <Route path="/create" element={<CreateNewProjectPage />} />
           </Routes>
           <Toaster />
         </CanvasProvider>

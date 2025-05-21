@@ -34,6 +34,35 @@ const injectTailwindCss = (editor) => injectCustomCSS(editor, "/src/index.css");
 const injectCustomAnimate = (editor) =>
   injectCustomCSS(editor, "/animation.css");
 
+const thinScrollBar = (editor) => {
+  const iframe = editor.Canvas.getFrameEl();
+
+  const style = document.createElement("style");
+  style.innerHTML = `
+     
+  
+          ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(100, 100, 100, 0.5);
+      border-radius: 4px;
+    }
+  
+      /* Firefox support */
+      html {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(150,150,150,0.7) transparent;
+      }
+    `;
+
+  iframe.contentDocument.head.appendChild(style);
+};
+
 export const injectExternalCSS = (editor) => {
   injectTailwindCss(editor);
   injectCustomAnimate(editor);
@@ -41,4 +70,5 @@ export const injectExternalCSS = (editor) => {
   injectSwiperCss(editor);
   injectDatepickerCss(editor);
   injectGoogleFonts(editor);
+  thinScrollBar(editor);
 };

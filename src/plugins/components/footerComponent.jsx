@@ -232,6 +232,7 @@ export const footerComponent = (editor) => {
       },
       copyright: {
         text: `<p style="text-align:center;">© Copyright 2025 Plasgos</p>`,
+        copyrightTextColor: "",
       },
     },
   });

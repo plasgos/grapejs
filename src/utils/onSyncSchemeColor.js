@@ -116,6 +116,7 @@ function getFallbackColorsByType(type, colours) {
         ...base,
         headingColor: safe(colours.primary),
         subHeadingColor: safe(colours.secondary),
+        copyrightTextColor: safe(colours.secondary),
       };
     case "checkout-form":
       return {

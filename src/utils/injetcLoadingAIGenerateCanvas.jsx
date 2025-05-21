@@ -33,16 +33,6 @@ export const injectLoadingAIGenerateCanvas = (editor) => {
   root.render(<LoadingGenerateAICanvas />);
 };
 
-// export const removeLoadingFromCanvas = () => {
-//   console.log("🚨 removeLoadingFromCanvas dipanggil!");
-//   const canvas = document.getElementById("ai-loading-overlay");
-//   if (canvas && root) {
-//     root.unmount();
-//     canvas.remove();
-//     root = null;
-//   }
-// };
-
 export const removeLoadingFromCanvas = (editor) => {
   const canvasEl = editor?.Canvas.getFrameEl();
   const canvasDoc = canvasEl?.contentDocument;

@@ -10,12 +10,15 @@ import ViewImagesFooter from "./ViewImagesFooter";
 import ViewNewsletter from "./ViewNewsletter";
 import ViewSocialMedia from "./ViewSocialMedia";
 import ViewText from "./ViewText";
+import { cn } from "@/lib/utils";
 
 const ViewFooter = ({ section, editor }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent, maxWidthPage } = globalOptions || {};
+  const { isFocusContent, maxWidthPage } = globalOptions || {};
 
   const { contents, copyright, wrapperStyle } = section;
+
+  const useSchemeColor = !!copyright?.copyrightTextColor;
 
   return (
     <ContainerView
@@ -98,13 +101,16 @@ const ViewFooter = ({ section, editor }) => {
 
         <div className="mt-3 border-t p-3">
           <div
-            className="break-all"
+            className={cn("rich-text break-all", {
+              "with-scheme-color": useSchemeColor,
+            })}
             style={{
-              lineHeight: 1.4,
-              color: section?.wrapperStyle?.colorDescription,
+              ...(useSchemeColor
+                ? { "--richTextColor": copyright?.copyrightTextColor }
+                : {}),
             }}
             dangerouslySetInnerHTML={{
-              __html: copyright?.text,
+              __html: copyright.text,
             }}
           />
         </div>

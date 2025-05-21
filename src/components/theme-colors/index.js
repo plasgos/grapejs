@@ -242,17 +242,17 @@ export const schemeColours = [
     colours: [
       {
         background: "F564A9",
-        primary: "533B4D",
+        primary: "000000",
         secondary: "ffffff",
       },
       {
-        background: "FAE3C6",
+        background: "F8F4E1",
         primary: "533B4D",
         secondary: "675C4E",
       },
       {
         background: "F564A9",
-        primary: "533B4D",
+        primary: "000000",
         secondary: "533B4D",
       },
     ],
@@ -279,7 +279,244 @@ export const schemeColours = [
     ],
   },
   {
-    name: "dark-01",
+    name: "pastel-purple",
+    baseColor: "#8D493A",
+    colours: [
+      {
+        background: "7469B6",
+        primary: "FFFFFF",
+        secondary: "EAD8C0",
+      },
+      {
+        background: "FFE6E6",
+        primary: "8D493A",
+        secondary: "A79277",
+      },
+      {
+        background: "7469B6",
+        primary: "FFFFFF",
+        secondary: "FFFFFF",
+      },
+    ],
+  },
+  {
+    name: "light-green",
+    baseColor: "#ECFAE5",
+    colours: [
+      {
+        background: "B0DB9C",
+        primary: "8D493A",
+        secondary: "FFFFFF",
+      },
+      {
+        background: "ECFAE5",
+        primary: "8D493A",
+        secondary: "B17F59",
+      },
+      {
+        background: "B0DB9C",
+        primary: "8D493A",
+        secondary: "8D493A",
+      },
+    ],
+  },
+  {
+    name: "light-blue",
+    baseColor: "#A8F1FF",
+    colours: [
+      {
+        background: "4ED7F1",
+        primary: "000000",
+        secondary: "8D493A",
+      },
+      {
+        background: "A8F1FF",
+        primary: "000000",
+        secondary: "8D493A",
+      },
+      {
+        background: "4ED7F1",
+        primary: "000000",
+        secondary: "000000",
+      },
+    ],
+  },
+  {
+    name: "dark-grey",
+    baseColor: "#111827",
+    colours: [
+      {
+        background: "374151",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+
+      {
+        background: "111827",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "374151",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+    ],
+  },
+  {
+    name: "dark-red",
+    baseColor: "#210F37",
+    colours: [
+      {
+        background: "872341",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+
+      {
+        background: "210F37",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "872341",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+    ],
+  },
+  {
+    name: "dark-green",
+    baseColor: "#18230F",
+    colours: [
+      {
+        background: "1F7D53",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+
+      {
+        background: "18230F",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "1F7D53",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+    ],
+  },
+  {
+    name: "dark-orange",
+    baseColor: "#1D2D50",
+    colours: [
+      {
+        background: "F14A00",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+
+      {
+        background: "1D2D50",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "F14A00",
+        primary: "FFFFFF",
+        secondary: "FFFFFF",
+      },
+    ],
+  },
+  {
+    name: "dark-purple",
+    baseColor: "#210F37",
+    colours: [
+      {
+        background: "4F1C51",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+
+      {
+        background: "210F37",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+      {
+        background: "4F1C51",
+        primary: "FFFFFF",
+        secondary: "C4C9CE",
+      },
+    ],
+  },
+  {
+    name: "dark-blue",
+    baseColor: "#0F172A",
+    colours: [
+      {
+        background: "1A237E",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+      {
+        background: "0F172A",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+      {
+        background: "1A237E",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+    ],
+  },
+  {
+    name: "dark-teal",
+    baseColor: "#1D2D50",
+    colours: [
+      {
+        background: "1E5F74",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+      {
+        background: "1D2D50",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+      {
+        background: "1E5F74",
+        primary: "FF9800",
+        secondary: "FFFFFF",
+      },
+    ],
+  },
+  {
+    name: "dark-indigo",
+    baseColor: "#00111c",
+    colours: [
+      {
+        background: "003a61",
+        primary: "ffffff",
+        secondary: "EFEFEF",
+      },
+
+      {
+        background: "00111c",
+        primary: "ffffff",
+        secondary: "EFEFEF",
+      },
+      {
+        background: "003a61",
+        primary: "ffffff",
+        secondary: "EFEFEF",
+      },
+    ],
+  },
+  {
+    name: "dark-grape",
     baseColor: "#1B1B1D",
     colours: [
       {
@@ -301,85 +538,6 @@ export const schemeColours = [
         background: "1C1E21",
         primary: "FFFFFF",
         secondary: "C4C9CE",
-      },
-    ],
-  },
-  {
-    name: "dark-02",
-    baseColor: "#0F172A",
-    colours: [
-      {
-        background: "1A237E",
-        primary: "FF9800",
-        secondary: "FFFFFF",
-      },
-      {
-        background: "0F172A",
-        primary: "FF9800",
-        secondary: "FFFFFF",
-      },
-      {
-        background: "1A237E",
-        primary: "FF9800",
-        secondary: "FFFFFF",
-      },
-    ],
-  },
-  {
-    name: "warm-02",
-    baseColor: "#E16A54",
-    colours: [
-      {
-        background: "7C444F",
-        primary: "000000",
-        secondary: "5B4A4A",
-      },
-      {
-        background: "9F5255",
-        primary: "000000",
-        secondary: "5B4A4A",
-      },
-      {
-        background: "E16A54",
-        primary: "000000",
-        secondary: "5B4A4A",
-      },
-      {
-        background: "F39E60",
-        primary: "000000",
-        secondary: "5B4A4A",
-      },
-    ],
-  },
-  {
-    name: "halloween",
-    baseColor: "#fb8b24",
-
-    colours: [
-      {
-        background: "5f0f40",
-        primary: "FFFFFF",
-        secondary: "C6C6C6",
-      },
-      {
-        background: "9a031e",
-        primary: "FFFFFF",
-        secondary: "C6C6C6",
-      },
-      {
-        background: "fb8b24",
-        primary: "FFFFFF",
-        secondary: "C6C6C6",
-      },
-      {
-        background: "e36414",
-        primary: "FFFFFF",
-        secondary: "C6C6C6",
-      },
-      {
-        background: "0f4c5c",
-        primary: "FFFFFF",
-        secondary: "C6C6C6",
       },
     ],
   },

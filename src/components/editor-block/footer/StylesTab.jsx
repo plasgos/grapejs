@@ -47,6 +47,7 @@ const StylesTab = ({ selectedComponent }) => {
           label="Copyright"
           value={copyright.text}
           onChange={(value) => handleComponentChange("copyright.text", value)}
+          schemeColor={"copyrightTextColor"}
         />
       </div>
     </div>
