@@ -85,6 +85,24 @@ const Sidebar = ({
     URL.revokeObjectURL(url);
   };
 
+  const resetAllComponents = () => {
+    const editorModel = editor.getModel();
+    const currentGlobalOptions = editorModel.get("globalOptions");
+
+    if (currentGlobalOptions.schemeColor) {
+      editorModel.set("globalOptions", {
+        ...currentGlobalOptions,
+        schemeColor: null,
+        bgColor: "",
+      });
+    }
+
+    const components = editor?.getComponents().models;
+    if (components.length > 0) {
+      editor?.DomComponents.clear();
+    }
+  };
+
   const importProjectFromFile = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -97,6 +115,7 @@ const Sidebar = ({
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
+          resetAllComponents();
           const projectData = JSON.parse(e.target.result);
           // Muat data proyek ke editor
           editor.loadProjectData(projectData);
@@ -105,7 +124,6 @@ const Sidebar = ({
           const editorModel = editor.getModel();
           if (projectData.globalOptions) {
             editorModel.set("globalOptions", projectData.globalOptions);
-            console.log("Global Options loaded:", projectData.globalOptions);
           }
           handleAddWatermark(editor);
 

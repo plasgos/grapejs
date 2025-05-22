@@ -100,7 +100,7 @@ const FilesPage = () => {
       {selectedViewMode === "grid" ? (
         <>
           {projectsData.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-10">
               {projectsData.map((project) => {
                 return (
                   <div
@@ -114,7 +114,7 @@ const FilesPage = () => {
                         className="object-cover w-full h-full group-hover:scale-110 transform transition-all ease-in-out"
                       />
 
-                      <div className=" absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/50 transition-opacity duration-300 flex flex-col justify-center items-center ">
+                      <div className=" absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/30 transition-opacity duration-300 flex flex-col justify-center items-center ">
                         <Button
                           onClick={() =>
                             navigate(`/web-builder/${project.slug}`)

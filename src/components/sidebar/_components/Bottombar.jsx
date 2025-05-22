@@ -19,6 +19,8 @@ import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useState } from "react";
 
+import domtoimage from "dom-to-image-more";
+
 const Bottombar = ({
   editor,
   isCollapsedSideBar,
@@ -28,33 +30,45 @@ const Bottombar = ({
 }) => {
   const [img, setImg] = useState("");
 
-  const handleSave = () => {
-    const frameEl = editor.Canvas.getFrameEl(); // iframe DOM element
-    const iframeDoc =
+  const captureThumbnail = () => {
+    const frameEl = editor.Canvas.getFrameEl();
+    const frameDoc =
       frameEl?.contentDocument || frameEl?.contentWindow?.document;
 
-    const heroSection = iframeDoc.body; // atau iframeDoc.querySelector("#hero") jika ada bagian spesifik
+    if (frameDoc?.body) {
+      html2canvas(frameDoc.body, {
+        width: frameEl.clientWidth,
+        height: 800, // hanya ambil 600px awal
+        windowWidth: frameEl.clientWidth,
+        windowHeight: 1200,
+        scrollY: 0,
+        scrollX: 0,
+        useCORS: true,
+        scale: 1,
+      }).then((canvas) => {
+        const thumbnail = canvas.toDataURL("image/png");
+        console.log("Thumbnail:", thumbnail);
 
-    // Crop area: buat elemen dummy wrapper, atau set height-nya saja
-    heroSection.style.height = "600px"; // Ambil bagian atas saja, misal 600px
+        // setImg(thumbnail)
 
-    html2canvas(heroSection, {
-      windowWidth: frameEl.contentWindow.innerWidth,
-      windowHeight: 600,
-      scrollY: 0,
-      scrollX: 0,
-    }).then((canvas) => {
-      const image = canvas.toDataURL("image/png");
-      // contoh tampilkan di img
-      document.getElementById("thumbnail").src = image;
+        // contoh: tampilkan thumbnail
+        const img = document.createElement("img");
+        img.src = thumbnail;
+        document.body.appendChild(img); // untuk demo
+      });
+    }
 
-      setImg(image);
-    });
+    const mainContent = frameDoc.querySelector(".gjs-editor-wrapper");
+    console.log("🚀 ~ captureThumbnail ~ mainContent:", mainContent);
+  };
+
+  const handleSave = () => {
+    captureThumbnail(); // jalankan html2canvas di sini
   };
 
   return (
     <div className="sticky bottom-0 z-10 bg-white shadow p-2 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]">
-      <img src={img} />
+      {/* <img src={img} /> */}
 
       {isCollapsedSideBar ? (
         <div className="flex gap-x-2 p-2">

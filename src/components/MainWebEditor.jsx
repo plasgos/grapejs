@@ -255,19 +255,23 @@ const MainWebEditor = () => {
   const addGlobalOptions = (editor) => {
     const editorModel = editor.getModel();
 
-    const intialStateGlobalData = {
-      maxWidthPage: 1360,
-      schemeColor: null,
-      bgColor: "",
-      scrollTarget: [
-        { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
-      ],
-      popup: [],
-      isFocusContent: "",
-    };
+    if (!currentProject?.frameProject?.globalOptions) {
+      const intialStateGlobalData = {
+        maxWidthPage: 1360,
+        schemeColor: null,
+        bgColor: "",
+        scrollTarget: [
+          { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
+        ],
+        popup: [],
+        isFocusContent: "",
+      };
 
-    // Set global options
-    editorModel.set("globalOptions", intialStateGlobalData);
+      // Set global options
+      editorModel.set("globalOptions", intialStateGlobalData);
+    } else {
+      return;
+    }
   };
 
   const handleFocusDropComponent = (editor) => {
@@ -349,6 +353,7 @@ const MainWebEditor = () => {
     if (slug) {
       editor.loadProjectData(currentProject?.frameProject);
       const editorModel = editor.getModel();
+
       if (currentProject?.frameProject?.globalOptions) {
         editorModel.set(
           "globalOptions",

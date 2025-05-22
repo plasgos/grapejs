@@ -17,6 +17,7 @@ const ExpandedView = ({
   selectedComponent,
   activeTab,
   setActiveTab,
+  editor,
 }) => {
   const { isEditComponent, sidebarWidth } = useSelector(
     (state) => state.landingPage
@@ -104,7 +105,7 @@ const ExpandedView = ({
           className="bg-[#FEEBDB]  m-0 p-4"
           value="styles"
         >
-          <GlobalStyles selectedComponent={selectedComponent} />
+          <GlobalStyles editor={editor} />
         </TabsContent>
       </div>
     </Tabs>

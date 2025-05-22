@@ -10,9 +10,7 @@ import { schemeColours } from "@/components/theme-colors";
 
 const GlobalStyles = () => {
   const editor = useEditor();
-
   const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
-  console.log("🚀 ~ GlobalStyles ~ globalOptions:", globalOptions);
 
   const wrapper = editor.getWrapper();
 

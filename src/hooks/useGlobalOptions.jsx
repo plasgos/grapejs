@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 
-export const useGlobalOptions = (editorInstance) => {
-  const editor = editorInstance ? editorInstance : null;
-
-  const [globalOptions, setGlobalOptions] = useState(() =>
-    editor?.getModel()?.get("globalOptions")
+export const useGlobalOptions = (editor) => {
+  const [globalOptions, setGlobalOptions] = useState(
+    () => editor?.getModel()?.get("globalOptions") || {}
   );
 
   useEffect(() => {

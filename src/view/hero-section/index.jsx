@@ -66,6 +66,7 @@ const ViewHeroSection = ({ section, editor }) => {
                       key={content.id}
                     >
                       <LazyLoadImage
+                        crossOrigin="anonymous"
                         src={content?.image}
                         alt={content?.alt ? content.alt : ""}
                         style={{
