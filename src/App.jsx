@@ -5,28 +5,28 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "react-datepicker/dist/react-datepicker.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CanvasProvider } from "./components/CanvasProvider";
 import MainWebEditor from "./components/MainWebEditor";
+import CreateNewProjectPage from "./pages/create-new-project";
+import FilesPage from "./pages/files";
 import PublishedPage from "./pages/published";
 import TestPage from "./pages/test";
-import FilesPage from "./pages/files";
-import CreateNewProjectPage from "./pages/create-new-project";
+import NotFoundPage from "./components/NotFoundPage";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <CanvasProvider>
-          <Routes>
-            <Route path="/" element={<MainWebEditor />} />
-            <Route path="/published" element={<PublishedPage />} />
-            <Route path="/test" element={<TestPage />} />
-            <Route path="/files" element={<FilesPage />} />
-            <Route path="/create" element={<CreateNewProjectPage />} />
-          </Routes>
-          <Toaster />
-        </CanvasProvider>
+        <Routes>
+          <Route path="/web-builder/:slug" element={<MainWebEditor />} />
+          <Route path="/published" element={<PublishedPage />} />
+          <Route path="/test" element={<TestPage />} />
+          <Route path="/files" element={<FilesPage />} />
+          <Route path="/create" element={<CreateNewProjectPage />} />
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+        <Toaster />
       </BrowserRouter>
     </>
   );

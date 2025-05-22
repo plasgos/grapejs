@@ -21,7 +21,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { TbEdit } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { removeProjectById } from "@/redux/modules/landing-page/landingPageSlice";
 
 const optionViewMode = [
   {
@@ -34,52 +38,10 @@ const optionViewMode = [
   },
 ];
 
-const fileProjects = [
-  {
-    id: "project-01",
-    name: "project 1",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae consectetur repellendus officia mollitia possimus, veritatis earum voluptas modi sunt reiciendis quae laborum, corrupti quos dolor. Ipsa magnam quis porro repellat.",
-    thumbnail:
-      "https://ik.imagekit.io/ez1ffaf6o/default-images/thumbnail.png?updatedAt=1747806713903",
-    frameProject: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "project-02",
-    name: "Initial Project 2",
-    description: "initial description",
-    thumbnail:
-      "https://ik.imagekit.io/ez1ffaf6o/default-images/thumbnail.png?updatedAt=1747806713903",
-    frameProject: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "project-03",
-    name: "Initial Project 3",
-    description: "initial description",
-    thumbnail:
-      "https://ik.imagekit.io/ez1ffaf6o/default-images/thumbnail.png?updatedAt=1747806713903",
-    frameProject: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "project-04",
-    name: "Initial Project 4",
-    description: "initial description",
-    thumbnail:
-      "https://ik.imagekit.io/ez1ffaf6o/default-images/thumbnail.png?updatedAt=1747806713903",
-    frameProject: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
-
 const FilesPage = () => {
-  const [projects, setProjects] = useState(fileProjects);
+  const { projectsData } = useSelector((state) => state.landingPage);
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -102,13 +64,13 @@ const FilesPage = () => {
   ];
 
   const handleDeleteProject = (id) => {
-    setProjects((prev) => prev.filter((project) => project.id !== id));
+    dispatch(removeProjectById(id));
 
     setDeleteFileId(undefined);
   };
 
   return (
-    <div className="relative h-screen w-full p-5">
+    <div className="relative h-screen w-full p-5 bg-[#FFF4EA]">
       <div className="flex justify-between items-center my-5">
         <div className="">
           <Button onClick={() => navigate("/create")}>
@@ -137,20 +99,32 @@ const FilesPage = () => {
 
       {selectedViewMode === "grid" ? (
         <>
-          {projects.length > 0 ? (
+          {projectsData.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
-              {projects.map((project) => {
+              {projectsData.map((project) => {
                 return (
                   <div
                     key={project.id}
-                    className="rounded-lg  shadow-md overflow-hidden flex flex-col cursor-pointer"
+                    className="rounded-lg  shadow-md overflow-hidden flex flex-col  bg-white"
                   >
-                    <div className="w-full h-full overflow-hidden">
+                    <div className="w-full h-full overflow-hidden relative group ">
                       <img
                         src={project.thumbnail}
                         alt=""
-                        className="object-cover w-full h-full hover:scale-110 transform transition-all ease-in-out"
+                        className="object-cover w-full h-full group-hover:scale-110 transform transition-all ease-in-out"
                       />
+
+                      <div className=" absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/50 transition-opacity duration-300 flex flex-col justify-center items-center ">
+                        <Button
+                          onClick={() =>
+                            navigate(`/web-builder/${project.slug}`)
+                          }
+                          variant="outline"
+                          size=""
+                        >
+                          View / Edit <TbEdit />
+                        </Button>
+                      </div>
                     </div>
 
                     <div className="flex justify-between items-center p-3 ">
@@ -197,7 +171,7 @@ const FilesPage = () => {
         </>
       ) : (
         <div className="flex flex-col gap-y-3">
-          {projects.length > 0 ? (
+          {projectsData.length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -207,10 +181,13 @@ const FilesPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {projects.map((project) => (
+                {projectsData.map((project) => (
                   <TableRow key={project.id}>
                     <TableCell className="w-[600px]  font-medium p-5 cursor-pointer flex gap-x-5 items-center">
-                      <div className="w-32 overflow-hidden">
+                      <div
+                        onClick={() => navigate(`/web-builder/${project.slug}`)}
+                        className="w-32 overflow-hidden"
+                      >
                         <img
                           src={project.thumbnail}
                           alt=""
@@ -218,7 +195,11 @@ const FilesPage = () => {
                         />
                       </div>
 
-                      <p>{project.name}</p>
+                      <p
+                        onClick={() => navigate(`/web-builder/${project.slug}`)}
+                      >
+                        {project.name}
+                      </p>
                     </TableCell>
                     <TableCell className="w-full">
                       {project.description}

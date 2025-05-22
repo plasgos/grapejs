@@ -41,6 +41,8 @@ import useWindowWidth from "@/hooks/useWindowWidth";
 import { motion } from "framer-motion";
 import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 import { schemeColours } from "./theme-colors";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const rootMap = new Map();
 
@@ -109,9 +111,15 @@ export const updateCanvasComponents = (editor, setCanvasComponents) => {
 };
 
 const MainWebEditor = () => {
-  const windowWidth = useWindowWidth();
+  const { projectsData, isCollapsedSideBar } = useSelector(
+    (state) => state.landingPage
+  );
 
-  const { isCollapsedSideBar } = useSelector((state) => state.landingPage);
+  const { slug } = useParams();
+
+  const currentProject = projectsData.find((project) => project.slug === slug);
+
+  const windowWidth = useWindowWidth();
 
   const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(undefined);
@@ -121,12 +129,19 @@ const MainWebEditor = () => {
   const [isDragging, setIsDragging] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedComponent && selectedComponent.get("type") === "wrapper") {
       dispatch(setIsEditComponent(false));
     }
   }, [dispatch, selectedComponent]);
+
+  // useEffect(() => {
+  //   if (!currentProject) {
+  //     navigate("/files");
+  //   }
+  // }, [currentProject, dispatch, navigate]);
 
   const handleReorder = (event, editor, isFloatingComponent) => {
     if (isFloatingComponent) {
@@ -170,6 +185,7 @@ const MainWebEditor = () => {
       addGlobalOptions(editor);
       handleAddWatermark(editor);
       handleAddGoogleFont();
+      handleLoadCurrentProject(editor);
     });
 
     editor.on("component:add", () => {
@@ -326,6 +342,26 @@ const MainWebEditor = () => {
       sidebarRef.current.expand();
     } else {
       sidebarRef.current.collapse();
+    }
+  };
+
+  const handleLoadCurrentProject = (editor) => {
+    if (slug) {
+      editor.loadProjectData(currentProject?.frameProject);
+      const editorModel = editor.getModel();
+      if (currentProject?.frameProject?.globalOptions) {
+        editorModel.set(
+          "globalOptions",
+          currentProject?.frameProject.globalOptions
+        );
+      }
+
+      handleAddWatermark(editor);
+      injectExternalCSS(editor);
+
+      updateCanvasComponents(editor, setCanvasComponents);
+    } else {
+      return;
     }
   };
 

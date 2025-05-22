@@ -66,7 +66,7 @@ const ModalEditFile = ({ isOpen, onClose, data }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input placeholder="" {...field} />
                   </FormControl>

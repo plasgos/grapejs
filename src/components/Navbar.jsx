@@ -1,8 +1,7 @@
-import { useEditor } from "@grapesjs/react";
-import { DevicesProvider } from "@grapesjs/react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DevicesProvider, useEditor } from "@grapesjs/react";
 import { FaMobileAlt, FaRegEye, FaTabletAlt } from "react-icons/fa";
 import { IoDesktopOutline } from "react-icons/io5";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
   Popover,
@@ -19,14 +18,15 @@ import {
 import { cx } from "class-variance-authority";
 
 import { Button } from "@/components/ui/button";
+import { setCanvasData } from "@/redux/modules/landing-page/landingPageSlice";
+import { produce } from "immer";
 import { useEffect, useState } from "react";
 import { BiSolidLayer } from "react-icons/bi";
 import { LuRedo2, LuSquareDashed, LuUndo2 } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
-import Navigator from "./Navigator";
-import { useCanvas } from "./CanvasProvider";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { produce } from "immer";
+import Navigator from "./Navigator";
 
 const Navbar = ({
   setIsPreviewActive,
@@ -34,6 +34,8 @@ const Navbar = ({
   onReorder,
   setIsDragging,
 }) => {
+  const dispatch = useDispatch();
+
   const editor = useEditor();
   const [, setUpdateCounter] = useState(0);
   const [isOpenNavigator, setIsOpenNavigator] = useState(false);
@@ -93,7 +95,6 @@ const Navbar = ({
     };
   }, []);
 
-  const { setCanvasData } = useCanvas();
   const navigate = useNavigate();
 
   const handlePublish = () => {
@@ -141,14 +142,10 @@ const Navbar = ({
         // Update global options
         draft.globalOptions = editorModel.get("globalOptions");
       });
-      console.log(
-        "🚀 ~ updatedProjectData ~ updatedProjectData:",
-        updatedProjectData
-      );
-
       const jsonString = JSON.stringify(updatedProjectData, null, 2);
 
-      setCanvasData({ html: jsonString });
+      dispatch(setCanvasData(jsonString));
+      // setCanvasData({ html: jsonString });
       navigate("/published");
     }, 100);
   };
@@ -160,6 +157,42 @@ const Navbar = ({
   const floatingComponents = components.filter((comp) =>
     comp.model.get("category")?.toLowerCase().includes("floating")
   );
+
+  const DeviceSelector = ({ selected, select, devices }) => {
+    const filteredDevices =
+      Array.isArray(devices) && devices.length > 1
+        ? devices.filter((device) => device.id !== "mobileLandscape")
+        : [];
+
+    if (filteredDevices.length === 0) return null;
+
+    return (
+      <div className="flex items-center gap-x-2">
+        {filteredDevices.map((deviceItem, i) => (
+          <TooltipProvider delayDuration={100} key={i}>
+            <Tooltip>
+              <TooltipTrigger
+                key={i}
+                onClick={() => {
+                  select(deviceItem.id);
+                }}
+                className={` hover:bg-accent hover:text-accent-foreground p-2 rounded-md ${
+                  selected === deviceItem.id
+                    ? "bg-white text-black"
+                    : "text-slate-300"
+                }  px-3 border  border-slate-300`}
+              >
+                {deviceIcons[deviceItem.id]}
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{deviceItem.getName()}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className={`${isPreview ? "hidden" : "block"}`}>
@@ -202,37 +235,43 @@ const Navbar = ({
           </div>
 
           <div>
+            {/* <DevicesProvider>
+              {({ selected, select, devices }) => {
+                return (
+                  <div className="flex items-center gap-x-2">
+                    {devices
+                      .filter((device) => device.cid !== "c5")
+                      .map((deviceItem, i) => {
+                        return (
+                          <TooltipProvider delayDuration={100} key={i}>
+                            <Tooltip>
+                              <TooltipTrigger
+                                key={i}
+                                onClick={() => {
+                                  select(deviceItem.id);
+                                }}
+                                className={` hover:bg-accent hover:text-accent-foreground p-2 rounded-md ${
+                                  selected === deviceItem.id
+                                    ? "bg-white text-black"
+                                    : "text-slate-300"
+                                }  px-3 border  border-slate-300`}
+                              >
+                                {deviceIcons[deviceItem.id]}
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{deviceItem.getName()}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        );
+                      })}
+                  </div>
+                );
+              }}
+            </DevicesProvider> */}
+
             <DevicesProvider>
-              {({ selected, select, devices }) => (
-                <div className="flex items-center gap-x-2">
-                  {devices
-                    .filter((device) => device.cid !== "c5")
-                    .map((deviceItem, i) => {
-                      return (
-                        <TooltipProvider delayDuration={100} key={i}>
-                          <Tooltip>
-                            <TooltipTrigger
-                              key={i}
-                              onClick={() => {
-                                select(deviceItem.id);
-                              }}
-                              className={` hover:bg-accent hover:text-accent-foreground p-2 rounded-md ${
-                                selected === deviceItem.id
-                                  ? "bg-white text-black"
-                                  : "text-slate-300"
-                              }  px-3 border  border-slate-300`}
-                            >
-                              {deviceIcons[deviceItem.id]}
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{deviceItem.getName()}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      );
-                    })}
-                </div>
-              )}
+              {(deviceContext) => <DeviceSelector {...deviceContext} />}
             </DevicesProvider>
           </div>
 

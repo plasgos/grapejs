@@ -1,4 +1,3 @@
-import { useCanvas } from "@/components/CanvasProvider";
 import { handleAddWatermark } from "@/components/MainWebEditor";
 import plasgosPlugin from "@/plugins";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
@@ -6,24 +5,24 @@ import GjsEditor, { Canvas } from "@grapesjs/react";
 
 import grapesjs from "grapesjs";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PublishedPage = () => {
-  const { canvasData } = useCanvas();
-
+  const { canvasData } = useSelector((state) => state.landingPage);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!canvasData.html) {
-      navigate("/");
+    if (!canvasData) {
+      navigate("/files");
     }
-  }, [canvasData.html, navigate]);
+  }, [canvasData, navigate]);
 
   const handleEditorInit = (editor) => {
     editor.on("load", () => {
       //   editor.runCommand("core:preview");
 
-      const projectData = JSON.parse(canvasData.html);
+      const projectData = JSON.parse(canvasData);
 
       editor.loadProjectData(projectData);
       const editorModel = editor.getModel();

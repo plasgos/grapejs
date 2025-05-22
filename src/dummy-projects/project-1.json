@@ -1,0 +1,1062 @@
+{
+  "assets": [],
+  "styles": [
+    {
+      "selectors": ["#iggh"],
+      "style": {
+        "background-color": "#210F37"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "frames": [
+        {
+          "component": {
+            "type": "wrapper",
+            "stylable": [
+              "background",
+              "background-color",
+              "background-image",
+              "background-repeat",
+              "background-attachment",
+              "background-position",
+              "background-size"
+            ],
+            "attributes": {
+              "id": "iggh"
+            },
+            "components": [
+              {
+                "type": "navbar",
+                "attributes": {
+                  "id": "ixg2"
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "single-link-00pcq478r",
+                      "type": "single-link",
+                      "label": "Single Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      },
+                      "titleHeading": "About",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "menu-link-20u9yxcl3",
+                      "type": "menu-link",
+                      "label": "Menu Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "label": "Alert Dialog",
+                          "href": "/docs/primitives/alert-dialog",
+                          "description": "A modal dialog that interrupts the user with important content and expects a response.",
+                          "id": "menu-0-j58kdt905",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Hover Card",
+                          "href": "/docs/primitives/hover-card",
+                          "description": "For sighted users to preview content available behind a link.",
+                          "id": "menu-1-pfgs02w7m",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Progress",
+                          "href": "/docs/primitives/progress",
+                          "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+                          "id": "menu-2-952lpnozu",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Scroll-area",
+                          "href": "/docs/primitives/scroll-area",
+                          "description": "Visually or semantically separates content.",
+                          "id": "menu-3-11ckdtelm",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tabs",
+                          "href": "/docs/primitives/tabs",
+                          "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+                          "id": "menu-4-1d8tg0vd5",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tooltip",
+                          "href": "/docs/primitives/tooltip",
+                          "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+                          "id": "menu-5-ai1uv1gi8",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "titleHeading": "Component Menu",
+                      "column": "2",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "menu-link-02-6xgtcbsei",
+                      "type": "menu-link",
+                      "label": "Menu Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "label": "Alert Dialog",
+                          "href": "/docs/primitives/alert-dialog",
+                          "description": "",
+                          "id": "menu-0-i3x3iwsrl",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Hover Card",
+                          "href": "/docs/primitives/hover-card",
+                          "description": "",
+                          "id": "menu-1-m1xfjkc9x",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Progress",
+                          "href": "/docs/primitives/progress",
+                          "description": "",
+                          "id": "menu-2-y57xdez50",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Scroll-area",
+                          "href": "/docs/primitives/scroll-area",
+                          "description": "",
+                          "id": "menu-3-4q89hp6mp",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tabs",
+                          "href": "/docs/primitives/tabs",
+                          "description": "",
+                          "id": "menu-4-d8s418qu3",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tooltip",
+                          "href": "/docs/primitives/tooltip",
+                          "description": "",
+                          "id": "menu-5-tg3uxbdhd",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "titleHeading": "Component Single Menu",
+                      "column": "1",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "headingColor": "#FFFFFF",
+                    "headingFontSize": 16,
+                    "fontWeight": "",
+                    "fontFamily": "",
+                    "description": {
+                      "descriptionColor": "#C4C9CE",
+                      "fontWeight": "",
+                      "fontFamily": ""
+                    },
+                    "menuBgColor": "#872341",
+                    "bgColorSidebar": "#872341"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#872341",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "logo": "https://ik.imagekit.io/ez1ffaf6o/default-images/plg-logo.png?updatedAt=1747224274623",
+                  "logoWidth": 150,
+                  "side": "right"
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "hero-section",
+                "attributes": {
+                  "id": "ii27"
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "hero-01",
+                      "width": 800,
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/Devices-pana.svg?updatedAt=1747622141355",
+                      "imagePosition": "left",
+                      "textBanner": "<p><span style=\"font-size:36px;\"><strong>Eksplorasi Teknologi Masa Depan</strong></span></p><p><span style=\"color:hsl(0, 0%, 0%);font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Noto Sans&quot;, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, Oxygen, &quot;Open Sans&quot;, sans-serif;font-size:16.002px;\">Temukan inovasi terbaru dalam dunia teknologi dan bagaimana hal itu akan mengubah hidup kita. Saksikan video penjelasannya di sini.</span></p>",
+                      "textShadow": null,
+                      "textBannerColor": "#FFFFFF",
+                      "rotation": 0
+                    }
+                  ],
+                  "buttons": [
+                    {
+                      "id": "button-01",
+                      "stylesBtn": {
+                        "title": "Get Started",
+                        "btnColor": "#FFFFFF",
+                        "textColor": "#210F37",
+                        "size": "default",
+                        "variant": "default",
+                        "rounded": 10,
+                        "shadow": ""
+                      },
+                      "iconBtn": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "right"
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "button-02",
+                      "stylesBtn": {
+                        "title": "Explore Demo",
+                        "btnColor": "#FFFFFF",
+                        "textColor": "#210F37",
+                        "size": "default",
+                        "variant": "outline",
+                        "rounded": 10,
+                        "shadow": ""
+                      },
+                      "iconBtn": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "right"
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    }
+                  ],
+                  "animation": {
+                    "type": null,
+                    "duration": 1,
+                    "delay": null,
+                    "isReplay": false,
+                    "shadow": null
+                  },
+                  "wrapperStyle": {
+                    "withButton": true,
+                    "variant": "basic",
+                    "btnPosition": "justify-start",
+                    "shadow": "shadow-none",
+                    "isFullWidth": false,
+                    "alignText": "justify-center",
+                    "alignButtons": "justify-center",
+                    "widthText": 500
+                  },
+                  "animationText": {
+                    "type": null,
+                    "duration": 1,
+                    "delay": null,
+                    "isReplay": false
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#210F37",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 120,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "content-showcase",
+                "attributes": {
+                  "id": "i6yuw"
+                },
+                "customComponent": {
+                  "isLocked": false,
+                  "contents": [
+                    {
+                      "id": "p1zg6egh7",
+                      "title": "Panduan Lengkap Memulai Bisnis Online",
+                      "description": "Temukan langkah-langkah praktis memulai bisnis online dari nol. Pelajari strategi pemasaran, manajemen produk, dan tips meningkatkan penjualan secara efekti",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/products1.webp?updatedAt=1747115975853",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "isOpenNewTab": true,
+                          "link": "https://www.youtube.com/",
+                          "type": "url"
+                        }
+                      }
+                    },
+                    {
+                      "id": "ttzpp9gsb",
+                      "title": "Tips Meningkatkan Kualitas Produk Anda",
+                      "description": "Pelajari cara meningkatkan kualitas produk Anda dengan bahan terbaik dan proses produksi yang efisien. Dapatkan kepercayaan pelanggan dan tingkatkan loyalitas merek.",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/products2.webp?updatedAt=1747115975781",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "bme0qqnlu",
+                      "title": "Langkah Menciptakan Produk Inovatif",
+                      "description": "Ketahui langkah-langkah menciptakan produk inovatif yang memenuhi kebutuhan pasar. Mulai dari riset hingga peluncuran, raih peluang bisnis yang lebih besar.",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "column": "3",
+                    "aspectRatio": 0.8,
+                    "rounded": 20,
+                    "titleColor": "#FFFFFF",
+                    "fontWeight": 900,
+                    "imagePosition": "center",
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "textAligment": "text-center",
+                    "descriptionColor": "#C4C9CE",
+                    "descriptionFontWeight": "",
+                    "descriptionFontFamily": "",
+                    "descriptionFontSize": 14,
+                    "textAligmentDescription": "text-center"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#210F37",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "business-overview",
+                "attributes": {
+                  "id": "ivti"
+                },
+                "customComponent": {
+                  "isLocked": false,
+                  "contents": [
+                    {
+                      "id": "3oycbk8ii",
+                      "overview": "Products",
+                      "from": 0,
+                      "rangeValue": 100,
+                      "symbol": "+"
+                    },
+                    {
+                      "id": "cs9llrcf1",
+                      "overview": "Monthly Orders",
+                      "from": 0,
+                      "rangeValue": 2500,
+                      "symbol": "+"
+                    },
+                    {
+                      "id": "gaf88bwnu",
+                      "overview": "Happy Customer",
+                      "from": 0,
+                      "rangeValue": 100,
+                      "symbol": "%"
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "separator": ",",
+                    "direction": "up",
+                    "duration": 1,
+                    "colorRangeValue": "#FFFFFF",
+                    "textAligment": "justify-center",
+                    "fontSize": 36,
+                    "fontFamily": "Roboto",
+                    "fontWeight": 500,
+                    "textShadow": null,
+                    "distance": 100,
+                    "fontSizeOverview": 16,
+                    "fontFamilyOverview": "Roboto",
+                    "fontWeightOverview": 500,
+                    "colorOverview": "#FFFFFF"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#210F37",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 40,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false,
+                "isDragging": false
+              },
+              {
+                "type": "testimony",
+                "attributes": {
+                  "id": "i4q8q"
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "testimony-01",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar3.jpg?updatedAt=1747122493693",
+                      "name": "John",
+                      "profetion": "Designer",
+                      "description": "Waktu pengiriman berkisar antara 1-3 hari kerja, tergantung pada lokasi tujuan.",
+                      "stars": 3
+                    },
+                    {
+                      "id": "testimony-02",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar2.jpg?updatedAt=1747122493339",
+                      "name": "Emily",
+                      "profetion": "Developer",
+                      "description": "Produk berkualitas dan layanan pelanggan yang sangat responsif!",
+                      "stars": 4
+                    },
+                    {
+                      "id": "testimony-03",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar1.jpg?updatedAt=1747122493302",
+                      "name": "Michael",
+                      "profetion": "Entrepreneur",
+                      "description": "Sangat puas dengan pengalaman belanja di sini, akan kembali lagi!",
+                      "stars": 5
+                    },
+                    {
+                      "id": "testimony-04",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar4.jpg?updatedAt=1747122493268",
+                      "name": "Sophia",
+                      "profetion": "Marketing ",
+                      "description": "Pengiriman cepat dan barang sesuai dengan deskripsi. Sangat direkomendasikan!",
+                      "stars": 5
+                    },
+                    {
+                      "id": "testimony-05",
+                      "image": "https://ik.imagekit.io/ez1ffaf6o/default-images/avatar6.jpg?updatedAt=1747122493203",
+                      "name": "Elena",
+                      "profetion": "Freelance",
+                      "description": "Saya sangat puas dengan produk ini! Kualitasnya luar biasa dan sesuai dengan ekspektasi saya. Pengiriman juga cepat dan pelayanannya ramah.",
+                      "stars": 5
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "1",
+                    "nameColor": "#FFFFFF",
+                    "fontWeight": "font-semibold",
+                    "fontFamily": "Roboto",
+                    "fontSize": 18,
+                    "textAligment": "text-center",
+                    "borderColor": "rgba(223, 221, 221, 1)",
+                    "cardColor": "#210F37",
+                    "quoteColor": "#FFFFFF",
+                    "profectionColor": "#C4C9CE",
+                    "starsColor": "rgba(255,210,80,1)",
+                    "starsSize": 20,
+                    "withSlider": true,
+                    "autoPlaySlider": false,
+                    "descriptionColor": "#FFFFFF",
+                    "descriptionFontWeight": "",
+                    "descriptionFontFamily": "",
+                    "descriptionFontSize": 14,
+                    "header": "<p style=\"text-align:center;\"><span style=\"font-size:26px;\"><strong>Testimonials</strong></span></p><p style=\"text-align:center;\"><span style=\"font-size:40px;\">What our clients saya about us</span></p>",
+                    "headerColor": "#FFFFFF"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#210F37",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "feature-highlights",
+                "attributes": {
+                  "id": "iqufl"
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "feature-01",
+                      "title": "Rasakan Bedanya dalam Satu Sentuhan!",
+                      "iconBtn": {
+                        "icon": "FaCheckCircle",
+                        "color": "rgba(126,211,33,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "feature-02",
+                      "title": "Inovasi Terbaru untuk Keseharian Anda.",
+                      "iconBtn": {
+                        "icon": "FaCheckCircle",
+                        "color": "rgba(126,211,33,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "feature-03",
+                      "title": "Solusi Cerdas untuk Hidup Lebih Nyaman.",
+                      "iconBtn": {
+                        "icon": "FaCheckCircle",
+                        "color": "rgba(126,211,33,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "feature-04",
+                      "title": "Transformasi Mudah, Hasil Maksimal.",
+                      "iconBtn": {
+                        "icon": "FaCheckCircle",
+                        "color": "rgba(126,211,33,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "space": 20,
+                    "textShadow": null,
+                    "titleColor": "#FFFFFF",
+                    "fontWeight": 700,
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "textAligment": "justify-center"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#210F37",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "animation": {
+                    "type": null,
+                    "duration": 1,
+                    "delay": null,
+                    "isReplay": false
+                  }
+                },
+                "isFromAI": false,
+                "isDragging": false
+              },
+              {
+                "type": "faq",
+                "attributes": {
+                  "id": "ipzpk"
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "faq-01",
+                      "title": "Berapa lama waktu pengiriman?",
+                      "description": "Waktu pengiriman berkisar antara 1-3 hari kerja, tergantung pada lokasi tujuan."
+                    },
+                    {
+                      "id": "faq-02",
+                      "title": "Apakah ada biaya pengiriman?",
+                      "description": "Gratis ongkos kirim untuk semua pesanan di atas Rp 200.000 ke seluruh Indonesia."
+                    },
+                    {
+                      "id": "faq-03",
+                      "title": "Bagaimana jika barang rusak saat diterima?",
+                      "description": "Segera hubungi tim kami dalam 24 jam dengan melampirkan foto barang rusak untuk proses pengembalian atau penggantian."
+                    },
+                    {
+                      "id": "faq-04",
+                      "title": "Apakah bisa melakukan pengembalian barang?",
+                      "description": "Ya, Anda dapat mengembalikan barang dalam kondisi belum digunakan dalam waktu 7 hari setelah penerimaan."
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "basic",
+                    "colorTitle": "#FFFFFF",
+                    "fontWeight": 500,
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "textAligment": "justify-center",
+                    "borderColor": "rgba(115, 115, 115, 0.5)",
+                    "iconColor": "#FFFFFF",
+                    "descriptionColor": "#FFFFFF",
+                    "descriptionFontWeight": "",
+                    "descriptionFontFamily": "",
+                    "descriptionFontSize": 14
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#210F37",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "footer",
+                "attributes": {
+                  "id": "ibw4q"
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "images-0-eacmzzpav",
+                      "type": "images",
+                      "label": "Images",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "img-01",
+                          "image": "/src/assets/bca.png",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "img-02",
+                          "image": "/src/assets/mandiri.png",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Payment Method",
+                      "width": 300,
+                      "imageWidth": 80,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "group-link-t2tgni82z",
+                      "type": "group-link",
+                      "label": "Group Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "link-01-izqlob4to",
+                          "label": "Introduction",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "link-02-37cz3ld9g",
+                          "label": "Usage",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "link-03-6ik8m67kd",
+                          "label": "Globals",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "link-04-nrdqncgm2",
+                          "label": "About",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Getting Started",
+                      "width": 300,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "social-media-t0khj75bl",
+                      "type": "social-media",
+                      "label": "Social Media",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "fb-b5ac06zyk",
+                          "label": "Facebook",
+                          "value": "",
+                          "icon": "FaFacebook",
+                          "placeholder": "https://facebook.com/username"
+                        },
+                        {
+                          "id": "ig-xw2i3irna",
+                          "label": "Instagram",
+                          "icon": "FaInstagram",
+                          "value": "",
+                          "placeholder": "https://instagram.com/username"
+                        },
+                        {
+                          "id": "x-f8s34qrf7",
+                          "label": "Twitter (X)",
+                          "icon": "FaSquareXTwitter",
+                          "value": "",
+                          "placeholder": "https://x.com/username"
+                        }
+                      ],
+                      "title": "Follow us",
+                      "width": 250,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "contact-info-6e7m1layp",
+                      "type": "contact-info",
+                      "label": "Contact Info",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "address-sw9si67ke",
+                          "label": "Address",
+                          "value": "Jl Sudirman 31 Jakarta Selatan",
+                          "icon": "FaMapMarkerAlt"
+                        },
+                        {
+                          "id": "phoneNumber-zpl1srmhp",
+                          "label": "Phone Number",
+                          "icon": "FaPhoneAlt",
+                          "value": "(021) 2248 1664"
+                        },
+                        {
+                          "id": "email-freygha3m",
+                          "label": "Email",
+                          "icon": "FaEnvelope",
+                          "value": "costumer.care@plasgos.co.id"
+                        },
+                        {
+                          "id": "whatsapp-r98hcxx4w",
+                          "label": "whatsapp",
+                          "icon": "FaWhatsapp",
+                          "value": "0853-1111-1010"
+                        }
+                      ],
+                      "title": "Contact Info",
+                      "width": 300,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "newsletter-gnw48h4dp",
+                      "type": "newsletter",
+                      "label": "Newsletter",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "title": "Newsletter",
+                      "subTitle": "Receive updates on the latest news and offers",
+                      "placeholder": "youremail@gmail.com",
+                      "actionText": "Subscribe",
+                      "width": 300,
+                      "buttonColor": "",
+                      "textButton": "",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "headingColor": "#FFFFFF",
+                    "subHeadingColor": "#C4C9CE",
+                    "headingFontSize": 18
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#872341",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "copyright": {
+                    "text": "<p style=\"text-align:center;\">© Copyright 2025 Plasgos</p>"
+                  }
+                },
+                "isFromAI": false
+              }
+            ],
+            "head": {
+              "type": "head"
+            },
+            "docEl": {
+              "tagName": "html"
+            }
+          },
+          "id": "uQnc8t4K1cSr7NfV"
+        }
+      ],
+      "type": "main",
+      "id": "1D2PxgK18Au5fVU7"
+    }
+  ],
+  "symbols": [],
+  "dataSources": [],
+  "globalOptions": {
+    "maxWidthPage": 1360,
+    "schemeColor": "dark-red",
+    "bgColor": "#210F37",
+    "scrollTarget": [
+      {
+        "id": "target-01",
+        "value": "scrollToTop",
+        "label": "Scroll To Top"
+      }
+    ],
+    "popup": [],
+    "isFocusContent": ""
+  }
+}

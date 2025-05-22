@@ -5,7 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Save } from "lucide-react";
-
+import html2canvas from "html2canvas";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,15 +17,45 @@ import { CiExport, CiImport } from "react-icons/ci";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri";
 import { IoSettingsSharp } from "react-icons/io5";
+import { useState } from "react";
 
 const Bottombar = ({
+  editor,
   isCollapsedSideBar,
   importProjectFromFile,
   exportProjectAsFile,
   onToggleSidebar,
 }) => {
+  const [img, setImg] = useState("");
+
+  const handleSave = () => {
+    const frameEl = editor.Canvas.getFrameEl(); // iframe DOM element
+    const iframeDoc =
+      frameEl?.contentDocument || frameEl?.contentWindow?.document;
+
+    const heroSection = iframeDoc.body; // atau iframeDoc.querySelector("#hero") jika ada bagian spesifik
+
+    // Crop area: buat elemen dummy wrapper, atau set height-nya saja
+    heroSection.style.height = "600px"; // Ambil bagian atas saja, misal 600px
+
+    html2canvas(heroSection, {
+      windowWidth: frameEl.contentWindow.innerWidth,
+      windowHeight: 600,
+      scrollY: 0,
+      scrollX: 0,
+    }).then((canvas) => {
+      const image = canvas.toDataURL("image/png");
+      // contoh tampilkan di img
+      document.getElementById("thumbnail").src = image;
+
+      setImg(image);
+    });
+  };
+
   return (
     <div className="sticky bottom-0 z-10 bg-white shadow p-2 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]">
+      <img src={img} />
+
       {isCollapsedSideBar ? (
         <div className="flex gap-x-2 p-2">
           <DropdownMenu>
@@ -100,7 +130,7 @@ const Bottombar = ({
           </DropdownMenu>
 
           <div className="flex gap-x-2">
-            <Button className="bg-[#102442] rounded-full">
+            <Button onClick={handleSave} className="bg-[#102442] rounded-full">
               Save <Save />
             </Button>
 

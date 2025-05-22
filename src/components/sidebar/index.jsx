@@ -287,6 +287,7 @@ const Sidebar = ({
 
       {/* Bottom Bar */}
       <Bottombar
+        editor={editor}
         isCollapsedSideBar={isCollapsedSideBar}
         onToggleSidebar={onToggleSidebar}
         exportProjectAsFile={exportProjectAsFile}
