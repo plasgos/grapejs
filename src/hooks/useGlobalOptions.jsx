@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 export const useGlobalOptions = (editor) => {
   const [globalOptions, setGlobalOptions] = useState(
-    () => editor?.getModel()?.get("globalOptions") || {}
+    () => editor?.getModel()?.get("globalOptions") || null
   );
 
   useEffect(() => {
+    if (!editor) return;
     const handleUpdate = () => {
       // Update the local state whenever the globalOptions change in the editor
       setGlobalOptions(editor.getModel().get("globalOptions"));
@@ -21,6 +22,8 @@ export const useGlobalOptions = (editor) => {
   }, [editor]);
 
   const updateGlobalOptions = (newOptions) => {
+    if (!editor) return;
+
     const editorModel = editor.getModel();
     const currentOptions = editorModel.get("globalOptions");
     editorModel.set("globalOptions", { ...currentOptions, ...newOptions });

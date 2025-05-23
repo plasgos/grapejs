@@ -1,17 +1,21 @@
 import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const ContainerView = ({
   children,
-  section,
-  editor,
   id,
+  editor,
+  section,
   customStyles,
   customClassName,
   isFullwidth,
+  buildContainerStyle,
 }) => {
-  const globalOptions = editor.getModel()?.get("globalOptions");
+  const [globalOptions] = useGlobalOptions(editor);
 
-  const { maxWidthPage } = globalOptions || {};
+  const maxWidthPage = !editor
+    ? buildContainerStyle.maxWidthPage
+    : globalOptions?.maxWidthPage;
 
   const stylesBg = useBackgroundStyles(section);
 

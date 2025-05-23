@@ -9,7 +9,7 @@ import Layout3 from "./layout/Layout3";
 import Layout4 from "./layout/Layout4";
 import { cn } from "@/lib/utils";
 
-const ViewTestimony = ({ section, editor }) => {
+const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
   const { contents } = section;
   const { variant, header, headerColor, withSlider, autoPlaySlider } =
     section.wrapperStyle;
@@ -21,6 +21,7 @@ const ViewTestimony = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       <div className="relative p-5">
         <div
@@ -44,6 +45,7 @@ const ViewTestimony = ({ section, editor }) => {
                 section={section}
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout1}
+                buildContainerStyle={buildContainerStyle}
               />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5  auto-rows-min ">
@@ -53,6 +55,7 @@ const ViewTestimony = ({ section, editor }) => {
                     content={content}
                     styles={section.wrapperStyle}
                     editor={editor}
+                    buildContainerStyle={buildContainerStyle}
                   />
                 ))}
               </div>
@@ -69,6 +72,7 @@ const ViewTestimony = ({ section, editor }) => {
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout2}
                 isOverImage
+                buildContainerStyle={buildContainerStyle}
               />
             ) : (
               <div
@@ -82,6 +86,7 @@ const ViewTestimony = ({ section, editor }) => {
                     styles={section.wrapperStyle}
                     editor={editor}
                     isOverImage
+                    buildContainerStyle={buildContainerStyle}
                   />
                 ))}
               </div>
@@ -97,6 +102,7 @@ const ViewTestimony = ({ section, editor }) => {
                 section={section}
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout3}
+                buildContainerStyle={buildContainerStyle}
               />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5  auto-rows-min ">
@@ -106,6 +112,7 @@ const ViewTestimony = ({ section, editor }) => {
                     content={content}
                     styles={section.wrapperStyle}
                     editor={editor}
+                    buildContainerStyle={buildContainerStyle}
                   />
                 ))}
               </div>
@@ -121,6 +128,7 @@ const ViewTestimony = ({ section, editor }) => {
                 section={section}
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout4}
+                buildContainerStyle={buildContainerStyle}
               />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5  auto-rows-min ">
@@ -130,6 +138,7 @@ const ViewTestimony = ({ section, editor }) => {
                     content={content}
                     styles={section.wrapperStyle}
                     editor={editor}
+                    buildContainerStyle={buildContainerStyle}
                   />
                 ))}
               </div>

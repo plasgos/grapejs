@@ -1,26 +1,18 @@
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { darkenRgbaColor } from "@/utils/darkenRgbaColor";
 import { cx } from "class-variance-authority";
 import { createElement, useState } from "react";
 import * as Icons from "react-icons/fa";
 
-const CustomButton = ({ btn, fullWidth, editor, onActionClickTarget }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent, schemeColor } = globalOptions || {};
+const CustomButton = ({
+  btn,
+  fullWidth,
+  editor,
+  onActionClickTarget,
+  currentGlobalOptions,
+}) => {
+  const { isFocusContent, schemeColor } = currentGlobalOptions || {};
 
-  // const components = editor?.getComponents()?.models;
-
-  const components = editor.getWrapper()?.get("components")?.models;
-
-  const currentComponent = components?.find(
-    (component) =>
-      component.get("type") === "hero-section" ||
-      component.get("type") === "button-content"
-  );
-
-  const selectedComponent = currentComponent?.get("customComponent");
-
-  const bgColorComponent = selectedComponent?.background?.bgColor || "#ffffff";
+  const bgColorComponent = currentGlobalOptions?.bgColor || "#ffffff";
 
   const [isHover, setIsHover] = useState(false);
 

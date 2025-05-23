@@ -10,6 +10,7 @@ const ContainerSlider = ({
   section,
   LayoutComponent,
   isOverImage,
+  buildContainerStyle,
 }) => {
   const { contents } = section;
 
@@ -17,30 +18,40 @@ const ContainerSlider = ({
 
   useEffect(() => {
     const updateSlidesPerView = () => {
-      let iframe = editor?.Canvas.getFrameEl();
-      if (iframe) {
-        let iframeWidth = iframe.contentWindow.innerWidth;
-        if (iframeWidth < 640) setSlidesPerView(1);
-        else if (iframeWidth < 768) setSlidesPerView(2);
-        else if (iframeWidth < 1024) setSlidesPerView(3);
-        else setSlidesPerView(4);
+      let width = 0;
+
+      if (editor) {
+        const iframe = editor?.Canvas.getFrameEl();
+        width = iframe?.contentWindow?.innerWidth || 0;
+      } else {
+        width = window.innerWidth;
       }
+
+      if (width < 640) setSlidesPerView(1);
+      else if (width < 768) setSlidesPerView(2);
+      else if (width < 1024) setSlidesPerView(3);
+      else setSlidesPerView(4);
     };
 
-    // Jalankan saat pertama kali
+    // Jalankan langsung saat mount
     updateSlidesPerView();
 
-    // Tambahkan event listener ke iframe
-    let iframe = editor?.Canvas.getFrameEl();
-    if (iframe) {
-      iframe.contentWindow.addEventListener("resize", updateSlidesPerView);
-    }
-
-    return () => {
-      if (iframe) {
-        iframe.contentWindow.removeEventListener("resize", updateSlidesPerView);
+    if (editor) {
+      const iframe = editor?.Canvas.getFrameEl();
+      const iframeWindow = iframe?.contentWindow;
+      if (iframeWindow) {
+        iframeWindow.addEventListener("resize", updateSlidesPerView);
+        return () => {
+          iframeWindow.removeEventListener("resize", updateSlidesPerView);
+        };
       }
-    };
+    } else {
+      // Mode published (tanpa editor)
+      window.addEventListener("resize", updateSlidesPerView);
+      return () => {
+        window.removeEventListener("resize", updateSlidesPerView);
+      };
+    }
   }, [editor]);
 
   return (
@@ -74,6 +85,7 @@ const ContainerSlider = ({
             content={content}
             styles={section.wrapperStyle}
             editor={editor}
+            buildContainerStyle={buildContainerStyle}
           />
         </SwiperSlide>
       ))}

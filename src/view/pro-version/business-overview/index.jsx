@@ -4,7 +4,7 @@ import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
-const ViewBusinessOverview = ({ section, editor }) => {
+const ViewBusinessOverview = ({ section, editor, buildContainerStyle }) => {
   const {
     textShadow,
     fontFamily,
@@ -23,7 +23,9 @@ const ViewBusinessOverview = ({ section, editor }) => {
   } = section.wrapperStyle;
 
   const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent } = globalOptions || {};
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+
+  const { isFocusContent } = currentGlobalOptions;
 
   const { contents } = section;
 
@@ -37,6 +39,7 @@ const ViewBusinessOverview = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       <div
         style={{

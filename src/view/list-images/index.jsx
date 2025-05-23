@@ -6,7 +6,7 @@ import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewListImages = ({ section, editor }) => {
+const ViewListImages = ({ section, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const { schemeColor, isFocusContent } = globalOptions || {};
   const { contents } = section;
@@ -30,6 +30,7 @@ const ViewListImages = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       <div
         className={`  relative  items-stretch   

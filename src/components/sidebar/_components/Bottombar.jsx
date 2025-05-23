@@ -19,7 +19,7 @@ import { RiMenuFold4Line, RiMenuUnfold4Line } from "react-icons/ri";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useState } from "react";
 
-import domtoimage from "dom-to-image-more";
+import { useScreenshot } from "use-react-screenshot";
 
 const Bottombar = ({
   editor,
@@ -28,38 +28,50 @@ const Bottombar = ({
   exportProjectAsFile,
   onToggleSidebar,
 }) => {
-  const [img, setImg] = useState("");
+  const [image, takeScreenshot] = useScreenshot();
 
   const captureThumbnail = () => {
-    const frameEl = editor.Canvas.getFrameEl();
-    const frameDoc =
-      frameEl?.contentDocument || frameEl?.contentWindow?.document;
+    // const frameEl = editor.Canvas.getFrameEl();
+    // const frameDoc =
+    //   frameEl?.contentDocument || frameEl?.contentWindow?.document;
 
-    if (frameDoc?.body) {
-      html2canvas(frameDoc.body, {
-        width: frameEl.clientWidth,
-        height: 800, // hanya ambil 600px awal
-        windowWidth: frameEl.clientWidth,
-        windowHeight: 1200,
-        scrollY: 0,
-        scrollX: 0,
-        useCORS: true,
-        scale: 1,
-      }).then((canvas) => {
-        const thumbnail = canvas.toDataURL("image/png");
-        console.log("Thumbnail:", thumbnail);
+    // if (frameDoc?.body) {
+    //   html2canvas(frameDoc.body, {
+    //     width: frameEl.clientWidth,
+    //     height: 800, // hanya ambil 600px awal
+    //     windowWidth: frameEl.clientWidth,
+    //     windowHeight: 1200,
+    //     scrollY: 0,
+    //     scrollX: 0,
+    //     useCORS: true,
+    //     scale: 1,
+    //   }).then((canvas) => {
+    //     const thumbnail = canvas.toDataURL("image/png");
 
-        // setImg(thumbnail)
+    //     // setImg(thumbnail)
 
-        // contoh: tampilkan thumbnail
-        const img = document.createElement("img");
-        img.src = thumbnail;
-        document.body.appendChild(img); // untuk demo
+    //     // contoh: tampilkan thumbnail
+    //     const img = document.createElement("img");
+    //     img.src = thumbnail;
+    //     document.body.appendChild(img); // untuk demo
+    //   });
+    // }
+
+    const frame = editor?.Canvas?.getFrameEl();
+    if (!frame) return;
+
+    // Ambil body dari dalam iframe sebagai target
+    const body = frame.contentDocument.body;
+
+    // Ambil screenshot dari body iframe
+    takeScreenshot(body)
+      .then((img) => {
+        console.log("Screenshot berhasil:", img);
+        // lakukan sesuatu dengan img (base64 image)
+      })
+      .catch((err) => {
+        console.error("Gagal mengambil screenshot:", err);
       });
-    }
-
-    const mainContent = frameDoc.querySelector(".gjs-editor-wrapper");
-    console.log("🚀 ~ captureThumbnail ~ mainContent:", mainContent);
   };
 
   const handleSave = () => {
@@ -167,6 +179,8 @@ const Bottombar = ({
           </div>
         </div>
       )}
+
+      {image && <img src={image} alt="thumbnail" />}
     </div>
   );
 };

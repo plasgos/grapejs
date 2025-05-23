@@ -4,7 +4,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewFLoatingButtonCircle = ({ section, editor }) => {
+const ViewFLoatingButtonCircle = ({ section, editor, buildContainerStyle }) => {
   const { buttons } = section;
   const { position, space } = section.mainStyle;
 

@@ -1,16 +1,23 @@
+import { schemeColours } from "@/components/theme-colors";
 import ColorPalettesOptions from "@/components/theme-colors/ColorPalettesOptions";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 import { useEditor } from "@grapesjs/react";
+import { produce } from "immer";
 import ColorPicker from "../../editor-block/_components/ColorPicker";
 import SelectOptions from "../../editor-block/_components/SelectOptions";
 import { widthPageOptions } from "../../SelectOptions";
-import { produce } from "immer";
-import { schemeColours } from "@/components/theme-colors";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import {
+  handleAddWatermark,
+  handleRemoveWatermark,
+} from "@/components/MainWebEditor";
 
 const GlobalStyles = () => {
   const editor = useEditor();
   const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
+  console.log("🚀 ~ GlobalStyles ~ globalOptions:", globalOptions);
 
   const wrapper = editor.getWrapper();
 
@@ -129,6 +136,26 @@ const GlobalStyles = () => {
         onChange={(value) => handleChangeSchemeColor(value)}
         onResetSchemeColor={onResetSchemeColor}
       />
+
+      <div className="flex justify-between items-center m-3">
+        <Label className="">Watermark</Label>
+        <Switch
+          checked={!!globalOptions?.watermark}
+          onCheckedChange={(checked) => {
+            updateGlobalOptions({ watermark: checked });
+
+            if (editor) {
+              if (checked) {
+                handleAddWatermark(editor);
+              } else {
+                handleRemoveWatermark(editor);
+              }
+            }
+          }}
+        />
+      </div>
+
+      <button onClick={() => handleRemoveWatermark(editor)}>remove</button>
     </div>
   );
 };

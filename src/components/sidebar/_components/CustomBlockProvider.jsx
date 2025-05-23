@@ -77,151 +77,155 @@ export default function CustomBlockManager({
     >
       {Array.from(filteredBlocks).length > 0 ? (
         <div className="">
-          {Array.from(filteredBlocks).map(([category, blocks]) => (
-            <div key={category}>
-              <Accordion
-                key={category}
-                type="multiple"
-                value={openCategories}
-                onValueChange={setOpenCategories}
-              >
-                <AccordionItem value={`${category}`}>
-                  <AccordionTrigger className="!no-underline">
-                    {category}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div
-                      className={`grid ${responsiveGrid}  gap-2 p-1 place-items-center`}
-                    >
-                      {blocks.map((block) => {
-                        const isLocked = block.get("attributes")?.isLocked;
+          {Array.from(filteredBlocks).map(([category, blocks]) => {
+            return (
+              <div key={category}>
+                <Accordion
+                  key={category}
+                  type="multiple"
+                  value={openCategories}
+                  onValueChange={setOpenCategories}
+                >
+                  <AccordionItem value={`${category}`}>
+                    <AccordionTrigger className="!no-underline">
+                      {category}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div
+                        className={`grid ${responsiveGrid}  gap-2 p-1 place-items-center`}
+                      >
+                        {blocks.map((block) => {
+                          const isLocked = block.get("attributes")?.isLocked;
 
-                        return (
-                          <Fragment key={block.getId()}>
-                            {isCollapsedSideBar ? (
-                              <TooltipProvider delayDuration={100}>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <div
-                                      draggable={!isLocked}
-                                      className={cx(
-                                        "relative flex flex-col justify-center items-center border p-3 transition-colors bg-white rounded-md shadow-sm ",
-                                        {
-                                          "cursor-not-allowed opacity-50":
-                                            isLocked,
-                                          "cursor-grab": !isLocked,
-                                        }
-                                      )}
-                                      onDragStart={(ev) => {
-                                        if (!isLocked)
-                                          dragStart(block, ev.nativeEvent);
-                                      }}
-                                      onDragEnd={() => {
-                                        if (!isLocked) dragStop(false);
-                                      }}
-                                    >
-                                      <div className="h-8 w-8">
-                                        <div
-                                          className="w-full h-full [&>svg]:w-full [&>svg]:h-full"
-                                          dangerouslySetInnerHTML={{
-                                            __html: block.getMedia(),
-                                          }}
-                                        />
-                                      </div>
-
-                                      {isLocked && (
-                                        <div className="absolute top-3 right-3">
-                                          <TooltipProvider delayDuration={100}>
-                                            <Tooltip>
-                                              <TooltipTrigger asChild>
-                                                <Button
-                                                  size="icon"
-                                                  variant="ghost"
-                                                >
-                                                  <MdLockOutline className="" />
-                                                </Button>
-                                              </TooltipTrigger>
-                                              <TooltipContent>
-                                                <p>Unlock Pro</p>
-                                              </TooltipContent>
-                                            </Tooltip>
-                                          </TooltipProvider>
+                          return (
+                            <Fragment key={block.getId()}>
+                              {isCollapsedSideBar ? (
+                                <TooltipProvider delayDuration={100}>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <div
+                                        draggable={!isLocked}
+                                        className={cx(
+                                          "relative flex flex-col justify-center items-center border p-3 transition-colors bg-white rounded-md shadow-sm ",
+                                          {
+                                            "cursor-not-allowed opacity-50":
+                                              isLocked,
+                                            "cursor-grab": !isLocked,
+                                          }
+                                        )}
+                                        onDragStart={(ev) => {
+                                          if (!isLocked)
+                                            dragStart(block, ev.nativeEvent);
+                                        }}
+                                        onDragEnd={() => {
+                                          if (!isLocked) dragStop(false);
+                                        }}
+                                      >
+                                        <div className="h-8 w-8">
+                                          <div
+                                            className="w-full h-full [&>svg]:w-full [&>svg]:h-full"
+                                            dangerouslySetInnerHTML={{
+                                              __html: block.getMedia(),
+                                            }}
+                                          />
                                         </div>
-                                      )}
-                                    </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <div
-                                      className="text-sm text-center w-full"
-                                      title={block.getLabel()}
-                                    >
-                                      {block.getLabel()}
-                                    </div>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            ) : (
-                              <div
-                                key={block.getId()}
-                                draggable={!isLocked}
-                                className={cx(
-                                  "relative flex flex-col justify-center items-center border py-2 px-5 transition-colors bg-white rounded-md shadow-sm h-[100px] w-full",
-                                  {
-                                    "cursor-not-allowed opacity-50": isLocked,
-                                    "cursor-grab": !isLocked,
-                                  }
-                                )}
-                                onDragStart={(ev) => {
-                                  if (!isLocked)
-                                    dragStart(block, ev.nativeEvent);
-                                }}
-                                onDragEnd={() => {
-                                  if (!isLocked) dragStop(false);
-                                }}
-                              >
-                                <div className="h-10 w-10">
-                                  <div
-                                    className="w-full h-full [&>svg]:w-full [&>svg]:h-full"
-                                    dangerouslySetInnerHTML={{
-                                      __html: block.getMedia(),
-                                    }}
-                                  />
-                                </div>
 
+                                        {isLocked && (
+                                          <div className="absolute top-3 right-3">
+                                            <TooltipProvider
+                                              delayDuration={100}
+                                            >
+                                              <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                  <Button
+                                                    size="icon"
+                                                    variant="ghost"
+                                                  >
+                                                    <MdLockOutline className="" />
+                                                  </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                  <p>Unlock Pro</p>
+                                                </TooltipContent>
+                                              </Tooltip>
+                                            </TooltipProvider>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <div
+                                        className="text-sm text-center w-full"
+                                        title={block.getLabel()}
+                                      >
+                                        {block.getLabel()}
+                                      </div>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              ) : (
                                 <div
-                                  className="text-sm text-center w-full"
-                                  title={block.getLabel()}
+                                  key={block.getId()}
+                                  draggable={!isLocked}
+                                  className={cx(
+                                    "relative flex flex-col justify-center items-center border py-2 px-5 transition-colors bg-white rounded-md shadow-sm h-[100px] w-full",
+                                    {
+                                      "cursor-not-allowed opacity-50": isLocked,
+                                      "cursor-grab": !isLocked,
+                                    }
+                                  )}
+                                  onDragStart={(ev) => {
+                                    if (!isLocked)
+                                      dragStart(block, ev.nativeEvent);
+                                  }}
+                                  onDragEnd={() => {
+                                    if (!isLocked) dragStop(false);
+                                  }}
                                 >
-                                  {block.getLabel()}
-                                </div>
-
-                                {isLocked && (
-                                  <div className="absolute top-3 right-3">
-                                    <TooltipProvider delayDuration={100}>
-                                      <Tooltip>
-                                        <TooltipTrigger asChild>
-                                          <Button size="icon" variant="ghost">
-                                            <MdLockOutline className="" />
-                                          </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                          <p>Unlock Pro</p>
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
+                                  <div className="h-10 w-10">
+                                    <div
+                                      className="w-full h-full [&>svg]:w-full [&>svg]:h-full"
+                                      dangerouslySetInnerHTML={{
+                                        __html: block.getMedia(),
+                                      }}
+                                    />
                                   </div>
-                                )}
-                              </div>
-                            )}
-                          </Fragment>
-                        );
-                      })}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          ))}
+
+                                  <div
+                                    className="text-sm text-center w-full"
+                                    title={block.getLabel()}
+                                  >
+                                    {block.getLabel()}
+                                  </div>
+
+                                  {isLocked && (
+                                    <div className="absolute top-3 right-3">
+                                      <TooltipProvider delayDuration={100}>
+                                        <Tooltip>
+                                          <TooltipTrigger asChild>
+                                            <Button size="icon" variant="ghost">
+                                              <MdLockOutline className="" />
+                                            </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                            <p>Unlock Pro</p>
+                                          </TooltipContent>
+                                        </Tooltip>
+                                      </TooltipProvider>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </Fragment>
+                          );
+                        })}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div

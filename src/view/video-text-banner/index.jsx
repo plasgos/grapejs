@@ -3,7 +3,7 @@ import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 import { cn } from "@/lib/utils";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewVideoText = ({ section, editor }) => {
+const ViewVideoText = ({ section, editor, buildContainerStyle }) => {
   const { contents, animation, animationText } = section;
 
   const { elementRef, getClassName, duration } =
@@ -28,6 +28,7 @@ const ViewVideoText = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       {contents.map((content) => {
         const useSchemeColor = !!content?.textBannerColor;

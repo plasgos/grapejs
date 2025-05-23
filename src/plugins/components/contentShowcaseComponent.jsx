@@ -1,5 +1,5 @@
 import { generateId } from "@/lib/utils";
-import ContentShowcase from "@/view/content-showcase";
+import ViewContentShowcase from "@/view/content-showcase";
 import { HiMiniViewColumns } from "react-icons/hi2";
 import { injectComponents } from "../injectComponent";
 
@@ -8,8 +8,7 @@ export const contentShowcaseComponent = (editor) => {
     type: "content-showcase",
     label: "Content Showcase",
     icon: <HiMiniViewColumns />,
-    ViewComponent: ContentShowcase,
-
+    ViewComponent: ViewContentShowcase,
     defaultCustomComponent: {
       isLocked: false,
       scrollTarget: undefined,

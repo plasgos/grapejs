@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import SplitText from "@/components/pro-version/SplitText";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewSplitText = ({ section, editor }) => {
+const ViewSplitText = ({ section, editor, buildContainerStyle }) => {
   const {
     text,
     delay,
@@ -19,6 +19,7 @@ const ViewSplitText = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       <div className={`p-10 ${textAlign} `}>
         <SplitText

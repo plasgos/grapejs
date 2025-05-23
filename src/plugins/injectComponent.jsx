@@ -103,6 +103,7 @@ export const injectComponents = (editor, options) => {
             <ViewComponent
               section={this.model.get("customComponent")}
               editor={editor}
+              buildContainerStyle={null}
             />
           </Provider>
         );

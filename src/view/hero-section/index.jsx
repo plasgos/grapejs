@@ -6,8 +6,9 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 import CustomButton from "../_components/CustomButton";
 import { cn } from "@/lib/utils";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
-const ViewHeroSection = ({ section, editor }) => {
+const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
   const { contents, animation, animationText, buttons } = section;
   const {
     withButton,
@@ -20,9 +21,10 @@ const ViewHeroSection = ({ section, editor }) => {
     widthText,
   } = section.wrapperStyle;
 
-  const globalOptions = editor.getModel()?.get("globalOptions");
+  const [globalOptions] = useGlobalOptions(editor);
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
 
-  const { maxWidthPage } = globalOptions || {};
+  const { maxWidthPage } = currentGlobalOptions || {};
   const { elementRef, getClassName, duration } =
     useAnimatedVisibility(animation);
 
@@ -37,6 +39,7 @@ const ViewHeroSection = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
       isFullwidth={isFullWidth}
     >
       {variant === "basic" && (
@@ -121,6 +124,7 @@ const ViewHeroSection = ({ section, editor }) => {
                                 btn={btn}
                                 editor={editor}
                                 onActionClickTarget={onActionClickTarget}
+                                currentGlobalOptions={currentGlobalOptions}
                               />
                             );
                           })}
@@ -165,6 +169,7 @@ const ViewHeroSection = ({ section, editor }) => {
                                 btn={btn}
                                 editor={editor}
                                 onActionClickTarget={onActionClickTarget}
+                                currentGlobalOptions={currentGlobalOptions}
                               />
                             );
                           })}
@@ -256,6 +261,7 @@ const ViewHeroSection = ({ section, editor }) => {
                             btn={btn}
                             editor={editor}
                             onActionClickTarget={onActionClickTarget}
+                            currentGlobalOptions={currentGlobalOptions}
                           />
                         );
                       })}

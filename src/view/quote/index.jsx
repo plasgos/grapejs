@@ -3,7 +3,7 @@ import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 import { cn } from "@/lib/utils";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewQuote = ({ section, editor }) => {
+const ViewQuote = ({ section, editor, buildContainerStyle }) => {
   const { contents, animation } = section;
 
   const {
@@ -17,6 +17,7 @@ const ViewQuote = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       {contents.map((content) => {
         const {

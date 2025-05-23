@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import project1Json from "@/dummy-projects/project-1.json";
 
 const initialState = {
+  deployData: undefined,
   canvasData: undefined,
   isEditComponent: false,
   isFocusContent: "",
@@ -84,6 +85,9 @@ export const landingPageSlice = createSlice({
         (project) => project.id !== action.payload
       );
     },
+    setDeployData: (state, action) => {
+      state.deployData = action.payload;
+    },
   },
 });
 
@@ -95,6 +99,7 @@ export const {
   setSidebarWidth,
   setIsCollapsedSideBar,
   removeProjectById,
+  setDeployData,
 } = landingPageSlice.actions;
 
 export default landingPageSlice.reducer;

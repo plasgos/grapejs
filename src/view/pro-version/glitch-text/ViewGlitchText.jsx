@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import GlitchText from "@/components/pro-version/GlitchText";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewGlitchText = ({ section, editor }) => {
+const ViewGlitchText = ({ section, editor, buildContainerStyle }) => {
   const {
     text,
     fontFamily = "Squada One",
@@ -23,6 +23,7 @@ const ViewGlitchText = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       <div className={`p-10 flex ${textAlign}`}>
         <GlitchText

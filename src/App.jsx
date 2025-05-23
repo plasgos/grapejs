@@ -13,10 +13,47 @@ import TestPage from "./pages/test";
 import NotFoundPage from "./components/NotFoundPage";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import DeployPage from "./pages/deploy";
+
+const router = createBrowserRouter([
+  {
+    path: "/web-builder/:slug",
+    element: <MainWebEditor />,
+  },
+  {
+    path: "/published",
+    element: <PublishedPage />,
+  },
+  {
+    path: "/test",
+    element: <TestPage />,
+  },
+  {
+    path: "/files",
+    element: <FilesPage />,
+  },
+  {
+    path: "/create",
+    element: <CreateNewProjectPage />,
+  },
+  {
+    path: "/deploy",
+    element: <DeployPage />,
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
+]);
+
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <RouterProvider router={router} />
+      <Toaster />
+
+      {/* <BrowserRouter>
         <Routes>
           <Route path="/web-builder/:slug" element={<MainWebEditor />} />
           <Route path="/published" element={<PublishedPage />} />
@@ -27,7 +64,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Toaster />
-      </BrowserRouter>
+      </BrowserRouter> */}
     </>
   );
 }

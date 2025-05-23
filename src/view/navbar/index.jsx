@@ -59,26 +59,28 @@ export const componentsNavbar = [
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+// import { createPortal } from "react-dom";
 import ViewMenuNavbar from "./_components/ViewMenuNavbar";
 import ViewSingleLinkNavbar from "./_components/ViewSingleLinkNavbar";
 
-const CustomPortal = ({ children }) => {
-  const [target, setTarget] = useState(null);
-  useEffect(() => {
-    const el = document.querySelector(".gjs-frame");
-    if (el) {
-      setTarget(el);
-    }
-  }, []);
+// const CustomPortal = ({ children }) => {
+//   const [target, setTarget] = useState(null);
+//   useEffect(() => {
+//     const el = document.querySelector(".gjs-frame");
+//     if (el) {
+//       setTarget(el);
+//     }
+//   }, []);
 
-  if (!target) return null;
-  return createPortal(children, target);
-};
+//   if (!target) return null;
+//   return createPortal(children, target);
+// };
 
-const ViewNavbar = ({ section, editor }) => {
+const ViewNavbar = ({ section, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent, maxWidthPage } = globalOptions || {};
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+
+  const { isFocusContent, maxWidthPage } = currentGlobalOptions || {};
 
   const { contents, side, logoWidth, wrapperStyle } = section;
 
@@ -99,9 +101,15 @@ const ViewNavbar = ({ section, editor }) => {
 
   useEffect(() => {
     const handleResponsive = () => {
-      const wrapper = editor.getWrapper();
-      const wrapperDomEl = wrapper.view?.el;
-      const width = wrapperDomEl?.clientWidth || 0;
+      let width = 0;
+
+      if (editor) {
+        const wrapper = editor.getWrapper();
+        const wrapperDomEl = wrapper.view?.el;
+        width = wrapperDomEl?.clientWidth || 0;
+      } else {
+        width = document.body.clientWidth || window.innerWidth;
+      }
 
       if (width <= 768) {
         setIsMobile(true);
@@ -113,42 +121,62 @@ const ViewNavbar = ({ section, editor }) => {
 
     handleResponsive();
 
-    const iframe = editor?.Canvas.getFrameEl();
-    const iframeWindow = iframe?.contentWindow;
-    if (!iframeWindow) return;
-
-    iframeWindow.addEventListener("resize", handleResponsive);
-
-    return () => {
-      iframeWindow.removeEventListener("resize", handleResponsive);
-    };
+    if (editor) {
+      const iframe = editor?.Canvas.getFrameEl();
+      const iframeWindow = iframe?.contentWindow;
+      if (iframeWindow) {
+        iframeWindow.addEventListener("resize", handleResponsive);
+        return () => {
+          iframeWindow.removeEventListener("resize", handleResponsive);
+        };
+      }
+    } else {
+      // Mode publish, tambahkan listener langsung ke window
+      window.addEventListener("resize", handleResponsive);
+      return () => {
+        window.removeEventListener("resize", handleResponsive);
+      };
+    }
   }, [editor]);
 
   useEffect(() => {
     const baseImageSize =
       typeof fontSize === "number" ? section.logoWidth : 150;
+
     const handleResize = () => {
-      const wrapper = editor.getWrapper();
-      const wrapperDomEl = wrapper.view?.el;
-      const width = wrapperDomEl?.clientWidth || 0;
+      let width = 0;
+
+      if (editor) {
+        const wrapper = editor.getWrapper();
+        const wrapperDomEl = wrapper.view?.el;
+        width = wrapperDomEl?.clientWidth || 0;
+      } else {
+        width = document.body.clientWidth || window.innerWidth;
+      }
 
       const isMobile = width <= 768;
-
       const adjustedImage = isMobile ? baseImageSize * 0.7 : logoWidth;
       setResponsiveImage(adjustedImage);
     };
 
     handleResize();
 
-    const iframe = editor?.Canvas.getFrameEl();
-    const iframeWindow = iframe?.contentWindow;
-    if (!iframeWindow) return;
-
-    iframeWindow.addEventListener("resize", handleResize);
-
-    return () => {
-      iframeWindow.removeEventListener("resize", handleResize);
-    };
+    if (editor) {
+      const iframe = editor?.Canvas.getFrameEl();
+      const iframeWindow = iframe?.contentWindow;
+      if (iframeWindow) {
+        iframeWindow.addEventListener("resize", handleResize);
+        return () => {
+          iframeWindow.removeEventListener("resize", handleResize);
+        };
+      }
+    } else {
+      // Mode publish
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
   }, [editor, isActiveSheet, logoWidth, section.logoWidth]);
 
   const renderNavbarItems = () => {
@@ -217,6 +245,7 @@ const ViewNavbar = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
       isFullwidth={true}
     >
       <div
@@ -244,24 +273,26 @@ const ViewNavbar = ({ section, editor }) => {
               )}
             </SheetTrigger>
 
-            <CustomPortal>
-              <SheetContent
-                style={{
-                  backgroundColor: wrapperStyle.bgColorSidebar,
-                }}
-                side={side}
-                className="w-[375px] sm:w-[540px] pr-0"
-              >
-                <SheetHeader>
-                  <SheetTitle className="hidden">X</SheetTitle>
-                  <SheetDescription className="hidden">X</SheetDescription>
-                </SheetHeader>
+            {/* <CustomPortal>
+             
+            </CustomPortal> */}
 
-                <div className="flex flex-col gap-y-5 h-screen overflow-y-auto pr-5 pb-5 ">
-                  {renderNavbarItems()}
-                </div>
-              </SheetContent>
-            </CustomPortal>
+            <SheetContent
+              style={{
+                backgroundColor: wrapperStyle.bgColorSidebar,
+              }}
+              side={side}
+              className="w-[375px] sm:w-[540px] pr-0"
+            >
+              <SheetHeader>
+                <SheetTitle className="hidden">X</SheetTitle>
+                <SheetDescription className="hidden">X</SheetDescription>
+              </SheetHeader>
+
+              <div className="flex flex-col gap-y-5 h-screen overflow-y-auto pr-5 pb-5 ">
+                {renderNavbarItems()}
+              </div>
+            </SheetContent>
           </Sheet>
         </div>
       </div>

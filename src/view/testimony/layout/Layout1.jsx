@@ -5,9 +5,11 @@ import { ImQuotesLeft } from "react-icons/im";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const Layout1 = ({ content, styles, editor }) => {
+const Layout1 = ({ content, styles, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent } = globalOptions || {};
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+
+  const { isFocusContent } = currentGlobalOptions;
 
   const {
     nameColor,

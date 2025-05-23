@@ -38,11 +38,12 @@ import { useSelector } from "react-redux";
 import Sidebar from "./sidebar";
 
 import useWindowWidth from "@/hooks/useWindowWidth";
-import { motion } from "framer-motion";
 import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
+import { motion } from "framer-motion";
+import { useNavigate, useParams } from "react-router-dom";
 import { schemeColours } from "./theme-colors";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useIsEditorDirty } from "@/hooks/useIsEditorDirty";
+import NavigationGuard from "./NavigationGuard";
 
 const rootMap = new Map();
 
@@ -92,6 +93,27 @@ export const handleAddWatermark = (editor) => {
   moveWatermarkToEnd();
 };
 
+export const handleRemoveWatermark = (editor) => {
+  const canvasEl = editor?.Canvas.getFrameEl();
+  if (!canvasEl) return;
+
+  const canvasDoc = canvasEl.contentDocument;
+  const watermarkContainer = canvasDoc?.getElementById(
+    "plasgos-watermark-container"
+  );
+  if (!watermarkContainer) return;
+
+  // Unmount React root jika ada
+  const root = rootMap.get(watermarkContainer);
+  if (root) {
+    root.unmount();
+    rootMap.delete(watermarkContainer);
+  }
+
+  // Hapus elemen dari DOM
+  watermarkContainer.remove();
+};
+
 const getAllComponents = (editor) => {
   return editor?.getComponents()?.map((comp, index) => ({
     id: comp.getId(),
@@ -127,7 +149,7 @@ const MainWebEditor = () => {
   const [canvasComponents, setCanvasComponents] = useState([]);
 
   const [isDragging, setIsDragging] = useState(false);
-
+  const [editorInstance, setEditorInstance] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -176,6 +198,7 @@ const MainWebEditor = () => {
   };
 
   const handleEditorInit = (editor) => {
+    setEditorInstance(editor);
     onCustomToolbar(editor);
 
     editor.on("load", () => {
@@ -265,6 +288,7 @@ const MainWebEditor = () => {
         ],
         popup: [],
         isFocusContent: "",
+        watermark: true,
       };
 
       // Set global options
@@ -351,6 +375,10 @@ const MainWebEditor = () => {
 
   const handleLoadCurrentProject = (editor) => {
     if (slug) {
+      const um = editor.UndoManager;
+
+      um.stop();
+
       editor.loadProjectData(currentProject?.frameProject);
       const editorModel = editor.getModel();
 
@@ -365,6 +393,12 @@ const MainWebEditor = () => {
       injectExternalCSS(editor);
 
       updateCanvasComponents(editor, setCanvasComponents);
+
+      // Start tracking again AFTER all initial loads
+      um.start();
+
+      // Optional: Clear undo stack, to avoid leftovers
+      um.clear();
     } else {
       return;
     }
@@ -392,6 +426,7 @@ const MainWebEditor = () => {
         }}
       >
         <div>
+          <NavigationGuard editor={editorInstance} />
           <WithEditor>
             <Navbar
               setIsPreviewActive={(value) => setIsPreviewActive(value)}

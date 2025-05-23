@@ -18,7 +18,10 @@ import {
 import { cx } from "class-variance-authority";
 
 import { Button } from "@/components/ui/button";
-import { setCanvasData } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setCanvasData,
+  setDeployData,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { produce } from "immer";
 import { useEffect, useState } from "react";
 import { BiSolidLayer } from "react-icons/bi";
@@ -97,6 +100,42 @@ const Navbar = ({
 
   const navigate = useNavigate();
 
+  const handleDeploy = () => {
+    const editorModel = editor.getModel();
+    const projectData = editor.getProjectData();
+
+    const updatedProjectData = produce(projectData, (draft) => {
+      // Disable preview finished mode countdown
+      if (draft?.pages && Array.isArray(draft.pages)) {
+        draft.pages.forEach((page) => {
+          if (page.frames && Array.isArray(page.frames)) {
+            page.frames.forEach((frame) => {
+              if (frame.component && frame.component.components) {
+                frame.component.components.forEach((component) => {
+                  component.isFromAI = false;
+
+                  if (
+                    component.type === "countdown" &&
+                    component.customComponent?.finish
+                  ) {
+                    component.customComponent.finish.isFinished = false;
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+
+      // Update global options
+      draft.globalOptions = editorModel.get("globalOptions");
+    });
+
+    dispatch(setDeployData(updatedProjectData));
+
+    navigate("/deploy");
+  };
+
   const handlePublish = () => {
     const wrapper = editor.getWrapper();
     const allComponents = editor.getComponents();
@@ -142,6 +181,7 @@ const Navbar = ({
         // Update global options
         draft.globalOptions = editorModel.get("globalOptions");
       });
+
       const jsonString = JSON.stringify(updatedProjectData, null, 2);
 
       dispatch(setCanvasData(jsonString));
@@ -201,6 +241,8 @@ const Navbar = ({
           <h1>Plasgos Web Builder</h1>
         </div>
 
+        <Button onClick={() => navigate("/files")}>X</Button>
+
         <div className="flex  flex-1  items-center justify-between pr-5">
           <div className="flex gap-x-1 border-x border-x-muted/30 px-2">
             {cmdButtons.map(
@@ -235,41 +277,6 @@ const Navbar = ({
           </div>
 
           <div>
-            {/* <DevicesProvider>
-              {({ selected, select, devices }) => {
-                return (
-                  <div className="flex items-center gap-x-2">
-                    {devices
-                      .filter((device) => device.cid !== "c5")
-                      .map((deviceItem, i) => {
-                        return (
-                          <TooltipProvider delayDuration={100} key={i}>
-                            <Tooltip>
-                              <TooltipTrigger
-                                key={i}
-                                onClick={() => {
-                                  select(deviceItem.id);
-                                }}
-                                className={` hover:bg-accent hover:text-accent-foreground p-2 rounded-md ${
-                                  selected === deviceItem.id
-                                    ? "bg-white text-black"
-                                    : "text-slate-300"
-                                }  px-3 border  border-slate-300`}
-                              >
-                                {deviceIcons[deviceItem.id]}
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>{deviceItem.getName()}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        );
-                      })}
-                  </div>
-                );
-              }}
-            </DevicesProvider> */}
-
             <DevicesProvider>
               {(deviceContext) => <DeviceSelector {...deviceContext} />}
             </DevicesProvider>
@@ -334,6 +341,10 @@ const Navbar = ({
             </Popover>
             <Button onClick={handlePublish} className="ml-3">
               Publish
+            </Button>
+
+            <Button onClick={handleDeploy} className="ml-3">
+              Deploy
             </Button>
           </div>
         </div>

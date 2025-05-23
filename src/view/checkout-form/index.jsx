@@ -167,7 +167,7 @@ import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewFormCheckout = ({ section, editor }) => {
+const ViewFormCheckout = ({ section, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const { schemeColor, isFocusContent } = globalOptions || {};
 
@@ -274,6 +274,7 @@ const ViewFormCheckout = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
       customStyles={{
         width,
       }}

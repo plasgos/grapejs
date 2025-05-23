@@ -3,9 +3,10 @@ import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
-const ViewFAQ = ({ section, editor }) => {
+const ViewFAQ = ({ section, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent } = globalOptions || {};
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+  const { isFocusContent } = currentGlobalOptions;
 
   const { contents } = section;
   const {
@@ -56,6 +57,7 @@ const ViewFAQ = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       {variant === "basic" && (
         <div className="flex flex-col p-5 relative ">

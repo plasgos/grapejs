@@ -2,7 +2,7 @@ import ContainerView from "@/components/ContainerView";
 import BlurText from "@/components/pro-version/BlurText";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewBlurText = ({ section, editor }) => {
+const ViewBlurText = ({ section, editor, buildContainerStyle }) => {
   const {
     text,
     delay,
@@ -22,6 +22,7 @@ const ViewBlurText = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       <div className={`p-10 flex ${textAlign}`}>
         <BlurText

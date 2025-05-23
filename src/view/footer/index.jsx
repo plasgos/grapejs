@@ -12,7 +12,7 @@ import ViewSocialMedia from "./ViewSocialMedia";
 import ViewText from "./ViewText";
 import { cn } from "@/lib/utils";
 
-const ViewFooter = ({ section, editor }) => {
+const ViewFooter = ({ section, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const { isFocusContent, maxWidthPage } = globalOptions || {};
 
@@ -25,6 +25,7 @@ const ViewFooter = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
       isFullwidth={true}
     >
       <div
@@ -33,7 +34,10 @@ const ViewFooter = ({ section, editor }) => {
         }}
         className={` mx-auto relative `}
       >
-        <div style={{ gap: 50 }} className="flex flex-wrap  p-5 max-w-full ">
+        <div
+          style={{ gap: 50 }}
+          className="flex flex-wrap  p-5 max-w-full md:justify-center "
+        >
           {contents.map((content, index) => {
             return (
               <div

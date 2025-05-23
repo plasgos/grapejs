@@ -3,7 +3,7 @@ import DateCountDown from "./DateCountDown";
 import DurationCountdown from "./DurationCountdown";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 
-const ViewCountDown = ({ section, editor }) => {
+const ViewCountDown = ({ section, editor, buildContainerStyle }) => {
   const { contents, animation } = section;
 
   const { elementRef, getClassName, duration } =
@@ -14,6 +14,7 @@ const ViewCountDown = ({ section, editor }) => {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       {contents.map((content) => {
         return (

@@ -7,9 +7,11 @@ import { memo, useMemo } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-function ContentShowcase({ section, editor }) {
+function ViewContentShowcase({ section, editor, buildContainerStyle }) {
   const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent } = globalOptions || {};
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+
+  const { isFocusContent } = currentGlobalOptions;
 
   const { contents } = section;
 
@@ -52,6 +54,7 @@ function ContentShowcase({ section, editor }) {
       id={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
+      buildContainerStyle={buildContainerStyle}
     >
       <div
         className={`relative items-stretch
@@ -91,7 +94,11 @@ function ContentShowcase({ section, editor }) {
                         content?.target?.options?.type ? "cursor-pointer" : ""
                       }`}
                       onClick={() =>
-                        onActionClickTarget(content?.target, editor)
+                        onActionClickTarget(
+                          content?.target,
+
+                          editor
+                        )
                       }
                       effect="blur"
                       wrapperProps={{
@@ -129,7 +136,11 @@ function ContentShowcase({ section, editor }) {
                         content?.target?.options?.type ? "cursor-pointer" : ""
                       }`}
                       onClick={() =>
-                        onActionClickTarget(content?.target, editor)
+                        onActionClickTarget(
+                          content?.target,
+
+                          editor
+                        )
                       }
                       effect="blur"
                       wrapperProps={{
@@ -185,4 +196,4 @@ function ContentShowcase({ section, editor }) {
   );
 }
 
-export default memo(ContentShowcase);
+export default memo(ViewContentShowcase);
