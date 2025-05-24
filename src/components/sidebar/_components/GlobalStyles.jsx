@@ -17,7 +17,8 @@ import {
 const GlobalStyles = () => {
   const editor = useEditor();
   const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
-  console.log("🚀 ~ GlobalStyles ~ globalOptions:", globalOptions);
+  const { schemeColor, maxWidthPage, bgColor, watermark, isSubscribed } =
+    globalOptions || {};
 
   const wrapper = editor.getWrapper();
 
@@ -120,19 +121,19 @@ const GlobalStyles = () => {
       <SelectOptions
         label="Max Width Page"
         options={widthPageOptions}
-        value={globalOptions.maxWidthPage}
+        value={maxWidthPage}
         onChange={(value) => handleChangeWidthPage(value)}
       />
 
       <ColorPicker
         label="Base Background Color"
-        value={globalOptions.bgColor}
+        value={bgColor}
         onChange={(color) => changeBackgroundColor(color)}
       />
 
       <ColorPalettesOptions
         label="Color Palettes"
-        value={globalOptions.schemeColor}
+        value={schemeColor}
         onChange={(value) => handleChangeSchemeColor(value)}
         onResetSchemeColor={onResetSchemeColor}
       />
@@ -140,7 +141,7 @@ const GlobalStyles = () => {
       <div className="flex justify-between items-center m-3">
         <Label className="">Watermark</Label>
         <Switch
-          checked={!!globalOptions?.watermark}
+          checked={watermark}
           onCheckedChange={(checked) => {
             updateGlobalOptions({ watermark: checked });
 
@@ -152,10 +153,9 @@ const GlobalStyles = () => {
               }
             }
           }}
+          disabled={!isSubscribed}
         />
       </div>
-
-      <button onClick={() => handleRemoveWatermark(editor)}>remove</button>
     </div>
   );
 };

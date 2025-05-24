@@ -8,23 +8,13 @@ import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import CollapsedView from "./_components/CollapsedView";
-import ExpandedView from "./_components/ExpandedView";
-import EditorBlockComponents from "./_components/EditorBlockComponents";
 import { handleAddWatermark, updateCanvasComponents } from "../MainWebEditor";
 import Bottombar from "./_components/Bottombar";
-import { Textarea } from "../ui/textarea";
+import CollapsedView from "./_components/CollapsedView";
+import EditorBlockComponents from "./_components/EditorBlockComponents";
+import ExpandedView from "./_components/ExpandedView";
 
-import { Button } from "../ui/button";
-import { generateId } from "@/lib/utils";
 import { produce } from "immer";
-import { useGenerateComponentFromAIMutation } from "@/redux/services/aiGenerateApi";
-import {
-  injectLoadingAIGenerateCanvas,
-  removeLoadingFromCanvas,
-} from "@/utils/injetcLoadingAIGenerateCanvas";
-import { schemeColours } from "../theme-colors";
-import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 
 const Sidebar = ({
   selectedComponent,
@@ -35,9 +25,6 @@ const Sidebar = ({
 }) => {
   const editor = useEditor();
   const { toast } = useToast();
-
-  const [generateComponentFromAI, { isLoading: isLoadingGenerateAI, isError }] =
-    useGenerateComponentFromAIMutation();
 
   const { isEditComponent, isCollapsedSideBar } = useSelector(
     (state) => state.landingPage
@@ -160,105 +147,11 @@ const Sidebar = ({
     }
   }, [activeTab, isEditComponent, setActiveTab]);
 
-  const [aiPrompt, setAiPrompt] = useState("");
-
-  const importGeneratedSection = (dataFromAI) => {
-    try {
-      const schemeColorValue = schemeColours.find(
-        (schemeColor) => schemeColor.name === dataFromAI?.schemeColor
-      );
-
-      const schema = {
-        assets: [],
-        styles: [],
-        pages: [
-          {
-            frames: [
-              {
-                component: {
-                  type: "wrapper",
-                  stylable: [],
-                  components: [],
-                  head: { type: "head" },
-                  docEl: { tagName: "html" },
-                },
-                id: `frame-id-${generateId()}`,
-              },
-            ],
-            type: "main",
-            id: `page-id-${generateId()}`,
-          },
-        ],
-        symbols: [],
-        dataSources: [],
-        globalOptions: {
-          maxWidthPage: 1360,
-          bgColor: schemeColorValue ? schemeColorValue.baseColor : "",
-          schemeColor: dataFromAI.schemeColor ? dataFromAI.schemeColor : null,
-          scrollTarget: [
-            { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
-          ],
-          popup: [],
-          isFocusContent: "",
-        },
-      };
-
-      const parsedData = dataFromAI?.components.map((data) => ({
-        ...data,
-        isFromAI: true,
-      }));
-      const resultComponent = produce(schema, (draft) => {
-        draft.pages[0].frames[0].component.components = parsedData;
-      });
-
-      editor.loadProjectData(resultComponent);
-
-      const editorModel = editor.getModel();
-      if (resultComponent.globalOptions) {
-        editorModel.set("globalOptions", resultComponent.globalOptions);
-      }
-
-      if (schemeColorValue) {
-        onSyncSchemeColor(editor, schemeColorValue);
-
-        setTimeout(() => {
-          const wrapper = editor.getWrapper();
-          if (wrapper) {
-            wrapper.addStyle({
-              "background-color": schemeColorValue.baseColor,
-            });
-          }
-        }, 100);
-      }
-
-      handleAddWatermark(editor);
-      injectExternalCSS(editor);
-
-      updateCanvasComponents(editor, setCanvasComponents);
-    } catch (error) {
-      console.error("🚀 Import error:", error);
-    }
-  };
-
-  const handleGenerateComponentFromAI = async () => {
-    try {
-      const result = await generateComponentFromAI({ prompt: aiPrompt });
-
-      if (result?.data) {
-        importGeneratedSection(result?.data?.data);
-      }
-    } catch (error) {
-      console.log("🚀 ~ handleGenerateComponentFromAI ~ error:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (isLoadingGenerateAI && !isError) {
-      injectLoadingAIGenerateCanvas(editor);
-    } else {
-      removeLoadingFromCanvas(editor);
-    }
-  }, [isError, isLoadingGenerateAI, editor]);
+  // useEffect(() => {
+  //   if (projectDataFromAI) {
+  //     importGeneratedSection(projectDataFromAI);
+  //   }
+  // }, [importGeneratedSection, projectDataFromAI]);
 
   return (
     <>
@@ -277,12 +170,6 @@ const Sidebar = ({
           }}
           className="flex flex-col   "
         >
-          <Textarea
-            value={aiPrompt}
-            onChange={(e) => setAiPrompt(e.target.value)}
-          />
-
-          <Button onClick={handleGenerateComponentFromAI}>Submit</Button>
           {isCollapsedSideBar ? (
             <CollapsedView
               searchBlock={searchBlock}

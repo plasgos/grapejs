@@ -3,8 +3,12 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 import ContainerView from "@/components/ContainerView";
 import CustomButton from "../_components/CustomButton";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const ViewButton = ({ section, editor, buildContainerStyle }) => {
+  const [globalOptions] = useGlobalOptions(editor);
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+
   const { buttons } = section;
   const { position, align } = section.mainStyle;
 
@@ -40,6 +44,7 @@ const ViewButton = ({ section, editor, buildContainerStyle }) => {
               btn={btn}
               editor={editor}
               onActionClickTarget={onActionClickTarget}
+              currentGlobalOptions={currentGlobalOptions}
             />
           );
         })}

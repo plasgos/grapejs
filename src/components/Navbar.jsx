@@ -241,8 +241,6 @@ const Navbar = ({
           <h1>Plasgos Web Builder</h1>
         </div>
 
-        <Button onClick={() => navigate("/files")}>X</Button>
-
         <div className="flex  flex-1  items-center justify-between pr-5">
           <div className="flex gap-x-1 border-x border-x-muted/30 px-2">
             {cmdButtons.map(

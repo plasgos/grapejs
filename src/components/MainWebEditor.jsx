@@ -31,7 +31,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { googleFonts } from "@/lib/googleFonts";
-import { cn } from "@/lib/utils";
+import { cn, generateId } from "@/lib/utils";
 import { generateGoogleFontsImportWithWeights } from "@/utils/injectGoogleFonts";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
@@ -42,8 +42,9 @@ import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { schemeColours } from "./theme-colors";
-import { useIsEditorDirty } from "@/hooks/useIsEditorDirty";
 import NavigationGuard from "./NavigationGuard";
+import { useCallback } from "react";
+import { produce } from "immer";
 
 const rootMap = new Map();
 
@@ -65,31 +66,29 @@ export const handleAddWatermark = (editor) => {
     body.appendChild(watermarkContainer);
   }
 
-  // Cek apakah root sudah ada di Map
-  let root = rootMap.get(watermarkContainer);
-
-  if (!root) {
-    root = createRoot(watermarkContainer);
+  // Cek apakah DOM node sudah pernah di-createRoot
+  if (!rootMap.has(watermarkContainer)) {
+    const root = createRoot(watermarkContainer);
     rootMap.set(watermarkContainer, root);
   }
 
-  // Render atau update komponen watermark
+  // Ambil root dari map dan render/update watermark
+  const root = rootMap.get(watermarkContainer);
   root.render(<Watermark />);
 
-  // Pastikan watermark tetap di akhir
+  // Pindahkan ke akhir body jika tidak di posisi akhir
   const moveWatermarkToEnd = () => {
     if (body.lastChild !== watermarkContainer) {
       body.appendChild(watermarkContainer);
     }
   };
 
-  // Observer untuk mendeteksi perubahan
+  // Observer untuk menjaga posisi watermark di akhir
   const observer = new MutationObserver(() => {
     moveWatermarkToEnd();
   });
 
   observer.observe(body, { childList: true, subtree: false });
-
   moveWatermarkToEnd();
 };
 
@@ -133,7 +132,7 @@ export const updateCanvasComponents = (editor, setCanvasComponents) => {
 };
 
 const MainWebEditor = () => {
-  const { projectsData, isCollapsedSideBar } = useSelector(
+  const { projectsData, isCollapsedSideBar, projectDataFromAI } = useSelector(
     (state) => state.landingPage
   );
 
@@ -209,6 +208,10 @@ const MainWebEditor = () => {
       handleAddWatermark(editor);
       handleAddGoogleFont();
       handleLoadCurrentProject(editor);
+
+      if (projectDataFromAI) {
+        importGeneratedSection(editor, projectDataFromAI);
+      }
     });
 
     editor.on("component:add", () => {
@@ -289,6 +292,7 @@ const MainWebEditor = () => {
         popup: [],
         isFocusContent: "",
         watermark: true,
+        isSubscribed: true,
       };
 
       // Set global options
@@ -401,6 +405,87 @@ const MainWebEditor = () => {
       um.clear();
     } else {
       return;
+    }
+  };
+
+  const importGeneratedSection = (editor, dataFromAI) => {
+    console.log("🚀 ~ dataFromAI:", dataFromAI);
+    try {
+      const schemeColorValue = schemeColours.find(
+        (schemeColor) => schemeColor.name === dataFromAI?.schemeColor
+      );
+
+      const schema = {
+        assets: [],
+        styles: [],
+        pages: [
+          {
+            frames: [
+              {
+                component: {
+                  type: "wrapper",
+                  stylable: [],
+                  components: [],
+                  head: { type: "head" },
+                  docEl: { tagName: "html" },
+                },
+                id: `frame-id-${generateId()}`,
+              },
+            ],
+            type: "main",
+            id: `page-id-${generateId()}`,
+          },
+        ],
+        symbols: [],
+        dataSources: [],
+        globalOptions: {
+          maxWidthPage: 1360,
+          bgColor: schemeColorValue ? schemeColorValue.baseColor : "",
+          schemeColor: dataFromAI.schemeColor ? dataFromAI.schemeColor : null,
+          scrollTarget: [
+            { id: "target-01", value: "scrollToTop", label: "Scroll To Top" },
+          ],
+          popup: [],
+          isFocusContent: "",
+          watermark: true,
+          isSubscribed: true,
+        },
+      };
+
+      const parsedData = dataFromAI?.components.map((data) => ({
+        ...data,
+        isFromAI: true,
+      }));
+      const resultComponent = produce(schema, (draft) => {
+        draft.pages[0].frames[0].component.components = parsedData;
+      });
+
+      editor.loadProjectData(resultComponent);
+
+      const editorModel = editor.getModel();
+      if (resultComponent.globalOptions) {
+        editorModel.set("globalOptions", resultComponent.globalOptions);
+      }
+
+      if (schemeColorValue) {
+        onSyncSchemeColor(editor, schemeColorValue);
+
+        setTimeout(() => {
+          const wrapper = editor.getWrapper();
+          if (wrapper) {
+            wrapper.addStyle({
+              "background-color": schemeColorValue.baseColor,
+            });
+          }
+        }, 100);
+      }
+
+      handleAddWatermark(editor);
+      injectExternalCSS(editor);
+
+      updateCanvasComponents(editor, setCanvasComponents);
+    } catch (error) {
+      console.error("🚀 Import error:", error);
     }
   };
 

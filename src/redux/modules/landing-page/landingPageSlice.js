@@ -56,6 +56,7 @@ const initialState = {
       updatedAt: new Date(),
     },
   ],
+  projectDataFromAI: undefined,
 };
 
 export const landingPageSlice = createSlice({
@@ -88,6 +89,9 @@ export const landingPageSlice = createSlice({
     setDeployData: (state, action) => {
       state.deployData = action.payload;
     },
+    setProjectDataFromAI: (state, action) => {
+      state.projectDataFromAI = action.payload;
+    },
   },
 });
 
@@ -100,6 +104,7 @@ export const {
   setIsCollapsedSideBar,
   removeProjectById,
   setDeployData,
+  setProjectDataFromAI,
 } = landingPageSlice.actions;
 
 export default landingPageSlice.reducer;

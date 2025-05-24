@@ -11,9 +11,7 @@ const CustomButton = ({
   currentGlobalOptions,
 }) => {
   const { isFocusContent, schemeColor } = currentGlobalOptions || {};
-
   const bgColorComponent = currentGlobalOptions?.bgColor || "#ffffff";
-
   const [isHover, setIsHover] = useState(false);
 
   const fontSize = {

@@ -1,43 +1,64 @@
+import ViewModal from "@/view/_components/ViewModal";
+import ViewButton from "@/view/button";
+import ViewFormCheckout from "@/view/checkout-form";
 import ViewContentShowcase from "@/view/content-showcase";
+import ViewCountDown from "@/view/countdown";
+import ViewDivider from "@/view/divider";
+import ViewEmptySpace from "@/view/empty-space";
 import ViewFAQ from "@/view/faq";
 import ViewFeatureHighlights from "@/view/feature-highlights";
+import ViewFLoatingButton from "@/view/floating-button";
+import ViewFLoatingButtonCircle from "@/view/floating-button-circle";
 import ViewFooter from "@/view/footer";
 import ViewHeroSection from "@/view/hero-section";
+import ViewImage from "@/view/image";
+import ViewListImages from "@/view/list-images";
 import ViewNavbar from "@/view/navbar";
+import ViewBlurText from "@/view/pro-version/blur-text/ViewBlurText";
 import ViewBusinessOverview from "@/view/pro-version/business-overview";
+import ViewFuzzyText from "@/view/pro-version/fuzzy-text/ViewFuzzyText";
+import ViewGalleryMasonry from "@/view/pro-version/gallery-masonry";
+import ViewGlitchText from "@/view/pro-version/glitch-text/ViewGlitchText";
+import ViewMarqueeImages from "@/view/pro-version/marquee-images";
+import ViewScrollVelocity from "@/view/pro-version/scroll-velocity/ViewScrollVelocity";
+import ViewSplitText from "@/view/pro-version/split-text/ViewSplitText";
+import ViewQuote from "@/view/quote";
+import ViewSliderImages from "@/view/slider-images";
 import ViewTestimony from "@/view/testimony";
+import ViewVideo from "@/view/video";
+import ViewVideoText from "@/view/video-text-banner";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const blockMap = {
   footer: ViewFooter,
-  "checkout-form": "",
-  "empty-space": "",
-  divider: "",
+  "checkout-form": ViewFormCheckout,
+  "empty-space": ViewEmptySpace,
+  divider: ViewDivider,
   testimony: ViewTestimony,
   faq: ViewFAQ,
   "feature-highlights": ViewFeatureHighlights,
-  countdown: "",
-  quotes: "",
-  "slider-images": "",
-  "floating-button": "",
-  "floating-button-circle": "",
+  countdown: ViewCountDown,
+  quotes: ViewQuote,
+  "slider-images": ViewSliderImages,
+  "floating-button": ViewFLoatingButton,
+  "floating-button-circle": ViewFLoatingButtonCircle,
   "hero-section": ViewHeroSection,
-  "video-text-banner": "",
-  "video-content": "",
-  "list-images": "",
-  "modal-popup": "",
-  "image-content": "",
+  "video-text-banner": ViewVideoText,
+  "video-content": ViewVideo,
+  "list-images": ViewListImages,
+  "modal-popup": ViewModal,
+  "image-content": ViewImage,
   "content-showcase": ViewContentShowcase,
   "business-overview": ViewBusinessOverview,
-  "button-content": "",
-  "gallery-masonry": "",
-  "marquee-images": "",
-  "scroll-velocity-text": "",
-  "glitch-text": "",
-  "fuzzy-text": "",
-  "blur-text": "",
-  "split-text": "",
+  "button-content": ViewButton,
+  "gallery-masonry": ViewGalleryMasonry,
+  "marquee-images": ViewMarqueeImages,
+  "scroll-velocity-text": ViewScrollVelocity,
+  "glitch-text": ViewGlitchText,
+  "fuzzy-text": ViewFuzzyText,
+  "blur-text": ViewBlurText,
+  "split-text": ViewSplitText,
   navbar: ViewNavbar,
 };
 
@@ -70,7 +91,7 @@ const RenderFromData = ({ projectData }) => {
     }
   }, [navigate, rootComponents]);
 
-  return <main>{rootComponents?.map(renderComponent)}</main>;
+  return rootComponents?.map(renderComponent);
 };
 
 export default RenderFromData;

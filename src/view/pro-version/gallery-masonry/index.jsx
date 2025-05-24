@@ -11,7 +11,11 @@ const ViewGalleryMasonry = ({ section, editor, buildContainerStyle }) => {
       section={section}
       buildContainerStyle={buildContainerStyle}
     >
-      <GalleryMasonry data={contents} editor={editor} />
+      <GalleryMasonry
+        data={contents}
+        editor={editor}
+        buildContainerStyle={buildContainerStyle}
+      />
     </ContainerView>
   );
 };

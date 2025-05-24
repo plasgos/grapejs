@@ -4,7 +4,7 @@ const Watermark = () => {
   return (
     <div
       id="plasgos-watermark"
-      className="relative flex justify-center items-center  bg-black p-3"
+      className="relative  flex justify-center items-center  bg-black p-3"
     >
       <p className="text-white">Powered By</p>
 

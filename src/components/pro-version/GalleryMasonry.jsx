@@ -7,80 +7,79 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
-const GalleryMasonry = ({ data, editor }) => {
+const GalleryMasonry = ({ data, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent, maxWidthPage } = globalOptions || {};
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+
+  const { isFocusContent, maxWidthPage } = currentGlobalOptions || {};
 
   const [columns, setColumns] = useState(2);
 
+  const ref = useRef();
+  const [width, setWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
   const [selectedItem, setSelectedItem] = useState("");
 
   useEffect(() => {
+    const updateColumns = (targetWindow = window) => {
+      const width = targetWindow.innerWidth;
+
+      if (width >= 1500) {
+        setColumns(5);
+      } else if (width >= 1000) {
+        setColumns(4);
+      } else if (width >= 600) {
+        setColumns(3);
+      } else {
+        setColumns(1);
+      }
+    };
+
     const timeout = setTimeout(() => {
       const iframe = editor?.Canvas.getFrameEl();
-      if (!iframe) return;
+      const targetWindow = iframe?.contentWindow || window;
 
-      const iframeWindow = iframe.contentWindow;
-      if (!iframeWindow) return;
+      updateColumns(targetWindow);
+      targetWindow.addEventListener("resize", () =>
+        updateColumns(targetWindow)
+      );
 
-      const updateColumns = () => {
-        const width = iframeWindow.innerWidth;
-
-        if (width >= 1500) {
-          setColumns(5);
-        } else if (width >= 1000) {
-          setColumns(4);
-        } else if (width >= 600) {
-          setColumns(3);
-        } else {
-          setColumns(1);
-        }
-      };
-
-      updateColumns();
-      iframeWindow.addEventListener("resize", updateColumns);
-
-      // Cleanup
       return () => {
-        iframeWindow.removeEventListener("resize", updateColumns);
+        targetWindow.removeEventListener("resize", () =>
+          updateColumns(targetWindow)
+        );
       };
-    }, 100); // 100ms delay cukup aman
+    }, 100);
 
     return () => clearTimeout(timeout);
   }, [editor]);
 
-  const ref = useRef();
-  const [width, setWidth] = useState(0);
-
   useEffect(() => {
-    if (!editor) return;
-
-    const iframe = editor.Canvas.getFrameEl();
-    const wrapper = editor.getWrapper();
-
     const updateWidth = () => {
-      if (!iframe || !wrapper) return;
+      if (editor) {
+        const wrapper = editor.getWrapper();
+        const wrapperDomEl = wrapper.view?.el;
 
-      const wrapperDomEl = wrapper.view?.el;
-      if (wrapperDomEl) {
-        const widthContainer =
-          wrapperDomEl.clientWidth > maxWidthPage
-            ? maxWidthPage
-            : wrapperDomEl.clientWidth;
-
+        if (wrapperDomEl) {
+          const widthContainer = Math.min(
+            wrapperDomEl.clientWidth,
+            maxWidthPage
+          );
+          setWidth(widthContainer);
+        }
+      } else {
+        const widthContainer = Math.min(window.innerWidth, maxWidthPage);
         setWidth(widthContainer);
       }
     };
 
     updateWidth();
 
-    const iframeWindow = iframe.contentWindow;
-    iframeWindow?.addEventListener("resize", updateWidth);
+    const targetWindow = editor?.Canvas.getFrameEl()?.contentWindow || window;
+    targetWindow.addEventListener("resize", updateWidth);
 
     return () => {
-      iframeWindow?.removeEventListener("resize", updateWidth);
+      targetWindow.removeEventListener("resize", updateWidth);
     };
   }, [editor, maxWidthPage]);
 
