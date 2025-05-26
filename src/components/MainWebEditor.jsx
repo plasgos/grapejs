@@ -409,7 +409,6 @@ const MainWebEditor = () => {
   };
 
   const importGeneratedSection = (editor, dataFromAI) => {
-    console.log("🚀 ~ dataFromAI:", dataFromAI);
     try {
       const schemeColorValue = schemeColours.find(
         (schemeColor) => schemeColor.name === dataFromAI?.schemeColor

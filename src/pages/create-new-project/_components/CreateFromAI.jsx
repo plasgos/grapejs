@@ -67,7 +67,9 @@ const CreateFromAI = () => {
       const result = await generateComponentFromAI({ prompt: description });
 
       if (result?.data) {
+        console.log("🚀 ~ onSubmit ~ result:", result);
         dispatch(setProjectDataFromAI(result?.data?.data));
+
         navigate(`/web-builder/${name}`);
       }
     } catch (error) {
@@ -129,12 +131,8 @@ const CreateFromAI = () => {
                 Contoh Deskripsi
               </AccordionTrigger>
               <AccordionContent className="p-2 border rounded bg-slate-100">
-                Website ini dibuat untuk menjual produk handmade seperti tas
-                rajut, aksesoris, dan dekorasi rumah. Halaman ini dirancang
-                sederhana dan langsung ke inti — menampilkan foto produk,
-                deskripsi singkat, dan tombol beli atau hubungi via WhatsApp.
-                Cocok digunakan untuk iklan karena pengunjung bisa langsung
-                melakukan pemesanan tanpa harus membuka banyak halaman.
+                Buatkan landing page profesional untuk marketing produk coffe
+                beans.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

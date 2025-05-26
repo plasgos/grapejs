@@ -50,6 +50,7 @@ const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
           className={`relative mx-auto`}
         >
           {contents.map((content) => {
+            console.log("🚀 ~ {contents.map ~ content:", content);
             const useSchemeColor = !!content?.textBannerColor;
 
             return (

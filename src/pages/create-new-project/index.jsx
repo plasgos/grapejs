@@ -17,6 +17,7 @@ import { useState } from "react";
 import CreateFromAI from "./_components/CreateFromAI";
 import CreateFromScratch from "./_components/CreateFromScratch";
 import CreateFromTemplate from "./_components/CreateFromTemplate";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const createOptions = [
   {
@@ -97,7 +98,15 @@ const CreateNewProjectPage = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <img src={image} alt={name} className="w-[250px] mx-auto" />
+                    <LazyLoadImage
+                      src={image}
+                      alt={"name"}
+                      className="w-[250px] mx-auto"
+                      effect="blur"
+                      wrapperProps={{
+                        style: { transitionDelay: "0.5s" },
+                      }}
+                    />
                   </CardContent>
                   <CardFooter>
                     <Button

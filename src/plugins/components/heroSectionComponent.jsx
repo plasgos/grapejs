@@ -78,8 +78,6 @@ export const heroSectionComponent = (editor) => {
         duration: 1,
         delay: null,
         isReplay: false,
-
-        shadow: null,
       },
       wrapperStyle: {
         withButton: true,

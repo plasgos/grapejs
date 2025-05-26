@@ -30,7 +30,7 @@ import ViewVideoText from "@/view/video-text-banner";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const blockMap = {
+export const viewComponentsRender = {
   footer: ViewFooter,
   "checkout-form": ViewFormCheckout,
   "empty-space": ViewEmptySpace,
@@ -69,7 +69,7 @@ const RenderFromData = ({ projectData }) => {
     projectData?.pages[0].frames?.[0]?.component?.components;
 
   const renderComponent = (comp) => {
-    const Component = blockMap[comp.type];
+    const Component = viewComponentsRender[comp.type];
 
     if (!Component || Component === "") return null;
 

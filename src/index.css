@@ -270,16 +270,6 @@
   color: var(--richTextColor) !important;
 }
 
-/* @keyframes blob {
-  0%,
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  50% {
-    transform: translate(30px, -50px) scale(1.2);
-  }
-} */
-
 @keyframes blob {
   0%,
   100% {

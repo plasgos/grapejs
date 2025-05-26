@@ -34,7 +34,7 @@ const EditorBlockComponents = ({
 
   const [isOpenEditor] = useState(isCollapsedSideBar || isEditComponent);
 
-  const component = selectedComponent.get("customComponent");
+  const component = selectedComponent?.get("customComponent");
 
   const isEditableTransition = "animation" in component;
   const isEditableStyles = "wrapperStyle" in component;

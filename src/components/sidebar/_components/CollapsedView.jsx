@@ -161,7 +161,7 @@ const CollapsedView = ({
             onOpenChange={setIsOpenGlobalSettingCollapsed}
           >
             <PopoverTrigger className="invisible">open</PopoverTrigger>
-            <PopoverContent className="relative -right-3 -top-8 p-0">
+            <PopoverContent className="relative -right-3 -top-8 p-0 w-[350px]">
               <GlobalStyles selectedComponent={selectedComponent} />
             </PopoverContent>
           </Popover>

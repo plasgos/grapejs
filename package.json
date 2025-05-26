@@ -88,6 +88,7 @@
     "react-redux": "^9.2.0",
     "react-resizable-panels": "^2.1.8",
     "react-router-dom": "6.28.0",
+    "react-to-pdf": "^2.0.0",
     "swiper": "^11.2.5",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
