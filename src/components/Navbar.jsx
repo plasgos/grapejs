@@ -30,18 +30,26 @@ import { MdClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navigator from "./Navigator";
+import { useProjectSaver } from "@/hooks/useProjectSaver";
+import { Loader2 } from "lucide-react";
 
 const Navbar = ({
+  currentProject,
   setIsPreviewActive,
   components,
   onReorder,
   setIsDragging,
 }) => {
+  const editor = useEditor();
+
+  const { handleSave } = useProjectSaver({ editor, currentProject });
+
   const dispatch = useDispatch();
 
-  const editor = useEditor();
   const [, setUpdateCounter] = useState(0);
   const [isOpenNavigator, setIsOpenNavigator] = useState(false);
+
+  const [isLoadingDeploy, setIsLoadingDeploy] = useState(false);
 
   const deviceIcons = {
     desktop: <IoDesktopOutline />,
@@ -100,40 +108,56 @@ const Navbar = ({
 
   const navigate = useNavigate();
 
-  const handleDeploy = () => {
-    const editorModel = editor.getModel();
-    const projectData = editor.getProjectData();
+  const handleDeploy = async () => {
+    try {
+      setIsLoadingDeploy(true);
 
-    const updatedProjectData = produce(projectData, (draft) => {
-      // Disable preview finished mode countdown
-      if (draft?.pages && Array.isArray(draft.pages)) {
-        draft.pages.forEach((page) => {
-          if (page.frames && Array.isArray(page.frames)) {
-            page.frames.forEach((frame) => {
-              if (frame.component && frame.component.components) {
-                frame.component.components.forEach((component) => {
-                  component.isFromAI = false;
+      const saveProject = await handleSave({ shouldRedirect: false });
 
-                  if (
-                    component.type === "countdown" &&
-                    component.customComponent?.finish
-                  ) {
-                    component.customComponent.finish.isFinished = false;
+      handleSave({ shouldRedirect: false });
+
+      const editorModel = editor.getModel();
+
+      const updatedProjectData = produce(
+        saveProject.resultComponent,
+        (draft) => {
+          // Disable preview finished mode countdown
+          if (draft?.pages && Array.isArray(draft.pages)) {
+            draft.pages.forEach((page) => {
+              if (page.frames && Array.isArray(page.frames)) {
+                page.frames.forEach((frame) => {
+                  if (frame.component && frame.component.components) {
+                    frame.component.components.forEach((component) => {
+                      component.isFromAI = false;
+
+                      if (
+                        component.type === "countdown" &&
+                        component.customComponent?.finish
+                      ) {
+                        component.customComponent.finish.isFinished = false;
+                      }
+                    });
                   }
                 });
               }
             });
           }
-        });
-      }
 
-      // Update global options
-      draft.globalOptions = editorModel.get("globalOptions");
-    });
+          // Update global options
+          draft.globalOptions = editorModel.get("globalOptions");
+        }
+      );
 
-    dispatch(setDeployData(updatedProjectData));
+      dispatch(setDeployData(updatedProjectData));
 
-    navigate("/deploy");
+      setTimeout(() => {
+        navigate("/deploy");
+      }, 300);
+    } catch (error) {
+      console.log("🚀 ~ handleDeploy ~ error:", error);
+    } finally {
+      setIsLoadingDeploy(false);
+    }
   };
 
   const handlePublish = () => {
@@ -341,8 +365,12 @@ const Navbar = ({
               Publish
             </Button>
 
-            <Button onClick={handleDeploy} className="ml-3">
-              Deploy
+            <Button
+              disabled={isLoadingDeploy}
+              onClick={handleDeploy}
+              className={cx("ml-3", isLoadingDeploy && "!cursor-not-allowed")}
+            >
+              Deploy {isLoadingDeploy && <Loader2 className="animate-spin" />}
             </Button>
           </div>
         </div>

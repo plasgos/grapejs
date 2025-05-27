@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import slugify from "slugify";
 
 import {
   Form,
@@ -23,6 +24,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useEffect } from "react";
+import { saveProject } from "@/redux/modules/landing-page/landingPageSlice";
+import { useDispatch } from "react-redux";
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Required" }),
@@ -38,8 +41,21 @@ const ModalEditFile = ({ isOpen, onClose, data }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("🚀 ~ ModalEditFile ~ data:", data);
+  const dispatch = useDispatch();
+
+  const onSubmit = ({ name, description }) => {
+    const slug = slugify(name);
+
+    dispatch(
+      saveProject({
+        ...data,
+        name,
+        description,
+        slug,
+      })
+    );
+
+    onClose(undefined);
   };
 
   useEffect(() => {

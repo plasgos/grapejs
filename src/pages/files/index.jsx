@@ -27,7 +27,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { removeProjectById } from "@/redux/modules/landing-page/landingPageSlice";
 
-const optionViewMode = [
+export const optionViewMode = [
   {
     value: "grid",
     icon: <IoGrid />,
@@ -107,7 +107,7 @@ const FilesPage = () => {
                     key={project.id}
                     className="rounded-lg  shadow-md overflow-hidden flex flex-col  bg-white"
                   >
-                    <div className="w-full h-full overflow-hidden relative group ">
+                    <div className="w-full h-full max-h-[200px] overflow-hidden relative group ">
                       <img
                         src={project.thumbnail}
                         alt=""
@@ -145,9 +145,7 @@ const FilesPage = () => {
                           {optionsAction.map((action) => (
                             <DropdownMenuItem
                               key={action.value}
-                              onSelect={(e) => {
-                                e.preventDefault();
-
+                              onSelect={() => {
                                 action.command(project);
                               }}
                               className="cursor-pointer font-semibold"

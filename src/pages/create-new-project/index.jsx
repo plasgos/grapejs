@@ -78,7 +78,7 @@ const CreateNewProjectPage = () => {
   const [selectedCreateOption, setSelectedCreateOption] = useState("");
 
   return (
-    <div className="relative flex flex-col justify-center items-center h-screen  w-full p-5 bg-[#FFF4EA] ">
+    <div className="relative flex flex-col justify-center items-center h-screen  w-full  bg-[#FFF4EA] ">
       {!selectedCreateOption ? (
         <>
           <h1 className="text-5xl text-center mb-[50px] ">
@@ -128,7 +128,7 @@ const CreateNewProjectPage = () => {
           </div>
         </>
       ) : (
-        <GradientBackground />
+        <>{selectedCreateOption !== "template" && <GradientBackground />}</>
       )}
       {viewMap[selectedCreateOption] || null}
     </div>

@@ -57,6 +57,7 @@ const initialState = {
     },
   ],
   projectDataFromAI: undefined,
+  isSaving: false,
 };
 
 export const landingPageSlice = createSlice({
@@ -95,6 +96,19 @@ export const landingPageSlice = createSlice({
     setNewProject: (state, action) => {
       state.projectsData.push(action.payload);
     },
+    saveProject: (state, action) => {
+      state.projectsData = state.projectsData.map((project) =>
+        project.id === action.payload.id
+          ? {
+              ...project,
+              ...action.payload,
+            }
+          : project
+      );
+    },
+    setIsSaving: (state, action) => {
+      state.isSaving = action.payload;
+    },
   },
 });
 
@@ -109,6 +123,8 @@ export const {
   setDeployData,
   setProjectDataFromAI,
   setNewProject,
+  saveProject,
+  setIsSaving,
 } = landingPageSlice.actions;
 
 export default landingPageSlice.reducer;

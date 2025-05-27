@@ -208,10 +208,6 @@ const MainWebEditor = () => {
       handleAddWatermark(editor);
       handleAddGoogleFont();
       handleLoadCurrentProject(editor);
-
-      if (projectDataFromAI) {
-        importGeneratedSection(editor, projectDataFromAI);
-      }
     });
 
     editor.on("component:add", () => {
@@ -380,25 +376,29 @@ const MainWebEditor = () => {
   };
 
   const handleLoadCurrentProject = (editor) => {
-    if (slug) {
+    if (currentProject) {
       const um = editor.UndoManager;
 
       um.stop();
 
-      editor.loadProjectData(currentProject?.frameProject);
-      const editorModel = editor.getModel();
+      if (currentProject.isFromAI) {
+        importGeneratedSection(editor, currentProject?.frameProject);
+      } else {
+        editor.loadProjectData(currentProject?.frameProject);
+        const editorModel = editor.getModel();
 
-      if (currentProject?.frameProject?.globalOptions) {
-        editorModel.set(
-          "globalOptions",
-          currentProject?.frameProject.globalOptions
-        );
+        if (currentProject?.frameProject?.globalOptions) {
+          editorModel.set(
+            "globalOptions",
+            currentProject?.frameProject.globalOptions
+          );
+        }
+
+        handleAddWatermark(editor);
+        injectExternalCSS(editor);
+
+        updateCanvasComponents(editor, setCanvasComponents);
       }
-
-      handleAddWatermark(editor);
-      injectExternalCSS(editor);
-
-      updateCanvasComponents(editor, setCanvasComponents);
 
       // Start tracking again AFTER all initial loads
       um.start();
@@ -517,6 +517,7 @@ const MainWebEditor = () => {
           <NavigationGuard editor={editorInstance} />
           <WithEditor>
             <Navbar
+              currentProject={currentProject}
               setIsPreviewActive={(value) => setIsPreviewActive(value)}
               selectedComponent={selectedComponent}
               components={canvasComponents}

@@ -194,6 +194,7 @@ const Sidebar = ({
 
       {/* Bottom Bar */}
       <Bottombar
+        currentProject={currentProject}
         editor={editor}
         isCollapsedSideBar={isCollapsedSideBar}
         onToggleSidebar={onToggleSidebar}

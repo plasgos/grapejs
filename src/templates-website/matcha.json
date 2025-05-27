@@ -1,0 +1,1325 @@
+{
+  "assets": [],
+  "styles": [
+    {
+      "selectors": [
+        "#iafh"
+      ],
+      "style": {
+        "background-color": "#ECFAE5"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "frames": [
+        {
+          "component": {
+            "type": "wrapper",
+            "stylable": [],
+            "attributes": {
+              "id": "iafh"
+            },
+            "components": [
+              {
+                "type": "navbar",
+                "attributes": {
+                  "isLocked": false,
+                  "scrollTarget": null
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "single-link-7kjkulgrv",
+                      "type": "single-link",
+                      "label": "Single Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      },
+                      "titleHeading": "About",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "menu-link-mhqa8kpbg",
+                      "type": "menu-link",
+                      "label": "Menu Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "label": "Alert Dialog",
+                          "href": "/docs/primitives/alert-dialog",
+                          "description": "A modal dialog that interrupts the user with important content and expects a response.",
+                          "id": "menu-0-vyutwac58",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Hover Card",
+                          "href": "/docs/primitives/hover-card",
+                          "description": "For sighted users to preview content available behind a link.",
+                          "id": "menu-1-te2lr023b",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Progress",
+                          "href": "/docs/primitives/progress",
+                          "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+                          "id": "menu-2-09inyc62n",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Scroll-area",
+                          "href": "/docs/primitives/scroll-area",
+                          "description": "Visually or semantically separates content.",
+                          "id": "menu-3-27int44f9",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tabs",
+                          "href": "/docs/primitives/tabs",
+                          "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+                          "id": "menu-4-fcuvel6x0",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tooltip",
+                          "href": "/docs/primitives/tooltip",
+                          "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+                          "id": "menu-5-wetc2j4nc",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "titleHeading": "Component Menu",
+                      "column": "2",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "menu-link-02-3be0u5jtj",
+                      "type": "menu-link",
+                      "label": "Menu Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "label": "Alert Dialog",
+                          "href": "/docs/primitives/alert-dialog",
+                          "description": "",
+                          "id": "menu-0-kooasfpga",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Hover Card",
+                          "href": "/docs/primitives/hover-card",
+                          "description": "",
+                          "id": "menu-1-cmwqxdrxj",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Progress",
+                          "href": "/docs/primitives/progress",
+                          "description": "",
+                          "id": "menu-2-y6cja2yqn",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Scroll-area",
+                          "href": "/docs/primitives/scroll-area",
+                          "description": "",
+                          "id": "menu-3-abikfl7fs",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tabs",
+                          "href": "/docs/primitives/tabs",
+                          "description": "",
+                          "id": "menu-4-99h2n8i10",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "label": "Tooltip",
+                          "href": "/docs/primitives/tooltip",
+                          "description": "",
+                          "id": "menu-5-it78ztjog",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "titleHeading": "Component Single Menu",
+                      "column": "1",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "headingColor": "#8D493A",
+                    "headingFontSize": 16,
+                    "fontWeight": "",
+                    "fontFamily": "",
+                    "description": {
+                      "descriptionColor": "#FFFFFF",
+                      "fontWeight": "",
+                      "fontFamily": ""
+                    },
+                    "menuBgColor": "#B0DB9C",
+                    "bgColorSidebar": "#B0DB9C"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#B0DB9C",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "logo": "https://ik.imagekit.io/ez1ffaf6o/default-images/plg-logo.png?updatedAt=1747224274623",
+                  "logoWidth": 150,
+                  "side": "right"
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "hero-section",
+                "attributes": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "hero-1",
+                      "width": 800,
+                      "image": "https://images.pexels.com/photos/2227126/pexels-photo-2227126.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "imagePosition": "right",
+                      "textBanner": "<h1 style=\"font-size: 48px; color: #fff; text-align: left; font-family: Arial, sans-serif;\">Matcha Latte<br><span style=\"font-size: 24px; color: #fff;\">Premium & 100% Alami</span></h1><p style=\"font-size: 18px; color: #fff; margin-top: 20px;\">Nikmati rasa matcha asli Jepang dalam setiap tegukannya.</p>",
+                      "textBannerColor": "",
+                      "textShadow": null
+                    }
+                  ],
+                  "buttons": [
+                    {
+                      "id": "btn-1",
+                      "stylesBtn": {
+                        "title": "Beli Sekarang",
+                        "btnColor": "#2ecc71",
+                        "textColor": "#fff",
+                        "size": "lg",
+                        "variant": "default",
+                        "rounded": 30,
+                        "shadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                      },
+                      "iconBtn": {
+                        "icon": "🛒",
+                        "color": "#fff",
+                        "size": 20,
+                        "position": "right"
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "btn-2",
+                      "stylesBtn": {
+                        "title": "Pelajari Lebih Lanjut",
+                        "btnColor": "#ecf0f1",
+                        "textColor": "#2ecc71",
+                        "size": "lg",
+                        "variant": "outline",
+                        "rounded": 30,
+                        "shadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                      },
+                      "iconBtn": {
+                        "icon": "👉",
+                        "color": "#2ecc71",
+                        "size": 20,
+                        "position": "right"
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "basic",
+                    "withButton": true,
+                    "btnPosition": "justify-start",
+                    "shadow": "shadow-none",
+                    "isFullWidth": true,
+                    "alignText": "justify-center",
+                    "alignButtons": "justify-center",
+                    "widthText": 500
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ffffff",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "animation": {
+                    "type": null,
+                    "duration": 1,
+                    "delay": null,
+                    "isReplay": false
+                  },
+                  "animationText": {
+                    "type": null,
+                    "duration": 1,
+                    "delay": null,
+                    "isReplay": false
+                  }
+                },
+                "customComponent": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "hero-1",
+                      "width": 800,
+                      "image": "https://images.pexels.com/photos/2227126/pexels-photo-2227126.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "imagePosition": "right",
+                      "textBanner": "<h1 style=\"font-size: 48px; color: #fff; text-align: left; font-family: Arial, sans-serif;\">Matcha Latte<br><span style=\"font-size: 24px; color: #fff;\">Premium & 100% Alami</span></h1><p style=\"font-size: 18px; color: #fff; margin-top: 20px;\">Nikmati rasa matcha asli Jepang dalam setiap tegukannya.</p>",
+                      "textBannerColor": "#8D493A",
+                      "textShadow": null
+                    }
+                  ],
+                  "buttons": [
+                    {
+                      "id": "btn-1",
+                      "stylesBtn": {
+                        "title": "Beli Sekarang",
+                        "btnColor": "#8D493A",
+                        "textColor": "#ECFAE5",
+                        "size": "lg",
+                        "variant": "default",
+                        "rounded": 30,
+                        "shadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                      },
+                      "iconBtn": {
+                        "icon": "🛒",
+                        "color": "#fff",
+                        "size": 20,
+                        "position": "right"
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "btn-2",
+                      "stylesBtn": {
+                        "title": "Pelajari Lebih Lanjut",
+                        "btnColor": "#8D493A",
+                        "textColor": "#ECFAE5",
+                        "size": "lg",
+                        "variant": "outline",
+                        "rounded": 30,
+                        "shadow": "0 4px 6px rgba(0, 0, 0, 0.1)"
+                      },
+                      "iconBtn": {
+                        "icon": "👉",
+                        "color": "#2ecc71",
+                        "size": 20,
+                        "position": "right"
+                      },
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "basic",
+                    "withButton": true,
+                    "btnPosition": "justify-start",
+                    "shadow": "shadow-none",
+                    "isFullWidth": true,
+                    "alignText": "justify-center",
+                    "alignButtons": "justify-center",
+                    "widthText": 500
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ECFAE5",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "animation": {
+                    "type": null,
+                    "duration": 1,
+                    "delay": null,
+                    "isReplay": false
+                  },
+                  "animationText": {
+                    "type": null,
+                    "duration": 1,
+                    "delay": null,
+                    "isReplay": false
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "content-showcase",
+                "attributes": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "ea25da70-8261-4963-bec9-6d4531cc19e0",
+                      "title": "100% Matcha Asli",
+                      "description": "Diproses dari daun matcha pilihan terbaik Jepang untuk rasa autentik.",
+                      "image": "https://images.pexels.com/photos/8004570/pexels-photo-8004570.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "479770da-af08-42fe-9ecf-6d84c8038b31",
+                      "title": "Tanpa Bahan Pengawet",
+                      "description": "Bebas dari bahan kimia berbahaya, aman dikonsumsi setiap hari.",
+                      "image": "https://images.pexels.com/photos/2611811/pexels-photo-2611811.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "2eb6edeb-460f-40ed-8f4a-20a6847febfc",
+                      "title": "Rasa Lebih Enak",
+                      "description": "Tekstur halus dan rasa matcha yang sempurna dalam setiap sachet.",
+                      "image": "https://images.pexels.com/photos/29569166/pexels-photo-29569166.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "column": "3",
+                    "aspectRatio": 0.8,
+                    "rounded": 20,
+                    "titleColor": "#000000",
+                    "fontWeight": 900,
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "textAligment": "text-center",
+                    "descriptionColor": "",
+                    "imagePosition": "center",
+                    "descriptionFontSize": 14,
+                    "descriptionFontFamily": "",
+                    "descriptionFontWeight": 400,
+                    "textAligmentDescription": "text-center"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ffffff",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "customComponent": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "ea25da70-8261-4963-bec9-6d4531cc19e0",
+                      "title": "100% Matcha Asli",
+                      "description": "Diproses dari daun matcha pilihan terbaik Jepang untuk rasa autentik.",
+                      "image": "https://images.pexels.com/photos/8004570/pexels-photo-8004570.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "479770da-af08-42fe-9ecf-6d84c8038b31",
+                      "title": "Tanpa Bahan Pengawet",
+                      "description": "Bebas dari bahan kimia berbahaya, aman dikonsumsi setiap hari.",
+                      "image": "https://images.pexels.com/photos/2611811/pexels-photo-2611811.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    },
+                    {
+                      "id": "2eb6edeb-460f-40ed-8f4a-20a6847febfc",
+                      "title": "Rasa Lebih Enak",
+                      "description": "Tekstur halus dan rasa matcha yang sempurna dalam setiap sachet.",
+                      "image": "https://images.pexels.com/photos/29569166/pexels-photo-29569166.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "target": {
+                        "actionType": "link",
+                        "options": {
+                          "type": null
+                        }
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "column": "3",
+                    "aspectRatio": 0.8,
+                    "rounded": 20,
+                    "titleColor": "#8D493A",
+                    "fontWeight": 900,
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "textAligment": "text-center",
+                    "descriptionColor": "#B17F59",
+                    "imagePosition": "center",
+                    "descriptionFontSize": 14,
+                    "descriptionFontFamily": "",
+                    "descriptionFontWeight": 400,
+                    "textAligmentDescription": "text-center"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ECFAE5",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "business-overview",
+                "attributes": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "2941c867-ccc0-4bfa-a324-c3340d92518e",
+                      "overview": "Cangkir Matcha yang sudah terjual",
+                      "from": 0,
+                      "rangeValue": 100000,
+                      "symbol": "+"
+                    },
+                    {
+                      "id": "fbe9df42-2087-468c-8d04-c75d502360ae",
+                      "overview": "Pelanggan puas",
+                      "from": 0,
+                      "rangeValue": 50000,
+                      "symbol": "+"
+                    },
+                    {
+                      "id": "ad98ff2a-8e9c-49b2-8fc3-3477034f806c",
+                      "overview": "Pesanan ulang",
+                      "from": 0,
+                      "rangeValue": 2000,
+                      "symbol": "+"
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "direction": "up",
+                    "separator": ",",
+                    "duration": 1,
+                    "fontWeight": 500,
+                    "fontFamily": "Roboto",
+                    "fontSize": 36,
+                    "textAligment": "justify-center",
+                    "colorRangeValue": "rgba(0, 0, 0, 1)",
+                    "distance": 100,
+                    "textShadow": null,
+                    "fontSizeOverview": 16,
+                    "fontFamilyOverview": "Roboto",
+                    "fontWeightOverview": 500,
+                    "colorOverview": "rgba(0, 0, 0, 1)"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ffffff",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "customComponent": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "2941c867-ccc0-4bfa-a324-c3340d92518e",
+                      "overview": "Cangkir Matcha yang sudah terjual",
+                      "from": 0,
+                      "rangeValue": 100000,
+                      "symbol": "+"
+                    },
+                    {
+                      "id": "fbe9df42-2087-468c-8d04-c75d502360ae",
+                      "overview": "Pelanggan puas",
+                      "from": 0,
+                      "rangeValue": 50000,
+                      "symbol": "+"
+                    },
+                    {
+                      "id": "ad98ff2a-8e9c-49b2-8fc3-3477034f806c",
+                      "overview": "Pesanan ulang",
+                      "from": 0,
+                      "rangeValue": 2000,
+                      "symbol": "+"
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "direction": "up",
+                    "separator": ",",
+                    "duration": 1,
+                    "fontWeight": 500,
+                    "fontFamily": "Roboto",
+                    "fontSize": 36,
+                    "textAligment": "justify-center",
+                    "colorRangeValue": "#8D493A",
+                    "distance": 100,
+                    "textShadow": null,
+                    "fontSizeOverview": 16,
+                    "fontFamilyOverview": "Roboto",
+                    "fontWeightOverview": 500,
+                    "colorOverview": "#8D493A"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ECFAE5",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "testimony",
+                "attributes": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "0239d6ae-d5e6-4267-8724-8821e75cc912",
+                      "description": "Saya sangat puas dengan rasa matcha latte ini, sangat autentik dan sehat!",
+                      "image": "https://images.pexels.com/photos/12079115/pexels-photo-12079115.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Rika Setiawan",
+                      "profetion": "Ibu Rumah Tangga",
+                      "stars": 5
+                    },
+                    {
+                      "id": "c5db92c9-62d2-4d8b-9a58-9e88acceae1c",
+                      "description": "Matcha latte ini menjadi bagian penting dalam rutinitas harian saya.",
+                      "image": "https://images.pexels.com/photos/6732402/pexels-photo-6732402.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Ayu Widyastuti",
+                      "profetion": "Pengusaha",
+                      "stars": 5
+                    },
+                    {
+                      "id": "b0ba6ebd-8334-4c9d-ba66-aa44d0af82a3",
+                      "description": "Membantu meningkatkan fokus dan energi sepanjang hari.",
+                      "image": "https://images.pexels.com/photos/6764092/pexels-photo-6764092.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Budi Hartono",
+                      "profetion": "Atlet",
+                      "stars": 5
+                    },
+                    {
+                      "id": "37cb476c-e8e1-4255-97aa-c6f34d36cd52",
+                      "description": "Rekomendasi terbaik untuk minuman sehat bagi pasien saya.",
+                      "image": "https://images.pexels.com/photos/6763596/pexels-photo-6763596.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Lestari Wijayanti",
+                      "profetion": "Dokter",
+                      "stars": 5
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "4",
+                    "nameColor": "#000000",
+                    "fontWeight": "font-semibold",
+                    "fontFamily": "Roboto",
+                    "fontSize": 18,
+                    "borderColor": "rgba(223, 221, 221, 1)",
+                    "bgColor": "transparent",
+                    "quoteColor": "rgba(245, 245, 245, 1)",
+                    "profectionColor": "rgba(148, 148, 150, 1)",
+                    "starsColor": "rgba(255,210,80,1)",
+                    "starsSize": 20,
+                    "withSlider": true,
+                    "autoPlaySlider": false,
+                    "descriptionColor": "",
+                    "descriptionFontWeight": "",
+                    "descriptionFontFamily": "",
+                    "descriptionFontSize": 14,
+                    "header": "<h2 style=\"color: #333; font-size: 24px; text-align: center; margin-bottom: 30px;\">Apa yang dikatakan pelanggan kami</h2>",
+                    "headerColor": ""
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ffffff",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "customComponent": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "id": "0239d6ae-d5e6-4267-8724-8821e75cc912",
+                      "description": "Saya sangat puas dengan rasa matcha latte ini, sangat autentik dan sehat!",
+                      "image": "https://images.pexels.com/photos/12079115/pexels-photo-12079115.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Rika Setiawan",
+                      "profetion": "Ibu Rumah Tangga",
+                      "stars": 5
+                    },
+                    {
+                      "id": "c5db92c9-62d2-4d8b-9a58-9e88acceae1c",
+                      "description": "Matcha latte ini menjadi bagian penting dalam rutinitas harian saya.",
+                      "image": "https://images.pexels.com/photos/6732402/pexels-photo-6732402.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Ayu Widyastuti",
+                      "profetion": "Pengusaha",
+                      "stars": 5
+                    },
+                    {
+                      "id": "b0ba6ebd-8334-4c9d-ba66-aa44d0af82a3",
+                      "description": "Membantu meningkatkan fokus dan energi sepanjang hari.",
+                      "image": "https://images.pexels.com/photos/6764092/pexels-photo-6764092.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Budi Hartono",
+                      "profetion": "Atlet",
+                      "stars": 5
+                    },
+                    {
+                      "id": "37cb476c-e8e1-4255-97aa-c6f34d36cd52",
+                      "description": "Rekomendasi terbaik untuk minuman sehat bagi pasien saya.",
+                      "image": "https://images.pexels.com/photos/6763596/pexels-photo-6763596.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      "name": "Lestari Wijayanti",
+                      "profetion": "Dokter",
+                      "stars": 5
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "4",
+                    "nameColor": "#8D493A",
+                    "fontWeight": "font-semibold",
+                    "fontFamily": "Roboto",
+                    "fontSize": 18,
+                    "borderColor": "rgba(223, 221, 221, 1)",
+                    "bgColor": "#ECFAE5",
+                    "quoteColor": "#8D493A",
+                    "profectionColor": "#B17F59",
+                    "starsColor": "rgba(255,210,80,1)",
+                    "starsSize": 20,
+                    "withSlider": true,
+                    "autoPlaySlider": false,
+                    "descriptionColor": "#8D493A",
+                    "descriptionFontWeight": "",
+                    "descriptionFontFamily": "",
+                    "descriptionFontSize": 14,
+                    "header": "<h2 style=\"color: #333; font-size: 24px; text-align: center; margin-bottom: 30px;\">Apa yang dikatakan pelanggan kami</h2>",
+                    "headerColor": "#8D493A"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ECFAE5",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "faq",
+                "attributes": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "title": "Apakah matcha latte aman untuk dikonsumsi setiap hari?",
+                      "description": "Ya, matcha latte kami bebas dari bahan pengawet dan aman dikonsumsi setiap hari.",
+                      "id": "f2f855c1-631c-47ef-b2e1-eb9a376c289d"
+                    },
+                    {
+                      "title": "Bagaimana cara penyajiannya?",
+                      "description": "Larutkan 1 sachet dalam 150ml air panas/hangat, aduk hingga rata dan nikmati.",
+                      "id": "3f3efe37-5e53-4d06-aaf2-aa3411010897"
+                    },
+                    {
+                      "title": "Apakah ada garansi?",
+                      "description": "Ya, kami memberikan garansi uang kembali jika produk tidak sesuai dengan yang diharapkan.",
+                      "id": "2249da78-1c9f-4aee-9cca-5f000803c6cc"
+                    },
+                    {
+                      "title": "Berapa lama waktu pengiriman?",
+                      "description": "Waktu pengiriman rata-rata 2-3 hari kerja setelah konfirmasi pembayaran.",
+                      "id": "1c3515a7-5905-4f97-ae79-378647bf6719"
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "card",
+                    "colorTitle": "#000000",
+                    "fontWeight": 500,
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "textAligment": "justify-center",
+                    "borderColor": "rgba(115, 115, 115, 0.5)",
+                    "iconColor": "rgb(46, 30, 24,1)",
+                    "descriptionFontSize": 14,
+                    "descriptionFontFamily": "",
+                    "descriptionFontWeight": 400,
+                    "descriptionColor": ""
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ffffff",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "id": "i5kah"
+                },
+                "customComponent": {
+                  "isLocked": false,
+                  "scrollTarget": null,
+                  "contents": [
+                    {
+                      "title": "Apakah matcha latte aman untuk dikonsumsi setiap hari?",
+                      "description": "Ya, matcha latte kami bebas dari bahan pengawet dan aman dikonsumsi setiap hari.",
+                      "id": "f2f855c1-631c-47ef-b2e1-eb9a376c289d"
+                    },
+                    {
+                      "title": "Bagaimana cara penyajiannya?",
+                      "description": "Larutkan 1 sachet dalam 150ml air panas/hangat, aduk hingga rata dan nikmati.",
+                      "id": "3f3efe37-5e53-4d06-aaf2-aa3411010897"
+                    },
+                    {
+                      "title": "Apakah ada garansi?",
+                      "description": "Ya, kami memberikan garansi uang kembali jika produk tidak sesuai dengan yang diharapkan.",
+                      "id": "2249da78-1c9f-4aee-9cca-5f000803c6cc"
+                    },
+                    {
+                      "title": "Berapa lama waktu pengiriman?",
+                      "description": "Waktu pengiriman rata-rata 2-3 hari kerja setelah konfirmasi pembayaran.",
+                      "id": "1c3515a7-5905-4f97-ae79-378647bf6719"
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "variant": "card",
+                    "colorTitle": "#8D493A",
+                    "fontWeight": 500,
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "textAligment": "justify-center",
+                    "borderColor": "rgba(115, 115, 115, 0.5)",
+                    "iconColor": "#8D493A",
+                    "descriptionFontSize": 14,
+                    "descriptionFontFamily": "",
+                    "descriptionFontWeight": 400,
+                    "descriptionColor": "#8D493A"
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#ECFAE5",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 1,
+                    "paddingY": 20,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to bottom",
+                    "fromColor": "#ffffff",
+                    "toColor": "#000000",
+                    "isRevert": false,
+                    "pattern": ""
+                  }
+                },
+                "isFromAI": false
+              },
+              {
+                "type": "footer",
+                "attributes": {
+                  "isLocked": false,
+                  "scrollTarget": null
+                },
+                "customComponent": {
+                  "contents": [
+                    {
+                      "id": "images-0-jwiwffrpr",
+                      "type": "images",
+                      "label": "Images",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "img-01",
+                          "image": "/src/assets/bca.png",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "img-02",
+                          "image": "/src/assets/mandiri.png",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Payment Method",
+                      "width": 300,
+                      "imageWidth": 80,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "group-link-jz7yx7yg3",
+                      "type": "group-link",
+                      "label": "Group Link",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "link-01-vv6tussnc",
+                          "label": "Introduction",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "link-02-4hzl9ukjv",
+                          "label": "Usage",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "link-03-69ddsnyjj",
+                          "label": "Globals",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        },
+                        {
+                          "id": "link-04-onmbs51nt",
+                          "label": "About",
+                          "target": {
+                            "actionType": "link",
+                            "options": {
+                              "type": null
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Getting Started",
+                      "width": 300,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "social-media-pkqipj22v",
+                      "type": "social-media",
+                      "label": "Social Media",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "fb-fwbkgn88w",
+                          "label": "Facebook",
+                          "value": "",
+                          "icon": "FaFacebook",
+                          "placeholder": "https://facebook.com/username"
+                        },
+                        {
+                          "id": "ig-wjzn5psr7",
+                          "label": "Instagram",
+                          "icon": "FaInstagram",
+                          "value": "",
+                          "placeholder": "https://instagram.com/username"
+                        },
+                        {
+                          "id": "x-ulre4xmtf",
+                          "label": "Twitter (X)",
+                          "icon": "FaSquareXTwitter",
+                          "value": "",
+                          "placeholder": "https://x.com/username"
+                        }
+                      ],
+                      "title": "Follow us",
+                      "width": 250,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "contact-info-6bzj2inek",
+                      "type": "contact-info",
+                      "label": "Contact Info",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "options": [
+                        {
+                          "id": "address-19zb7jvbv",
+                          "label": "Address",
+                          "value": "Jl Sudirman 31 Jakarta Selatan",
+                          "icon": "FaMapMarkerAlt"
+                        },
+                        {
+                          "id": "phoneNumber-vvqp1hxlg",
+                          "label": "Phone Number",
+                          "icon": "FaPhoneAlt",
+                          "value": "(021) 2248 1664"
+                        },
+                        {
+                          "id": "email-gtn2lr9z5",
+                          "label": "Email",
+                          "icon": "FaEnvelope",
+                          "value": "costumer.care@plasgos.co.id"
+                        },
+                        {
+                          "id": "whatsapp-a95ldmbjh",
+                          "label": "whatsapp",
+                          "icon": "FaWhatsapp",
+                          "value": "0853-1111-1010"
+                        }
+                      ],
+                      "title": "Contact Info",
+                      "width": 300,
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    },
+                    {
+                      "id": "newsletter-6wljleltp",
+                      "type": "newsletter",
+                      "label": "Newsletter",
+                      "icon": {
+                        "key": null,
+                        "ref": null,
+                        "props": {},
+                        "_owner": null,
+                        "_store": {}
+                      },
+                      "title": "Newsletter",
+                      "subTitle": "Receive updates on the latest news and offers",
+                      "placeholder": "youremail@gmail.com",
+                      "actionText": "Subscribe",
+                      "width": 300,
+                      "buttonColor": "",
+                      "textButton": "",
+                      "iconHeading": {
+                        "icon": "",
+                        "color": "rgba(0,0,0,0,1)",
+                        "size": 24,
+                        "position": "left"
+                      }
+                    }
+                  ],
+                  "wrapperStyle": {
+                    "headingColor": "#8D493A",
+                    "subHeadingColor": "#8D493A",
+                    "headingFontSize": 18
+                  },
+                  "background": {
+                    "bgType": "bgColor",
+                    "bgColor": "#B0DB9C",
+                    "bgImage": "",
+                    "blur": 0,
+                    "opacity": 0,
+                    "paddingY": 0,
+                    "paddingTop": 0,
+                    "paddingBottom": 0,
+                    "paddingType": "vertical",
+                    "direction": "to right",
+                    "fromColor": "",
+                    "toColor": "",
+                    "isRevert": false,
+                    "pattern": ""
+                  },
+                  "copyright": {
+                    "text": "<p style=\"text-align:center;\">© Copyright 2025 Plasgos</p>",
+                    "copyrightTextColor": "#8D493A"
+                  }
+                },
+                "isFromAI": false
+              }
+            ],
+            "head": {
+              "type": "head"
+            },
+            "docEl": {
+              "tagName": "html"
+            }
+          },
+          "id": "frame-id-b1ilpdhab"
+        }
+      ],
+      "type": "main",
+      "id": "page-id-2nc21epc1"
+    }
+  ],
+  "symbols": [],
+  "dataSources": [],
+  "globalOptions": {
+    "maxWidthPage": 1360,
+    "bgColor": "#ECFAE5",
+    "schemeColor": "light-green",
+    "scrollTarget": [
+      {
+        "id": "target-01",
+        "value": "scrollToTop",
+        "label": "Scroll To Top"
+      }
+    ],
+    "popup": [],
+    "isFocusContent": "",
+    "watermark": true,
+    "isSubscribed": true
+  }
+}

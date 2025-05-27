@@ -1,4 +1,3 @@
-// HeroSectionView.tsx
 export const HeroSectionView = ({ data }) => {
   console.log("🚀 ~ HeroSectionView ~ data:", data);
   return (

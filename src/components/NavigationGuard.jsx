@@ -13,12 +13,14 @@ import { Button } from "./ui/button";
 import { useEffect } from "react";
 import { PiWarningCircle } from "react-icons/pi";
 import { Save } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const NavigationGuard = ({ editor }) => {
+  const { isSaving } = useSelector((state) => state.landingPage);
   const isDirty = useIsEditorDirty(editor);
   const [isOpenAlert, setIsOpenAlert] = useState(null);
 
-  const blocker = useBlocker(isDirty);
+  const blocker = useBlocker(isDirty && !isSaving);
 
   const handleLeave = () => {
     if (blocker.state === "blocked") {

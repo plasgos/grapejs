@@ -57,21 +57,19 @@ const CreateFromScratch = () => {
 
     const slug = slugify(name);
 
-    if (data) {
-      dispatch(
-        setNewProject({
-          id: generateId(),
-          name,
-          slug,
-          description,
-          thumbnail: "",
-          frameProject: "",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        })
-      );
-      navigate(`/web-builder/${slug}`);
-    }
+    dispatch(
+      setNewProject({
+        id: generateId(),
+        name,
+        slug,
+        description,
+        thumbnail: "",
+        frameProject: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+    );
+    navigate(`/web-builder/${slug}`);
   };
 
   return (

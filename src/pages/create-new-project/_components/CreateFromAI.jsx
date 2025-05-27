@@ -32,9 +32,15 @@ import { cx } from "class-variance-authority";
 import { useNavigate } from "react-router-dom";
 import { useGenerateComponentFromAIMutation } from "@/redux/services/aiGenerateApi";
 import { useDispatch } from "react-redux";
-import { setProjectDataFromAI } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setNewProject,
+  setProjectDataFromAI,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { Loader2 } from "lucide-react";
 import { BsStars } from "react-icons/bs";
+import slugify from "slugify";
+import { generateId } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Harus Di Isi" }),
@@ -44,6 +50,8 @@ const formSchema = z.object({
 const CreateFromAI = () => {
   const [generateComponentFromAI, { isLoading: isLoadingGenerateAI, isError }] =
     useGenerateComponentFromAIMutation();
+
+  const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -63,6 +71,8 @@ const CreateFromAI = () => {
   const onSubmit = async (data) => {
     const { name, description } = data;
 
+    const slug = slugify(name);
+
     try {
       const result = await generateComponentFromAI({ prompt: description });
 
@@ -70,10 +80,30 @@ const CreateFromAI = () => {
         console.log("🚀 ~ onSubmit ~ result:", result);
         dispatch(setProjectDataFromAI(result?.data?.data));
 
+        dispatch(
+          setNewProject({
+            id: generateId(),
+            name,
+            slug,
+            description,
+            thumbnail: "",
+            frameProject: result?.data?.data,
+            isFromAI: true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          })
+        );
+
         navigate(`/web-builder/${name}`);
       }
     } catch (error) {
       console.log("🚀 ~ onSubmit ~ error:", error);
+
+      toast({
+        title: "Invalid Generate AI",
+        variant: "destructive",
+        duration: 2000,
+      });
     }
   };
 
@@ -146,7 +176,7 @@ const CreateFromAI = () => {
             variant="outline"
             disabled={isLoadingGenerateAI | !isValid}
           >
-            Generate Website{" "}
+            Buat Website{" "}
             {isLoadingGenerateAI ? (
               <Loader2 className="animate-spin" />
             ) : (
