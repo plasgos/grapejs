@@ -92,6 +92,9 @@ export const landingPageSlice = createSlice({
     setProjectDataFromAI: (state, action) => {
       state.projectDataFromAI = action.payload;
     },
+    setNewProject: (state, action) => {
+      state.projectsData.push(action.payload);
+    },
   },
 });
 
@@ -105,6 +108,7 @@ export const {
   removeProjectById,
   setDeployData,
   setProjectDataFromAI,
+  setNewProject,
 } = landingPageSlice.actions;
 
 export default landingPageSlice.reducer;

@@ -80,10 +80,6 @@ const plasgosPlugin = (editor) => {
       category: "test",
       content: source,
       activate: true,
-      // media: renderToString(icon),
-      // attributes: {
-      //   isLocked: defaultCustomComponent?.isLocked ?? false,
-      // },
     });
   });
 };

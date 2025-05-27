@@ -17,6 +17,7 @@ import ExpandedView from "./_components/ExpandedView";
 import { produce } from "immer";
 
 const Sidebar = ({
+  currentProject,
   selectedComponent,
   activeTab,
   setActiveTab,
@@ -180,6 +181,7 @@ const Sidebar = ({
             />
           ) : (
             <ExpandedView
+              currentProject={currentProject}
               searchBlock={searchBlock}
               handleSearchChange={handleSearchChange}
               selectedComponent={selectedComponent}

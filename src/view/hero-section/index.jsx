@@ -61,6 +61,7 @@ const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
                 {content.imagePosition === "left" ? (
                   <>
                     <div
+                      data-gjs-selectable="true"
                       ref={elementRef}
                       className={`${shadow} ${getClassName()}`}
                       style={{

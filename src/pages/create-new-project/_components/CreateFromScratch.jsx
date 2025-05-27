@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import slugify from "slugify";
 
 import {
   Accordion,
@@ -30,6 +31,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { cx } from "class-variance-authority";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setNewProject } from "@/redux/modules/landing-page/landingPageSlice";
+import { generateId } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Harus Di Isi" }),
@@ -46,12 +50,27 @@ const CreateFromScratch = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
     const { name, description } = data;
 
+    const slug = slugify(name);
+
     if (data) {
-      navigate(`/web-builder/${name}`);
+      dispatch(
+        setNewProject({
+          id: generateId(),
+          name,
+          slug,
+          description,
+          thumbnail: "",
+          frameProject: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
+      );
+      navigate(`/web-builder/${slug}`);
     }
   };
 

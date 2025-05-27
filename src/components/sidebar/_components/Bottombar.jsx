@@ -27,6 +27,7 @@ import { usePDF } from "react-to-pdf";
 
 import generatePDF, { Resolution, Margin } from "react-to-pdf";
 import { useEffect } from "react";
+import { forwardRef } from "react";
 
 const options = {
   filename: "advanced-options.pdf",
@@ -65,10 +66,9 @@ const options = {
   },
 };
 
-const ComponentToCapture = ({ data }) => {
-  const allComponents = data?.pages[0].frames?.[0]?.component?.components || [];
-
-  const thumbnailComponent = allComponents.slice(0, 3);
+const ComponentToCapture = forwardRef(({ data }, ref) => {
+  const allComponents = data?.pages[0].frames?.[0]?.component?.components;
+  const thumbnailComponent = allComponents?.slice(0, 3);
   const frameGlobalOptions = data?.globalOptions;
 
   const renderComponent = (comp) => {
@@ -86,8 +86,14 @@ const ComponentToCapture = ({ data }) => {
     );
   };
 
-  return thumbnailComponent?.map(renderComponent);
-};
+  return (
+    <div ref={ref} style={{ width: "1000px" }}>
+      {thumbnailComponent.map(renderComponent)}
+    </div>
+  );
+});
+
+ComponentToCapture.displayName = "ComponentToCapture";
 
 const Bottombar = ({
   editor,
@@ -132,76 +138,61 @@ const Bottombar = ({
   }, [shouldGenerate, dataToCapture]);
 
   const captureThumbnail = () => {
-    // const frameEl = editor.Canvas.getFrameEl();
-    // const frameDoc =
-    //   frameEl?.contentDocument || frameEl?.contentWindow?.document;
-    // if (frameDoc?.body) {
-    //   html2canvas(frameDoc.body, {
-    //     width: frameEl.clientWidth,
-    //     height: 800, // hanya ambil 600px awal
-    //     windowWidth: frameEl.clientWidth,
-    //     windowHeight: 1200,
-    //     scrollY: 0,
-    //     scrollX: 0,
-    //     useCORS: true,
-    //     scale: 1,
-    //   }).then((canvas) => {
-    //     const thumbnail = canvas.toDataURL("image/png");
-    //     // setImg(thumbnail)
-    //     // contoh: tampilkan thumbnail
-    //     const img = document.createElement("img");
-    //     img.src = thumbnail;
-    //     document.body.appendChild(img); // untuk demo
-    //   });
-    // }
-    const editorModel = editor.getModel();
+    const frameEl = editor.Canvas.getFrameEl();
+    const frameDoc =
+      frameEl?.contentDocument || frameEl?.contentWindow?.document;
 
-    // Ambil data proyek
-    const projectData = editor.getProjectData();
-    const resultComponent = produce(projectData, (draft) => {
-      draft.pages[0].frames[0].component.components.forEach(
-        (compt) => (compt.isFromAI = false)
-      );
+    const width = frameEl.clientWidth * 1.5;
+    console.log("🚀 ~ captureThumbnail ~ width:", width);
 
-      draft.globalOptions = editorModel.get("globalOptions");
-    });
+    if (frameDoc?.body) {
+      html2canvas(frameDoc.body, {
+        width: frameEl.clientWidth * 1.2,
+        height: 1200,
+        windowWidth: frameEl.clientWidth * 1.2,
+        windowHeight: 1200,
+        scrollY: 0,
+        scrollX: 0,
+        useCORS: true,
+        scale: 0.5,
+        allowTaint: true,
+      }).then((canvas) => {
+        const thumbnail = canvas.toDataURL("image/png");
 
-    const html = ReactDOMServer.renderToStaticMarkup(
-      <ComponentToCapture data={resultComponent} />
-    );
-    // targetRef.current.innerHTML = html;
-
-    // const canvas = await html2canvas(hiddenRef.current);
-
-    // const img = await takeScreenshot(hiddenRef.current);
-    // const img = canvas.toDataURL("image/png");
-    // setImage(img);
-
-    toPDF();
+        const img = document.createElement("img");
+        img.src = thumbnail;
+        document.body.appendChild(img);
+      });
+    }
   };
 
   const handleSave = () => {
-    captureThumbnail(); // jalankan html2canvas di sini
+    const wrapper = editor.getWrapper();
+    editor.select(wrapper);
+
+    captureThumbnail();
   };
 
   return (
     <div className="sticky bottom-0 z-10 bg-white shadow p-2 bg-gradient-to-r from-[#FF8F2B] to-[#FFC794]">
       {/* <img src={img} /> */}
 
-      <div
-        ref={hiddenRef}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          zIndex: -1,
-          width: "1000px",
-          height: "auto",
-          overflow: "hidden",
-        }}
-      >
-        <ComponentToCapture data={dataToCapture} />
-      </div>
+      {dataToCapture && (
+        <div
+          // ref={hiddenRef}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: -1,
+            width: "1000px",
+            height: "auto",
+            overflow: "hidden",
+          }}
+        >
+          <ComponentToCapture ref={hiddenRef} data={dataToCapture} />
+        </div>
+      )}
 
       {isCollapsedSideBar ? (
         <div className="flex gap-x-2 p-2">
@@ -277,7 +268,7 @@ const Bottombar = ({
           </DropdownMenu>
 
           <div className="flex gap-x-2">
-            <Button onClick={toPDF} className="bg-[#102442] rounded-full">
+            <Button onClick={handleSave} className="bg-[#102442] rounded-full">
               Save <Save />
             </Button>
 

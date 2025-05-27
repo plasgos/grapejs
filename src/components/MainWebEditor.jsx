@@ -45,6 +45,7 @@ import { schemeColours } from "./theme-colors";
 import NavigationGuard from "./NavigationGuard";
 import { useCallback } from "react";
 import { produce } from "immer";
+import trialPlugin from "@/plugins/new-plugin/trialPlugin";
 
 const rootMap = new Map();
 
@@ -138,8 +139,7 @@ const MainWebEditor = () => {
 
   const { slug } = useParams();
 
-  const currentProject = projectsData.find((project) => project.slug === slug);
-
+  const currentProject = projectsData?.find((project) => project.slug === slug);
   const windowWidth = useWindowWidth();
 
   const [isPreviewActive, setIsPreviewActive] = useState(false);
@@ -283,6 +283,8 @@ const MainWebEditor = () => {
 
     if (!currentProject?.frameProject?.globalOptions) {
       const intialStateGlobalData = {
+        name: "",
+        description: "",
         maxWidthPage: 1360,
         schemeColor: null,
         bgColor: "",
@@ -309,7 +311,7 @@ const MainWebEditor = () => {
     // Scroll ke komponen baru setelah ditambahkan
     editor.on("component:add", (model) => {
       setTimeout(() => {
-        const el = model.view?.el; // Ambil elemen DOM dari komponen
+        const el = model?.view?.el; // Ambil elemen DOM dari komponen
         if (el) {
           el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
@@ -438,6 +440,8 @@ const MainWebEditor = () => {
         symbols: [],
         dataSources: [],
         globalOptions: {
+          name: "",
+          description: "",
           maxWidthPage: 1360,
           bgColor: schemeColorValue ? schemeColorValue.baseColor : "",
           schemeColor: dataFromAI.schemeColor ? dataFromAI.schemeColor : null,
@@ -493,7 +497,7 @@ const MainWebEditor = () => {
       <GjsEditor
         onEditor={handleEditorInit}
         grapesjs={grapesjs}
-        plugins={[plasgosPlugin]}
+        plugins={[plasgosPlugin, trialPlugin]}
         options={{
           storageManager: false,
 
@@ -547,6 +551,7 @@ const MainWebEditor = () => {
               <motion.nav layout>
                 <WithEditor>
                   <Sidebar
+                    currentProject={currentProject}
                     selectedComponent={selectedComponent}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}

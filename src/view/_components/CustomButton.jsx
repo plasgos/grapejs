@@ -74,6 +74,7 @@ const CustomButton = ({
 
   return (
     <button
+      data-gjs-highlightable={true}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       style={{
@@ -96,7 +97,7 @@ const CustomButton = ({
     >
       {iconBtn?.position === "right" ? (
         <div className="flex justify-center items-center gap-x-2">
-          <p className={`${sizeClasses}`}>{btn.stylesBtn.title}</p>
+          <span className={`${sizeClasses}`}>{btn.stylesBtn.title}</span>
 
           {iconBtn?.icon?.startsWith("Fa") && Icons[iconBtn.icon] ? (
             <div style={{ color: iconBtn?.color }}>
@@ -116,7 +117,7 @@ const CustomButton = ({
             </div>
           ) : null}
 
-          <p className={`${sizeClasses}`}>{btn.stylesBtn.title}</p>
+          <span className={`${sizeClasses}`}>{btn.stylesBtn.title}</span>
         </div>
       )}
     </button>

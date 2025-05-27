@@ -12,6 +12,7 @@ import GlobalStyles from "./GlobalStyles";
 import useWindowWidth from "@/hooks/useWindowWidth";
 
 const ExpandedView = ({
+  currentProject,
   searchBlock,
   handleSearchChange,
   selectedComponent,
@@ -33,7 +34,7 @@ const ExpandedView = ({
       orientation="vertical"
     >
       <div className="flex w-full p-3 border-b shadow">
-        <p>Project Name</p>
+        <p>{currentProject?.name}</p>
       </div>
 
       {/* Top Bar */}
