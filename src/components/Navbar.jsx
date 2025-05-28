@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import Navigator from "./Navigator";
 import { useProjectSaver } from "@/hooks/useProjectSaver";
 import { Loader2 } from "lucide-react";
+import { SlGlobe } from "react-icons/sl";
 
 const Navbar = ({
   currentProject,
@@ -223,6 +224,7 @@ const Navbar = ({
   );
 
   const DeviceSelector = ({ selected, select, devices }) => {
+    console.log("🚀 ~ DeviceSelector ~ devices:", devices);
     const filteredDevices =
       Array.isArray(devices) && devices.length > 1
         ? devices.filter((device) => device.id !== "mobileLandscape")
@@ -261,8 +263,8 @@ const Navbar = ({
   return (
     <div className={`${isPreview ? "hidden" : "block"}`}>
       <div className="h-[56px] w-full z-50 bg-gradient-to-r from-orange-400 to-[#fa541c] text-white p-2 shadow-md flex  items-center">
-        <div className="w-80  mr-5">
-          <h1>Plasgos Web Builder</h1>
+        <div className="mr-5">
+          <h3>Plasgos Web Builder</h3>
         </div>
 
         <div className="flex  flex-1  items-center justify-between pr-5">
@@ -296,15 +298,16 @@ const Navbar = ({
                 );
               }
             )}
-          </div>
-
-          <div>
             <DevicesProvider>
               {(deviceContext) => <DeviceSelector {...deviceContext} />}
             </DevicesProvider>
           </div>
 
           <div>
+            <p className="font-semibold">{currentProject?.name}</p>
+          </div>
+
+          <div className="flex items-center gap-x-3">
             <Popover open={isOpenNavigator} onOpenChange={setIsOpenNavigator}>
               <PopoverTrigger asChild>
                 <Button
@@ -361,16 +364,14 @@ const Navbar = ({
                 </Tabs>
               </PopoverContent>
             </Popover>
-            <Button onClick={handlePublish} className="ml-3">
-              Publish
-            </Button>
 
             <Button
               disabled={isLoadingDeploy}
               onClick={handleDeploy}
-              className={cx("ml-3", isLoadingDeploy && "!cursor-not-allowed")}
+              className={cx("", isLoadingDeploy && "!cursor-not-allowed")}
             >
-              Deploy {isLoadingDeploy && <Loader2 className="animate-spin" />}
+              <SlGlobe />
+              Publish {isLoadingDeploy && <Loader2 className="animate-spin" />}
             </Button>
           </div>
         </div>

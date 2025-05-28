@@ -148,12 +148,6 @@ const Sidebar = ({
     }
   }, [activeTab, isEditComponent, setActiveTab]);
 
-  // useEffect(() => {
-  //   if (projectDataFromAI) {
-  //     importGeneratedSection(projectDataFromAI);
-  //   }
-  // }, [importGeneratedSection, projectDataFromAI]);
-
   return (
     <>
       {isEditComponent && selectedComponent?.get("type") !== "wrapper" ? (

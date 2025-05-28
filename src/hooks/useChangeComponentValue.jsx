@@ -4,6 +4,7 @@ import { useEditor } from "@grapesjs/react";
 
 export const useChangeComponentValue = (selectedComponent) => {
   const editor = useEditor();
+
   const customComponent = selectedComponent?.get("customComponent");
 
   const [currentComponent, setCurrentComponent] = useState(customComponent);

@@ -49,8 +49,7 @@ export const useProjectSaver = ({ editor, currentProject }) => {
     shouldRedirect = false,
     redirectPath = "/files",
   } = {}) => {
-    const wrapper = editor.getWrapper();
-    editor.select(wrapper);
+    editor.select(null);
     dispatch(setIsSaving(true));
 
     const result = await captureThumbnail();

@@ -1,5 +1,4 @@
 export const HeroSectionView = ({ data }) => {
-  console.log("🚀 ~ HeroSectionView ~ data:", data);
   return (
     <section
       className="flex justify-center bg-slate-500"

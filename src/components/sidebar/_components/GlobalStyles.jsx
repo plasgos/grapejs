@@ -1,24 +1,42 @@
+import {
+  handleAddWatermark,
+  handleRemoveWatermark,
+} from "@/components/MainWebEditor";
 import { schemeColours } from "@/components/theme-colors";
 import ColorPalettesOptions from "@/components/theme-colors/ColorPalettesOptions";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 import { useEditor } from "@grapesjs/react";
 import { produce } from "immer";
 import ColorPicker from "../../editor-block/_components/ColorPicker";
-import SelectOptions from "../../editor-block/_components/SelectOptions";
 import { widthPageOptions } from "../../SelectOptions";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+
+import { Check } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
-  handleAddWatermark,
-  handleRemoveWatermark,
-} from "@/components/MainWebEditor";
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 const GlobalStyles = () => {
   const editor = useEditor();
   const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
   const { schemeColor, maxWidthPage, bgColor, watermark, isSubscribed } =
     globalOptions || {};
+  console.log("🚀 ~ GlobalStyles ~ maxWidthPage:", maxWidthPage);
 
   const wrapper = editor.getWrapper();
 
@@ -116,18 +134,67 @@ const GlobalStyles = () => {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="p-5 flex flex-col gap-y-5 rounded-lg bg-white">
-      <SelectOptions
-        label="Max Width Page"
-        options={widthPageOptions}
-        value={maxWidthPage}
-        onChange={(value) => handleChangeWidthPage(value)}
-      />
+    <div className="p-5 flex flex-col gap-y-5 rounded-lg ">
+      <p className="font-semibold">Design Settings</p>
+
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {maxWidthPage ? `${maxWidthPage}px` : "Select page width"}
+            <ChevronDown className="opacity-50 ml-2 h-4 w-4" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[300px] p-0">
+          <Command>
+            <CommandList>
+              {widthPageOptions.map((group) => (
+                <CommandGroup
+                  key={group.label}
+                  heading={
+                    <span className="text-sm font-semibold text-black">
+                      {group.label}
+                    </span>
+                  }
+                >
+                  {group.options.map((option) => (
+                    <CommandItem
+                      key={option.value}
+                      value={option.value.toString()}
+                      onSelect={(val) => {
+                        const num = parseInt(val);
+                        handleChangeWidthPage(num);
+                        setOpen(false);
+                      }}
+                    >
+                      {option.label}
+                      <Check
+                        className={cn(
+                          "ml-auto h-4 w-4",
+                          maxWidthPage === option.value
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              ))}
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
 
       <ColorPicker
         label="Base Background Color"
-        value={bgColor}
+        value={bgColor || "#ffffff"}
         onChange={(color) => changeBackgroundColor(color)}
       />
 

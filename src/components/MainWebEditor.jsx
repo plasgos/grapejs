@@ -6,12 +6,6 @@ import { createRoot } from "react-dom/client";
 import "../index.css";
 import Watermark from "./Watermark";
 
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-
 import { useState } from "react";
 import Navbar from "./Navbar";
 
@@ -19,33 +13,28 @@ import plasgosPlugin from "@/plugins";
 
 import {
   setGoogleFont,
-  setIsCollapsedSideBar,
   setIsEditComponent,
-  setSidebarWidth,
 } from "@/redux/modules/landing-page/landingPageSlice";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
-import { onCustomToolbar } from "@/utils/onCustomToolbar";
 import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
 import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { googleFonts } from "@/lib/googleFonts";
-import { cn, generateId } from "@/lib/utils";
+import { generateId } from "@/lib/utils";
 import { generateGoogleFontsImportWithWeights } from "@/utils/injectGoogleFonts";
-import { useRef } from "react";
 import { useSelector } from "react-redux";
-import Sidebar from "./sidebar";
 
-import useWindowWidth from "@/hooks/useWindowWidth";
-import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
-import { motion } from "framer-motion";
-import { useNavigate, useParams } from "react-router-dom";
-import { schemeColours } from "./theme-colors";
-import NavigationGuard from "./NavigationGuard";
-import { useCallback } from "react";
-import { produce } from "immer";
 import trialPlugin from "@/plugins/new-plugin/trialPlugin";
+import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
+import { cx } from "class-variance-authority";
+import { produce } from "immer";
+import { useParams } from "react-router-dom";
+import NavigationGuard from "./NavigationGuard";
+import NewSidebar from "./sidebar/NewSidebar";
+import { schemeColours } from "./theme-colors";
+import ToolbarPortalWrapper from "./ToolbarPortalWrapper";
 
 const rootMap = new Map();
 
@@ -133,14 +122,11 @@ export const updateCanvasComponents = (editor, setCanvasComponents) => {
 };
 
 const MainWebEditor = () => {
-  const { projectsData, isCollapsedSideBar, projectDataFromAI } = useSelector(
-    (state) => state.landingPage
-  );
+  const { projectsData } = useSelector((state) => state.landingPage);
 
   const { slug } = useParams();
 
   const currentProject = projectsData?.find((project) => project.slug === slug);
-  const windowWidth = useWindowWidth();
 
   const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(undefined);
@@ -150,19 +136,12 @@ const MainWebEditor = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [editorInstance, setEditorInstance] = useState(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedComponent && selectedComponent.get("type") === "wrapper") {
       dispatch(setIsEditComponent(false));
     }
   }, [dispatch, selectedComponent]);
-
-  // useEffect(() => {
-  //   if (!currentProject) {
-  //     navigate("/files");
-  //   }
-  // }, [currentProject, dispatch, navigate]);
 
   const handleReorder = (event, editor, isFloatingComponent) => {
     if (isFloatingComponent) {
@@ -198,9 +177,16 @@ const MainWebEditor = () => {
 
   const handleEditorInit = (editor) => {
     setEditorInstance(editor);
-    onCustomToolbar(editor);
 
     editor.on("load", () => {
+      editor.Devices.add("mobileModern", {
+        id: "mobileModern",
+        name: "Mobile modern",
+        width: "375px", // Ukuran canvas editor
+        widthMedia: "480px", // Breakpoint media query untuk styling
+        priority: 480,
+      });
+
       injectExternalCSS(editor);
       updateCanvasComponents(editor, setCanvasComponents);
       handleFocusDropComponent(editor);
@@ -265,6 +251,15 @@ const MainWebEditor = () => {
 
     const handleComponentSelected = (model) => {
       setSelectedComponent(model);
+      const selected = editor.getSelected();
+      const componentEl = selected.view.el;
+
+      if (componentEl) {
+        componentEl.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
       setActiveTab("components");
     };
 
@@ -272,6 +267,28 @@ const MainWebEditor = () => {
 
     overrideDeleteCommand(editor);
     overrideCopyCommand(editor);
+    editor.Commands.add("custom-copy", {
+      run(editor) {
+        const selected = editor.getSelected();
+        if (selected) {
+          const clonedComponent = selected.clone();
+          const parent = selected.parent();
+          if (parent) {
+            const components = parent.get("components");
+            const currentIndex = components.indexOf(selected);
+            parent.append(clonedComponent, { at: currentIndex + 1 });
+          }
+          editor.select(clonedComponent);
+          const clonedElement = clonedComponent.view.el;
+          if (clonedElement) {
+            clonedElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+        }
+      },
+    });
   };
 
   const addGlobalOptions = (editor) => {
@@ -279,9 +296,7 @@ const MainWebEditor = () => {
 
     if (!currentProject?.frameProject?.globalOptions) {
       const intialStateGlobalData = {
-        name: "",
-        description: "",
-        maxWidthPage: 1360,
+        maxWidthPage: 1920,
         schemeColor: null,
         bgColor: "",
         scrollTarget: [
@@ -364,17 +379,6 @@ const MainWebEditor = () => {
     dispatch(setGoogleFont(fontOptions));
   };
 
-  const sidebarRef = useRef(null);
-
-  const handleToggleSidebar = () => {
-    if (!sidebarRef.current) return;
-    if (sidebarRef.current.isCollapsed()) {
-      sidebarRef.current.expand();
-    } else {
-      sidebarRef.current.collapse();
-    }
-  };
-
   const handleLoadCurrentProject = (editor) => {
     if (currentProject) {
       const um = editor.UndoManager;
@@ -396,6 +400,8 @@ const MainWebEditor = () => {
 
         handleAddWatermark(editor);
         injectExternalCSS(editor);
+
+        editor.on("load", () => {});
 
         updateCanvasComponents(editor, setCanvasComponents);
       }
@@ -440,9 +446,7 @@ const MainWebEditor = () => {
         symbols: [],
         dataSources: [],
         globalOptions: {
-          name: "",
-          description: "",
-          maxWidthPage: 1360,
+          maxWidthPage: 1920,
           bgColor: schemeColorValue ? schemeColorValue.baseColor : "",
           schemeColor: dataFromAI.schemeColor ? dataFromAI.schemeColor : null,
           scrollTarget: [
@@ -527,63 +531,33 @@ const MainWebEditor = () => {
               setIsDragging={setIsDragging}
             />
           </WithEditor>
-          <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel
-              ref={sidebarRef}
-              onResize={(value) => {
-                const widthPanel = Math.round(value);
 
-                dispatch(setSidebarWidth(widthPanel));
-                if (widthPanel === 5) {
-                  dispatch(setIsCollapsedSideBar(true));
-                } else {
-                  dispatch(setIsCollapsedSideBar(false));
-                }
-              }}
-              minSize={5}
-              collapsedSize={5}
-              collapsible
-              className={cn(
-                isCollapsedSideBar && "!w-[100px] min-w-[100px] max-w-[100px]",
-                isPreviewActive && "hidden"
-              )}
-              defaultSize={windowWidth <= 768 ? 35 : 25}
-            >
-              <motion.nav layout>
-                <WithEditor>
-                  <Sidebar
-                    currentProject={currentProject}
-                    selectedComponent={selectedComponent}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    setCanvasComponents={setCanvasComponents}
-                    onToggleSidebar={handleToggleSidebar}
-                  />
-                </WithEditor>
-              </motion.nav>
-            </ResizablePanel>
-
-            <ResizableHandle withHandle />
-
-            <ResizablePanel defaultSize={isPreviewActive ? 100 : 75}>
-              <div
-                className={`flex flex-col justify-center ${
-                  isPreviewActive ? "h-screen" : "h-full"
-                } items-center relative z-50`}
-              >
-                <Canvas
-                  style={{
-                    backgroundColor: "#FFF4EA",
-                    width: "100%",
-                    minHeight: isDragging ? "200%" : "100%",
-                    transform: isDragging ? "scale(0.5)" : "scale(1)",
-                    transformOrigin: "center center",
-                  }}
-                />
+          <div className={cx("flex")}>
+            <WithEditor>
+              <div className={cx("", isPreviewActive && "hidden")}>
+                <NewSidebar />
               </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
+            </WithEditor>
+
+            <div
+              className={cx(
+                "flex flex-col flex-1 ",
+                isPreviewActive ? "h-screen" : "h-[94vh]"
+              )}
+            >
+              <Canvas
+                style={{
+                  backgroundColor: "#FFF4EA",
+                  width: "100%",
+                }}
+              />
+            </div>
+          </div>
         </div>
+
+        <WithEditor>
+          <ToolbarPortalWrapper />
+        </WithEditor>
       </GjsEditor>
     </div>
   );
