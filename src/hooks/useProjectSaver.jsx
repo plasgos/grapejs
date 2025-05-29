@@ -4,12 +4,14 @@ import {
 } from "@/redux/modules/landing-page/landingPageSlice";
 import html2canvas from "html2canvas";
 import { produce } from "immer";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export const useProjectSaver = ({ editor, currentProject }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoadingSaver, setIsLoadingSaver] = useState(false);
 
   const captureThumbnail = async () => {
     const frameEl = editor?.Canvas.getFrameEl?.();
@@ -52,34 +54,43 @@ export const useProjectSaver = ({ editor, currentProject }) => {
     editor.select(null);
     dispatch(setIsSaving(true));
 
-    const result = await captureThumbnail();
+    setIsLoadingSaver(true);
 
-    if (!result) return;
+    try {
+      const result = await captureThumbnail();
 
-    const { thumbnail, resultComponent } = result;
+      if (!result) return;
 
-    if (currentProject) {
-      dispatch(
-        saveProject({
-          ...currentProject,
-          thumbnail,
-          frameProject: resultComponent,
-          isFromAI: false,
-        })
-      );
+      const { thumbnail, resultComponent } = result;
+
+      if (currentProject) {
+        dispatch(
+          saveProject({
+            ...currentProject,
+            thumbnail,
+            frameProject: resultComponent,
+            isFromAI: false,
+          })
+        );
+      }
+
+      if (shouldRedirect) {
+        setTimeout(() => {
+          navigate(redirectPath);
+        }, 100);
+      }
+
+      return result; // <-- Bisa kamu gunakan opsional
+    } catch (error) {
+      console.log("🚀 ~ useProjectSaver ~ error:", error);
+    } finally {
+      setIsLoadingSaver(false);
     }
-
-    if (shouldRedirect) {
-      setTimeout(() => {
-        navigate(redirectPath);
-      }, 100);
-    }
-
-    return result; // <-- Bisa kamu gunakan opsional
   };
 
   return {
     captureThumbnail,
     handleSave,
+    isLoadingSaver,
   };
 };

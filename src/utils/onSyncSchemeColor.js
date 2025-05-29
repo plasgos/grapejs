@@ -162,7 +162,6 @@ function applyFallbackColors(obj, fallbackColors) {
 
 export const onSyncSchemeColor = (editor, schemeColorValue) => {
   const components = editor?.getComponents()?.models;
-
   components.forEach((component, index) => {
     const type = component.get("type");
 

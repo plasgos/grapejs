@@ -36,8 +36,6 @@ const GlobalStyles = () => {
   const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
   const { schemeColor, maxWidthPage, bgColor, watermark, isSubscribed } =
     globalOptions || {};
-  console.log("🚀 ~ GlobalStyles ~ maxWidthPage:", maxWidthPage);
-
   const wrapper = editor.getWrapper();
 
   const handleChangeWidthPage = (value) => {
@@ -193,7 +191,7 @@ const GlobalStyles = () => {
       </Popover>
 
       <ColorPicker
-        label="Base Background Color"
+        label="Background Color"
         value={bgColor || "#ffffff"}
         onChange={(color) => changeBackgroundColor(color)}
       />

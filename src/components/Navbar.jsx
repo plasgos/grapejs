@@ -1,13 +1,6 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DevicesProvider, useEditor } from "@grapesjs/react";
 import { FaMobileAlt, FaRegEye, FaTabletAlt } from "react-icons/fa";
 import { IoDesktopOutline } from "react-icons/io5";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import {
   Tooltip,
@@ -18,45 +11,37 @@ import {
 import { cx } from "class-variance-authority";
 
 import { Button } from "@/components/ui/button";
-import {
-  setCanvasData,
-  setDeployData,
-} from "@/redux/modules/landing-page/landingPageSlice";
+import { useProjectSaver } from "@/hooks/useProjectSaver";
+import { setDeployData } from "@/redux/modules/landing-page/landingPageSlice";
 import { produce } from "immer";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { BiSolidLayer } from "react-icons/bi";
 import { LuRedo2, LuSquareDashed, LuUndo2 } from "react-icons/lu";
-import { MdClose } from "react-icons/md";
+import { SlGlobe, SlSizeFullscreen } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Navigator from "./Navigator";
-import { useProjectSaver } from "@/hooks/useProjectSaver";
-import { Loader2 } from "lucide-react";
-import { SlGlobe } from "react-icons/sl";
+import { Save } from "lucide-react";
 
-const Navbar = ({
-  currentProject,
-  setIsPreviewActive,
-  components,
-  onReorder,
-  setIsDragging,
-}) => {
+const Navbar = ({ currentProject, setIsPreviewActive }) => {
   const editor = useEditor();
 
-  const { handleSave } = useProjectSaver({ editor, currentProject });
+  const { handleSave, isLoadingSaver } = useProjectSaver({
+    editor,
+    currentProject,
+  });
 
   const dispatch = useDispatch();
 
   const [, setUpdateCounter] = useState(0);
-  const [isOpenNavigator, setIsOpenNavigator] = useState(false);
 
   const [isLoadingDeploy, setIsLoadingDeploy] = useState(false);
 
   const deviceIcons = {
     desktop: <IoDesktopOutline />,
     tablet: <FaTabletAlt />,
-    mobilePortrait: <FaMobileAlt />,
+    mobileModern: <FaMobileAlt />,
   };
+
   const { UndoManager, Commands } = editor;
   const cmdButtons = [
     {
@@ -73,8 +58,8 @@ const Navbar = ({
     },
     {
       id: "core:preview",
-      name: "Preview",
-      iconPath: <FaRegEye />,
+      name: "Preview Full Screen",
+      iconPath: <SlSizeFullscreen />,
     },
     {
       id: "core:component-outline",
@@ -161,80 +146,10 @@ const Navbar = ({
     }
   };
 
-  const handlePublish = () => {
-    const wrapper = editor.getWrapper();
-    const allComponents = editor.getComponents();
-
-    // Hapus style tambahan dari semua komponen
-    allComponents.forEach((component) => {
-      const styles = component.getStyle();
-      delete styles.outline;
-      delete styles.padding;
-      delete styles["box-shadow"];
-      component.setStyle(styles);
-    });
-
-    editor.select(wrapper);
-
-    setTimeout(() => {
-      const editorModel = editor.getModel();
-      const projectData = editor.getProjectData();
-
-      const updatedProjectData = produce(projectData, (draft) => {
-        // Disable preview finished mode countdown
-        if (draft?.pages && Array.isArray(draft.pages)) {
-          draft.pages.forEach((page) => {
-            if (page.frames && Array.isArray(page.frames)) {
-              page.frames.forEach((frame) => {
-                if (frame.component && frame.component.components) {
-                  frame.component.components.forEach((component) => {
-                    component.isFromAI = false;
-
-                    if (
-                      component.type === "countdown" &&
-                      component.customComponent?.finish
-                    ) {
-                      component.customComponent.finish.isFinished = false;
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-
-        // Update global options
-        draft.globalOptions = editorModel.get("globalOptions");
-      });
-
-      const jsonString = JSON.stringify(updatedProjectData, null, 2);
-
-      dispatch(setCanvasData(jsonString));
-      // setCanvasData({ html: jsonString });
-      navigate("/published");
-    }, 100);
-  };
-
-  const mainComponents = components.filter(
-    (comp) => !comp.model.get("category")?.toLowerCase().includes("floating")
-  );
-
-  const floatingComponents = components.filter((comp) =>
-    comp.model.get("category")?.toLowerCase().includes("floating")
-  );
-
   const DeviceSelector = ({ selected, select, devices }) => {
-    console.log("🚀 ~ DeviceSelector ~ devices:", devices);
-    const filteredDevices =
-      Array.isArray(devices) && devices.length > 1
-        ? devices.filter((device) => device.id !== "mobileLandscape")
-        : [];
-
-    if (filteredDevices.length === 0) return null;
-
     return (
       <div className="flex items-center gap-x-2">
-        {filteredDevices.map((deviceItem, i) => (
+        {devices.map((deviceItem, i) => (
           <TooltipProvider delayDuration={100} key={i}>
             <Tooltip>
               <TooltipTrigger
@@ -246,7 +161,7 @@ const Navbar = ({
                   selected === deviceItem.id
                     ? "bg-white text-black"
                     : "text-slate-300"
-                }  px-3 border  border-slate-300`}
+                }  px-3 `}
               >
                 {deviceIcons[deviceItem.id]}
               </TooltipTrigger>
@@ -308,70 +223,31 @@ const Navbar = ({
           </div>
 
           <div className="flex items-center gap-x-3">
-            <Popover open={isOpenNavigator} onOpenChange={setIsOpenNavigator}>
-              <PopoverTrigger asChild>
-                <Button
-                  className={`${
-                    isOpenNavigator && "bg-accent text-accent-foreground"
-                  }`}
-                  variant="ghost"
-                >
-                  Navigator <BiSolidLayer />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="p-0 relative right-2 bg-neutral-100 w-[400px] ">
-                <div className="flex items-center justify-between p-2 bg-white rounded">
-                  <p className="font-semibold">Navigator</p>
-
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsOpenNavigator(false)}
-                  >
-                    <MdClose />
-                  </Button>
-                </div>
-
-                <hr className="text-slate-500 w-full" />
-
-                <Tabs defaultValue="components" className="w-full">
-                  <TabsList>
-                    <TabsTrigger className="w-full" value="components">
-                      Components
-                    </TabsTrigger>
-                    <TabsTrigger className="w-full" value="Floating Components">
-                      Floating Components
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="components">
-                    <div className="p-3 max-h-[700px] overflow-y-auto overflow-x-hidden max-w-full">
-                      <Navigator
-                        components={mainComponents}
-                        onReorder={onReorder}
-                        setIsDragging={setIsDragging}
-                      />
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="Floating Components">
-                    <div className="p-3 max-h-[700px] overflow-y-auto overflow-x-hidden max-w-full">
-                      <Navigator
-                        components={floatingComponents}
-                        onReorder={onReorder}
-                        setIsDragging={setIsDragging}
-                        isFloatingComponent
-                      />
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </PopoverContent>
-            </Popover>
-
+            <Button
+              disabled={isLoadingSaver}
+              variant="outline"
+              onClick={() =>
+                handleSave({ shouldRedirect: true, redirectPath: "/files" })
+              }
+              className="bg-transparent"
+            >
+              Save
+              {isLoadingSaver ? <Loader2 className="animate-spin" /> : <Save />}
+            </Button>
             <Button
               disabled={isLoadingDeploy}
               onClick={handleDeploy}
-              className={cx("", isLoadingDeploy && "!cursor-not-allowed")}
+              className={cx(
+                "bg-indigo-700 hover:bg-indigo-800",
+                isLoadingDeploy && "!cursor-not-allowed"
+              )}
             >
-              <SlGlobe />
-              Publish {isLoadingDeploy && <Loader2 className="animate-spin" />}
+              Publish
+              {isLoadingDeploy ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <SlGlobe />
+              )}
             </Button>
           </div>
         </div>

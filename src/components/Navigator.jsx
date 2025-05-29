@@ -36,6 +36,7 @@ const SortableItem = ({ item, setIsDragging, isFloatingComponent }) => {
     transition,
     isDragging,
   } = useSortable({ id: item.id, disabled: isFloatingComponent });
+  console.log("🚀 ~ SortableItem ~ transform:", transform);
 
   const dispatch = useDispatch();
 

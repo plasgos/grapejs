@@ -51,9 +51,9 @@ const ToolbarOptions = ({ editor }) => {
 
   const component = editor?.getSelected()?.get("customComponent");
 
-  const isEditableTransition = "animation" in component;
-  const isEditableStyles = "wrapperStyle" in component;
-  const isEditableBackground = "background" in component;
+  const isEditableTransition = !!(component && "animation" in component);
+  const isEditableStyles = !!(component && "wrapperStyle" in component);
+  const isEditableBackground = !!(component && "background" in component);
 
   const tabs = useMemo(() => {
     return [

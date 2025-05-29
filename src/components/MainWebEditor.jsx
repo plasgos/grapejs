@@ -11,14 +11,10 @@ import Navbar from "./Navbar";
 
 import plasgosPlugin from "@/plugins";
 
-import {
-  setGoogleFont,
-  setIsEditComponent,
-} from "@/redux/modules/landing-page/landingPageSlice";
+import { setGoogleFont } from "@/redux/modules/landing-page/landingPageSlice";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
 import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { googleFonts } from "@/lib/googleFonts";
@@ -103,24 +99,6 @@ export const handleRemoveWatermark = (editor) => {
   watermarkContainer.remove();
 };
 
-const getAllComponents = (editor) => {
-  return editor?.getComponents()?.map((comp, index) => ({
-    id: comp.getId(),
-    name: comp.get("tagName") || `Component ${index + 1}`,
-    model: comp,
-    category: comp.get("category"),
-  }));
-};
-
-export const updateCanvasComponents = (editor, setCanvasComponents) => {
-  if (!editor) {
-    return;
-  }
-
-  const components = getAllComponents(editor);
-  setCanvasComponents(components);
-};
-
 const MainWebEditor = () => {
   const { projectsData } = useSelector((state) => state.landingPage);
 
@@ -129,101 +107,32 @@ const MainWebEditor = () => {
   const currentProject = projectsData?.find((project) => project.slug === slug);
 
   const [isPreviewActive, setIsPreviewActive] = useState(false);
-  const [selectedComponent, setSelectedComponent] = useState(undefined);
-  const [activeTab, setActiveTab] = useState("components");
-  const [canvasComponents, setCanvasComponents] = useState([]);
 
-  const [isDragging, setIsDragging] = useState(false);
   const [editorInstance, setEditorInstance] = useState(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (selectedComponent && selectedComponent.get("type") === "wrapper") {
-      dispatch(setIsEditComponent(false));
-    }
-  }, [dispatch, selectedComponent]);
-
-  const handleReorder = (event, editor, isFloatingComponent) => {
-    if (isFloatingComponent) {
-      return;
-    }
-
-    const { active, over } = event;
-
-    if (!over || active.id === over.id) return;
-
-    const oldIndex = canvasComponents.findIndex((c) => c.id === active.id);
-    const newIndex = canvasComponents.findIndex((c) => c.id === over.id);
-
-    // Swap posisi di array
-    const updatedComponents = [...canvasComponents];
-    const movedComponent = updatedComponents.splice(oldIndex, 1)[0];
-    updatedComponents.splice(newIndex, 0, movedComponent);
-
-    // Update state
-    setCanvasComponents(updatedComponents);
-
-    // Update order di dalam GrapesJS
-
-    const componentToMove = movedComponent.model;
-    editor.select(componentToMove);
-    const parent = componentToMove.parent();
-
-    // const parent = movedComponent.model.parent();
-    if (parent) {
-      parent.append(movedComponent.model, { at: newIndex });
-    }
-  };
 
   const handleEditorInit = (editor) => {
     setEditorInstance(editor);
 
     editor.on("load", () => {
-      editor.Devices.add("mobileModern", {
+      const deviceManager = editor.Devices;
+      deviceManager.add({
         id: "mobileModern",
-        name: "Mobile modern",
-        width: "375px", // Ukuran canvas editor
-        widthMedia: "480px", // Breakpoint media query untuk styling
-        priority: 480,
+        name: "Mobile", // yang tampil di UI
+        width: "375px", // ukuran canvas
+        widthMedia: "480px", // media query breakpoint
+        priority: 480, // untuk urutan tampilan di UI
       });
 
+      deviceManager.remove("mobilePortrait");
+      deviceManager.remove("mobileLandscape");
+
       injectExternalCSS(editor);
-      updateCanvasComponents(editor, setCanvasComponents);
       handleFocusDropComponent(editor);
       addGlobalOptions(editor);
       handleAddWatermark(editor);
       handleAddGoogleFont();
       handleLoadCurrentProject(editor);
-    });
-
-    editor.on("component:add", () => {
-      updateCanvasComponents(editor, setCanvasComponents);
-
-      const globalOptions = editor.getModel().get("globalOptions");
-
-      if (globalOptions?.schemeColor) {
-        const schemeColorValue = schemeColours.find(
-          (schemeColor) => schemeColor.name === globalOptions?.schemeColor
-        );
-
-        if (schemeColorValue) {
-          onSyncSchemeColor(editor, schemeColorValue);
-        }
-      }
-    });
-    editor.on("component:remove", () =>
-      updateCanvasComponents(editor, setCanvasComponents)
-    );
-    editor.on("component:drag:end", () =>
-      updateCanvasComponents(editor, setCanvasComponents)
-    );
-
-    editor.on("component:drag:start", () => {
-      setIsDragging(true);
-
-      setTimeout(() => {
-        editor.refresh(); // Memaksa reflow & repaint canvas
-      }, 50);
     });
 
     editor.on("component:drag:end", ({ target }) => {
@@ -241,29 +150,11 @@ const MainWebEditor = () => {
         }, 100);
       }
 
-      setIsDragging(false);
-
       // Force re-render canvas
       setTimeout(() => {
         editor.refresh(); // Memaksa reflow & repaint canvas
       }, 50);
     });
-
-    const handleComponentSelected = (model) => {
-      setSelectedComponent(model);
-      const selected = editor.getSelected();
-      const componentEl = selected.view.el;
-
-      if (componentEl) {
-        componentEl.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
-      setActiveTab("components");
-    };
-
-    editor.on("component:selected", handleComponentSelected);
 
     overrideDeleteCommand(editor);
     overrideCopyCommand(editor);
@@ -400,10 +291,6 @@ const MainWebEditor = () => {
 
         handleAddWatermark(editor);
         injectExternalCSS(editor);
-
-        editor.on("load", () => {});
-
-        updateCanvasComponents(editor, setCanvasComponents);
       }
 
       // Start tracking again AFTER all initial loads
@@ -489,8 +376,6 @@ const MainWebEditor = () => {
 
       handleAddWatermark(editor);
       injectExternalCSS(editor);
-
-      updateCanvasComponents(editor, setCanvasComponents);
     } catch (error) {
       console.error("🚀 Import error:", error);
     }
@@ -523,12 +408,6 @@ const MainWebEditor = () => {
             <Navbar
               currentProject={currentProject}
               setIsPreviewActive={(value) => setIsPreviewActive(value)}
-              selectedComponent={selectedComponent}
-              components={canvasComponents}
-              onReorder={handleReorder}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              setIsDragging={setIsDragging}
             />
           </WithEditor>
 
