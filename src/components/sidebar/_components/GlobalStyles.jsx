@@ -135,91 +135,97 @@ const GlobalStyles = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="p-5 flex flex-col gap-y-5 rounded-lg ">
-      <p className="font-semibold">Design Settings</p>
+    <div>
+      <div className="sticky top-0 z-10  border-b shadow  p-4 bg-orange-200  flex justify-between items-center ">
+        <p className="font-semibold">Design</p>
+      </div>
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-full justify-between"
-          >
-            {maxWidthPage ? `${maxWidthPage}px` : "Select page width"}
-            <ChevronDown className="opacity-50 ml-2 h-4 w-4" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[300px] p-0">
-          <Command>
-            <CommandList>
-              {widthPageOptions.map((group) => (
-                <CommandGroup
-                  key={group.label}
-                  heading={
-                    <span className="text-sm font-semibold text-black">
-                      {group.label}
-                    </span>
-                  }
-                >
-                  {group.options.map((option) => (
-                    <CommandItem
-                      key={option.value}
-                      value={option.value.toString()}
-                      onSelect={(val) => {
-                        const num = parseInt(val);
-                        handleChangeWidthPage(num);
-                        setOpen(false);
-                      }}
+      <div className="p-3 h-[86vh] overflow-y-auto">
+        <div className="p-2 flex flex-col gap-y-5 rounded-lg ">
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-full justify-between"
+              >
+                {maxWidthPage ? `${maxWidthPage}px` : "Select page width"}
+                <ChevronDown className="opacity-50 ml-2 h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[300px] p-0">
+              <Command>
+                <CommandList>
+                  {widthPageOptions.map((group) => (
+                    <CommandGroup
+                      key={group.label}
+                      heading={
+                        <span className="text-sm font-semibold text-black">
+                          {group.label}
+                        </span>
+                      }
                     >
-                      {option.label}
-                      <Check
-                        className={cn(
-                          "ml-auto h-4 w-4",
-                          maxWidthPage === option.value
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                    </CommandItem>
+                      {group.options.map((option) => (
+                        <CommandItem
+                          key={option.value}
+                          value={option.value.toString()}
+                          onSelect={(val) => {
+                            const num = parseInt(val);
+                            handleChangeWidthPage(num);
+                            setOpen(false);
+                          }}
+                        >
+                          {option.label}
+                          <Check
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              maxWidthPage === option.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
                   ))}
-                </CommandGroup>
-              ))}
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
 
-      <ColorPicker
-        label="Background Color"
-        value={bgColor || "#ffffff"}
-        onChange={(color) => changeBackgroundColor(color)}
-      />
+          <ColorPicker
+            label="Background Color"
+            value={bgColor || "#ffffff"}
+            onChange={(color) => changeBackgroundColor(color)}
+          />
 
-      <ColorPalettesOptions
-        label="Color Palettes"
-        value={schemeColor}
-        onChange={(value) => handleChangeSchemeColor(value)}
-        onResetSchemeColor={onResetSchemeColor}
-      />
+          <ColorPalettesOptions
+            label="Color Palettes"
+            value={schemeColor}
+            onChange={(value) => handleChangeSchemeColor(value)}
+            onResetSchemeColor={onResetSchemeColor}
+          />
 
-      <div className="flex justify-between items-center m-3">
-        <Label className="">Watermark</Label>
-        <Switch
-          checked={watermark}
-          onCheckedChange={(checked) => {
-            updateGlobalOptions({ watermark: checked });
+          <div className="flex justify-between items-center m-3">
+            <Label className="">Watermark</Label>
+            <Switch
+              checked={watermark}
+              onCheckedChange={(checked) => {
+                updateGlobalOptions({ watermark: checked });
 
-            if (editor) {
-              if (checked) {
-                handleAddWatermark(editor);
-              } else {
-                handleRemoveWatermark(editor);
-              }
-            }
-          }}
-          disabled={!isSubscribed}
-        />
+                if (editor) {
+                  if (checked) {
+                    handleAddWatermark(editor);
+                  } else {
+                    handleRemoveWatermark(editor);
+                  }
+                }
+              }}
+              disabled={!isSubscribed}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

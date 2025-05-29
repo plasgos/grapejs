@@ -135,6 +135,19 @@ const MainWebEditor = () => {
       handleLoadCurrentProject(editor);
     });
 
+    editor.on("component:add", () => {
+      handleSyncSchemeColor(editor);
+    });
+    editor.on("component:remove", () => {
+      handleSyncSchemeColor(editor);
+    });
+    editor.on("component:clone", () => {
+      handleSyncSchemeColor(editor);
+    });
+    editor.on("component:update", () => {
+      handleSyncSchemeColor(editor);
+    });
+
     editor.on("component:drag:end", ({ target }) => {
       if (!target) return;
 
@@ -180,6 +193,20 @@ const MainWebEditor = () => {
         }
       },
     });
+  };
+
+  const handleSyncSchemeColor = (editor) => {
+    const globalOptions = editor.getModel().get("globalOptions");
+
+    if (globalOptions?.schemeColor) {
+      const schemeColorValue = schemeColours.find(
+        (schemeColor) => schemeColor.name === globalOptions?.schemeColor
+      );
+
+      if (schemeColorValue) {
+        onSyncSchemeColor(editor, schemeColorValue);
+      }
+    }
   };
 
   const addGlobalOptions = (editor) => {

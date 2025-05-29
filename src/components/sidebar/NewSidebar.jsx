@@ -4,13 +4,6 @@ import { TbLayoutGridAdd } from "react-icons/tb";
 import BlockComponents from "./_components/BlockComponents";
 import SortComponent from "./_components/SortComponent";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import { Button } from "@/components/ui/button";
 import {
   HoverCard,
@@ -19,11 +12,9 @@ import {
 } from "@/components/ui/hover-card";
 import { useEditor } from "@grapesjs/react";
 import { useEffect, useState } from "react";
-import GlobalStyles from "./_components/GlobalStyles";
-import { CiExport, CiImport } from "react-icons/ci";
-import { IoSettingsSharp } from "react-icons/io5";
-import SettingPage from "./_components/SettingPage";
 import { FaCog } from "react-icons/fa";
+import GlobalStyles from "./_components/GlobalStyles";
+import SettingPage from "./_components/SettingPage";
 
 const sidebarItems = [
   {
@@ -101,31 +92,6 @@ const NewSidebar = () => {
           </HoverCard>
         );
       })}
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost">
-            <IoSettingsSharp />
-            Settings
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem
-            className="cursor-pointer"
-            // onClick={exportProjectAsFile}
-          >
-            {" "}
-            <CiExport /> Export Project
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="cursor-pointer"
-            // onClick={importProjectFromFile}
-          >
-            {" "}
-            <CiImport /> Import Project
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { DevicesProvider, useEditor } from "@grapesjs/react";
-import { FaMobileAlt, FaRegEye, FaTabletAlt } from "react-icons/fa";
+import { FaMobileAlt, FaTabletAlt } from "react-icons/fa";
 import { IoDesktopOutline } from "react-icons/io5";
 
 import {
@@ -14,13 +14,12 @@ import { Button } from "@/components/ui/button";
 import { useProjectSaver } from "@/hooks/useProjectSaver";
 import { setDeployData } from "@/redux/modules/landing-page/landingPageSlice";
 import { produce } from "immer";
-import { Loader2 } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LuRedo2, LuSquareDashed, LuUndo2 } from "react-icons/lu";
 import { SlGlobe, SlSizeFullscreen } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Save } from "lucide-react";
 
 const Navbar = ({ currentProject, setIsPreviewActive }) => {
   const editor = useEditor();
@@ -58,7 +57,7 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
     },
     {
       id: "core:preview",
-      name: "Preview Full Screen",
+      name: "View Full Screen",
       iconPath: <SlSizeFullscreen />,
     },
     {

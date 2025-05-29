@@ -1,5 +1,157 @@
+import { handleAddWatermark } from "@/components/MainWebEditor";
+import { useToast } from "@/hooks/use-toast";
+import { injectExternalCSS } from "@/utils/injectExternalCSS";
+import { useEditor } from "@grapesjs/react";
+import { produce } from "immer";
+import { ChevronRight } from "lucide-react";
+import { CiExport, CiImport } from "react-icons/ci";
+
 const SettingPage = () => {
-  return <div>SettingPage</div>;
+  const editor = useEditor();
+  const { toast } = useToast();
+
+  const settingItems = [
+    {
+      key: "import",
+      label: "Import Project",
+      icon: <CiImport size={18} />,
+      action: () => importProjectFromFile(),
+    },
+    {
+      key: "export",
+      label: "Export Project",
+      icon: <CiExport size={18} />,
+      action: () => exportProjectAsFile(),
+    },
+  ];
+
+  const exportProjectAsFile = () => {
+    const editorModel = editor.getModel();
+
+    // Ambil data proyek
+    const projectData = editor.getProjectData();
+    const resultComponent = produce(projectData, (draft) => {
+      draft.pages[0].frames[0].component.components.forEach(
+        (compt) => (compt.isFromAI = false)
+      );
+
+      draft.globalOptions = editorModel.get("globalOptions");
+    });
+    // Konversi data ke JSON
+    const jsonString = JSON.stringify(resultComponent, null, 2);
+
+    // Buat file untuk diunduh
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    // Simpan file dengan nama "grapesjs-project.json"
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "grapesjs-project.json";
+    link.click();
+
+    // Bersihkan URL setelah download
+    URL.revokeObjectURL(url);
+  };
+
+  const resetAllComponents = () => {
+    const editorModel = editor.getModel();
+    const currentGlobalOptions = editorModel.get("globalOptions");
+
+    if (currentGlobalOptions.schemeColor) {
+      editorModel.set("globalOptions", {
+        ...currentGlobalOptions,
+        schemeColor: null,
+        bgColor: "",
+      });
+    }
+
+    const components = editor?.getComponents().models;
+    if (components.length > 0) {
+      editor?.DomComponents.clear();
+    }
+  };
+
+  const importProjectFromFile = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+
+    input.onchange = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          resetAllComponents();
+          const projectData = JSON.parse(e.target.result);
+          // Muat data proyek ke editor
+          editor.loadProjectData(projectData);
+
+          // Ambil globalOptions dari data proyek jika ada
+          const editorModel = editor.getModel();
+          if (projectData.globalOptions) {
+            editorModel.set("globalOptions", projectData.globalOptions);
+          }
+          handleAddWatermark(editor);
+
+          injectExternalCSS(editor);
+
+          // Tampilkan toast sukses
+          toast({
+            title: "Project imported successfully!",
+            className: "bg-green-100 text-green-800 border border-green-300",
+            duration: 2000,
+          });
+        } catch (error) {
+          console.error("Import Error:", error);
+
+          // Tampilkan toast error
+          toast({
+            title: "Invalid JSON format!",
+            variant: "destructive",
+            duration: 2000,
+          });
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    input.click();
+  };
+
+  return (
+    <div>
+      <div className="sticky top-0 z-10  border-b shadow  p-4 bg-orange-200  flex justify-between items-center ">
+        <p className="font-semibold">Settings</p>
+      </div>
+
+      <div className="p-4 h-[86vh] overflow-y-auto">
+        <div className="flex flex-col gap-y-3 p-3 bg-white rounded-lg">
+          {settingItems.map((item) => {
+            return (
+              <div
+                key={item.key}
+                className="flex justify-between items-center border-b p-3 cursor-pointer hover:bg-accent"
+                onClick={() => item.action()}
+              >
+                <div className="flex items-center gap-x-3">
+                  {item.icon}
+
+                  <p>{item.label}</p>
+                </div>
+
+                <div>
+                  <ChevronRight className="text-muted-foreground" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default SettingPage;

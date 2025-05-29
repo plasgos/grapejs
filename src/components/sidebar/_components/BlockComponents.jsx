@@ -9,15 +9,15 @@ const BlockComponents = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-10  border-b  p-3 flex justify-between items-center ">
+      <div className="sticky top-0 z-10  border-b  p-4 flex justify-between items-center bg-orange-200 shadow ">
         <Input
           value={searchBlock || ""}
           onChange={(e) => setSearchBlock(e.target.value)}
-          className="rounded-full  pr-10 border-muted-foreground focus:!border-0"
+          className="rounded-full  pr-10 border-muted-foreground focus:!border-0 bg-white"
           placeholder="Search..."
         />
 
-        <div className="absolute top-[23px] right-6 z-10 ">
+        <div className="absolute top-[25px] right-6 z-10 ">
           <HiMagnifyingGlass className="text-slate-400" />
         </div>
       </div>
