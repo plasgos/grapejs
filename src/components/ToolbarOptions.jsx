@@ -21,9 +21,18 @@ import { HiAdjustments } from "react-icons/hi";
 import { MdClose, MdDeblur } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 import ComponentStyleEditor from "./sidebar/_components/ComponentStyleEditor";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { cx } from "class-variance-authority";
 
 const ToolbarOptions = ({ editor }) => {
-  const [editComponent, setEditComponent] = useState("");
+  const { editComponent, isDraggingComponent } = useSelector(
+    (state) => state.landingPage
+  );
+
+  const dispatch = useDispatch();
+
   const [activeTab, setActiveTab] = useState("content");
 
   const items = [
@@ -31,10 +40,8 @@ const ToolbarOptions = ({ editor }) => {
       icon: "FaPenToSquare",
       tooltip: "Edit Component",
       onClick: () => {
-        // editor.runCommand("custom-edit")
-
         const selectedComponent = editor.getSelected()?.attributes?.blockLabel;
-        setEditComponent(selectedComponent);
+        dispatch(setEditComponent(selectedComponent));
       },
     },
     {
@@ -89,13 +96,20 @@ const ToolbarOptions = ({ editor }) => {
   useEffect(() => {
     if (editor) {
       editor.on("component:selected", () => {
-        setEditComponent("");
+        dispatch(setEditComponent(""));
       });
     }
-  }, [editor]);
+  }, [dispatch, editor]);
 
   return (
-    <div className="absolute right-3 top-3 z-[9999]">
+    <div
+      className={cx(
+        "",
+        isDraggingComponent
+          ? "absolute right-0 top-0 z-[9999]"
+          : "sticky w-max ml-auto  m-[20px] top-5 right-5  z-[9999]"
+      )}
+    >
       {editComponent ? (
         <Popover open={editComponent}>
           <PopoverTrigger className="invisible">Open</PopoverTrigger>
@@ -106,7 +120,7 @@ const ToolbarOptions = ({ editor }) => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setEditComponent("")}
+                onClick={() => dispatch(setEditComponent(""))}
                 className="text-xs"
               >
                 <MdClose className="scale-125" />
@@ -114,12 +128,12 @@ const ToolbarOptions = ({ editor }) => {
             </div>
 
             {/* Scrollable Content */}
-            <div className="max-h-[500px] overflow-y-auto p-1 space-y-2">
+            <div className="h-[500px] bg-[#FEEBDB]  overflow-y-auto  space-y-2">
               <Tabs
                 onValueChange={(value) => setActiveTab(value)}
                 defaultValue={activeTab}
               >
-                <TabsList className="">
+                <TabsList className="bg-white">
                   {filteredTabs.map((tab) => (
                     <TabsTrigger
                       key={tab.value}
@@ -144,7 +158,7 @@ const ToolbarOptions = ({ editor }) => {
                   ))}
                 </TabsList>
 
-                <div className="bg-[#FEEBDB]">
+                <div className=" bg-[#FEEBDB]">
                   <ComponentStyleEditor
                     editor={editor}
                     selectedComponent={editor?.getSelected()}

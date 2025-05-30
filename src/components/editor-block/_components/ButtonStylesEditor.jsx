@@ -65,11 +65,14 @@ const ButtonStylesEditor = ({
         <div className="flex items-center justify-between">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full">
                 Custom Styles <IoIosColorPalette />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[310px] space-y-2 relative -right-3">
+            <DropdownMenuContent
+              side="left"
+              className="w-[310px] space-y-2 relative -left-1"
+            >
               <DropdownMenuLabel>Options</DropdownMenuLabel>
 
               <DropdownMenuSeparator className="bg-slate-300" />

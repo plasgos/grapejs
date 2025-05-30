@@ -4,7 +4,8 @@ import project1Json from "@/dummy-projects/project-1.json";
 const initialState = {
   deployData: undefined,
   canvasData: undefined,
-  isEditComponent: false,
+  editComponent: "",
+  isDraggingComponent: false,
   isFocusContent: "",
   googleFonts: [],
   sidebarWidth: undefined,
@@ -58,6 +59,57 @@ const initialState = {
   ],
   projectDataFromAI: undefined,
   isSaving: false,
+
+  optionsFbPixelId: [
+    { id: "fb-id-1", value: "randomId123", label: "Old Habassy" },
+  ],
+  optionsFbPixelEvent: [
+    {
+      label: "Utama",
+      options: [
+        { value: null, label: "Tidak Ada" },
+        { value: "custom", label: "Custom" },
+      ],
+    },
+    {
+      label: "Belanja",
+      options: [
+        { value: "add-payment-info", label: "Add Payment Info" },
+        { value: "add-to-cart", label: "Add to Cart" },
+        { value: "add-to-wishlist", label: "Add to Wishlist" },
+        { value: "initiate-checkout", label: "Initiate Checkout" },
+        { value: "purchase", label: "Purchase" },
+        { value: "search", label: "Search" },
+        { value: "view-content", label: "View Content" },
+      ],
+    },
+    {
+      label: "Leads",
+      options: [
+        { value: "lead", label: "Lead" },
+        { value: "page-view", label: "Page View" },
+        { value: "complete-registration", label: "Complete Registration" },
+        { value: "contact", label: "Contact" },
+        { value: "find-location", label: "Find Location" },
+      ],
+    },
+    {
+      label: "Subscription",
+      options: [
+        { value: "start-trial", label: "Start Trial" },
+        { value: "subscribe", label: "Subscribe" },
+      ],
+    },
+    {
+      label: "Lainnya",
+      options: [
+        { value: "customize-product", label: "Customize Product" },
+        { value: "donate", label: "Donate" },
+        { value: "schedule", label: "Schedule" },
+        { value: "submit-application", label: "Submit Application" },
+      ],
+    },
+  ],
 };
 
 export const landingPageSlice = createSlice({
@@ -67,8 +119,11 @@ export const landingPageSlice = createSlice({
     setCanvasData: (state, action) => {
       state.canvasData = action.payload;
     },
-    setIsEditComponent: (state, action) => {
-      state.isEditComponent = action.payload;
+    setEditComponent: (state, action) => {
+      state.editComponent = action.payload;
+    },
+    setIsDraggingComponent: (state, action) => {
+      state.isDraggingComponent = action.payload;
     },
     setIsFocusContent: (state, action) => {
       state.isFocusContent = action.payload;
@@ -114,7 +169,8 @@ export const landingPageSlice = createSlice({
 
 export const {
   setCanvasData,
-  setIsEditComponent,
+  setEditComponent,
+  setIsDraggingComponent,
   setIsFocusContent,
   setGoogleFont,
   setSidebarWidth,

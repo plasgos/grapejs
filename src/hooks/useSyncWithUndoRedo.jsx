@@ -1,4 +1,4 @@
-import { setIsEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 import { useEditor } from "@grapesjs/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -22,7 +22,7 @@ const useSyncWithUndoRedo = (setCurrentComponent) => {
     const checkUndoHistory = () => {
       const undoManager = editor.UndoManager;
       if (undoManager && undoManager.hasUndo() === false) {
-        dispatch(setIsEditComponent(false));
+        dispatch(setEditComponent(false));
       }
     };
 

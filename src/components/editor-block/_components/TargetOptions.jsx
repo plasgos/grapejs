@@ -9,11 +9,10 @@ import {
 } from "@/components/ui/select";
 
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 import {
   Collapsible,
@@ -41,6 +40,8 @@ import { RiWhatsappFill } from "react-icons/ri";
 import { useEffect } from "react";
 import { CgChevronDoubleRight } from "react-icons/cg";
 import SelectCircle from "./SelectCircle";
+import { HiOutlineCursorClick } from "react-icons/hi";
+import FacebookPixel from "@/components/FacebookPixel";
 
 const localPageTargetOptions = [
   { label: "Utama", options: [{ value: "home", label: "Home" }] },
@@ -109,6 +110,7 @@ const TargetOptions = ({
   handleComponentChange,
 }) => {
   const { target } = content;
+  console.log("🚀 ~ target:", target);
   const editor = useEditor();
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
@@ -239,16 +241,14 @@ const TargetOptions = ({
   }, [target?.options?.type]);
 
   return (
-    <Accordion
-      defaultValue={content.target?.options?.type ? "item-1" : ""}
-      type="single"
-      collapsible
-    >
-      <AccordionItem value="item-1">
-        <AccordionTrigger className="!no-underline bg-white rounded px-3 ">
-          Click Action
-        </AccordionTrigger>
-        <AccordionContent className=" bg-white rounded p-2 ">
+    <>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className="">
+            Click Action Target <HiOutlineCursorClick />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent side="left" className="w-[350px]">
           <div>
             <SelectCircle
               options={clickActionOptions}
@@ -319,7 +319,7 @@ const TargetOptions = ({
                       )}
                     </div>
 
-                    <CollapsibleContent className=" mt-2 p-2 shadow-lg rounded-md mb-1">
+                    <CollapsibleContent className=" mt-2 p-2  rounded-md mb-1">
                       {target.options.type === "url" && (
                         <div className="flex flex-col gap-y-4">
                           <Label>URL</Label>
@@ -504,9 +504,11 @@ const TargetOptions = ({
               </div>
             )}
           </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+
+          {target?.options?.type !== null && <FacebookPixel />}
+        </PopoverContent>
+      </Popover>
+    </>
   );
 };
 

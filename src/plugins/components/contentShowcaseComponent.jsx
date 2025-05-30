@@ -74,7 +74,7 @@ export const contentShowcaseComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#hsjdhj",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

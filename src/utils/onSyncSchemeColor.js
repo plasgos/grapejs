@@ -1,6 +1,6 @@
 import { produce } from "immer";
 
-function getFallbackColorsByType(type, colours) {
+export function getFallbackColorsByType(type, colours) {
   const safe = (color) => (color ? `#${color}` : "");
 
   const base = {
@@ -132,30 +132,100 @@ function getFallbackColorsByType(type, colours) {
   }
 }
 
-function applyFallbackColors(obj, fallbackColors) {
+// export function applyFallbackColors(obj, fallbackColors) {
+//   const allowedKeys = ["bgType", "bgColor"];
+
+//   if (Array.isArray(obj)) {
+//     obj.forEach((item) => applyFallbackColors(item, fallbackColors));
+//     return;
+//   }
+//   if (typeof obj !== "object" || obj === null) return;
+
+//   for (const key in obj) {
+//     const value = obj[key];
+
+//     if (typeof value === "object" && value !== null) {
+//       applyFallbackColors(value, fallbackColors);
+//     } else if (
+//       key.toLowerCase().includes("color") ||
+//       (allowedKeys.includes(key) && (!obj[key] || obj[key] === "")) // hanya set jika kosong
+//     ) {
+//       if (
+//         fallbackColors?.[key] !== undefined &&
+//         fallbackColors?.[key] !== null
+//       ) {
+//         obj[key] = fallbackColors[key];
+//       }
+//     }
+//   }
+// }
+
+export function applyFallbackColors(obj, fallbackColors) {
   const allowedKeys = ["bgType", "bgColor"];
 
   if (Array.isArray(obj)) {
     obj.forEach((item) => applyFallbackColors(item, fallbackColors));
     return;
   }
+
   if (typeof obj !== "object" || obj === null) return;
 
   for (const key in obj) {
     const value = obj[key];
+    const fallbackValue = fallbackColors?.[key];
 
     if (typeof value === "object" && value !== null) {
       applyFallbackColors(value, fallbackColors);
     } else if (
       key.toLowerCase().includes("color") ||
-      (allowedKeys.includes(key) && (!obj[key] || obj[key] === "")) // hanya set jika kosong
+      allowedKeys.includes(key)
     ) {
-      if (
-        fallbackColors?.[key] !== undefined &&
-        fallbackColors?.[key] !== null
-      ) {
-        obj[key] = fallbackColors[key];
+      const isEmpty = value === "" || value == null;
+      const isSameAsFallback = value === fallbackValue;
+
+      if (isEmpty || isSameAsFallback) {
+        if (
+          fallbackValue !== undefined &&
+          fallbackValue !== null &&
+          fallbackValue !== ""
+        ) {
+          obj[key] = fallbackValue;
+        }
       }
+      // else: value is different from fallback, user has overridden it — keep it
+    }
+  }
+}
+
+const colorKeysToKeep = [
+  // "bgColor",
+  "borderColor",
+  "quoteColor",
+  "starsColor",
+  "daysColor",
+  "hoursColor",
+  "minutesColor",
+  "secondsColor",
+  "color",
+];
+function resetColorValuesWithExclusion(obj) {
+  const normalizedKeepKeys = colorKeysToKeep.map((k) => k.toLowerCase());
+
+  if (Array.isArray(obj)) {
+    obj.forEach((item) => resetColorValuesWithExclusion(item));
+    return;
+  }
+
+  for (const key in obj) {
+    const value = obj[key];
+
+    if (typeof value === "object" && value !== null) {
+      resetColorValuesWithExclusion(value);
+    } else if (
+      key.toLowerCase().includes("color") &&
+      !normalizedKeepKeys.includes(key.toLowerCase())
+    ) {
+      obj[key] = "";
     }
   }
 }
@@ -183,6 +253,7 @@ export const onSyncSchemeColor = (editor, schemeColorValue) => {
     const customComponent = component.get("customComponent") || {};
 
     const updatedCustomComponent = produce(customComponent, (draft) => {
+      // resetColorValuesWithExclusion(draft);
       const fallbackColors = getFallbackColorsByType(type, colours);
 
       applyFallbackColors(draft, fallbackColors);

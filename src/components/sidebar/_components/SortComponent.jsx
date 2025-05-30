@@ -24,9 +24,16 @@ import { PiTargetBold } from "react-icons/pi";
 import { useReducer } from "react";
 import { useEffect } from "react";
 import { MdOutlineFilterCenterFocus } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import {
+  setEditComponent,
+  setIsDraggingComponent,
+} from "@/redux/modules/landing-page/landingPageSlice";
+import { useSelector } from "react-redux";
 
 const SortableItem = ({ item, isFloatingComponent }) => {
   const editor = useEditor();
+  const { editComponent } = useSelector((state) => state.landingPage);
 
   const {
     attributes,
@@ -50,10 +57,8 @@ const SortableItem = ({ item, isFloatingComponent }) => {
     if (item) {
       // Pilih komponen tertentu yang dimaksud
       editor.select(item);
-
       // Mendapatkan elemen DOM dari komponen yang dipilih
       const selectedElement = item.view.el;
-
       if (selectedElement) {
         // Scroll otomatis ke elemen yang dipilih
         selectedElement.scrollIntoView({
@@ -63,6 +68,18 @@ const SortableItem = ({ item, isFloatingComponent }) => {
       }
     }
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isDragging && !!editComponent) {
+      dispatch(setEditComponent(""));
+    }
+  }, [dispatch, editComponent, isDragging]);
+
+  useEffect(() => {
+    dispatch(setIsDraggingComponent(isDragging));
+  }, [dispatch, isDragging]);
 
   const handleDelete = () => {
     if (item) {
@@ -204,40 +221,16 @@ const Navigator = ({
   handleReorder,
   isFloatingComponent,
 }) => {
-  const handleDragEnd = (event) => {
-    const { active } = event;
-    const component = editor
-      .getComponents()
-      .find((cmp) => cmp.getId() === active.id);
-    if (component) {
-      editor.select(component);
-
-      const movedElement = component.view.el;
-
-      // Scroll the page to the moved component
-      if (movedElement) {
-        setTimeout(() => {
-          movedElement.scrollIntoView({
-            behavior: "smooth", // Smooth scroll
-            block: "center", // Scroll to the center of the screen
-            inline: "nearest",
-          });
-        }, 100);
-      }
-    }
-  };
+  const dispatch = useDispatch();
 
   return (
     <DndContext
       collisionDetection={closestCenter}
       onDragEnd={(event) => {
         if (!isFloatingComponent) {
-          handleDragEnd(event);
-        }
-      }}
-      onDragOver={(event) => {
-        if (!isFloatingComponent) {
           handleReorder(event, editor, isFloatingComponent);
+
+          // dispatch(setIsDraggingComponent(true));
         }
       }}
     >
@@ -305,10 +298,10 @@ const SortComponent = () => {
     // Update order di dalam GrapesJS
 
     const componentToMove = movedComponent;
+
     editor.select(componentToMove);
     const parent = componentToMove.parent();
 
-    // const parent = movedComponent.model.parent();
     if (parent) {
       parent.append(movedComponent, { at: newIndex });
     }

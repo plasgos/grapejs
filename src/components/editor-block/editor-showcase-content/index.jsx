@@ -107,7 +107,7 @@ const EditorContentShowcase = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInLeft "
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">

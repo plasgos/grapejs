@@ -206,12 +206,6 @@
 }
 
 .gjs-toolbar {
-  /* background-color: #fb6123 !important;
-  padding: 2px;
-  box-shadow: 0px 4px 10px rgba(251, 97, 35, 0.75) !important; */
-  /* width: 115px;
-  border-radius: 10px !important; */
-
   all: unset !important;
   pointer-events: auto !important;
   z-index: 9999 !important;
@@ -222,13 +216,6 @@
   align-items: center;
   gap: 8px;
 }
-
-/* .gjs-toolbar-item {
-  width: 0;
-  padding: 0;
-  cursor: pointer;
-  display: inline-block;
-} */
 
 .animate__animated {
   will-change: transform, opacity;

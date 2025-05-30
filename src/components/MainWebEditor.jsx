@@ -144,14 +144,11 @@ const MainWebEditor = () => {
     editor.on("component:clone", () => {
       handleSyncSchemeColor(editor);
     });
-    editor.on("component:update", () => {
-      handleSyncSchemeColor(editor);
-    });
 
-    editor.on("component:drag:end", ({ target }) => {
-      if (!target) return;
+    editor.on("component:selected", () => {
+      const selected = editor.getSelected();
 
-      const movedElement = target.view?.el;
+      const movedElement = selected.view?.el;
 
       if (movedElement) {
         setTimeout(() => {
