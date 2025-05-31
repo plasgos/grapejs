@@ -66,7 +66,7 @@ const GlobalStyles = () => {
       bgColor: schemeColorValue.baseColor,
     });
 
-    onSyncSchemeColor(editor, schemeColorValue);
+    onSyncSchemeColor(editor, schemeColorValue, true);
 
     if (wrapper) {
       wrapper.addStyle({
@@ -142,57 +142,60 @@ const GlobalStyles = () => {
 
       <div className="p-3 h-[86vh] overflow-y-auto">
         <div className="p-2 flex flex-col gap-y-5 rounded-lg ">
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className="w-full justify-between"
-              >
-                {maxWidthPage ? `${maxWidthPage}px` : "Select page width"}
-                <ChevronDown className="opacity-50 ml-2 h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[300px] p-0">
-              <Command>
-                <CommandList>
-                  {widthPageOptions.map((group) => (
-                    <CommandGroup
-                      key={group.label}
-                      heading={
-                        <span className="text-sm font-semibold text-black">
-                          {group.label}
-                        </span>
-                      }
-                    >
-                      {group.options.map((option) => (
-                        <CommandItem
-                          key={option.value}
-                          value={option.value.toString()}
-                          onSelect={(val) => {
-                            const num = parseInt(val);
-                            handleChangeWidthPage(num);
-                            setOpen(false);
-                          }}
-                        >
-                          {option.label}
-                          <Check
-                            className={cn(
-                              "ml-auto h-4 w-4",
-                              maxWidthPage === option.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  ))}
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+          <div className="space-y-2">
+            <Label>Max Width Section</Label>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-full justify-between"
+                >
+                  {maxWidthPage ? `${maxWidthPage}px` : "Select page width"}
+                  <ChevronDown className="opacity-50 ml-2 h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[300px] p-0">
+                <Command>
+                  <CommandList>
+                    {widthPageOptions.map((group) => (
+                      <CommandGroup
+                        key={group.label}
+                        heading={
+                          <span className="text-sm font-semibold text-black">
+                            {group.label}
+                          </span>
+                        }
+                      >
+                        {group.options.map((option) => (
+                          <CommandItem
+                            key={option.value}
+                            value={option.value.toString()}
+                            onSelect={(val) => {
+                              const num = parseInt(val);
+                              handleChangeWidthPage(num);
+                              setOpen(false);
+                            }}
+                          >
+                            {option.label}
+                            <Check
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                maxWidthPage === option.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    ))}
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
 
           <ColorPicker
             label="Background Color"

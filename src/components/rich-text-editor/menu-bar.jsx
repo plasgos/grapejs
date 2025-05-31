@@ -105,7 +105,7 @@ export default function MenuBar({ editor, schemeColor }) {
 
     for (const key in obj) {
       if (key === targetKey) {
-        obj[key] = "";
+        obj[key] = "__INLINE__";
       } else {
         const val = obj[key];
         if (typeof val === "object" && val !== null) {
@@ -136,13 +136,13 @@ export default function MenuBar({ editor, schemeColor }) {
   const valueSchemeColor = findValueByKey(currentComponent, schemeColor);
 
   useEffect(() => {
-    if (valueSchemeColor && editor) {
+    if (valueSchemeColor && editor && valueSchemeColor !== "__INLINE__") {
       const docSize = editor.state.doc.content.size;
 
       // Seleksi seluruh teks
       editor.commands.setTextSelection({ from: 0, to: docSize });
 
-      // Terapkan warna ke semua teks
+      // Terapkan warna ke semua teks dari schemeColor (jika bukan override)
       editor.commands.setColor(valueSchemeColor);
     }
   }, [editor, valueSchemeColor]);

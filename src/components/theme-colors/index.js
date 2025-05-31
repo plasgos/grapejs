@@ -175,7 +175,7 @@ export const schemeColours = [
   },
   {
     name: "base-orange",
-    baseColor: "#FAEDCA",
+    baseColor: "#FEF3E2",
     colours: [
       {
         background: "FE5D26",
@@ -280,7 +280,7 @@ export const schemeColours = [
   },
   {
     name: "pastel-purple",
-    baseColor: "#8D493A",
+    baseColor: "#FFE6E6",
     colours: [
       {
         background: "7469B6",

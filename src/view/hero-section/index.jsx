@@ -50,7 +50,9 @@ const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
           className={`relative mx-auto`}
         >
           {contents.map((content) => {
-            const useSchemeColor = !!content?.textBannerColor;
+            const useSchemeColor =
+              !!content?.textBannerColor &&
+              content?.textBannerColor !== "__INLINE__";
 
             return (
               <div
@@ -217,7 +219,9 @@ const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
       {variant === "no-image" && (
         <div className={`w-full flex ${alignText} items-center relative`}>
           {contents.map((content) => {
-            const useSchemeColor = !!content?.textBannerColor;
+            const useSchemeColor =
+              !!content?.textBannerColor &&
+              content?.textBannerColor !== "__INLINE__";
 
             return (
               <div key={content.id} className="max-w-full">

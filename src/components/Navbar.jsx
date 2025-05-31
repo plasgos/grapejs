@@ -12,14 +12,19 @@ import { cx } from "class-variance-authority";
 
 import { Button } from "@/components/ui/button";
 import { useProjectSaver } from "@/hooks/useProjectSaver";
-import { setDeployData } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setDeployData,
+  setEditComponent,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { produce } from "immer";
 import { Loader2, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LuRedo2, LuSquareDashed, LuUndo2 } from "react-icons/lu";
-import { SlGlobe, SlSizeFullscreen } from "react-icons/sl";
+import { SlGlobe, SlSizeActual, SlSizeFullscreen } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { VscZoomIn, VscZoomOut } from "react-icons/vsc";
+import { renderToString } from "react-dom/server";
 
 const Navbar = ({ currentProject, setIsPreviewActive }) => {
   const editor = useEditor();
@@ -34,6 +39,7 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
   const [, setUpdateCounter] = useState(0);
 
   const [isLoadingDeploy, setIsLoadingDeploy] = useState(false);
+  const [currentZoom, setCurrentZoom] = useState(70);
 
   const deviceIcons = {
     desktop: <IoDesktopOutline />,
@@ -55,22 +61,126 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
       iconPath: <LuRedo2 />,
       disabled: () => !UndoManager.hasRedo(),
     },
-    {
-      id: "core:preview",
-      name: "View Full Screen",
-      iconPath: <SlSizeFullscreen />,
-    },
+
     {
       id: "core:component-outline",
       name: "View Components",
       iconPath: <LuSquareDashed />,
     },
+    {
+      id: "core:preview",
+      name: "Preview Full Screen",
+      iconPath: <SlSizeFullscreen />,
+    },
   ];
 
   const isPreview = Commands.isActive("core:preview");
 
+  const zoomOptions = [
+    {
+      id: "zoom-out",
+      name: "Zoom Out",
+      iconPath: <VscZoomOut className="scale-125" />,
+      command: () => updateZoom(-10),
+      disabled: currentZoom <= 50,
+    },
+    {
+      id: "zoom-in",
+      name: "Zoom In",
+      iconPath: <VscZoomIn className="scale-125" />,
+      command: () => updateZoom(10),
+      disabled: currentZoom >= 100,
+    },
+  ];
+  const updateZoom = (delta) => {
+    setCurrentZoom((prev) => {
+      const next = Math.max(30, Math.min(100, prev + delta));
+
+      editor.Canvas.setZoom(next);
+
+      return next;
+    });
+
+    dispatch(setEditComponent(""));
+  };
+
+  const updateCanvasHeight = (zoom) => {
+    const frames = document.querySelector(".gjs-cv-canvas__frames");
+    if (!frames) return;
+
+    // Zoom scale
+    const scale = zoom / 100;
+
+    // Ubah ukuran agar tetap full height
+    const minHeight = 100 * (1 / scale) - 10; // semakin kecil scale, semakin tinggi min-height
+
+    frames.style.minHeight = `${Math.round(minHeight)}vh`; // gunakan vh agar tetap responsif
+
+    // Smooth transition
+    frames.style.transition = "transform 0.3s ease, min-height 0.3s ease";
+    frames.style.transformOrigin = "top center";
+    frames.style.transform = `scale(${scale})`;
+  };
+
+  useEffect(() => {
+    updateCanvasHeight(currentZoom);
+  }, [currentZoom]);
+
+  const replaceWithCustomIcon = () => {
+    const el = document.querySelector(".gjs-off-prv");
+
+    if (el) {
+      el.style.opacity = "0";
+
+      // 1. Hapus isi lama dan class Font Awesome
+
+      requestAnimationFrame(() => {
+        el.innerHTML = "";
+
+        el.classList.remove("fa", "fa-eye-slash");
+
+        // 2. Tambahkan icon custom
+        el.innerHTML = renderToString(<SlSizeActual />);
+
+        // 3. Styling seperti button ghost
+        el.setAttribute("title", "Exit Preview");
+        el.style.cursor = "pointer";
+        el.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+        el.style.border = "none";
+        el.style.outline = "none";
+        el.style.padding = "8px";
+        el.style.borderRadius = "6px";
+        el.style.color = "#000000";
+        el.style.fontSize = "20px";
+        el.style.padding = "10px";
+        el.style.margin = "10px";
+        el.style.transition = "background-color 0.2s ease";
+
+        el.style.transition = "background-color 0.2s ease";
+        el.style.opacity = "1";
+
+        // 4. Hover effect (via JS)
+        el.addEventListener("mouseenter", () => {
+          el.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          el.style.color = "#000000";
+        });
+        el.addEventListener("mouseleave", () => {
+          el.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+          el.style.color = "#000000";
+        });
+      });
+    }
+  };
+
   useEffect(() => {
     setIsPreviewActive(isPreview);
+
+    if (isPreview) {
+      replaceWithCustomIcon();
+    } else {
+      editor.Canvas.setZoom(currentZoom);
+      updateCanvasHeight(currentZoom);
+    }
   }, [isPreview]);
 
   useEffect(() => {
@@ -190,11 +300,39 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
                     <Tooltip>
                       <TooltipTrigger
                         key={id}
-                        onClick={() =>
-                          Commands.isActive(id)
-                            ? Commands.stop(id)
-                            : Commands.run(id, options)
-                        }
+                        onClick={() => {
+                          const isActive = Commands.isActive(id);
+                          if (isActive) {
+                            Commands.stop(id);
+                          } else {
+                            if (id === "core:preview") {
+                              const deviceManager = editor.Devices;
+
+                              const selectedDevice =
+                                deviceManager.getSelected();
+
+                              if (selectedDevice.id !== "desktop") {
+                                const canvasWrapper =
+                                  document.querySelector(".gjs-frame-wrapper");
+
+                                if (canvasWrapper) {
+                                  canvasWrapper.style.width = "100%";
+                                }
+                                editor.Canvas.setZoom(100);
+                                updateCanvasHeight(100);
+                              } else {
+                                editor.Canvas.setZoom(100);
+                                updateCanvasHeight(100);
+                              }
+
+                              setTimeout(() => {
+                                Commands.run(id, options);
+                              }, 300);
+                            } else {
+                              Commands.run(id, options);
+                            }
+                          }
+                        }}
                         disabled={disabled?.()}
                         className={cx(
                           "hover:bg-accent hover:text-accent-foreground p-2 rounded-md   px-3",
@@ -215,6 +353,35 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
             <DevicesProvider>
               {(deviceContext) => <DeviceSelector {...deviceContext} />}
             </DevicesProvider>
+
+            {zoomOptions.map((item, i) => {
+              return (
+                <TooltipProvider delayDuration={100} key={i}>
+                  <Tooltip>
+                    <TooltipTrigger asChild key={i}>
+                      <Button
+                        disabled={item.disabled}
+                        variant="ghost"
+                        onClick={() => {
+                          item.command();
+
+                          editor.select(null);
+
+                          setTimeout(() => {
+                            editor.refresh();
+                          }, 300);
+                        }}
+                      >
+                        {item.iconPath}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{item.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              );
+            })}
           </div>
 
           <div>

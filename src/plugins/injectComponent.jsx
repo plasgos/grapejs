@@ -72,13 +72,6 @@ export const injectComponents = (editor, options) => {
           this.renderReactComponent
         );
 
-        //ths action for monitoring schema colours index component
-        if (this.model.collection) {
-          this.listenTo(this.model.collection, "add remove reset sort", () => {
-            this.renderReactComponent();
-          });
-        }
-
         const editorModel = editor.getModel();
         this.listenTo(
           editorModel,

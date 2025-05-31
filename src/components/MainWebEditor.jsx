@@ -107,8 +107,8 @@ const MainWebEditor = () => {
   const currentProject = projectsData?.find((project) => project.slug === slug);
 
   const [isPreviewActive, setIsPreviewActive] = useState(false);
-
   const [editorInstance, setEditorInstance] = useState(null);
+
   const dispatch = useDispatch();
 
   const handleEditorInit = (editor) => {
@@ -123,6 +123,8 @@ const MainWebEditor = () => {
         widthMedia: "480px", // media query breakpoint
         priority: 480, // untuk urutan tampilan di UI
       });
+
+      editor.Canvas.setZoom(70);
 
       deviceManager.remove("mobilePortrait");
       deviceManager.remove("mobileLandscape");

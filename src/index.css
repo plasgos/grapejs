@@ -222,10 +222,6 @@
   backface-visibility: hidden;
 }
 
-/* .gjs-frame {
-  overflow: visible !important;
-} */
-
 .drop-area {
   width: 100%;
   height: 150px;

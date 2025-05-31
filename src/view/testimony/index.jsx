@@ -14,7 +14,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
   const { variant, header, headerColor, withSlider, autoPlaySlider } =
     section.wrapperStyle;
 
-  const useSchemeColor = !!headerColor;
+  const useSchemeColor = !!headerColor && headerColor !== "__INLINE__";
 
   return (
     <ContainerView

@@ -230,7 +230,11 @@ function resetColorValuesWithExclusion(obj) {
   }
 }
 
-export const onSyncSchemeColor = (editor, schemeColorValue) => {
+export const onSyncSchemeColor = (
+  editor,
+  schemeColorValue,
+  isInitialSetValue
+) => {
   const components = editor?.getComponents()?.models;
   components.forEach((component, index) => {
     const type = component.get("type");
@@ -253,7 +257,10 @@ export const onSyncSchemeColor = (editor, schemeColorValue) => {
     const customComponent = component.get("customComponent") || {};
 
     const updatedCustomComponent = produce(customComponent, (draft) => {
-      // resetColorValuesWithExclusion(draft);
+      if (isInitialSetValue) {
+        resetColorValuesWithExclusion(draft);
+      }
+
       const fallbackColors = getFallbackColorsByType(type, colours);
 
       applyFallbackColors(draft, fallbackColors);

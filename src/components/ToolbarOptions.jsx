@@ -103,12 +103,14 @@ const ToolbarOptions = ({ editor }) => {
 
   return (
     <div
-      className={cx(
-        "",
-        isDraggingComponent
-          ? "absolute right-0 top-0 z-[9999]"
-          : "sticky w-max ml-auto  m-[20px] top-5 right-5  z-[9999]"
-      )}
+      // className={cx(
+      //   "",
+      //   isDraggingComponent
+      //     ? "absolute right-0 top-0 z-[9999]"
+      //     : "sticky w-max ml-auto  m-[20px] top-5 right-5  z-[9999]"
+      // )}
+
+      className="sticky w-max ml-auto  m-[20px] top-5 right-5  z-[9999]"
     >
       {editComponent ? (
         <Popover open={editComponent}>

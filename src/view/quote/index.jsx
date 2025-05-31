@@ -29,7 +29,8 @@ const ViewQuote = ({ section, editor, buildContainerStyle }) => {
           fontSize,
         } = content;
 
-        const useSchemeColor = !!content?.quoteTextColor;
+        const useSchemeColor =
+          !!content?.quoteTextColor && content?.quoteTextColor !== "__INLINE__";
 
         return (
           <div

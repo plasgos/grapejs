@@ -13,7 +13,7 @@ const getTimeHours = (time) => ((time % daySeconds) / hourSeconds) | 0;
 const getTimeDays = (time) => (time / daySeconds) | 0;
 
 export const FinishedContent = ({ text, textShadow, textColor }) => {
-  const useSchemeColor = !!textColor;
+  const useSchemeColor = !!textColor && textColor !== "__INLINE__";
 
   return (
     <div className={`w-full`}>

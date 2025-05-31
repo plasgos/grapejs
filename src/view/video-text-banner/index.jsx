@@ -31,7 +31,9 @@ const ViewVideoText = ({ section, editor, buildContainerStyle }) => {
       buildContainerStyle={buildContainerStyle}
     >
       {contents.map((content) => {
-        const useSchemeColor = !!content?.textBannerColor;
+        const useSchemeColor =
+          !!content?.textBannerColor &&
+          content?.textBannerColor !== "__INLINE__";
 
         return (
           <div

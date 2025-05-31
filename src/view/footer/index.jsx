@@ -18,7 +18,9 @@ const ViewFooter = ({ section, editor, buildContainerStyle }) => {
 
   const { contents, copyright, wrapperStyle } = section;
 
-  const useSchemeColor = !!copyright?.copyrightTextColor;
+  const useSchemeColor =
+    !!copyright?.copyrightTextColor &&
+    copyright?.copyrightTextColor !== "__INLINE__";
 
   return (
     <ContainerView
