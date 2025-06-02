@@ -38,7 +38,7 @@ export const FAQComponent = (editor) => {
       ],
       wrapperStyle: {
         variant: "basic",
-        colorTitle: "#000000",
+        colorTitle: "",
         fontWeight: 500,
         fontFamily: "Roboto",
         fontSize: 16,
@@ -53,7 +53,7 @@ export const FAQComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

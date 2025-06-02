@@ -12,6 +12,7 @@ import { formCheckoutComponent } from "./components/formCheckoutComponent";
 import { heroSectionComponent } from "./components/heroSectionComponent";
 import { imageComponent } from "./components/imageComponent";
 import { listImagesComponent } from "./components/listImagesComponent";
+import { mapsComponent } from "./components/mapsComponent";
 import { modalPopupComponent } from "./components/modalPopupComponent";
 import { navbarComponent } from "./components/navbarComponent";
 import { blurTextComponent } from "./components/pro-version/blurTextComponent";
@@ -26,6 +27,7 @@ import { splitTextComponent } from "./components/pro-version/splitTextComponent"
 import { quoteComponent } from "./components/quoteComponent";
 import { sliderImagesComponent } from "./components/sliderImagesComponent";
 import { testimonyComponent } from "./components/testimonyComponent";
+import { textComponent } from "./components/textComponent";
 import { videoComponent } from "./components/videoComponent";
 import { videoTextComponent } from "./components/videoTextComponent";
 
@@ -37,6 +39,8 @@ const plasgosPlugin = (editor) => {
     navbarComponent(editor);
 
     //text
+    textComponent(editor);
+
     splitTextComponent(editor);
     blurTextComponent(editor);
     fuzzyTextComponent(editor);
@@ -74,6 +78,7 @@ const plasgosPlugin = (editor) => {
 
     //footer
     footerComponent(editor);
+    mapsComponent(editor);
 
     editor.BlockManager.add("test", {
       label: "test0",

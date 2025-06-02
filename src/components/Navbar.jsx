@@ -12,10 +12,7 @@ import { cx } from "class-variance-authority";
 
 import { Button } from "@/components/ui/button";
 import { useProjectSaver } from "@/hooks/useProjectSaver";
-import {
-  setDeployData,
-  setEditComponent,
-} from "@/redux/modules/landing-page/landingPageSlice";
+import { setDeployData } from "@/redux/modules/landing-page/landingPageSlice";
 import { produce } from "immer";
 import { Loader2, Save } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -26,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { VscZoomIn, VscZoomOut } from "react-icons/vsc";
 import { renderToString } from "react-dom/server";
 
-const Navbar = ({ currentProject, setIsPreviewActive }) => {
+const Navbar = ({ currentProject }) => {
   const editor = useEditor();
 
   const { handleSave, isLoadingSaver } = useProjectSaver({
@@ -62,11 +59,11 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
       disabled: () => !UndoManager.hasRedo(),
     },
 
-    {
-      id: "core:component-outline",
-      name: "View Components",
-      iconPath: <LuSquareDashed />,
-    },
+    // {
+    //   id: "core:component-outline",
+    //   name: "View Components",
+    //   iconPath: <LuSquareDashed />,
+    // },
     {
       id: "core:preview",
       name: "Preview Full Screen",
@@ -100,8 +97,6 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
 
       return next;
     });
-
-    dispatch(setEditComponent(""));
   };
 
   const updateCanvasHeight = (zoom) => {
@@ -173,13 +168,27 @@ const Navbar = ({ currentProject, setIsPreviewActive }) => {
   };
 
   useEffect(() => {
-    setIsPreviewActive(isPreview);
-
     if (isPreview) {
       replaceWithCustomIcon();
     } else {
       editor.Canvas.setZoom(currentZoom);
       updateCanvasHeight(currentZoom);
+    }
+  }, [isPreview]);
+
+  useEffect(() => {
+    if (!isPreview) {
+      const canvasWrapper = document.querySelector(".gjs-frame-wrapper");
+
+      if (canvasWrapper) {
+        const currentWidth = canvasWrapper.style.width;
+        const deviceManager = editor.Devices;
+
+        const selectedDevice = deviceManager.getSelected();
+
+        if (selectedDevice.id !== "desktop" && currentWidth === "100%")
+          canvasWrapper.style.width = selectedDevice.attributes.width;
+      }
     }
   }, [isPreview]);
 

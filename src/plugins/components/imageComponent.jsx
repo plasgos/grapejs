@@ -14,7 +14,7 @@ export const imageComponent = (editor) => {
         {
           id: "img-01",
           image:
-            "https://ik.imagekit.io/ez1ffaf6o/default-images/products4.jpg?updatedAt=1747115975342",
+            "https://ik.imagekit.io/ez1ffaf6o/default-images/hannah-morgan-ycVFts5Ma4s-unsplash.jpg?updatedAt=1748855301099",
           alt: "",
           isDownloadImage: false,
           target: {
@@ -26,11 +26,12 @@ export const imageComponent = (editor) => {
         },
       ],
       wrapperStyle: {
-        width: 500,
+        width: 1000,
         rotation: 0,
-        borderColor: "",
         shadow: "shadow-none",
-        variant: "centerPage",
+        aspectRatio: 2 / 1,
+        rounded: 20,
+        objectView: "object-cover",
       },
       animation: {
         type: null,
@@ -40,7 +41,7 @@ export const imageComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

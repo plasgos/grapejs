@@ -13,6 +13,7 @@ import ViewFooter from "@/view/footer";
 import ViewHeroSection from "@/view/hero-section";
 import ViewImage from "@/view/image";
 import ViewListImages from "@/view/list-images";
+import ViewMaps from "@/view/maps";
 import ViewNavbar from "@/view/navbar";
 import ViewBlurText from "@/view/pro-version/blur-text/ViewBlurText";
 import ViewBusinessOverview from "@/view/pro-version/business-overview";
@@ -25,6 +26,7 @@ import ViewSplitText from "@/view/pro-version/split-text/ViewSplitText";
 import ViewQuote from "@/view/quote";
 import ViewSliderImages from "@/view/slider-images";
 import ViewTestimony from "@/view/testimony";
+import ViewText from "@/view/text";
 import ViewVideo from "@/view/video";
 import ViewVideoText from "@/view/video-text-banner";
 import { useEffect } from "react";
@@ -60,6 +62,8 @@ export const viewComponentsRender = {
   "blur-text": ViewBlurText,
   "split-text": ViewSplitText,
   navbar: ViewNavbar,
+  "custom-text": ViewText,
+  "custom-maps": ViewMaps,
 };
 
 const RenderFromData = ({ projectData }) => {

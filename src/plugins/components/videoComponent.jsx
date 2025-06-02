@@ -7,6 +7,7 @@ export const videoComponent = (editor) => {
   injectComponents(editor, {
     type: "video-content",
     label: "Video",
+    category: "Video",
     icon: <MdOutlineOndemandVideo />,
     ViewComponent: ViewVideo,
     defaultCustomComponent: {
@@ -32,7 +33,7 @@ export const videoComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

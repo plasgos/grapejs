@@ -17,11 +17,16 @@ export function getFallbackColorsByType(type, colours) {
         bgColorSidebar: safe(colours.background),
         descriptionColor: safe(colours.secondary),
       };
+    case "custom-text":
+      return {
+        ...base,
+        textColor: safe(colours.primary),
+        bgColor: safe(colours.background),
+      };
     case "split-text":
       return {
         ...base,
         colorSplitText: safe(colours.primary),
-        bgType: "bgColor",
         bgColor: safe(colours.background),
       };
     case "blur-text":
@@ -62,7 +67,6 @@ export function getFallbackColorsByType(type, colours) {
         ...base,
         textBannerColor: safe(colours.primary),
         btnColor: safe(colours.primary),
-        // textColor: "#000000",
       };
     case "quotes":
       return {
@@ -70,7 +74,6 @@ export function getFallbackColorsByType(type, colours) {
         quoteTextColor: safe(colours.primary),
         quoteTagColor: safe(colours.primary),
         writerColor: safe(colours.secondary),
-        // textColor: "#000000",
       };
     case "content-showcase":
       return {

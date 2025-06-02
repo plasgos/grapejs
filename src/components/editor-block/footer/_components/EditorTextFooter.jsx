@@ -5,7 +5,11 @@ import RangeInputSlider from "../../_components/RangeInputSlider";
 import RichTextEditor from "@/components/rich-text-editor";
 import IconPicker from "../../_components/IconPicker";
 
-const EditorTextFooter = ({ item, handleComponentChange }) => {
+const EditorTextFooter = ({
+  item,
+  handleComponentChange,
+  currentComponent,
+}) => {
   const handleSelectIcon = (key, value) => {
     handleComponentChange(`contents.${item.id}.iconHeading.${key}`, value);
   };
@@ -38,13 +42,16 @@ const EditorTextFooter = ({ item, handleComponentChange }) => {
         max={600}
       />
 
-      <RichTextEditor
-        label="Text"
-        value={item.text}
-        onChange={(value) => {
-          handleComponentChange(`contents.${item.id}.text`, value);
-        }}
-      />
+      <div className="bg-white rounded-lg p-3">
+        <RichTextEditor
+          label="Text"
+          value={item.text}
+          onChange={(value) => {
+            handleComponentChange(`contents.${item.id}.text`, value);
+          }}
+          bgColor={currentComponent?.background?.bgColor}
+        />
+      </div>
     </div>
   );
 };

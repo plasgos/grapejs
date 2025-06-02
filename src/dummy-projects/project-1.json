@@ -148,7 +148,7 @@
                       "column": "2",
                       "iconHeading": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "left"
                       }
@@ -315,7 +315,7 @@
                       },
                       "iconBtn": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "right"
                       },
@@ -339,7 +339,7 @@
                       },
                       "iconBtn": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "right"
                       },
@@ -819,7 +819,7 @@
                       "imageWidth": 80,
                       "iconHeading": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "left"
                       }
@@ -881,7 +881,7 @@
                       "width": 300,
                       "iconHeading": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "left"
                       }
@@ -924,7 +924,7 @@
                       "width": 250,
                       "iconHeading": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "left"
                       }
@@ -970,7 +970,7 @@
                       "width": 300,
                       "iconHeading": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "left"
                       }
@@ -995,7 +995,7 @@
                       "textButton": "",
                       "iconHeading": {
                         "icon": "",
-                        "color": "rgba(0,0,0,0,1)",
+                        "color": "",
                         "size": 24,
                         "position": "left"
                       }

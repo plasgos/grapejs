@@ -64,7 +64,7 @@ export const testimonyComponent = (editor) => {
       ],
       wrapperStyle: {
         variant: "1",
-        nameColor: "#000000",
+        nameColor: "",
         fontWeight: "font-semibold",
         fontFamily: "Roboto",
         fontSize: 18,
@@ -88,7 +88,7 @@ export const testimonyComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

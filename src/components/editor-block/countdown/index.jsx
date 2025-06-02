@@ -156,7 +156,7 @@ const EditorCountdown = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <div className="flex flex-col gap-y-5  mt-4 bg-white p-3 rounded-lg">
@@ -262,33 +262,36 @@ const EditorCountdown = ({ selectedComponent }) => {
                 onChange={(value) => handleFinishedChange("textShadow", value)}
               />
 
-              <RichTextEditor
-                label="Content"
-                value={finished.text}
-                onChange={(value) => handleFinishedChange("text", value)}
-                schemeColor={"textColor"}
-              />
+              <div className="bg-white rounded-lg p-3">
+                <RichTextEditor
+                  label="Content"
+                  value={finished.text}
+                  onChange={(value) => handleFinishedChange("text", value)}
+                  schemeColor={"textColor"}
+                  bgColor={currentComponent?.background?.bgColor}
+                />
+              </div>
             </>
           )}
         </div>
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="transition"
       >
         <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

@@ -42,7 +42,7 @@ export const registerCallToAction = (editor, canvasFrame) => {
             },
             iconBtn: {
               icon: "",
-              color: "rgba(0,0,0,0,1)",
+              color: "",
               size: 24,
               position: "right",
             },
@@ -60,7 +60,7 @@ export const registerCallToAction = (editor, canvasFrame) => {
           },
           background: {
             bgType: "bgColor",
-            bgColor: "#2196f3",
+            bgColor: "",
             bgImage: "",
             blur: 0,
             opacity: 0,

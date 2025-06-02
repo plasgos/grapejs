@@ -7,6 +7,11 @@ import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import SelectOptions from "../_components/SelectOptions";
 import RangeInputSlider from "../_components/RangeInputSlider";
 
+export const objectViewOptions = [
+  { value: "object-contain", label: "Contain" },
+  { value: "object-cover", label: "Cover" },
+];
+
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
@@ -37,15 +42,36 @@ const StylesTab = ({ selectedComponent }) => {
             }}
           />
 
-          <RangeInputSlider
-            label="Rounded"
-            value={wrapperStyle.rounded}
-            onChange={(value) =>
-              handleComponentChange("wrapperStyle.rounded", value)
-            }
-            min={0}
-            max={50}
+          <SelectOptions
+            label="Object View"
+            options={objectViewOptions}
+            value={wrapperStyle.objectView}
+            onChange={(value) => {
+              handleComponentChange("wrapperStyle.objectView", value);
+            }}
           />
+
+          <RangeInputSlider
+            label="Gap"
+            value={wrapperStyle.gap}
+            onChange={(value) =>
+              handleComponentChange("wrapperStyle.gap", value)
+            }
+            min={10}
+            max={100}
+          />
+
+          {wrapperStyle.objectView === "object-cover" && (
+            <RangeInputSlider
+              label="Rounded"
+              value={wrapperStyle.rounded}
+              onChange={(value) =>
+                handleComponentChange("wrapperStyle.rounded", value)
+              }
+              min={0}
+              max={50}
+            />
+          )}
         </div>
       </div>
     </div>

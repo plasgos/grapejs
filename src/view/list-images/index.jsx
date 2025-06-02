@@ -8,9 +8,10 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 const ViewListImages = ({ section, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent } = globalOptions || {};
+  const { isFocusContent } = globalOptions || {};
   const { contents } = section;
-  const { column, aspectRatio, rounded } = section?.wrapperStyle || {};
+  const { column, aspectRatio, rounded, objectView, gap } =
+    section?.wrapperStyle || {};
 
   const columnClass =
     column === "6"
@@ -33,9 +34,12 @@ const ViewListImages = ({ section, editor, buildContainerStyle }) => {
       buildContainerStyle={buildContainerStyle}
     >
       <div
+        style={{
+          gap,
+        }}
         className={`  relative  items-stretch   
     grid 
-    gap-5
+    
     p-5 
     place-items-start 
     w-full 
@@ -66,7 +70,7 @@ const ViewListImages = ({ section, editor, buildContainerStyle }) => {
                 style={{
                   aspectRatio,
                 }}
-                className={`w-full h-full object-cover  ${
+                className={`w-full h-full ${objectView}  ${
                   content?.target?.options?.type ? "cursor-pointer" : ""
                 } `}
                 onClick={() => onActionClickTarget(content?.target, editor)}

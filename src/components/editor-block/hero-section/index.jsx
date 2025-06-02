@@ -64,8 +64,8 @@ const EditorHeroSection = ({ selectedComponent }) => {
       id: newId,
       stylesBtn: {
         title: "Please Click Me Again",
-        btnColor: "",
-        textColor: "",
+        btnColor: "rgba(74,144,226,100)",
+        textColor: "rgba(255,255,255,100)",
         size: "default",
         variant: "default",
         rounded: 10,
@@ -73,7 +73,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
       },
       iconBtn: {
         icon: "",
-        color: "rgba(0,0,0,0,1)",
+        color: "",
         size: 24,
         position: "right",
       },
@@ -132,7 +132,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">
@@ -182,17 +182,20 @@ const EditorHeroSection = ({ selectedComponent }) => {
             </Accordion>
           )}
 
-          <RichTextEditor
-            label="Content"
-            value={currentComponent?.contents[0].textBanner}
-            onChange={(value) => {
-              handleComponentChange(
-                `contents.${contents[0].id}.textBanner`,
-                value
-              );
-            }}
-            schemeColor={"textBannerColor"}
-          />
+          <div className="bg-white rounded-lg p-3">
+            <RichTextEditor
+              label="Content"
+              value={currentComponent?.contents[0].textBanner}
+              onChange={(value) => {
+                handleComponentChange(
+                  `contents.${contents[0].id}.textBanner`,
+                  value
+                );
+              }}
+              schemeColor={"textBannerColor"}
+              bgColor={currentComponent?.background?.bgColor}
+            />
+          </div>
 
           <SelectOptions
             label="Text Shadow"
@@ -283,14 +286,14 @@ const EditorHeroSection = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="transition"
       >
         <TransitionEditor
@@ -307,7 +310,7 @@ const EditorHeroSection = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

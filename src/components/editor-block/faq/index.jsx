@@ -84,7 +84,7 @@ const EditorFAQ = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">
@@ -110,14 +110,14 @@ const EditorFAQ = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

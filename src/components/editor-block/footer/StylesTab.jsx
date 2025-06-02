@@ -48,6 +48,7 @@ const StylesTab = ({ selectedComponent }) => {
           value={copyright.text}
           onChange={(value) => handleComponentChange("copyright.text", value)}
           schemeColor={"copyrightTextColor"}
+          bgColor={currentComponent?.background?.bgColor}
         />
       </div>
     </div>

@@ -18,7 +18,7 @@ export const dividerComponent = (editor) => {
         color: "rgba(19, 86, 236, 0.8)",
         iconBtn: {
           icon: "",
-          color: "rgba(0,0,0,0,1)",
+          color: "",
           size: 24,
           position: "center",
         },

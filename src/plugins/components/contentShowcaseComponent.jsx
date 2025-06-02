@@ -59,7 +59,7 @@ export const contentShowcaseComponent = (editor) => {
         column: "3",
         aspectRatio: 4 / 5,
         rounded: 20,
-        titleColor: "#000000",
+        titleColor: "",
         fontWeight: 900,
         imagePosition: "center",
         fontFamily: "Roboto",

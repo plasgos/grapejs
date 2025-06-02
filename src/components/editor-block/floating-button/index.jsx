@@ -58,7 +58,7 @@ const EditorFloatingButton = ({ selectedComponent }) => {
       },
       iconBtn: {
         icon: "FaInstagram",
-        color: "rgba(0,0,0,0,1)",
+        color: "",
         size: 24,
         position: "right",
       },
@@ -118,7 +118,7 @@ const EditorFloatingButton = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <div className="flex flex-col gap-y-5 p-3 bg-white rounded-lg">

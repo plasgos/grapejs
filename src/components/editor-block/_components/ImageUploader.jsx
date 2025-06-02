@@ -181,7 +181,7 @@ const ImageUploader = ({ label, handleFileUpload, image }) => {
   const style = useMemo(
     () => ({
       ...baseStyle,
-      ...(isFocused ? { borderColor: "#2196f3" } : {}),
+      ...(isFocused ? { borderColor: "" } : {}),
       ...(isDragAccept ? { borderColor: "#00e676" } : {}),
       ...(isDragReject ? { borderColor: "#ff1744" } : {}),
     }),

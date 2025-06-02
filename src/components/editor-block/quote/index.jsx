@@ -20,7 +20,7 @@ const EditorQuote = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <SectionAddScrollTargetId selectedComponent={selectedComponent} />
@@ -35,6 +35,7 @@ const EditorQuote = ({ selectedComponent }) => {
               )
             }
             schemeColor={"quoteTextColor"}
+            bgColor={currentComponent?.background?.bgColor}
           />
 
           <div className="space-y-2 ">
@@ -64,14 +65,14 @@ const EditorQuote = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="transition"
       >
         <TransitionEditor selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

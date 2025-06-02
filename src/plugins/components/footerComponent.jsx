@@ -51,7 +51,7 @@ export const footerComponent = (editor) => {
           imageWidth: 80,
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },
@@ -107,7 +107,7 @@ export const footerComponent = (editor) => {
           width: 300,
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },
@@ -144,7 +144,7 @@ export const footerComponent = (editor) => {
           width: 250,
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },
@@ -184,7 +184,7 @@ export const footerComponent = (editor) => {
           width: 300,
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },
@@ -203,15 +203,15 @@ export const footerComponent = (editor) => {
           textButton: "",
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },
         },
       ],
       wrapperStyle: {
-        headingColor: "rgba(0, 0, 0, 1)",
-        subHeadingColor: "rgba(0, 0, 0, 1)",
+        headingColor: "",
+        subHeadingColor: "",
         headingFontSize: 18,
       },
       background: {

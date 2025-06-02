@@ -19,7 +19,7 @@ const EditorVideoText = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <div className="flex flex-col gap-y-5 py-1">
@@ -44,22 +44,25 @@ const EditorVideoText = ({ selectedComponent }) => {
             }
           />
 
-          <RichTextEditor
-            label="Content"
-            value={currentComponent.contents[0].textBanner}
-            onChange={(value) =>
-              handleComponentChange(
-                `contents.${currentComponent.contents[0].id}.textBanner`,
-                value
-              )
-            }
-            schemeColor={"textBannerColor"}
-          />
+          <div className="bg-white rounded-lg p-3">
+            <RichTextEditor
+              label="Content"
+              value={currentComponent.contents[0].textBanner}
+              onChange={(value) =>
+                handleComponentChange(
+                  `contents.${currentComponent.contents[0].id}.textBanner`,
+                  value
+                )
+              }
+              schemeColor={"textBannerColor"}
+              bgColor={currentComponent?.background?.bgColor}
+            />
+          </div>
         </div>
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="transition"
       >
         <TransitionEditor
@@ -76,7 +79,7 @@ const EditorVideoText = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

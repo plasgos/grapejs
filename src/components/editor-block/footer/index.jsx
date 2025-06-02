@@ -44,7 +44,7 @@ const fieldOptions = [
     width: 300,
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -81,7 +81,7 @@ const fieldOptions = [
     imageWidth: 80,
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -137,7 +137,7 @@ const fieldOptions = [
     width: 300,
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -177,7 +177,7 @@ const fieldOptions = [
     width: 300,
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -214,7 +214,7 @@ const fieldOptions = [
     width: 250,
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -233,7 +233,7 @@ const fieldOptions = [
     textButton: "",
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -302,6 +302,7 @@ const EditorFooter = ({ selectedComponent }) => {
           <EditorTextFooter
             item={item}
             handleComponentChange={handleComponentChange}
+            currentComponent={currentComponent}
           />
         )}
         {item.type === "contact-info" && (
@@ -333,7 +334,7 @@ const EditorFooter = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <div className="flex flex-col gap-y-5">
@@ -375,14 +376,14 @@ const EditorFooter = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="styles"
       >
         <StylesTab selectedComponent={selectedComponent} />
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

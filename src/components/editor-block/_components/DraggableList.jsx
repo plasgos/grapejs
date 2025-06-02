@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/tooltip";
 import { produce } from "immer";
 
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import { createElement } from "react";
@@ -143,7 +142,7 @@ const SortableItem = ({
             <img
               src={item.image}
               alt={"items-list"}
-              className="object-cover w-14 max-h-11 "
+              className="object-cover w-12 max-h-11 "
             />
           ) : null}
 
@@ -157,19 +156,17 @@ const SortableItem = ({
 
           {item?.rangeValue ? (
             <div className="flex gap-x-2">
-              <p className="pl-2 font-semibold">{item.rangeValue}</p>
+              <p className="pl-2 truncate max-w-14 text-sm font-semibold">
+                {item.rangeValue}
+              </p>
             </div>
           ) : null}
 
           {item?.overview ? (
             <div className="flex gap-x-2">
-              <p className=""> | {item.overview}</p>
+              <p className="truncate text-sm  max-w-24"> | {item.overview}</p>
             </div>
           ) : null}
-
-          {/* {item?.icon ? (
-            <div style={{ fontSize: 20, marginLeft: 5 }}>{item.icon}</div>
-          ) : null} */}
 
           {item?.label ? (
             <p className="truncate text-sm font-semibold">
@@ -180,7 +177,7 @@ const SortableItem = ({
 
           {item?.stylesBtn?.title ? (
             <div>
-              <p className="truncate">{item?.stylesBtn?.title}</p>
+              <p className="truncate max-w-36 ">{item?.stylesBtn?.title}</p>
             </div>
           ) : null}
 
@@ -190,7 +187,7 @@ const SortableItem = ({
 
           {item.name && (
             <div className=" font-semibold text-sm  max-w-36">
-              <p className="truncate">{item?.name}</p>
+              <p className="truncate max-w-28 ">{item?.name}</p>
             </div>
           )}
         </div>

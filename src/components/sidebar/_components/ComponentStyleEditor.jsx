@@ -1,3 +1,4 @@
+import EditorText from "@/components/editor-block/text";
 import EditorButton from "../../editor-block/button";
 import EditorCheckoutForm from "../../editor-block/checkout-form";
 import EditorCountdown from "../../editor-block/countdown";
@@ -28,123 +29,125 @@ import EditorSliderImages from "../../editor-block/slider-images";
 import EditorTestimony from "../../editor-block/testimony";
 import EditorVideo from "../../editor-block/video";
 import EditorVideoText from "../../editor-block/video-text-banner";
+import EditorMaps from "@/components/editor-block/maps";
 
 const ComponentStyleEditor = ({ selectedComponent }) => {
-  return (
-    <div className="">
-      {/* navbar */}
-      {selectedComponent.get("type") === "navbar" && (
-        <EditorNavbar selectedComponent={selectedComponent} />
-      )}
+  if (!selectedComponent) {
+    return null;
+  }
 
-      {selectedComponent.get("type") === "split-text" && (
-        <EditorSplitText selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "blur-text" && (
-        <EditorBlurText selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "fuzzy-text" && (
-        <EditorFuzzyText selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "glitch-text" && (
-        <EditorGlitchText selectedComponent={selectedComponent} />
-      )}
+  const renderEditorComponent = () => {
+    if (!selectedComponent) return null;
 
-      {selectedComponent.get("type") === "scroll-velocity-text" && (
-        <EditorScrollVelocity selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "gallery-masonry" && (
-        <EditorGalleryMasonry selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "business-overview" && (
-        <EditorBusinessOverview selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "marquee-images" && (
-        <EditorMarqueeImages selectedComponent={selectedComponent} />
-      )}
+    const type = selectedComponent.get("type");
 
-      {/* ======================================================== */}
+    switch (type) {
+      case "navbar":
+        return <EditorNavbar selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "call-to-action" && (
-        <EditorCTA selectedComponent={selectedComponent} />
-      )}
+      case "split-text":
+        return <EditorSplitText selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "content-showcase" && (
-        <EditorContentShowcase
-          selectedComponent={selectedComponent}
-          setTabConfig={{
-            withoutTransition: false,
-          }}
-        />
-      )}
+      case "custom-text":
+        return <EditorText selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "modal-popup" && (
-        <EditorModalPopup selectedComponent={selectedComponent} />
-      )}
+      case "blur-text":
+        return <EditorBlurText selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "image-content" && (
-        <EditorImage selectedComponent={selectedComponent} />
-      )}
+      case "fuzzy-text":
+        return <EditorFuzzyText selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "list-images" && (
-        <EditorListImages selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "video-content" && (
-        <EditorVideo selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "video-text-banner" && (
-        <EditorVideoText selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "hero-section" && (
-        <EditorHeroSection selectedComponent={selectedComponent} />
-      )}
+      case "glitch-text":
+        return <EditorGlitchText selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "floating-button-circle" && (
-        <EditorFloatingButtonCircle selectedComponent={selectedComponent} />
-      )}
+      case "scroll-velocity-text":
+        return <EditorScrollVelocity selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "floating-button" && (
-        <EditorFloatingButton selectedComponent={selectedComponent} />
-      )}
+      case "gallery-masonry":
+        return <EditorGalleryMasonry selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "button-content" && (
-        <EditorButton selectedComponent={selectedComponent} />
-      )}
+      case "business-overview":
+        return <EditorBusinessOverview selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "slider-images" && (
-        <EditorSliderImages selectedComponent={selectedComponent} />
-      )}
+      case "marquee-images":
+        return <EditorMarqueeImages selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "quotes" && (
-        <EditorQuote selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "countdown" && (
-        <EditorCountdown selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "feature-highlights" && (
-        <EditorFeatureHighlights selectedComponent={selectedComponent} />
-      )}
+      case "call-to-action":
+        return <EditorCTA selectedComponent={selectedComponent} />;
 
-      {selectedComponent.get("type") === "faq" && (
-        <EditorFAQ selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "testimony" && (
-        <EditorTestimony selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "divider" && (
-        <EditorDivider selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "empty-space" && (
-        <EditorEmptySpace selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "checkout-form" && (
-        <EditorCheckoutForm selectedComponent={selectedComponent} />
-      )}
-      {selectedComponent.get("type") === "footer" && (
-        <EditorFooter selectedComponent={selectedComponent} />
-      )}
-    </div>
-  );
+      case "content-showcase":
+        return <EditorContentShowcase selectedComponent={selectedComponent} />;
+
+      case "modal-popup":
+        return <EditorModalPopup selectedComponent={selectedComponent} />;
+
+      case "image-content":
+        return <EditorImage selectedComponent={selectedComponent} />;
+
+      case "list-images":
+        return <EditorListImages selectedComponent={selectedComponent} />;
+
+      case "video-content":
+        return <EditorVideo selectedComponent={selectedComponent} />;
+
+      case "video-text-banner":
+        return <EditorVideoText selectedComponent={selectedComponent} />;
+
+      case "hero-section":
+        return <EditorHeroSection selectedComponent={selectedComponent} />;
+
+      case "floating-button-circle":
+        return (
+          <EditorFloatingButtonCircle selectedComponent={selectedComponent} />
+        );
+
+      case "floating-button":
+        return <EditorFloatingButton selectedComponent={selectedComponent} />;
+
+      case "button-content":
+        return <EditorButton selectedComponent={selectedComponent} />;
+
+      case "slider-images":
+        return <EditorSliderImages selectedComponent={selectedComponent} />;
+
+      case "quotes":
+        return <EditorQuote selectedComponent={selectedComponent} />;
+
+      case "countdown":
+        return <EditorCountdown selectedComponent={selectedComponent} />;
+
+      case "feature-highlights":
+        return (
+          <EditorFeatureHighlights selectedComponent={selectedComponent} />
+        );
+
+      case "faq":
+        return <EditorFAQ selectedComponent={selectedComponent} />;
+
+      case "testimony":
+        return <EditorTestimony selectedComponent={selectedComponent} />;
+
+      case "divider":
+        return <EditorDivider selectedComponent={selectedComponent} />;
+
+      case "empty-space":
+        return <EditorEmptySpace selectedComponent={selectedComponent} />;
+
+      case "checkout-form":
+        return <EditorCheckoutForm selectedComponent={selectedComponent} />;
+
+      case "footer":
+        return <EditorFooter selectedComponent={selectedComponent} />;
+
+      case "custom-maps":
+        return <EditorMaps selectedComponent={selectedComponent} />;
+
+      default:
+        return null;
+    }
+  };
+
+  return <div>{renderEditorComponent()}</div>;
 };
 
 export default ComponentStyleEditor;

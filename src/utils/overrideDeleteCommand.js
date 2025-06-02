@@ -1,29 +1,41 @@
 export const overrideDeleteCommand = (editor) => {
-  // Override fungsi delete default
   editor.Commands.add("core:component-delete", {
     run(editor) {
-      const editorModel = editor.getModel();
+      const selected = editor.getSelected();
+      const wrapper = editor.getWrapper();
 
+      if (selected && selected === wrapper) {
+        return;
+      }
+
+      const editorModel = editor.getModel();
       const globalOptions = editorModel.get("globalOptions");
 
-      const selected = editor.getSelected();
       if (selected) {
-        if (selected.get("type") === "modal-popup") {
-          //   console.log("REMOVE POPUP");
+        const parent = selected.parent();
+        const siblings = parent?.components();
+        const index = siblings?.indexOf(selected);
 
+        // Jika type-nya modal-popup, update globalOptions
+        if (selected.get("type") === "modal-popup") {
           editorModel.set("globalOptions", {
             ...globalOptions,
             popup: globalOptions.popup.filter(
-              (opt) => opt.id !== selected.get("customComponent").popupId
+              (opt) => opt.id !== selected.get("customComponent")?.popupId
             ),
           });
-
-          selected.remove();
-        } else {
-          selected.remove();
         }
 
-        editor.select(editor.getWrapper());
+        // Remove the selected component
+        selected.remove();
+
+        // Pilih komponen sebelumnya jika ada, jika tidak pilih wrapper
+        if (siblings && index > 0) {
+          const previousComponent = siblings.at(index - 1);
+          editor.select(previousComponent);
+        } else {
+          editor.select(wrapper);
+        }
       }
     },
   });

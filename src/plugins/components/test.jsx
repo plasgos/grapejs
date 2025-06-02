@@ -55,7 +55,7 @@ export const testComponent = (editor) => {
       wrapperStyle: {
         space: 20,
         textShadow: null,
-        titleColor: "#000000",
+        titleColor: "",
         fontWeight: 700,
         fontFamily: "Roboto",
         fontSize: 16,
@@ -63,7 +63,7 @@ export const testComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

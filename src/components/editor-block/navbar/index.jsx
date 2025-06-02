@@ -49,7 +49,7 @@ const fieldOptions = [
 
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -72,7 +72,7 @@ const fieldOptions = [
     titleHeading: "Component Menu",
     iconHeading: {
       icon: "",
-      color: "rgba(0,0,0,0,1)",
+      color: "",
       size: 24,
       position: "left",
     },
@@ -143,7 +143,7 @@ const EditorNavbar = ({ selectedComponent }) => {
   return (
     <>
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="content"
       >
         <div className="flex flex-col gap-y-5 bg-white p-3 rounded-lg mb-5">
@@ -201,7 +201,7 @@ const EditorNavbar = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="styles"
       >
         <StylesTab
@@ -212,7 +212,7 @@ const EditorNavbar = ({ selectedComponent }) => {
       </TabsContent>
 
       <TabsContent
-        className="p-4 mt-0 animate__animated animate__fadeInLeft"
+        className="p-4 mt-0 animate__animated animate__fadeInRight"
         value="background"
       >
         <BackgroundEditor selectedComponent={selectedComponent} />

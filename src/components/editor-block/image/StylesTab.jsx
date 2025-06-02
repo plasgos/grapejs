@@ -1,4 +1,4 @@
-import { shadowOptions } from "@/components/SelectOptions";
+import { aspectRatioOptions, shadowOptions } from "@/components/SelectOptions";
 import {
   Accordion,
   AccordionContent,
@@ -7,30 +7,9 @@ import {
 } from "@/components/ui/accordion";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import { PiAlignRightSimpleFill } from "react-icons/pi";
-import { SlSizeFullscreen } from "react-icons/sl";
-import { TbLayoutDistributeVerticalFilled } from "react-icons/tb";
-import ColorPicker from "../_components/ColorPicker";
 import RangeInputSlider from "../_components/RangeInputSlider";
-import SelectCircle from "../_components/SelectCircle";
 import SelectOptions from "../_components/SelectOptions";
-const imageVariants = [
-  {
-    value: "fullPage",
-    label: "Full Page",
-    icon: <SlSizeFullscreen size={24} />,
-  },
-  {
-    value: "centerPage",
-    label: "Center Page",
-    icon: <PiAlignRightSimpleFill size={24} />,
-  },
-  {
-    value: "contentPage",
-    label: "Content Page",
-    icon: <TbLayoutDistributeVerticalFilled size={24} />,
-  },
-];
+import { objectViewOptions } from "../list-images/StylesTab";
 
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -49,36 +28,24 @@ const StylesTab = ({ selectedComponent }) => {
           </AccordionTrigger>
           <AccordionContent className="bg-white p-3 rounded-b-lg ">
             <div className="flex flex-col gap-y-5">
-              <SelectCircle
-                label="Variant"
-                options={imageVariants}
-                value={wrapperStyle.variant}
-                onClick={(value) => {
-                  handleComponentChange("wrapperStyle.variant", value);
+              <SelectOptions
+                label="Image Ratio"
+                options={aspectRatioOptions}
+                value={wrapperStyle.aspectRatio}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.aspectRatio", value);
                 }}
               />
 
-              {wrapperStyle.variant === "centerPage" && (
-                <>
-                  <ColorPicker
-                    label="Border Color"
-                    value={wrapperStyle.borderColor}
-                    onChange={(value) =>
-                      handleComponentChange("wrapperStyle.borderColor", value)
-                    }
-                  />
-
-                  <RangeInputSlider
-                    label="Width"
-                    value={wrapperStyle.width}
-                    onChange={(value) =>
-                      handleComponentChange("wrapperStyle.width", value)
-                    }
-                    min={100}
-                    max={1200}
-                  />
-                </>
-              )}
+              <RangeInputSlider
+                label="Width"
+                value={wrapperStyle.width}
+                onChange={(value) =>
+                  handleComponentChange("wrapperStyle.width", value)
+                }
+                min={100}
+                max={1200}
+              />
 
               <RangeInputSlider
                 label="Rotation"
@@ -98,6 +65,27 @@ const StylesTab = ({ selectedComponent }) => {
                   handleComponentChange("wrapperStyle.shadow", value)
                 }
               />
+
+              <SelectOptions
+                label="Object View"
+                options={objectViewOptions}
+                value={wrapperStyle.objectView}
+                onChange={(value) => {
+                  handleComponentChange("wrapperStyle.objectView", value);
+                }}
+              />
+
+              {wrapperStyle.objectView === "object-cover" && (
+                <RangeInputSlider
+                  label="Rounded"
+                  value={wrapperStyle.rounded}
+                  onChange={(value) =>
+                    handleComponentChange("wrapperStyle.rounded", value)
+                  }
+                  min={0}
+                  max={50}
+                />
+              )}
             </div>
           </AccordionContent>
         </AccordionItem>

@@ -30,12 +30,56 @@ import {
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { cx } from "class-variance-authority";
+import { MdInvertColorsOff } from "react-icons/md";
+import { MODERN_BACKGROUND_OPTIONS } from "@/components/theme-colors/modernBackgrounds";
+import { renderToString } from "react-dom/server";
+
+const ModernBackgroundsOption = ({ label, value, onChange }) => {
+  return (
+    <div className="flex flex-col gap-y-3">
+      <Label>{label}</Label>
+
+      <div className="grid grid-cols-2 gap-3">
+        {MODERN_BACKGROUND_OPTIONS.map((background, index) => {
+          const selected = background?.name === value;
+          return (
+            <div
+              key={index}
+              className={cx(
+                "flex rounded-lg overflow-hidden max-w-full cursor-pointer shadow-sm",
+                selected && "ring-2 ring-purple-500  ring-offset-2"
+              )}
+              onClick={() => onChange(background.name)}
+            >
+              <div className="relative min-h-[100px] w-full overflow-hidden rounded-lg ring-1 ring-slate-900/10">
+                {background.component}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="flex justify-end">
+        <Button variant="outline">
+          Reset Color Palettes <MdInvertColorsOff />
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const GlobalStyles = () => {
   const editor = useEditor();
   const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
-  const { schemeColor, maxWidthPage, bgColor, watermark, isSubscribed } =
-    globalOptions || {};
+  const {
+    schemeColor,
+    maxWidthPage,
+    bgColor,
+    modernBackground,
+    watermark,
+    isSubscribed,
+  } = globalOptions || {};
   const wrapper = editor.getWrapper();
 
   const handleChangeWidthPage = (value) => {
@@ -57,6 +101,8 @@ const GlobalStyles = () => {
   };
 
   const handleChangeSchemeColor = (valueName) => {
+    // removeInjectedBackground();
+
     const schemeColorValue = schemeColours.find(
       (schemeColor) => schemeColor.name === valueName
     );
@@ -134,6 +180,58 @@ const GlobalStyles = () => {
 
   const [open, setOpen] = useState(false);
 
+  //   const setCanvasBackground = (bgName) => {
+  //     onResetSchemeColor();
+  //     removeInjectedBackground();
+
+  //     updateGlobalOptions({
+  //       modernBackground: bgName,
+  //       bgColor: "",
+  //     });
+
+  //     const selectedBg = MODERN_BACKGROUND_OPTIONS.find(
+  //       (background) => background.name === bgName
+  //     );
+
+  //     const wrapperEl = editor.Canvas.getBody().querySelector(
+  //       '[data-gjs-type="wrapper"]'
+  //     );
+
+  //     wrapperEl.classList.add("relative", "min-h-screen");
+
+  //     // Buat elemen background
+  //     const bgLayer = document.createElement("div");
+  //     bgLayer.id = "bg-grid-layer";
+  //     bgLayer.className = `
+  //   absolute inset-0 z-0 pointer-events-none
+  // `;
+
+  //     const background = renderToString(selectedBg.component);
+
+  //     bgLayer.innerHTML = background;
+
+  //     // Pastikan parent relative
+  //     wrapperEl.classList.add("relative");
+
+  //     // Tambahkan sebagai elemen DOM biasa
+  //     wrapperEl.appendChild(bgLayer);
+  //   };
+
+  // const removeInjectedBackground = () => {
+  //   const wrapperEl = editor.Canvas.getBody().querySelector(
+  //     '[data-gjs-type="wrapper"]'
+  //   );
+
+  //   const bgLayer = wrapperEl.querySelector("#bg-grid-layer");
+
+  //   if (bgLayer) {
+  //     bgLayer.remove();
+  //   }
+
+  //   // Opsional: hapus class `relative` jika kamu ingin mengembalikan wrapper ke kondisi awal
+  //   wrapperEl.classList.remove("relative");
+  // };
+
   return (
     <div>
       <div className="sticky top-0 z-10  border-b shadow  p-4 bg-orange-200  flex justify-between items-center ">
@@ -209,6 +307,12 @@ const GlobalStyles = () => {
             onChange={(value) => handleChangeSchemeColor(value)}
             onResetSchemeColor={onResetSchemeColor}
           />
+          {/* 
+          <ModernBackgroundsOption
+            label={"Modern Background"}
+            onChange={(value) => setCanvasBackground(value)}
+            value={modernBackground}
+          /> */}
 
           <div className="flex justify-between items-center m-3">
             <Label className="">Watermark</Label>

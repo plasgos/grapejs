@@ -24,7 +24,7 @@ export const floatingButtonCircleComponent = (editor) => {
           },
           iconBtn: {
             icon: "FaWhatsapp",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "right",
           },

@@ -9,9 +9,14 @@ import Watermark from "./Watermark";
 import { useState } from "react";
 import Navbar from "./Navbar";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 import plasgosPlugin from "@/plugins";
 
-import { setGoogleFont } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setEditComponent,
+  setGoogleFont,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
 import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
@@ -31,6 +36,8 @@ import NavigationGuard from "./NavigationGuard";
 import NewSidebar from "./sidebar/NewSidebar";
 import { schemeColours } from "./theme-colors";
 import ToolbarPortalWrapper from "./ToolbarPortalWrapper";
+import EditorSheet from "./sidebar/_components/EditorSheet";
+import { useEffect } from "react";
 
 const rootMap = new Map();
 
@@ -100,7 +107,9 @@ export const handleRemoveWatermark = (editor) => {
 };
 
 const MainWebEditor = () => {
-  const { projectsData } = useSelector((state) => state.landingPage);
+  const { projectsData, editComponent } = useSelector(
+    (state) => state.landingPage
+  );
 
   const { slug } = useParams();
 
@@ -135,6 +144,35 @@ const MainWebEditor = () => {
       handleAddWatermark(editor);
       handleAddGoogleFont();
       handleLoadCurrentProject(editor);
+    });
+
+    // editor.on("component:add", (component) => {
+    //   // Jangan ubah wrapper
+    //   if (component.is("wrapper")) return;
+
+    //   const classes = component.getClasses();
+
+    //   // Tambahkan class hanya jika belum ada
+    //   if (!classes.includes("relative")) component.addClass("relative");
+    //   if (!classes.includes("z-1")) component.addStyle({ "z-index": 1 });
+    // });
+
+    editor.on("run:core:preview", () => {
+      setIsPreviewActive(true);
+
+      const iframes = editor.Canvas.getDocument().querySelectorAll("iframe");
+      iframes.forEach((el) => {
+        el.style.pointerEvents = "auto";
+      });
+    });
+
+    editor.on("stop:core:preview", () => {
+      setIsPreviewActive(false);
+
+      const iframes = editor.Canvas.getDocument().querySelectorAll("iframe");
+      iframes.forEach((el) => {
+        el.style.pointerEvents = "none";
+      });
     });
 
     editor.on("component:add", () => {
@@ -213,7 +251,7 @@ const MainWebEditor = () => {
 
     if (!currentProject?.frameProject?.globalOptions) {
       const intialStateGlobalData = {
-        maxWidthPage: 1920,
+        maxWidthPage: 1360,
         schemeColor: null,
         bgColor: "",
         scrollTarget: [
@@ -359,7 +397,7 @@ const MainWebEditor = () => {
         symbols: [],
         dataSources: [],
         globalOptions: {
-          maxWidthPage: 1920,
+          maxWidthPage: 1360,
           bgColor: schemeColorValue ? schemeColorValue.baseColor : "",
           schemeColor: dataFromAI.schemeColor ? dataFromAI.schemeColor : null,
           scrollTarget: [
@@ -407,6 +445,31 @@ const MainWebEditor = () => {
     }
   };
 
+  useEffect(() => {
+    if (!editComponent) {
+      const handleKeyDown = (e) => {
+        if (e.key === "e") {
+          const selectedComponent =
+            editorInstance.getSelected()?.attributes?.blockLabel;
+
+          dispatch(setEditComponent(selectedComponent));
+        }
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [dispatch, editComponent, editorInstance]);
+
+  const handleClickOutsideCanvas = () => {
+    if (editorInstance) {
+      editorInstance.select(null);
+    }
+  };
+
   return (
     <div>
       <GjsEditor
@@ -431,13 +494,14 @@ const MainWebEditor = () => {
         <div>
           <NavigationGuard editor={editorInstance} />
           <WithEditor>
-            <Navbar
-              currentProject={currentProject}
-              setIsPreviewActive={(value) => setIsPreviewActive(value)}
-            />
+            <Navbar currentProject={currentProject} />
           </WithEditor>
 
-          <div className={cx("flex")}>
+          <div
+            className={cx(
+              "flex overflow-x-hidden bg-[#FFF4EA] transform transition-all ease-in-out"
+            )}
+          >
             <WithEditor>
               <div className={cx("", isPreviewActive && "hidden")}>
                 <NewSidebar />
@@ -445,8 +509,9 @@ const MainWebEditor = () => {
             </WithEditor>
 
             <div
+              onClick={handleClickOutsideCanvas}
               className={cx(
-                "flex flex-col flex-1 ",
+                "flex flex-col flex-1  ",
                 isPreviewActive ? "h-screen" : "h-[94vh]"
               )}
             >
@@ -457,6 +522,30 @@ const MainWebEditor = () => {
                 }}
               />
             </div>
+
+            <AnimatePresence>
+              {!!editComponent && (
+                <motion.div
+                  initial={{ x: "100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "100%" }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
+                    duration: 0.3,
+                  }}
+                  className={cx(
+                    " absolute right-0 top-0 z-[9999]  w-[380px] h-[94vh] bg-[#FEEBDB] shadow flex flex-col ",
+                    isPreviewActive && "hidden"
+                  )}
+                >
+                  <WithEditor>
+                    <EditorSheet />
+                  </WithEditor>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 

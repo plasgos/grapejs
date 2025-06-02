@@ -54,7 +54,7 @@ export const navbarComponent = (editor) => {
           column: "2",
           iconHeading: {
             icon: "",
-            color: "rgba(0,0,0,0,1)",
+            color: "",
             size: 24,
             position: "left",
           },

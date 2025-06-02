@@ -38,7 +38,7 @@ export const formCheckoutComponent = (editor) => {
         buttonColor: "rgba(250, 84, 28,1)",
         iconBtn: {
           icon: "",
-          color: "rgba(0,0,0,0,1)",
+          color: "",
           size: 24,
           position: "right",
         },

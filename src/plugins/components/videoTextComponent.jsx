@@ -6,6 +6,7 @@ export const videoTextComponent = (editor) => {
   injectComponents(editor, {
     type: "video-text-banner",
     label: "Video Text Banner",
+    category: "Video",
     icon: <BiSolidVideos />,
     ViewComponent: ViewVideoText,
     defaultCustomComponent: {
@@ -40,7 +41,7 @@ export const videoTextComponent = (editor) => {
       },
       background: {
         bgType: null,
-        bgColor: "#2196f3",
+        bgColor: "",
         bgImage: "",
         blur: 0,
         opacity: 0,

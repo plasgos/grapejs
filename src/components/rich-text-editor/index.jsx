@@ -16,6 +16,7 @@ export default function RichTextEditor({
   value,
   onChange,
   schemeColor,
+  bgColor = "#ffffff",
 }) {
   const timeoutRef = useRef(null);
 
@@ -48,7 +49,8 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "min-h-[156px] max-h-[250px] overflow-y-auto border border-slate-300 rounded-md bg-slate-50 py-2 px-3 leading-normal focus:border-indigo-500  focus:outline-none",
+          "min-h-[156px] max-h-[250px] overflow-y-auto border border-slate-300 rounded-md  py-2 px-3 leading-normal focus:border-indigo-500  focus:outline-none",
+        style: `background-color: ${bgColor}`,
       },
     },
     onUpdate: ({ editor }) => {
@@ -112,7 +114,7 @@ export default function RichTextEditor({
           schemeColor={schemeColor}
         />
 
-        <div className="custom-tip-tap-editor">
+        <div className="custom-tip-tap-editor ">
           <EditorContent editor={editor} />
         </div>
       </div>
