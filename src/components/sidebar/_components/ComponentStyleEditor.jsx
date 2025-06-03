@@ -1,35 +1,34 @@
-import EditorText from "@/components/editor-block/text";
-import EditorButton from "../../editor-block/button";
-import EditorCheckoutForm from "../../editor-block/checkout-form";
-import EditorCountdown from "../../editor-block/countdown";
-import EditorDivider from "../../editor-block/divider";
-import EditorContentShowcase from "../../editor-block/editor-showcase-content";
-import EditorCTA from "../../editor-block/EditorCTA";
-import EditorEmptySpace from "../../editor-block/empty-space";
-import EditorFAQ from "../../editor-block/faq";
-import EditorFeatureHighlights from "../../editor-block/feature-highlights";
-import EditorFloatingButton from "../../editor-block/floating-button";
-import EditorFloatingButtonCircle from "../../editor-block/floating-button-circle";
-import EditorFooter from "../../editor-block/footer";
-import EditorHeroSection from "../../editor-block/hero-section";
-import EditorImage from "../../editor-block/image";
-import EditorListImages from "../../editor-block/list-images";
-import EditorModalPopup from "../../editor-block/modal-popup";
-import EditorNavbar from "../../editor-block/navbar";
-import EditorBlurText from "../../editor-block/pro-version/blur-text";
-import EditorBusinessOverview from "../../editor-block/pro-version/business-overview";
-import EditorFuzzyText from "../../editor-block/pro-version/fuzzy-text";
-import EditorGalleryMasonry from "../../editor-block/pro-version/gallery-masonry";
-import EditorGlitchText from "../../editor-block/pro-version/glitch-text";
-import EditorMarqueeImages from "../../editor-block/pro-version/marquee-images";
-import EditorScrollVelocity from "../../editor-block/pro-version/scroll-velocity";
-import EditorSplitText from "../../editor-block/pro-version/split-text";
-import EditorQuote from "../../editor-block/quote";
-import EditorSliderImages from "../../editor-block/slider-images";
-import EditorTestimony from "../../editor-block/testimony";
-import EditorVideo from "../../editor-block/video";
-import EditorVideoText from "../../editor-block/video-text-banner";
-import EditorMaps from "@/components/editor-block/maps";
+import EditorButton from "@/plugins/plasgos/components/buttons/editor";
+import EditorCheckoutForm from "@/plugins/plasgos/components/checkout-form/editor";
+import EditorContentShowcase from "@/plugins/plasgos/components/content-showcase/editor";
+import EditorCountdown from "@/plugins/plasgos/components/countdown/editor";
+import EditorDivider from "@/plugins/plasgos/components/divider/editor";
+import EditorEmptySpace from "@/plugins/plasgos/components/empty-space/editor";
+import EditorFAQ from "@/plugins/plasgos/components/faq/editor";
+import EditorFeatureHighlights from "@/plugins/plasgos/components/feature-highlights/editor";
+import EditorFloatingButtonCircle from "@/plugins/plasgos/components/floating-button-circle/editor";
+import EditorFloatingButton from "@/plugins/plasgos/components/floating-button/editor";
+import EditorFooter from "@/plugins/plasgos/components/footer/editor";
+import EditorHeroSection from "@/plugins/plasgos/components/hero-section/editor";
+import EditorImage from "@/plugins/plasgos/components/image/editor";
+import EditorListImages from "@/plugins/plasgos/components/list-images/editor";
+import EditorMaps from "@/plugins/plasgos/components/maps/editor";
+import EditorModalPopup from "@/plugins/plasgos/components/modal-popup/editor";
+import EditorNavbar from "@/plugins/plasgos/components/navbar/editor";
+import EditorBlurText from "@/plugins/plasgos/components/pro-version/blur-text/editor";
+import EditorBusinessOverview from "@/plugins/plasgos/components/pro-version/business-overview/editor";
+import EditorFuzzyText from "@/plugins/plasgos/components/pro-version/fuzzy-text/editor";
+import EditorGalleryMasonry from "@/plugins/plasgos/components/pro-version/gallery-masonry/editor";
+import EditorGlitchText from "@/plugins/plasgos/components/pro-version/glitch-text/editor";
+import EditorMarqueeImages from "@/plugins/plasgos/components/pro-version/marquee-images/editor";
+import EditorScrollVelocity from "@/plugins/plasgos/components/pro-version/scroll-velocity/editor";
+import EditorSplitText from "@/plugins/plasgos/components/pro-version/split-text/editor";
+import EditorQuote from "@/plugins/plasgos/components/quote/editor";
+import EditorSliderImages from "@/plugins/plasgos/components/slider-images/editor";
+import EditorTestimony from "@/plugins/plasgos/components/testimony/editor";
+import EditorText from "@/plugins/plasgos/components/text/editor";
+import EditorVideoText from "@/plugins/plasgos/components/video-text-banner/editor";
+import EditorVideo from "@/plugins/plasgos/components/video/editor";
 
 const ComponentStyleEditor = ({ selectedComponent }) => {
   if (!selectedComponent) {
@@ -72,8 +71,8 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       case "marquee-images":
         return <EditorMarqueeImages selectedComponent={selectedComponent} />;
 
-      case "call-to-action":
-        return <EditorCTA selectedComponent={selectedComponent} />;
+      // case "call-to-action":
+      //   return <EditorCTA selectedComponent={selectedComponent} />;
 
       case "content-showcase":
         return <EditorContentShowcase selectedComponent={selectedComponent} />;

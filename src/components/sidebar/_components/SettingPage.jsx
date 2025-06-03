@@ -2,6 +2,7 @@ import { handleAddWatermark } from "@/components/MainWebEditor";
 import { useToast } from "@/hooks/use-toast";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { useEditor } from "@grapesjs/react";
+import { cx } from "class-variance-authority";
 import { produce } from "immer";
 import { ChevronRight } from "lucide-react";
 import { CiExport, CiImport } from "react-icons/ci";
@@ -10,48 +11,54 @@ const SettingPage = () => {
   const editor = useEditor();
   const { toast } = useToast();
 
+  const components = editor.getComponents()?.models;
+
   const settingItems = [
     {
       key: "import",
       label: "Import Project",
       icon: <CiImport size={18} />,
       action: () => importProjectFromFile(),
+      disable: false,
     },
     {
       key: "export",
       label: "Export Project",
       icon: <CiExport size={18} />,
       action: () => exportProjectAsFile(),
+      disable: components.length === 0,
     },
   ];
 
   const exportProjectAsFile = () => {
-    const editorModel = editor.getModel();
+    if (components.length > 0) {
+      const editorModel = editor.getModel();
 
-    // Ambil data proyek
-    const projectData = editor.getProjectData();
-    const resultComponent = produce(projectData, (draft) => {
-      draft.pages[0].frames[0].component.components.forEach(
-        (compt) => (compt.isFromAI = false)
-      );
+      // Ambil data proyek
+      const projectData = editor.getProjectData();
+      const resultComponent = produce(projectData, (draft) => {
+        draft.pages[0].frames[0].component.components.forEach(
+          (compt) => (compt.isFromAI = false)
+        );
 
-      draft.globalOptions = editorModel.get("globalOptions");
-    });
-    // Konversi data ke JSON
-    const jsonString = JSON.stringify(resultComponent, null, 2);
+        draft.globalOptions = editorModel.get("globalOptions");
+      });
+      // Konversi data ke JSON
+      const jsonString = JSON.stringify(resultComponent, null, 2);
 
-    // Buat file untuk diunduh
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+      // Buat file untuk diunduh
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
 
-    // Simpan file dengan nama "grapesjs-project.json"
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "grapesjs-project.json";
-    link.click();
+      // Simpan file dengan nama "grapesjs-project.json"
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "grapesjs-project.json";
+      link.click();
 
-    // Bersihkan URL setelah download
-    URL.revokeObjectURL(url);
+      // Bersihkan URL setelah download
+      URL.revokeObjectURL(url);
+    }
   };
 
   const resetAllComponents = () => {
@@ -133,17 +140,33 @@ const SettingPage = () => {
             return (
               <div
                 key={item.key}
-                className="flex justify-between items-center border-b p-3 cursor-pointer hover:bg-accent"
+                className={cx(
+                  "flex justify-between items-center border-b p-3  hover:bg-accent",
+
+                  item.disable ? "cursor-not-allowed" : "cursor-pointer"
+                )}
                 onClick={() => item.action()}
               >
-                <div className="flex items-center gap-x-3">
+                <div
+                  className={cx(
+                    "flex items-center gap-x-3",
+                    item.disable ? "text-muted-foreground" : ""
+                  )}
+                >
                   {item.icon}
 
                   <p>{item.label}</p>
                 </div>
 
                 <div>
-                  <ChevronRight className="text-muted-foreground" />
+                  <ChevronRight
+                    className={cx(
+                      "",
+                      item.disable
+                        ? "text-muted-foreground/40"
+                        : "text-muted-foreground"
+                    )}
+                  />
                 </div>
               </div>
             );

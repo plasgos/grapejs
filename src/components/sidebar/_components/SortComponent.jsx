@@ -178,7 +178,7 @@ const SortableItem = ({ item, isFloatingComponent }) => {
 
       <div className="flex items-center justify-between relative">
         <div className="pl-5 flex items-center gap-x-2">
-          {cloneElement(item?.attributes.blockIcon, { size: 24 })}
+          {cloneElement(item?.attributes?.blockIcon, { size: 24 })}
           <div className=" font-semibold text-sm">
             <p>{item?.attributes?.blockLabel}</p>
           </div>

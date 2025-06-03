@@ -10,7 +10,6 @@ import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { onSyncSchemeColor } from "@/utils/onSyncSchemeColor";
 import { useEditor } from "@grapesjs/react";
 import { produce } from "immer";
-import ColorPicker from "../../editor-block/_components/ColorPicker";
 import { widthPageOptions } from "../../SelectOptions";
 
 import { Check } from "lucide-react";
@@ -34,6 +33,7 @@ import { cx } from "class-variance-authority";
 import { MdInvertColorsOff } from "react-icons/md";
 import { MODERN_BACKGROUND_OPTIONS } from "@/components/theme-colors/modernBackgrounds";
 import { renderToString } from "react-dom/server";
+import ColorPicker from "@/plugins/plasgos/components/_components-editor/ColorPicker";
 
 const ModernBackgroundsOption = ({ label, value, onChange }) => {
   return (

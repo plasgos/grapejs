@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaFacebookF } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { Input } from "./ui/input";
-import SelectOptions from "./editor-block/_components/SelectOptions";
+import SelectOptions from "@/plugins/plasgos/components/_components-editor/SelectOptions";
 
 const FacebookPixel = () => {
   const { optionsFbPixelId, optionsFbPixelEvent } = useSelector(

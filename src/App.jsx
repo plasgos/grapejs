@@ -8,7 +8,6 @@ import MainWebEditor from "./components/MainWebEditor";
 import NotFoundPage from "./components/NotFoundPage";
 import CreateNewProjectPage from "./pages/create-new-project";
 import FilesPage from "./pages/files";
-import PublishedPage from "./pages/published";
 import TestPage from "./pages/test";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
@@ -19,10 +18,6 @@ const router = createBrowserRouter([
   {
     path: "/web-builder/:slug",
     element: <MainWebEditor />,
-  },
-  {
-    path: "/published",
-    element: <PublishedPage />,
   },
   {
     path: "/test",

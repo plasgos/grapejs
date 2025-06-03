@@ -2,10 +2,10 @@ import { a, useTransition } from "@react-spring/web";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
-import ViewModal from "@/view/_components/ViewModal";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import ViewModal from "@/plugins/plasgos/components/_components/ViewModal";
 
 const GalleryMasonry = ({ data, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);

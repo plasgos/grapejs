@@ -8,7 +8,6 @@ const ContainerView = ({
   section,
   customStyles,
   customClassName,
-  isFullwidth,
   buildContainerStyle,
 }) => {
   const [globalOptions] = useGlobalOptions(editor);
@@ -17,6 +16,8 @@ const ContainerView = ({
     ? buildContainerStyle.maxWidthPage
     : globalOptions?.maxWidthPage;
 
+  const { padding, marginTop, marginBottom, rounded, isFullWidth } =
+    section.background || {};
   const stylesBg = useBackgroundStyles(section);
 
   const backgroundColor =
@@ -26,14 +27,16 @@ const ContainerView = ({
 
   return (
     <div
-      className={`${customClassName} mx-auto`}
+      className={`${customClassName} mx-auto overflow-hidden`}
       id={id}
       style={{
-        paddingTop: stylesBg.paddingTop,
-        paddingBottom: stylesBg.paddingBottom,
+        borderRadius: rounded,
+        padding,
+        marginTop,
+        marginBottom,
         backgroundColor,
         position: "relative",
-        maxWidth: isFullwidth ? "100%" : maxWidthPage,
+        maxWidth: isFullWidth ? "100%" : maxWidthPage,
         ...customStyles,
       }}
     >

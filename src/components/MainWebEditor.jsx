@@ -11,8 +11,6 @@ import Navbar from "./Navbar";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import plasgosPlugin from "@/plugins";
-
 import {
   setEditComponent,
   setGoogleFont,
@@ -33,11 +31,12 @@ import { cx } from "class-variance-authority";
 import { produce } from "immer";
 import { useParams } from "react-router-dom";
 import NavigationGuard from "./NavigationGuard";
-import NewSidebar from "./sidebar/NewSidebar";
 import { schemeColours } from "./theme-colors";
 import ToolbarPortalWrapper from "./ToolbarPortalWrapper";
 import EditorSheet from "./sidebar/_components/EditorSheet";
 import { useEffect } from "react";
+import plasgosPlugin from "@/plugins/plasgos";
+import Sidebar from "./sidebar";
 
 const rootMap = new Map();
 
@@ -504,7 +503,7 @@ const MainWebEditor = () => {
           >
             <WithEditor>
               <div className={cx("", isPreviewActive && "hidden")}>
-                <NewSidebar />
+                <Sidebar />
               </div>
             </WithEditor>
 

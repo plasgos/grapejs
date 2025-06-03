@@ -48,7 +48,6 @@ import { BubbleMenu } from "@tiptap/react";
 import { Check, ChevronDown } from "lucide-react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import ColorPicker from "../editor-block/_components/ColorPicker";
 import { Button } from "../ui/button";
 
 import {
@@ -73,6 +72,7 @@ import { cx } from "class-variance-authority";
 import { IoEllipsisHorizontal } from "react-icons/io5";
 import { useEditor } from "@grapesjs/react";
 import { produce } from "immer";
+import ColorPicker from "@/plugins/plasgos/components/_components-editor/ColorPicker";
 
 const fontSizes = [
   "12px",
@@ -361,24 +361,6 @@ export default function MenuBar({ editor, schemeColor }) {
       console.log("🚀 ~ getGrogChatyCompletion ~ error:", error);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const importGeneratedSection = (rawJson) => {
-    try {
-      const parsedData = JSON.parse(rawJson);
-
-      if (!parsedData.pages || !parsedData.pages[0].frames) {
-        throw new Error("Invalid generated format");
-      }
-
-      editor.clearProjectData(); // Clear dulu biar fresh
-
-      editor.loadProjectData(parsedData);
-
-      console.log("🚀 Section berhasil di-import ke GrapesJS!");
-    } catch (error) {
-      console.error("🚀 Import error:", error);
     }
   };
 
