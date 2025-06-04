@@ -64,6 +64,7 @@ const Sidebar = () => {
             onOpenChange={(value) => {
               if (value) {
                 setActiveTab(item.key);
+                editor.select(null);
               } else {
                 setActiveTab("");
               }

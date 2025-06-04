@@ -1,7 +1,7 @@
 import ContainerView from "@/components/ContainerView";
 
 const ViewEmptySpace = ({ section, editor, buildContainerStyle }) => {
-  const { height } = section.mainStyle;
+  const { height } = section.mainStyle || {};
 
   return (
     <ContainerView

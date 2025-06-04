@@ -6,7 +6,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 import { cn } from "@/lib/utils";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
-import CustomButton from "../../_components/CustomButton";
+import CustomButton from "../../_components-view/CustomButton";
 
 const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
   const { contents, animation, animationText, buttons } = section;

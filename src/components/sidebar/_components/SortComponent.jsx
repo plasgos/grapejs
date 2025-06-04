@@ -226,7 +226,7 @@ const Navigator = ({
   return (
     <DndContext
       collisionDetection={closestCenter}
-      onDragEnd={(event) => {
+      onDragOver={(event) => {
         if (!isFloatingComponent) {
           handleReorder(event, editor, isFloatingComponent);
 
@@ -279,6 +279,8 @@ const SortComponent = () => {
   }, [editor]);
 
   const components = editor.getComponents()?.models;
+  console.log("🚀 ~ SortComponent ~ components:", components);
+
   const handleReorder = (event, editor, isFloatingComponent) => {
     if (isFloatingComponent) {
       return;
@@ -299,12 +301,19 @@ const SortComponent = () => {
 
     const componentToMove = movedComponent;
 
-    editor.select(componentToMove);
     const parent = componentToMove.parent();
 
     if (parent) {
       parent.append(movedComponent, { at: newIndex });
     }
+
+    setTimeout(() => {
+      editor.select(null);
+    }, 100);
+
+    setTimeout(() => {
+      editor.select(componentToMove);
+    }, 100);
   };
 
   const mainComponents = components.filter(

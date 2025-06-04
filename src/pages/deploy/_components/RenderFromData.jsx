@@ -1,4 +1,4 @@
-import ViewModal from "@/plugins/plasgos/components/_components/ViewModal";
+import ViewModal from "@/plugins/plasgos/components/_components-view/ViewModal";
 import ViewButton from "@/plugins/plasgos/components/buttons/view";
 import ViewFormCheckout from "@/plugins/plasgos/components/checkout-form/view";
 import ViewCountDown from "@/plugins/plasgos/components/countdown/view";

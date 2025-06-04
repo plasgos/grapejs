@@ -2,14 +2,38 @@ import ContainerView from "@/components/ContainerView";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
+import { useRef } from "react";
+import { useEffect } from "react";
 import { memo, useMemo } from "react";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-function ViewContentShowcase({ section, editor, buildContainerStyle }) {
+function ViewContentShowcase({
+  section,
+  editor,
+  buildContainerStyle,
+  childrenModels,
+}) {
   const [globalOptions] = useGlobalOptions(editor);
   const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
+
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Kosongkan dulu
+    containerRef.current.innerHTML = "";
+
+    // Append semua child component
+    childrenModels.forEach((child) => {
+      const childEl = child.view?.el;
+      if (childEl) {
+        containerRef.current.appendChild(childEl);
+      }
+    });
+  }, [childrenModels]);
 
   const { isFocusContent } = currentGlobalOptions;
 
@@ -56,6 +80,7 @@ function ViewContentShowcase({ section, editor, buildContainerStyle }) {
       section={section}
       buildContainerStyle={buildContainerStyle}
     >
+      <div ref={containerRef} className="gjs-children-wrapper" />
       <div
         className={`relative items-stretch
     grid 

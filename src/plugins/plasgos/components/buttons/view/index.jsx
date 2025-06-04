@@ -1,7 +1,7 @@
 import ContainerView from "@/components/ContainerView";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
-import CustomButton from "../../_components/CustomButton";
+import CustomButton from "../../_components-view/CustomButton";
 
 const ViewButton = ({ section, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);

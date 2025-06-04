@@ -30,15 +30,21 @@ export const injectComponents = (editor, options) => {
       defaults: {
         tagName: "div",
         draggable: true,
-        droppable: false,
+        droppable: (target) => {
+          const allowedParents = ["split-text", "button-content"];
+          const parentType = target?.get("type");
+          return allowedParents.includes(parentType);
+        },
         selectable: true,
         highlightable: true,
         hoverable: true,
         removable: false,
         copyable: false,
         toolbar: [],
-        noMove: true,
-        noResize: true,
+        components: [],
+
+        // noMove: true,
+        // noResize: true,
         attributes: {},
         category,
         blockLabel: label,
@@ -91,12 +97,15 @@ export const injectComponents = (editor, options) => {
           this.root = createRoot(this.el);
         }
 
+        const childrenModels = this.model.components();
+
         this.root.render(
           <Provider store={store}>
             <ViewComponent
               section={this.model.get("customComponent")}
               editor={editor}
               buildContainerStyle={null}
+              childrenModels={childrenModels}
             />
           </Provider>
         );

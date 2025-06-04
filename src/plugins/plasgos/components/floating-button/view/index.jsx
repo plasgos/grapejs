@@ -1,6 +1,6 @@
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import CustomButton from "../../_components/CustomButton";
+import CustomButton from "../../_components-view/CustomButton";
 
 const ViewFLoatingButton = ({ section, editor, buildContainerStyle }) => {
   const { buttons } = section;

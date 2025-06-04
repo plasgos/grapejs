@@ -16,7 +16,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { createElement, useEffect, useMemo, useState } from "react";
 import { BsImageAlt } from "react-icons/bs";
-import * as Icons from "react-icons/fa6";
 import { HiAdjustments } from "react-icons/hi";
 import { MdClose, MdDeblur } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
@@ -26,6 +25,10 @@ import { useDispatch } from "react-redux";
 import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 import { cx } from "class-variance-authority";
 import EditorSheet from "./sidebar/_components/EditorSheet";
+
+import { FiMove } from "react-icons/fi";
+import { FaPenToSquare, FaRegCopy, FaTrashCanArrowUp } from "react-icons/fa6";
+import { FaTrashAlt } from "react-icons/fa";
 
 const ToolbarOptions = ({ editor }) => {
   const { editComponent, isDraggingComponent } = useSelector(
@@ -38,7 +41,7 @@ const ToolbarOptions = ({ editor }) => {
 
   const items = [
     {
-      icon: "FaPenToSquare",
+      icon: <FaPenToSquare />,
       tooltip: "Edit Component",
       onClick: () => {
         const selectedComponent = editor.getSelected()?.attributes?.blockLabel;
@@ -46,12 +49,17 @@ const ToolbarOptions = ({ editor }) => {
       },
     },
     {
-      icon: "FaRegCopy",
+      icon: <FiMove />,
+      tooltip: "Move",
+      onClick: () => editor.runCommand("tlb-move"),
+    },
+    {
+      icon: <FaRegCopy />,
       tooltip: "Copy",
       onClick: () => editor.runCommand("custom-copy"),
     },
     {
-      icon: "FaTrashCan",
+      icon: <FaTrashAlt />,
       tooltip: "Delete",
       onClick: () => editor.runCommand("core:component-delete"),
     },
@@ -187,7 +195,7 @@ const ToolbarOptions = ({ editor }) => {
         {!editComponent ? (
           <div className="flex space-x-2 bg-white border rounded-xl shadow p-1 w-fit">
             {items.map(({ icon, tooltip, onClick }) => (
-              <TooltipProvider key={icon} delayDuration={100}>
+              <TooltipProvider key={tooltip} delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -195,7 +203,7 @@ const ToolbarOptions = ({ editor }) => {
                       className="w-7 h-7 hover:bg-orange-200"
                       variant="ghost"
                     >
-                      {createElement(Icons[icon], { size: 12 })}
+                      {icon}
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="top">
