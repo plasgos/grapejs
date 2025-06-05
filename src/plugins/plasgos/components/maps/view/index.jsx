@@ -1,7 +1,6 @@
-import ContainerView from "@/components/ContainerView";
 import { cx } from "class-variance-authority";
 
-const ViewMaps = ({ section, editor, buildContainerStyle }) => {
+const ViewMaps = ({ section, buildContainerStyle }) => {
   const { iframe, height } = section || {};
 
   const cleanEmbedCode = iframe
@@ -9,12 +8,7 @@ const ViewMaps = ({ section, editor, buildContainerStyle }) => {
     .replace(/height="[^"]+"/, `height="${height || 400}"`);
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div
         className={cx(
           "w-full",
@@ -22,7 +16,7 @@ const ViewMaps = ({ section, editor, buildContainerStyle }) => {
         )}
         dangerouslySetInnerHTML={{ __html: cleanEmbedCode }}
       />
-    </ContainerView>
+    </div>
   );
 };
 

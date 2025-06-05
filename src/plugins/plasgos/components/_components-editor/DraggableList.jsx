@@ -19,7 +19,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -34,6 +34,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { MdClose, MdOutlineFilterCenterFocus } from "react-icons/md";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { TbEdit } from "react-icons/tb";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const SortableItem = ({
   item,

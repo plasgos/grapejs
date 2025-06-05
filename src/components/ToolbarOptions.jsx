@@ -6,29 +6,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-import { createElement, useEffect, useMemo, useState } from "react";
+import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { useEffect, useMemo, useState } from "react";
 import { BsImageAlt } from "react-icons/bs";
 import { HiAdjustments } from "react-icons/hi";
-import { MdClose, MdDeblur } from "react-icons/md";
+import { MdDeblur } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
-import ComponentStyleEditor from "./sidebar/_components/ComponentStyleEditor";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
-import { cx } from "class-variance-authority";
-import EditorSheet from "./sidebar/_components/EditorSheet";
+import { useDispatch, useSelector } from "react-redux";
 
-import { FiMove } from "react-icons/fi";
-import { FaPenToSquare, FaRegCopy, FaTrashCanArrowUp } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
+import { FaPenToSquare, FaRegCopy } from "react-icons/fa6";
+import { FiMove } from "react-icons/fi";
 
 const ToolbarOptions = ({ editor }) => {
   const { editComponent, isDraggingComponent } = useSelector(
@@ -37,7 +25,16 @@ const ToolbarOptions = ({ editor }) => {
 
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("content");
+  const [editElement, setEditElement] = useState("");
+  console.log("🚀 ~ ToolbarOptions ~ editElement:", editElement);
+
+  const handleRemove = () => {
+    if (editElement == "text-element") {
+      return;
+    } else {
+      editor.runCommand("core:component-delete");
+    }
+  };
 
   const items = [
     {
@@ -61,7 +58,7 @@ const ToolbarOptions = ({ editor }) => {
     {
       icon: <FaTrashAlt />,
       tooltip: "Delete",
-      onClick: () => editor.runCommand("core:component-delete"),
+      onClick: () => handleRemove(),
     },
   ];
 
@@ -109,6 +106,21 @@ const ToolbarOptions = ({ editor }) => {
       });
     }
   }, [dispatch, editor]);
+
+  const monitoredTypes = ["text-element", "image-element"];
+
+  let updateTimeout;
+  editor.on("component:update", (component) => {
+    const type = component.get("type");
+    if (monitoredTypes.includes(type)) {
+      setEditElement(type);
+
+      clearTimeout(updateTimeout);
+      updateTimeout = setTimeout(() => {
+        setEditElement("");
+      }, 500);
+    }
+  });
 
   return (
     <>
@@ -192,7 +204,7 @@ const ToolbarOptions = ({ editor }) => {
           </div>
         )} */}
 
-        {!editComponent ? (
+        {!editComponent && !editElement ? (
           <div className="flex space-x-2 bg-white border rounded-xl shadow p-1 w-fit">
             {items.map(({ icon, tooltip, onClick }) => (
               <TooltipProvider key={tooltip} delayDuration={100}>

@@ -1,4 +1,3 @@
-import ContainerView from "@/components/ContainerView";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -56,7 +55,6 @@ export const componentsNavbar = [
   },
 ];
 
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { useEffect, useState } from "react";
 // import { createPortal } from "react-dom";
@@ -76,12 +74,7 @@ import ViewSingleLinkNavbar from "./_components/ViewSingleLinkNavbar";
 //   return createPortal(children, target);
 // };
 
-const ViewNavbar = ({ section, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
-
-  const { isFocusContent, maxWidthPage } = currentGlobalOptions || {};
-
+const ViewNavbar = ({ section, editor, isFocusContent, maxWidthPage }) => {
   const { contents, side, logoWidth, wrapperStyle } = section;
 
   const [responsiveImage, setResponsiveImage] = useState(section.logoWidth);
@@ -241,61 +234,54 @@ const ViewNavbar = ({ section, editor, buildContainerStyle }) => {
   };
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
+    <div
+      style={{
+        maxWidth: maxWidthPage,
+      }}
+      className={`  relative mx-auto  `}
     >
-      <div
-        style={{
-          maxWidth: maxWidthPage,
-        }}
-        className={` mx-auto relative  w-full`}
-      >
-        <div className="flex items-center justify-between  mx-3">
-          {!isActiveSheet && <>{renderNavbarItems()}</>}
+      <div className="flex items-center justify-between  mx-3">
+        {!isActiveSheet && <>{renderNavbarItems()}</>}
 
-          <Sheet open={isActiveSheet} onOpenChange={setIsActiveSheet}>
-            <SheetTrigger asChild>
-              {!isActiveSheet && isMobile && (
-                <Button
-                  className={`bg-transparent hover:bg-transparent`}
-                  onClick={() => setIsActiveSheet(true)}
-                  variant=""
-                >
-                  <TfiMenuAlt
-                    color={`${wrapperStyle.headingColor}`}
-                    className={`scale-125`}
-                  />
-                </Button>
-              )}
-            </SheetTrigger>
+        <Sheet open={isActiveSheet} onOpenChange={setIsActiveSheet}>
+          <SheetTrigger asChild>
+            {!isActiveSheet && isMobile && (
+              <Button
+                className={`bg-transparent hover:bg-transparent`}
+                onClick={() => setIsActiveSheet(true)}
+                variant=""
+              >
+                <TfiMenuAlt
+                  color={`${wrapperStyle.headingColor}`}
+                  className={`scale-125`}
+                />
+              </Button>
+            )}
+          </SheetTrigger>
 
-            {/* <CustomPortal>
+          {/* <CustomPortal>
              
             </CustomPortal> */}
 
-            <SheetContent
-              style={{
-                backgroundColor: wrapperStyle.bgColorSidebar,
-              }}
-              side={side}
-              className="w-[375px] sm:w-[540px] pr-0"
-            >
-              <SheetHeader>
-                <SheetTitle className="hidden">X</SheetTitle>
-                <SheetDescription className="hidden">X</SheetDescription>
-              </SheetHeader>
+          <SheetContent
+            style={{
+              backgroundColor: wrapperStyle.bgColorSidebar,
+            }}
+            side={side}
+            className="w-[375px] sm:w-[540px] pr-0"
+          >
+            <SheetHeader>
+              <SheetTitle className="hidden">X</SheetTitle>
+              <SheetDescription className="hidden">X</SheetDescription>
+            </SheetHeader>
 
-              <div className="flex flex-col gap-y-5 h-screen overflow-y-auto pr-5 pb-5 ">
-                {renderNavbarItems()}
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+            <div className="flex flex-col gap-y-5 h-screen overflow-y-auto pr-5 pb-5 ">
+              {renderNavbarItems()}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

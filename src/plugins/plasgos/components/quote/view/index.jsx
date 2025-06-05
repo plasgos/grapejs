@@ -1,9 +1,8 @@
-import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 import { cn } from "@/lib/utils";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewQuote = ({ section, editor, buildContainerStyle }) => {
+const ViewQuote = ({ section, editor }) => {
   const { contents, animation } = section;
 
   const {
@@ -13,12 +12,7 @@ const ViewQuote = ({ section, editor, buildContainerStyle }) => {
   } = useAnimatedVisibility(animation);
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       {contents.map((content) => {
         const {
           quoteText,
@@ -81,7 +75,7 @@ const ViewQuote = ({ section, editor, buildContainerStyle }) => {
           </div>
         );
       })}
-    </ContainerView>
+    </div>
   );
 };
 

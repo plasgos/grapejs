@@ -1,8 +1,7 @@
-import ContainerView from "@/components/ContainerView";
 import ScrollReveal from "@/components/pro-version/ScrollReveal";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewScrollReveal = ({ section, editor, buildContainerStyle }) => {
+const ViewScrollReveal = ({ section, editor }) => {
   const { text, delay, fontFamily, fontWeight, color, fontSize, textAlign } =
     section;
 
@@ -12,12 +11,7 @@ const ViewScrollReveal = ({ section, editor, buildContainerStyle }) => {
   const iframeWindow = iframe?.contentWindow;
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <ScrollReveal
         baseOpacity={0}
         enableBlur={true}
@@ -28,7 +22,7 @@ const ViewScrollReveal = ({ section, editor, buildContainerStyle }) => {
       >
         {text}
       </ScrollReveal>
-    </ContainerView>
+    </div>
   );
 };
 

@@ -233,41 +233,92 @@ function resetColorValuesWithExclusion(obj) {
   }
 }
 
+// export const onSyncSchemeColor = (
+//   editor,
+//   schemeColorValue,
+//   isInitialSetValue
+// ) => {
+//   const components = editor?.getComponents()?.models;
+//   components.forEach((component, index) => {
+//     const type = component.get("type");
+
+//     const isLastIndexComponent = index === components.length - 1;
+//     const selectedColours = schemeColorValue?.colours || [];
+//     const schemaColorLastIndex =
+//       schemeColorValue?.colours[schemeColorValue?.colours.length - 1];
+
+//     const colorIndex = (() => {
+//       if (isLastIndexComponent) return null; // nanti pakai schemaColorLastIndex
+//       if (index < selectedColours.length - 1) return index;
+//       return selectedColours.length - 2; // pakai warna sebelum terakhir
+//     })();
+
+//     const colours = isLastIndexComponent
+//       ? schemaColorLastIndex
+//       : selectedColours[colorIndex];
+
+//     const customComponent = component.get("customComponent") || {};
+
+//     const updatedCustomComponent = produce(customComponent, (draft) => {
+//       if (isInitialSetValue) {
+//         resetColorValuesWithExclusion(draft);
+//       }
+
+//       const fallbackColors = getFallbackColorsByType(type, colours);
+
+//       applyFallbackColors(draft, fallbackColors);
+//     });
+//     component.set("customComponent", updatedCustomComponent);
+//   });
+// };
+
+const syncComponentAndChildren = (component, colours, isInitialSetValue) => {
+  const type = component.get("type");
+  const customComponent = component.get("customComponent") || {};
+
+  const updatedCustomComponent = produce(customComponent, (draft) => {
+    if (isInitialSetValue) {
+      resetColorValuesWithExclusion(draft);
+    }
+
+    const fallbackColors = getFallbackColorsByType(type, colours);
+    applyFallbackColors(draft, fallbackColors);
+  });
+
+  component.set("customComponent", updatedCustomComponent);
+
+  // Rekursif ke child
+  const children = component.components();
+  if (children && children.length > 0) {
+    children.forEach((child) => {
+      syncComponentAndChildren(child, colours, isInitialSetValue);
+    });
+  }
+};
+
 export const onSyncSchemeColor = (
   editor,
   schemeColorValue,
   isInitialSetValue
 ) => {
   const components = editor?.getComponents()?.models;
-  components.forEach((component, index) => {
-    const type = component.get("type");
 
+  components.forEach((component, index) => {
     const isLastIndexComponent = index === components.length - 1;
     const selectedColours = schemeColorValue?.colours || [];
     const schemaColorLastIndex =
       schemeColorValue?.colours[schemeColorValue?.colours.length - 1];
 
     const colorIndex = (() => {
-      if (isLastIndexComponent) return null; // nanti pakai schemaColorLastIndex
+      if (isLastIndexComponent) return null;
       if (index < selectedColours.length - 1) return index;
-      return selectedColours.length - 2; // pakai warna sebelum terakhir
+      return selectedColours.length - 2;
     })();
 
     const colours = isLastIndexComponent
       ? schemaColorLastIndex
       : selectedColours[colorIndex];
 
-    const customComponent = component.get("customComponent") || {};
-
-    const updatedCustomComponent = produce(customComponent, (draft) => {
-      if (isInitialSetValue) {
-        resetColorValuesWithExclusion(draft);
-      }
-
-      const fallbackColors = getFallbackColorsByType(type, colours);
-
-      applyFallbackColors(draft, fallbackColors);
-    });
-    component.set("customComponent", updatedCustomComponent);
+    syncComponentAndChildren(component, colours, isInitialSetValue);
   });
 };

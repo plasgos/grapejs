@@ -4,13 +4,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+
 import ViewModal from "@/plugins/plasgos/components/_components-view/ViewModal";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const GalleryMasonry = ({ data, editor, buildContainerStyle }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
-
   const { isFocusContent, maxWidthPage } = currentGlobalOptions || {};
 
   const [columns, setColumns] = useState(2);

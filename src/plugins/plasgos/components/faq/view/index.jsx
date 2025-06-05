@@ -1,13 +1,7 @@
-import ContainerView from "@/components/ContainerView";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
-const ViewFAQ = ({ section, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
-  const { isFocusContent } = currentGlobalOptions;
-
+const ViewFAQ = ({ section, isFocusContent }) => {
   const { contents } = section;
   const {
     colorTitle,
@@ -53,12 +47,7 @@ const ViewFAQ = ({ section, editor, buildContainerStyle }) => {
   }, [variant]);
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       {variant === "basic" && (
         <div className="flex flex-col p-5 relative ">
           {contents.map((content) => {
@@ -188,7 +177,7 @@ const ViewFAQ = ({ section, editor, buildContainerStyle }) => {
           })}
         </div>
       )}
-    </ContainerView>
+    </div>
   );
 };
 

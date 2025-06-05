@@ -1,14 +1,10 @@
-import ContainerView from "@/components/ContainerView";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewListImages = ({ section, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent } = globalOptions || {};
+const ViewListImages = ({ section, editor, isFocusContent }) => {
   const { contents } = section;
   const { column, aspectRatio, rounded, objectView, gap } =
     section?.wrapperStyle || {};
@@ -27,12 +23,7 @@ const ViewListImages = ({ section, editor, buildContainerStyle }) => {
       : "md:grid-cols-1";
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div
         style={{
           gap,
@@ -83,7 +74,7 @@ const ViewListImages = ({ section, editor, buildContainerStyle }) => {
           </div>
         ))}
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

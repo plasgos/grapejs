@@ -1,10 +1,9 @@
-import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const ViewImage = ({ section, editor, buildContainerStyle }) => {
+const ViewImage = ({ section, editor }) => {
   const { contents, animation } = section;
   const {
     width,
@@ -20,12 +19,7 @@ const ViewImage = ({ section, editor, buildContainerStyle }) => {
     useAnimatedVisibility(animation);
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div
         ref={elementRef}
         style={{
@@ -64,7 +58,7 @@ const ViewImage = ({ section, editor, buildContainerStyle }) => {
           </div>
         ))}
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

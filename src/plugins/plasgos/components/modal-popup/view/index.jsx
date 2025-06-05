@@ -1,4 +1,4 @@
-import ContainerView from "@/components/ContainerView";
+
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -10,7 +10,7 @@ import ContentShowcase from "../content-showcase";
 import GjsEditor, { Canvas, WithEditor } from "@grapesjs/react";
 import grapesjs from "grapesjs";
 
-const ModalPopup = ({ section, editor, buildContainerStyle }) => {
+const ModalPopup = ({ section, editor, }) => {
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");
 
@@ -146,7 +146,7 @@ const ModalPopup = ({ section, editor, buildContainerStyle }) => {
                 </GjsEditor> */}
               </div>
             </div>
-          </ContainerView>
+          </div>
         </div>
       )}
     </>

@@ -1,10 +1,9 @@
-import ContainerView from "@/components/ContainerView";
 import CountUp from "@/components/pro-version/CountUp";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
-const ViewBusinessOverview = ({ section, editor, buildContainerStyle }) => {
+const ViewBusinessOverview = ({ section, editor, isFocusContent }) => {
   const {
     textShadow,
     fontFamily,
@@ -22,11 +21,6 @@ const ViewBusinessOverview = ({ section, editor, buildContainerStyle }) => {
     colorOverview,
   } = section.wrapperStyle;
 
-  const [globalOptions] = useGlobalOptions(editor);
-  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
-
-  const { isFocusContent } = currentGlobalOptions;
-
   const { contents } = section;
 
   const { responsiveFontSize } = useResponsiveViewFontSize(editor, fontSize);
@@ -35,12 +29,7 @@ const ViewBusinessOverview = ({ section, editor, buildContainerStyle }) => {
     useResponsiveViewFontSize(editor, fontSizeOverview);
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div
         style={{
           gap: distance,
@@ -104,7 +93,7 @@ const ViewBusinessOverview = ({ section, editor, buildContainerStyle }) => {
           );
         })}
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

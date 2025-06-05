@@ -1,11 +1,10 @@
-import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-import { cn } from "@/lib/utils";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { cn } from "@/lib/utils";
 import CustomButton from "../../_components-view/CustomButton";
 
 const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
@@ -33,12 +32,7 @@ const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
   } = useAnimatedVisibility(animationText);
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       {variant === "basic" && (
         <div className={`relative mx-auto`}>
           {contents.map((content) => {
@@ -270,7 +264,7 @@ const ViewHeroSection = ({ section, editor, buildContainerStyle }) => {
           })}
         </div>
       )}
-    </ContainerView>
+    </div>
   );
 };
 

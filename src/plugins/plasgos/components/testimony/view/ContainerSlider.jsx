@@ -10,7 +10,7 @@ const ContainerSlider = ({
   section,
   LayoutComponent,
   isOverImage,
-  buildContainerStyle,
+  isFocusContent,
 }) => {
   const { contents } = section;
 
@@ -85,7 +85,7 @@ const ContainerSlider = ({
             content={content}
             styles={section.wrapperStyle}
             editor={editor}
-            buildContainerStyle={buildContainerStyle}
+            isFocusContent={isFocusContent}
           />
         </SwiperSlide>
       ))}

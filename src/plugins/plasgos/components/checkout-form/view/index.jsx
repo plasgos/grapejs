@@ -148,29 +148,24 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 
-import ContainerView from "@/components/ContainerView";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 import CustomLabelField from "./_components/CustomLabelField";
 import PaymentMethod from "./_components/PaymentMethod";
 import Shipping from "./_components/Shipping";
-import ViewTitle from "./_components/ViewTitle";
-import ViewInput from "./_components/ViewInput";
-import ViewEmail from "./_components/ViewEmail";
-import ViewTextArea from "./_components/ViewTextArea";
 import ViewCheckbox from "./_components/ViewCheckbox";
-import ViewDropdown from "./_components/ViewDropdown";
 import ViewDate from "./_components/ViewDate";
-import ViewRating from "./_components/ViewtRating";
-import ViewImageField from "./_components/ViewImageField";
 import ViewDividerField from "./_components/ViewDividerField";
+import ViewDropdown from "./_components/ViewDropdown";
+import ViewEmail from "./_components/ViewEmail";
+import ViewImageField from "./_components/ViewImageField";
+import ViewInput from "./_components/ViewInput";
+import ViewTextArea from "./_components/ViewTextArea";
+import ViewTitle from "./_components/ViewTitle";
+import ViewRating from "./_components/ViewtRating";
 
-const ViewFormCheckout = ({ section, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const { schemeColor, isFocusContent } = globalOptions || {};
-
+const ViewFormCheckout = ({ section, isFocusContent }) => {
   const { contents } = section;
   const {
     width,
@@ -270,15 +265,7 @@ const ViewFormCheckout = ({ section, editor, buildContainerStyle }) => {
   // }
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-      customStyles={{
-        width,
-      }}
-    >
+    <div>
       <Form {...form}>
         <form className="space-y-3 relative p-5">
           <ViewTitle
@@ -620,7 +607,7 @@ const ViewFormCheckout = ({ section, editor, buildContainerStyle }) => {
           </Button>
         </form>
       </Form>
-    </ContainerView>
+    </div>
   );
 };
 

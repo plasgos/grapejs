@@ -1,18 +1,12 @@
-import ContainerView from "@/components/ContainerView";
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewDivider = ({ section, editor, buildContainerStyle }) => {
+const ViewDivider = ({ section, editor }) => {
   const { variant, width, fullWidth, height, color, iconBtn } =
     section.mainStyles;
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       {iconBtn.icon ? (
         <div className="flex justify-center items-center w-full gap-x-3">
           {iconBtn?.position === "left" && (
@@ -85,7 +79,7 @@ const ViewDivider = ({ section, editor, buildContainerStyle }) => {
           />
         </div>
       )}
-    </ContainerView>
+    </div>
   );
 };
 

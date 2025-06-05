@@ -28,6 +28,7 @@ import { formCheckoutComponent } from "./components/checkout-form";
 import { footerComponent } from "./components/footer";
 import { floatingButtonCircleComponent } from "./components/floating-button-circle";
 import { floatingButtonComponent } from "./components/floating-button";
+import { textElement } from "./elements/text-element";
 
 const plasgosPlugin = (editor) => {
   editor.on("load", () => {
@@ -36,6 +37,7 @@ const plasgosPlugin = (editor) => {
 
     // //text
     textComponent(editor);
+    textElement(editor);
 
     splitTextComponent(editor);
     blurTextComponent(editor);

@@ -4,9 +4,10 @@ import { aspectRatioVideoOptions } from "@/components/SelectOptions";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+
 import { useEditor } from "@grapesjs/react";
 import { useEffect } from "react";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const videoOptions = [
   { key: "isControls", label: "Hidden Control" },

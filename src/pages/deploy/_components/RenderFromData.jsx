@@ -31,7 +31,10 @@ import ViewVideo from "@/plugins/plasgos/components/video/view";
 import ViewContentShowcase from "@/plugins/plasgos/components/content-showcase/view";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import WrapperViewComponent from "@/plugins/WrapperViewComponent";
+import { generateId } from "@/lib/utils";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const viewComponentsRender = {
   footer: ViewFooter,
   "checkout-form": ViewFormCheckout,
@@ -71,18 +74,27 @@ const RenderFromData = ({ projectData }) => {
 
   const rootComponents =
     projectData?.pages[0].frames?.[0]?.component?.components;
-
-  const renderComponent = (comp) => {
+  console.log("🚀 ~ RenderFromData ~ rootComponents:", rootComponents);
+  const renderComponentRecursively = (comp, key) => {
     const Component = viewComponentsRender[comp.type];
 
-    if (!Component || Component === "") return null;
+    if (!Component) return null;
+
+    const children = comp.components?.map((childComp) => {
+      const childKey = childComp.attributes?.id || generateId();
+
+      return renderComponentRecursively(childComp, childKey);
+    });
 
     return (
-      <Component
-        key={comp?.attributes?.id || Math.random()}
-        section={comp?.customComponent}
+      <WrapperViewComponent
+        key={key || comp.attributes?.id}
+        ViewComponent={Component}
         editor={null}
+        section={comp.customComponent}
+        childrenModels={null}
         buildContainerStyle={frameGlobalOptions}
+        buildChildComponents={children}
       />
     );
   };
@@ -95,7 +107,43 @@ const RenderFromData = ({ projectData }) => {
     }
   }, [navigate, rootComponents]);
 
-  return rootComponents?.map(renderComponent);
+  // Flatten recursive components ke dalam array datar
+  const flattenComponents = (components = [], flat = []) => {
+    components.forEach((comp) => {
+      flat.push(comp);
+      if (comp.components?.length > 0) {
+        flattenComponents(comp.components, flat);
+      }
+    });
+    return flat;
+  };
+
+  // return rootComponents?.map((comp) => {
+  //   const parentKey = comp.attributes?.id || generateId();
+  //   return renderComponentRecursively(comp, parentKey);
+  // });
+
+  const flatComponents = flattenComponents(rootComponents);
+  console.log("🚀 ~ RenderFromData ~ flatComponents:", flatComponents);
+
+  return flatComponents.map((comp, i) => {
+    const key = comp.attributes?.id || i;
+    const Component = viewComponentsRender[comp.type];
+
+    if (!Component) return null;
+
+    return (
+      <WrapperViewComponent
+        key={key}
+        ViewComponent={Component}
+        section={comp.customComponent}
+        editor={null}
+        childrenModels={null}
+        buildContainerStyle={frameGlobalOptions}
+        buildChildComponents={[]} // Jangan kirim children, karena kita flatten
+      />
+    );
+  });
 };
 
 export default RenderFromData;

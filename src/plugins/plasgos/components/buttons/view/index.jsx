@@ -1,12 +1,7 @@
-import ContainerView from "@/components/ContainerView";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import CustomButton from "../../_components-view/CustomButton";
 
-const ViewButton = ({ section, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
-
+const ViewButton = ({ section, editor, currentGlobalOptions }) => {
   const { buttons } = section;
   const { position, align } = section.mainStyle;
 
@@ -24,12 +19,7 @@ const ViewButton = ({ section, editor, buildContainerStyle }) => {
     }`;
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div
         className={`flex ${classesPositionRow} ${classesPositionCol}  w-full ${
           position === "flex-col" ? "gap-y-3" : "gap-x-3"
@@ -47,7 +37,7 @@ const ViewButton = ({ section, editor, buildContainerStyle }) => {
           );
         })}
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

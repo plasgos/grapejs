@@ -1,5 +1,3 @@
-import ContainerView from "@/components/ContainerView";
-
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import ContainerSlider from "./ContainerSlider";
@@ -9,7 +7,7 @@ import Layout3 from "./layout/Layout3";
 import Layout4 from "./layout/Layout4";
 import { cn } from "@/lib/utils";
 
-const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
+const ViewTestimony = ({ section, editor, isFocusContent }) => {
   const { contents } = section;
   const { variant, header, headerColor, withSlider, autoPlaySlider } =
     section.wrapperStyle;
@@ -17,12 +15,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
   const useSchemeColor = !!headerColor && headerColor !== "__INLINE__";
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div className="relative p-5">
         <div
           className={cn("rich-text break-all", {
@@ -45,7 +38,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                 section={section}
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout1}
-                buildContainerStyle={buildContainerStyle}
+                isFocusContent={isFocusContent}
               />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5  auto-rows-min ">
@@ -55,7 +48,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                     content={content}
                     styles={section.wrapperStyle}
                     editor={editor}
-                    buildContainerStyle={buildContainerStyle}
+                    isFocusContent={isFocusContent}
                   />
                 ))}
               </div>
@@ -72,7 +65,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout2}
                 isOverImage
-                buildContainerStyle={buildContainerStyle}
+                isFocusContent={isFocusContent}
               />
             ) : (
               <div
@@ -86,7 +79,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                     styles={section.wrapperStyle}
                     editor={editor}
                     isOverImage
-                    buildContainerStyle={buildContainerStyle}
+                    isFocusContent={isFocusContent}
                   />
                 ))}
               </div>
@@ -102,7 +95,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                 section={section}
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout3}
-                buildContainerStyle={buildContainerStyle}
+                isFocusContent={isFocusContent}
               />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5  auto-rows-min ">
@@ -112,7 +105,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                     content={content}
                     styles={section.wrapperStyle}
                     editor={editor}
-                    buildContainerStyle={buildContainerStyle}
+                    isFocusContent={isFocusContent}
                   />
                 ))}
               </div>
@@ -128,7 +121,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                 section={section}
                 autoPlaySlider={autoPlaySlider}
                 LayoutComponent={Layout4}
-                buildContainerStyle={buildContainerStyle}
+                isFocusContent={isFocusContent}
               />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-5  auto-rows-min ">
@@ -138,7 +131,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
                     content={content}
                     styles={section.wrapperStyle}
                     editor={editor}
-                    buildContainerStyle={buildContainerStyle}
+                    isFocusContent={isFocusContent}
                   />
                 ))}
               </div>
@@ -146,7 +139,7 @@ const ViewTestimony = ({ section, editor, buildContainerStyle }) => {
           </div>
         )}
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

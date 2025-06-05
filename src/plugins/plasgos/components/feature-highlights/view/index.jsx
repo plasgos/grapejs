@@ -1,17 +1,11 @@
-import ContainerView from "@/components/ContainerView";
 import useAnimatedVisibility from "@/hooks/useAnimatedVisibility";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 
 import { createElement } from "react";
 import * as Icons from "react-icons/fa";
 
-const ViewFeatureHighlights = ({ section, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
-
-  const { isFocusContent } = currentGlobalOptions;
-
+const ViewFeatureHighlights = ({ section, isFocusContent }) => {
   const { contents, animation } = section;
   const {
     textShadow,
@@ -26,12 +20,7 @@ const ViewFeatureHighlights = ({ section, editor, buildContainerStyle }) => {
     useAnimatedVisibility(animation);
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div className={`flex ${textAligment}`}>
         <div
           ref={elementRef}
@@ -103,7 +92,7 @@ const ViewFeatureHighlights = ({ section, editor, buildContainerStyle }) => {
           })}
         </div>
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

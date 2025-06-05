@@ -1,4 +1,3 @@
-import ContainerView from "@/components/ContainerView";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -16,7 +15,7 @@ import {
   Pagination,
 } from "swiper/modules";
 
-const ViewSliderImages = ({ section, editor, buildContainerStyle }) => {
+const ViewSliderImages = ({ section, editor }) => {
   const { contents } = section;
   const {
     width,
@@ -31,12 +30,7 @@ const ViewSliderImages = ({ section, editor, buildContainerStyle }) => {
   const delay = autoSlide * 1000;
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       {variant === "full-slider" && (
         <div
           className={`w-full ${
@@ -120,7 +114,7 @@ const ViewSliderImages = ({ section, editor, buildContainerStyle }) => {
           </Swiper>
         </div>
       )}
-    </ContainerView>
+    </div>
   );
 };
 

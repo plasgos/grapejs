@@ -1,6 +1,4 @@
-import ContainerView from "@/components/ContainerView";
-
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { cn } from "@/lib/utils";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Heading from "./Heading";
@@ -10,12 +8,8 @@ import ViewImagesFooter from "./ViewImagesFooter";
 import ViewNewsletter from "./ViewNewsletter";
 import ViewSocialMedia from "./ViewSocialMedia";
 import ViewText from "./ViewText";
-import { cn } from "@/lib/utils";
 
-const ViewFooter = ({ section, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const { isFocusContent } = globalOptions || {};
-
+const ViewFooter = ({ section, editor, isFocusContent }) => {
   const { contents, copyright, wrapperStyle } = section;
 
   const useSchemeColor =
@@ -23,12 +17,7 @@ const ViewFooter = ({ section, editor, buildContainerStyle }) => {
     copyright?.copyrightTextColor !== "__INLINE__";
 
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div className={`relative `}>
         <div
           style={{ gap: 50 }}
@@ -115,7 +104,7 @@ const ViewFooter = ({ section, editor, buildContainerStyle }) => {
           />
         </div>
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

@@ -1,8 +1,7 @@
-import ContainerView from "@/components/ContainerView";
 import ScrollVelocity from "@/components/pro-version/ScrollVelocity";
 import { useResponsiveViewFontSize } from "@/hooks/useResponsiveViewFontSize";
 
-const ViewScrollVelocity = ({ section, editor, buildContainerStyle }) => {
+const ViewScrollVelocity = ({ section, editor }) => {
   const {
     contents,
     fontFamily = "Squada One",
@@ -16,12 +15,7 @@ const ViewScrollVelocity = ({ section, editor, buildContainerStyle }) => {
   const texts = contents.map((content) => content.title);
   const { responsiveFontSize } = useResponsiveViewFontSize(editor, fontSize);
   return (
-    <ContainerView
-      id={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      buildContainerStyle={buildContainerStyle}
-    >
+    <div>
       <div className={`p-10 overflow-x-hidden flex ${textAlign}`}>
         <ScrollVelocity
           texts={texts}
@@ -35,7 +29,7 @@ const ViewScrollVelocity = ({ section, editor, buildContainerStyle }) => {
           }}
         />
       </div>
-    </ContainerView>
+    </div>
   );
 };
 

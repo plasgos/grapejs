@@ -3,9 +3,10 @@ import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import ColorPicker from "@/plugins/plasgos/components/_components-editor/ColorPicker";
 import RangeInputSlider from "@/plugins/plasgos/components/_components-editor/RangeInputSlider";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+
 import { useEffect } from "react";
 import { useEditor } from "@grapesjs/react";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const StylesTab = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =

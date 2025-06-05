@@ -11,10 +11,7 @@ import Navbar from "./Navbar";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import {
-  setEditComponent,
-  setGoogleFont,
-} from "@/redux/modules/landing-page/landingPageSlice";
+import { setGoogleFont } from "@/redux/modules/landing-page/landingPageSlice";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
 import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
@@ -34,7 +31,6 @@ import NavigationGuard from "./NavigationGuard";
 import { schemeColours } from "./theme-colors";
 import ToolbarPortalWrapper from "./ToolbarPortalWrapper";
 import EditorSheet from "./sidebar/_components/EditorSheet";
-import { useEffect } from "react";
 import plasgosPlugin from "@/plugins/plasgos";
 import Sidebar from "./sidebar";
 
@@ -144,17 +140,6 @@ const MainWebEditor = () => {
       handleAddGoogleFont();
       handleLoadCurrentProject(editor);
     });
-
-    // editor.on("component:add", (component) => {
-    //   // Jangan ubah wrapper
-    //   if (component.is("wrapper")) return;
-
-    //   const classes = component.getClasses();
-
-    //   // Tambahkan class hanya jika belum ada
-    //   if (!classes.includes("relative")) component.addClass("relative");
-    //   if (!classes.includes("z-1")) component.addStyle({ "z-index": 1 });
-    // });
 
     editor.on("run:core:preview", () => {
       setIsPreviewActive(true);
@@ -443,25 +428,6 @@ const MainWebEditor = () => {
       console.error("🚀 Import error:", error);
     }
   };
-
-  useEffect(() => {
-    if (!editComponent) {
-      const handleKeyDown = (e) => {
-        if (e.key === "e") {
-          const selectedComponent =
-            editorInstance.getSelected()?.attributes?.blockLabel;
-
-          dispatch(setEditComponent(selectedComponent));
-        }
-      };
-
-      window.addEventListener("keydown", handleKeyDown);
-
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    }
-  }, [dispatch, editComponent, editorInstance]);
 
   const handleClickOutsideCanvas = () => {
     if (editorInstance) {

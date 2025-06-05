@@ -1,16 +1,10 @@
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { FaStar } from "react-icons/fa";
 import { ImQuotesLeft } from "react-icons/im";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-const Layout3 = ({ content, styles, editor, buildContainerStyle }) => {
-  const [globalOptions] = useGlobalOptions(editor);
-  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
-
-  const { isFocusContent } = currentGlobalOptions;
-
+const Layout3 = ({ content, styles, isFocusContent }) => {
   const {
     nameColor,
     fontWeight,
