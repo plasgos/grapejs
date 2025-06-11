@@ -1,8 +1,8 @@
 import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyImage } from "@/plugins/plasgos/components/_components-view/LazyImage";
 
 const ViewListImages = ({ section, editor, isFocusContent }) => {
   const { contents } = section;
@@ -55,7 +55,7 @@ const ViewListImages = ({ section, editor, isFocusContent }) => {
                 overflow: "hidden",
               }}
             >
-              <LazyLoadImage
+              {/* <LazyLoadImage
                 src={content?.image}
                 alt={content?.alt ? content.alt : ""}
                 style={{
@@ -69,6 +69,18 @@ const ViewListImages = ({ section, editor, isFocusContent }) => {
                 wrapperProps={{
                   style: { transitionDelay: "1s" },
                 }}
+              /> */}
+              <LazyImage
+                src={content?.image}
+                alt={content?.alt ? content.alt : ""}
+                style={{
+                  aspectRatio,
+                }}
+                className={`w-full h-full ${objectView}  ${
+                  content?.target?.options?.type ? "cursor-pointer" : ""
+                } `}
+                onClick={() => onActionClickTarget(content?.target, editor)}
+                loading="lazy"
               />
             </div>
           </div>

@@ -2,12 +2,21 @@ import { getContentFocusStyle } from "@/utils/getContentFocusStyle";
 import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import { memo, useMemo } from "react";
 
+import TextEditor from "@/plugins/plasgos/components/_components-view/text-editor";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import { useSelectedComponent } from "@/hooks/useSelectedComponent";
+import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 
-function ViewContentShowcase({ section, editor, isFocusContent }) {
-  const { contents } = section;
+function ViewContentShowcase({ section, editor, isFocusContent, viewId }) {
+  const selectedComponent = useSelectedComponent(editor);
+  const { setCurrentComponent, handleComponentChange } =
+    useChangeComponentValue(selectedComponent, editor) || {};
 
+  useSyncWithUndoRedo(setCurrentComponent, editor);
+
+  const { isAddHeader, header, headerColor, contents } = section;
   const {
     column,
     aspectRatio,
@@ -43,8 +52,25 @@ function ViewContentShowcase({ section, editor, isFocusContent }) {
   }, [column]);
 
   return (
-    <div
-      className={`relative items-stretch
+    <div className="relative">
+      {isAddHeader && (
+        <TextEditor
+          selectedComponent={selectedComponent}
+          editor={editor}
+          value={header}
+          onChange={(value) => {
+            if (editor && value) {
+              handleComponentChange("header", value);
+            }
+          }}
+          keyColor="headerColor"
+          colorValue={headerColor}
+          viewId={viewId}
+        />
+      )}
+
+      <div
+        className={`relative items-stretch
     grid 
     gap-2 
     p-5 
@@ -54,128 +80,131 @@ function ViewContentShowcase({ section, editor, isFocusContent }) {
     sm:grid-cols-2
     ${columnClass}
   `}
-    >
-      {contents.map((content) => {
-        return (
-          <div
-            key={content.id}
-            className={`  ${getContentFocusStyle(
-              isFocusContent,
-              content.id
-            )} w-full text-center flex flex-col items-center p-2 `}
-          >
-            <div className="w-full flex flex-col ">
-              {imagePosition === "top" && (
-                <div
-                  className="w-full relative my-3"
-                  style={{
-                    aspectRatio,
-                    borderRadius: rounded,
-                    overflow: "hidden",
-                  }}
-                >
-                  <LazyLoadImage
-                    src={content?.image}
-                    alt={content?.alt || ""}
-                    className={`w-full h-full object-cover ${
-                      content?.target?.options?.type ? "cursor-pointer" : ""
-                    }`}
-                    onClick={() =>
-                      onActionClickTarget(
-                        content?.target,
-
-                        editor
-                      )
-                    }
-                    effect="blur"
-                    wrapperProps={{
-                      style: { transitionDelay: "1s" },
+      >
+        {contents.map((content) => {
+          return (
+            <div
+              key={content.id}
+              className={`  ${getContentFocusStyle(
+                isFocusContent,
+                content.id
+              )} w-full text-center flex flex-col items-center p-2 `}
+            >
+              <div className="w-full flex flex-col ">
+                {imagePosition === "top" && (
+                  <div
+                    className="w-full relative my-3"
+                    style={{
+                      aspectRatio,
+                      borderRadius: rounded,
+                      overflow: "hidden",
                     }}
-                  />
-                </div>
-              )}
+                  >
+                    <LazyLoadImage
+                      src={content?.image}
+                      alt={content?.alt || ""}
+                      className={`w-full h-full object-cover ${
+                        content?.target?.options?.type ? "cursor-pointer" : ""
+                      }`}
+                      onClick={() =>
+                        onActionClickTarget(
+                          content?.target,
 
-              <p
-                style={{
-                  color: titleColor,
-                  fontFamily,
-                  fontSize,
-                  fontWeight,
-                }}
-                className={`w-full break-all ${textAligment}  `}
-              >
-                {content.title}
-              </p>
+                          editor
+                        )
+                      }
+                      effect="blur"
+                      wrapperProps={{
+                        style: { transitionDelay: "1s" },
+                      }}
+                    />
+                  </div>
+                )}
 
-              {imagePosition === "center" && (
-                <div
-                  className="w-full relative my-3"
+                <p
                   style={{
-                    aspectRatio,
-                    borderRadius: rounded,
-                    overflow: "hidden",
+                    color: titleColor,
+                    fontFamily,
+                    fontSize,
+                    fontWeight,
                   }}
+                  className={`w-full break-all ${textAligment}  `}
                 >
-                  <LazyLoadImage
-                    src={content?.image}
-                    alt={content?.alt || ""}
-                    className={`w-full h-full object-cover ${
-                      content?.target?.options?.type ? "cursor-pointer" : ""
-                    }`}
-                    onClick={() =>
-                      onActionClickTarget(
-                        content?.target,
+                  {content.title}
+                </p>
 
-                        editor
-                      )
-                    }
-                    effect="blur"
-                    wrapperProps={{
-                      style: { transitionDelay: "1s" },
+                {imagePosition === "center" && (
+                  <div
+                    className="w-full relative my-3"
+                    style={{
+                      aspectRatio,
+                      borderRadius: rounded,
+                      overflow: "hidden",
                     }}
-                  />
-                </div>
-              )}
+                  >
+                    <LazyLoadImage
+                      src={content?.image}
+                      alt={content?.alt || ""}
+                      className={`w-full h-full object-cover ${
+                        content?.target?.options?.type ? "cursor-pointer" : ""
+                      }`}
+                      onClick={() =>
+                        onActionClickTarget(
+                          content?.target,
 
-              <p
-                style={{
-                  color: descriptionColor,
-                  fontFamily: descriptionFontFamily,
-                  fontSize: descriptionFontSize,
-                  fontWeight: descriptionFontWeight,
-                }}
-                className={`w-full break-all ${textAligmentDescription}  `}
-              >
-                {content.description}
-              </p>
+                          editor
+                        )
+                      }
+                      effect="blur"
+                      wrapperProps={{
+                        style: { transitionDelay: "1s" },
+                      }}
+                    />
+                  </div>
+                )}
 
-              {imagePosition === "bottom" && (
-                <div
-                  className="w-full relative my-3"
+                <p
                   style={{
-                    aspectRatio,
-                    borderRadius: rounded,
-                    overflow: "hidden",
+                    color: descriptionColor,
+                    fontFamily: descriptionFontFamily,
+                    fontSize: descriptionFontSize,
+                    fontWeight: descriptionFontWeight,
                   }}
+                  className={`w-full break-all ${textAligmentDescription}  `}
                 >
-                  <LazyLoadImage
-                    src={content?.image}
-                    alt={content?.alt || ""}
-                    className={`w-full h-full object-cover ${
-                      content?.target?.options?.type ? "cursor-pointer" : ""
-                    }`}
-                    onClick={() => onActionClickTarget(content?.target, editor)}
-                    effect="blur"
-                    wrapperProps={{
-                      style: { transitionDelay: "1s" },
+                  {content.description}
+                </p>
+
+                {imagePosition === "bottom" && (
+                  <div
+                    className="w-full relative my-3"
+                    style={{
+                      aspectRatio,
+                      borderRadius: rounded,
+                      overflow: "hidden",
                     }}
-                  />
-                </div>
-              )}
+                  >
+                    <LazyLoadImage
+                      src={content?.image}
+                      alt={content?.alt || ""}
+                      className={`w-full h-full object-cover ${
+                        content?.target?.options?.type ? "cursor-pointer" : ""
+                      }`}
+                      onClick={() =>
+                        onActionClickTarget(content?.target, editor)
+                      }
+                      effect="blur"
+                      wrapperProps={{
+                        style: { transitionDelay: "1s" },
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

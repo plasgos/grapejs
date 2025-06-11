@@ -39,6 +39,14 @@ const ListComponents = ({ editor, selectedComponent }) => {
   const contentListRef = useRef(null);
 
   const handleAddContent = (newContent) => {
+    const currentComponents = selectedComponent.components();
+    console.log(
+      "🚀 ~ handleAddContent ~ currentComponents:",
+      currentComponents
+    );
+
+    selectedComponent.set("components", []);
+
     selectedComponent?.set(
       "customComponent",
       produce(selectedComponent?.get("customComponent"), (draft) => {
@@ -146,92 +154,13 @@ const ListComponents = ({ editor, selectedComponent }) => {
                                               key={block.getId()}
                                               value={block.getId()}
                                               onSelect={() => {
-                                                const blockId = block.getId();
-                                                const selectedBlock =
-                                                  editor.BlockManager.get(
-                                                    blockId
-                                                  );
-                                                const selectedComponentType =
-                                                  editor.Components.getType(
-                                                    blockId
-                                                  );
+                                                const blockContent =
+                                                  block.getContent();
 
-                                                // Cari instance komponen di dalam canvas
-                                                const selectedComponentInstances =
-                                                  editor
-                                                    .getWrapper()
-                                                    .find(
-                                                      `[data-gjs-type="${blockId}"]`
-                                                    );
-
-                                                if (
-                                                  selectedComponentInstances.length >
-                                                  0
-                                                ) {
-                                                  const selectedComponent =
-                                                    selectedComponentInstances[0]; // Ambil instance pertama
-
-                                                  console.log(
-                                                    "Selected Block:",
-                                                    selectedBlock
-                                                  );
-                                                  console.log(
-                                                    "Selected Component:",
-                                                    selectedComponent
-                                                  );
-                                                  console.log(
-                                                    "Custom Component Data:",
-                                                    selectedComponent.get(
-                                                      "customComponent"
-                                                    )
-                                                  );
-                                                } else {
-                                                  console.log(
-                                                    "Component not found in canvas."
-                                                  );
-                                                }
+                                                selectedComponent
+                                                  .components()
+                                                  .add(blockContent);
                                               }}
-                                              // onSelect={() => {
-                                              //   const blockData =
-                                              //     editor.BlockManager.get(
-                                              //       block.getId()
-                                              //     );
-
-                                              //   if (blockData) {
-                                              //     const contentType =
-                                              //       blockData.get(
-                                              //         "content"
-                                              //       )?.type;
-                                              //     const componentType =
-                                              //       editor.Components.getType(
-                                              //         contentType
-                                              //       );
-
-                                              //     if (componentType) {
-                                              //       const componentModel =
-                                              //         componentType.model
-                                              //           .prototype.defaults;
-
-                                              //       const newId = generateId();
-                                              //       const newCustomComponent = {
-                                              //         ...componentModel.customComponent,
-                                              //         id: newId,
-                                              //         componentType:
-                                              //           componentType.id,
-                                              //         iconBlock:
-                                              //           block.getMedia(),
-                                              //         blockLabel:
-                                              //           componentModel.blockLabel,
-                                              //       };
-
-                                              //       handleAddContent(
-                                              //         newCustomComponent
-                                              //       );
-
-                                              //       setOpen(false);
-                                              //     }
-                                              //   }
-                                              // }}
                                             >
                                               <div
                                                 className=""

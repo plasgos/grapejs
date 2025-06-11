@@ -84,7 +84,6 @@ export const heroSectionComponent = (editor) => {
         variant: "basic",
         btnPosition: "justify-start",
         shadow: "shadow-none",
-
         alignText: "justify-center",
         alignButtons: "justify-center",
         widthText: 500,

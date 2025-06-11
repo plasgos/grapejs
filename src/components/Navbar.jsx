@@ -12,7 +12,10 @@ import { cx } from "class-variance-authority";
 
 import { Button } from "@/components/ui/button";
 import { useProjectSaver } from "@/hooks/useProjectSaver";
-import { setDeployData } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setCurrentDeviceView,
+  setDeployData,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { produce } from "immer";
 import { Loader2, Save } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -274,6 +277,7 @@ const Navbar = ({ currentProject }) => {
                 key={i}
                 onClick={() => {
                   select(deviceItem.id);
+                  dispatch(setCurrentDeviceView(deviceItem.id));
                 }}
                 className={` hover:bg-accent hover:text-accent-foreground p-2 rounded-md ${
                   selected === deviceItem.id

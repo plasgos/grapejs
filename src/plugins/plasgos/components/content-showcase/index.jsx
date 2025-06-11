@@ -12,6 +12,9 @@ export const contentShowcaseComponent = (editor) => {
     defaultCustomComponent: {
       isLocked: false,
       scrollTarget: undefined,
+      isAddHeader: true,
+      header: `<p style="text-align: center"><span style="font-family: Anton; font-size: 40px; color: rgb(0, 0, 0)">The quick brown fox jumps over the lazy dog</span></p><p style="text-align: center"><span style="font-family: Fenix; color: rgb(0, 0, 0)">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis numquam expedita molestiae accusamus, adipisci magnam</span></p>`,
+      headerColor: "",
       contents: [
         {
           id: generateId(),

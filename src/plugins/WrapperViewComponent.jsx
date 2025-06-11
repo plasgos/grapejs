@@ -1,72 +1,73 @@
 import ContainerView from "@/components/ContainerView";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
-import { viewComponentsRender } from "@/pages/deploy/_components/RenderFromData";
-import { useEffect, useRef } from "react";
-
-const RenderFromEditor = ({ childrenModels, editor }) => {
-  if (!childrenModels || childrenModels.length === 0) return null;
-
-  return childrenModels.map((childModel) => {
-    const type = childModel.get("type");
-    const Component = viewComponentsRender[type];
-    if (!Component) return null;
-
-    // Ambil children model (Backbone Collection)
-    const childComponents = childModel.components();
-
-    return (
-      <WrapperViewComponent
-        key={childModel.cid}
-        ViewComponent={Component}
-        editor={editor}
-        section={childModel.get("customComponent")}
-        childrenModels={childComponents}
-        buildContainerStyle={null}
-        buildChildComponents={null}
-      />
-    );
-  });
-};
+import { useEffect } from "react";
 
 const WrapperViewComponent = ({
-  id,
   ViewComponent,
   section,
   editor,
   childrenModels,
   buildContainerStyle,
   buildChildComponents,
+  viewId,
 }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
 
   const { isFocusContent, maxWidthPage } = currentGlobalOptions;
 
-  const containerRef = useRef(null);
+  // useEffect(() => {
+  //   if (editor) {
+  //     const canvas = editor.Canvas.getBody(); // DOM body dari iframe canvas
+  //     console.log("🚀 ~ useEffect ~ canvas:", canvas);
+
+  //     window.addEventListener("mousedown", (e) => {
+  //       console.log("RUINNN");
+  //       const selected = editor.getSelected();
+  //       console.log("🚀 ~ useEffect ~ selected:", selected);
+  //       if (selected) {
+  //         selected.set({
+  //           draggable: false,
+  //           droppable: false,
+  //         });
+  //       }
+  //     });
+  //   }
+  // }, [editor]);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!editor) return;
 
-    if (childrenModels && childrenModels.length > 0) {
-      // Kosongkan dulu
-      containerRef.current.innerHTML = "";
+    const iframe = editor.Canvas.getFrameEl();
+    const iframeDoc = iframe?.contentDocument;
 
-      // Append semua child component
-      childrenModels.forEach((child) => {
-        const childEl = child.view?.el;
+    const handlePointerDown = (e) => {
+      const isToolbar = e.target.closest(".gjs-toolbar");
+      window.__allowDragFromToolbar = !!isToolbar;
+    };
 
-        console.log("🚀 ~ childrenModels.forEach ~ childEl:", childEl);
+    const handleDragStart = (e) => {
+      if (!window.__allowDragFromToolbar) {
+        e.preventDefault?.();
+        e.stopPropagation?.();
+        editor.stopCommand("core:component-drag");
+      }
+      window.__allowDragFromToolbar = false;
+    };
 
-        if (childEl) {
-          containerRef.current.appendChild(childEl);
-        }
-      });
+    if (iframeDoc) {
+      iframeDoc.addEventListener("pointerdown", handlePointerDown);
+      iframeDoc.addEventListener("dragstart", handleDragStart);
     }
-  }, [childrenModels]);
+
+    return () => {
+      iframeDoc?.removeEventListener("pointerdown", handlePointerDown);
+      iframeDoc?.removeEventListener("dragstart", handleDragStart);
+    };
+  }, [editor]);
 
   return (
     <ContainerView
-      id={id}
       targetId={section?.scrollTarget?.value || ""}
       editor={editor}
       section={section}
@@ -79,18 +80,11 @@ const WrapperViewComponent = ({
           maxWidthPage={maxWidthPage}
           isFocusContent={isFocusContent}
           buildContainerStyle={buildContainerStyle}
+          viewId={viewId}
         />
-      )}
-
-      {buildChildComponents && buildChildComponents.length > 0 ? (
-        buildChildComponents
-      ) : (
-        <div ref={containerRef} className="gjs-children-wrapper" />
       )}
     </ContainerView>
   );
 };
 
 export default WrapperViewComponent;
-
-// <RenderFromEditor childrenModels={childrenModels} editor={editor} />

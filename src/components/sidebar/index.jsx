@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import { FaCog } from "react-icons/fa";
 import GlobalStyles from "./_components/GlobalStyles";
 import SettingPage from "./_components/SettingPage";
+import { VscMultipleWindows } from "react-icons/vsc";
+import PopupSetting from "./_components/PopupSetting";
 
 const sidebarItems = [
   {
@@ -34,6 +36,12 @@ const sidebarItems = [
     label: "Layer",
     icon: <GrSort className="scale-125" />,
     component: () => <SortComponent />,
+  },
+  {
+    key: "popup",
+    label: "Popup",
+    icon: <VscMultipleWindows className="scale-125" />,
+    component: () => <PopupSetting />,
   },
   {
     key: "settings",

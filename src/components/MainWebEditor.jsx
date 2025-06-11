@@ -11,7 +11,10 @@ import Navbar from "./Navbar";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import { setGoogleFont } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setGoogleFont,
+  setIsPreviewMode,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { injectExternalCSS } from "@/utils/injectExternalCSS";
 import { overrideCopyCommand } from "@/utils/overrideCopyCommand";
 import { overrideDeleteCommand } from "@/utils/overrideDeleteCommand";
@@ -102,7 +105,7 @@ export const handleRemoveWatermark = (editor) => {
 };
 
 const MainWebEditor = () => {
-  const { projectsData, editComponent } = useSelector(
+  const { projectsData, editComponent, isPreviewMode } = useSelector(
     (state) => state.landingPage
   );
 
@@ -110,7 +113,6 @@ const MainWebEditor = () => {
 
   const currentProject = projectsData?.find((project) => project.slug === slug);
 
-  const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [editorInstance, setEditorInstance] = useState(null);
 
   const dispatch = useDispatch();
@@ -142,7 +144,7 @@ const MainWebEditor = () => {
     });
 
     editor.on("run:core:preview", () => {
-      setIsPreviewActive(true);
+      dispatch(setIsPreviewMode(true));
 
       const iframes = editor.Canvas.getDocument().querySelectorAll("iframe");
       iframes.forEach((el) => {
@@ -151,7 +153,7 @@ const MainWebEditor = () => {
     });
 
     editor.on("stop:core:preview", () => {
-      setIsPreviewActive(false);
+      dispatch(setIsPreviewMode(false));
 
       const iframes = editor.Canvas.getDocument().querySelectorAll("iframe");
       iframes.forEach((el) => {
@@ -468,7 +470,7 @@ const MainWebEditor = () => {
             )}
           >
             <WithEditor>
-              <div className={cx("", isPreviewActive && "hidden")}>
+              <div className={cx("", isPreviewMode && "hidden")}>
                 <Sidebar />
               </div>
             </WithEditor>
@@ -477,7 +479,7 @@ const MainWebEditor = () => {
               onClick={handleClickOutsideCanvas}
               className={cx(
                 "flex flex-col flex-1  ",
-                isPreviewActive ? "h-screen" : "h-[94vh]"
+                isPreviewMode ? "h-screen" : "h-[94vh]"
               )}
             >
               <Canvas
@@ -502,7 +504,7 @@ const MainWebEditor = () => {
                   }}
                   className={cx(
                     " absolute right-0 top-0 z-[9999]  w-[380px] h-[94vh] bg-[#FEEBDB] shadow flex flex-col ",
-                    isPreviewActive && "hidden"
+                    isPreviewMode && "hidden"
                   )}
                 >
                   <WithEditor>

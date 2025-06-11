@@ -79,7 +79,10 @@ const EditorSheet = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => dispatch(setEditComponent(""))}
+            onClick={() => {
+              dispatch(setEditComponent(""));
+              editor.select(null);
+            }}
             className="text-xs"
           >
             <MdClose className="scale-125" />

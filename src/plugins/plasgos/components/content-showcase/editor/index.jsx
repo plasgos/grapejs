@@ -16,6 +16,9 @@ import TargetOptions from "@/plugins/plasgos/components/_components-editor/Targe
 import SectionAddScrollTargetId from "@/plugins/plasgos/components/_components-editor/SectionAddScrollTargetId";
 import DraggableList from "@/plugins/plasgos/components/_components-editor/DraggableList";
 import BackgroundEditor from "@/plugins/plasgos/components/_components-editor/background";
+import { Switch } from "@/components/ui/switch";
+import { useDispatch } from "react-redux";
+import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 
 const EditorContentShowcase = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -104,6 +107,8 @@ const EditorContentShowcase = ({ selectedComponent }) => {
     );
   };
 
+  const dispatch = useDispatch();
+
   return (
     <>
       <TabsContent
@@ -112,6 +117,22 @@ const EditorContentShowcase = ({ selectedComponent }) => {
       >
         <div className="flex flex-col gap-y-5 py-1">
           <SectionAddScrollTargetId selectedComponent={selectedComponent} />
+
+          <div className="flex flex-col gap-y-5 rounded-lg p-3 bg-white">
+            <div className="flex items-center justify-between ">
+              <Label>Add Header</Label>
+              <Switch
+                checked={currentComponent.isAddHeader}
+                onCheckedChange={(checked) => {
+                  handleComponentChange("isAddHeader", checked);
+
+                  if (checked) {
+                    dispatch(setEditComponent(""));
+                  }
+                }}
+              />
+            </div>
+          </div>
 
           <DraggableList
             contents={currentComponent.contents}

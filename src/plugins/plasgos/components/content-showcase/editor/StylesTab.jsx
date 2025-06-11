@@ -20,6 +20,7 @@ import SelectTextAligment from "@/plugins/plasgos/components/_components-editor/
 import RangeInputSlider from "@/plugins/plasgos/components/_components-editor/RangeInputSlider";
 import SelectOptions from "@/plugins/plasgos/components/_components-editor/SelectOptions";
 import SelectCircle from "@/plugins/plasgos/components/_components-editor/SelectCircle";
+import { useEditor } from "@grapesjs/react";
 
 const imagePositionOptions = [
   { value: "top", label: "Top", icon: <TbBoxAlignTopFilled size={24} /> },
@@ -44,6 +45,23 @@ const StylesTab = ({ selectedComponent }) => {
   const handleChangeColor = (key, value) => {
     handleComponentChange(key, value);
   };
+
+  const editor = useEditor();
+
+  const getSelectedIndex = () => {
+    const selected = editor.getSelected();
+
+    if (!selected) return -1;
+
+    const parent = selected.parent();
+    const siblings = parent?.components();
+
+    const index = siblings.indexOf(selected);
+    return index;
+  };
+
+  const currentIndex = getSelectedIndex();
+  console.log("🚀 ~ StylesTab ~ currentIndex:", currentIndex);
 
   return (
     <div className="flex flex-col gap-y-5">

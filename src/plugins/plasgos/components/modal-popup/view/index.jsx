@@ -1,22 +1,25 @@
-
-import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
-import { useState } from "react";
+import ContainerView from "@/components/ContainerView";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import clsx from "clsx";
+import { produce } from "immer";
+import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { produce } from "immer";
-import ContentShowcase from "../content-showcase";
 
-import GjsEditor, { Canvas, WithEditor } from "@grapesjs/react";
-import grapesjs from "grapesjs";
+const ModalPopup = ({
+  section,
+  editor,
+  childrenModels,
+  buildContainerStyle,
+}) => {
+  const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
+  const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
 
-const ModalPopup = ({ section, editor, }) => {
-  const editorModel = editor.getModel();
-  const globalOptions = editorModel.get("globalOptions");
+  const { isFocusContent, maxWidthPage } = currentGlobalOptions;
 
   const { width, appearEffect, rounded } = section.wrapperStyle;
   const { popupId, isPreviewModal, contents } = section;
-  console.log("🚀 ~ ModalPopup ~ contents:", contents);
   const { typeOpen, delayDuration } = section.popupModalOption;
   const [isOpen, setIsOpen] = useState(false);
   const [isDelayAnimate, setisDelayAnimate] = useState(false);
@@ -31,7 +34,7 @@ const ModalPopup = ({ section, editor, }) => {
     );
   };
 
-  const onCLose = () => {
+  const onClose = () => {
     setisDelayAnimate(true);
 
     if (typeOpen === "onClick" && globalOptions.popup.length > 0) {
@@ -40,8 +43,7 @@ const ModalPopup = ({ section, editor, }) => {
       );
 
       if (selectedPopup) {
-        editorModel.set("globalOptions", {
-          ...globalOptions,
+        updateGlobalOptions({
           popup: globalOptions.popup.map((item) =>
             item.id === selectedPopup.id
               ? {
@@ -65,6 +67,10 @@ const ModalPopup = ({ section, editor, }) => {
       }, 300);
       handleClosePreview();
     }
+
+    setTimeout(() => {
+      editor.select(null);
+    }, 0);
   };
 
   useEffect(() => {
@@ -89,66 +95,93 @@ const ModalPopup = ({ section, editor, }) => {
 
   const currentPopup = globalOptions.popup.find((item) => item.id === popupId);
 
+  const containerRef = useRef(null);
+  console.log("🚀 ~ containerRef:", containerRef);
+
+  // useEffect(() => {
+  //   if (editor) {
+  //     editor.on("component:add", () => {
+  //       if (childrenModels && childrenModels.length > 0) {
+  //         // Kosongkan dulu
+  //         containerRef.current.innerHTML = "";
+
+  //         // Append semua child component
+  //         childrenModels.forEach((child) => {
+  //           const childEl = child.view?.el;
+
+  //           console.log("🚀 ~ childrenModels.forEach ~ childEl:", childEl);
+
+  //           if (childEl) {
+  //             containerRef.current.appendChild(childEl);
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+  // }, [childrenModels, editor]);
+
+  useEffect(() => {
+    editor.on("component:add", () => {
+      if (!containerRef.current) return;
+
+      containerRef.current.innerHTML = "";
+
+      childrenModels.forEach((child) => {
+        const childEl = child.view?.el;
+
+        console.log("🚀 ~ childrenModels.forEach ~ childEl:", childEl);
+
+        if (childEl) {
+          containerRef.current.appendChild(childEl);
+        }
+      });
+    });
+  }, [childrenModels, editor]);
+
   return (
     <>
-      {isOpen && (
-        <div
-          className={`absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-50 ${
-            isDelayAnimate
-              ? "animate__animated animate__fadeOut"
-              : "animate__animated animate__fadeIn"
-          }  `}
-        >
-          <ContainerView
-            id={section?.scrollTarget?.value || ""}
-            editor={editor}
-            section={section}
-            customClassName={`flex flex-col p-5  animate__animated ${appearEffect} animate__fast overflow-hidden `}
-            customStyles={{
-              width,
-              borderRadius: rounded,
-              height: "auto",
-              backgroundColor:
-                section.background.bgType === null
-                  ? "white"
-                  : section.background.bgColor,
-            }}
-          >
-            <div onClick={onCLose} className="ml-auto cursor-pointer z-10 ">
-              <MdClose size={24} />
-            </div>
-            <div className="flex flex-col  rounded-xl p-5 max-h-[500px] overflow-y-auto mt-2">
-              {/* <p className="w-full text-center">MODAL {currentPopup.value}</p> */}
+      {isOpen ? (
+        <>
+          <div
+            className={`fixed inset-0 bg-black/50  z-50 pointer-events-none ${
+              isDelayAnimate
+                ? "animate__animated animate__fadeOut"
+                : "animate__animated animate__fadeIn"
+            }  `}
+          ></div>
 
-              <div className="">
-                {contents.map((content) => {
-                  return (
-                    <div key={content.id} className="">
-                      {content.componentType === "content-showcase" && (
-                        <ContentShowcase section={content} editor={editor} />
-                      )}
-                    </div>
-                  );
-                })}
-                {/* 
-                <GjsEditor
-                  // onEditor={}
-                  grapesjs={grapesjs}
-                  plugins={[]}
-                >
-                  <Canvas
-                    style={{
-                      backgroundColor: "#FFF4EA",
-                      width: "100%",
-                      height: "100vh",
-                    }}
-                  />
-                </GjsEditor> */}
+          <div className=" relative flex flex-col items-center justify-center h-[500px] overflow-y-auto bg-slate-300">
+            <div
+              className={clsx(
+                "relative w-full p-6 m-5 bg-white shadow-lg  sm:max-w-screen-sm md:max-w-screen-md rounded-lg transition-all duration-200 z-[9999]  right-0  ",
+                ""
+              )}
+              style={{
+                borderRadius: rounded,
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                onClick={onClose}
+                className="absolute top-3 right-3 cursor-pointer z-10 "
+              >
+                <MdClose size={24} />
               </div>
+
+              <ContainerView
+                targetId={section?.scrollTarget?.value || ""}
+                editor={editor}
+                section={section}
+                maxWidthPage={maxWidthPage}
+              >
+                {/* <div ref={containerRef} className="gjs-children-wrapper" /> */}
+
+                <div data-slot="modal-children" />
+              </ContainerView>
             </div>
           </div>
-        </div>
-      )}
+        </>
+      ) : null}
     </>
   );
 };

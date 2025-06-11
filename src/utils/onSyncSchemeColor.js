@@ -79,6 +79,7 @@ export function getFallbackColorsByType(type, colours) {
       return {
         ...base,
         titleColor: safe(colours.primary),
+        headerColor: safe(colours.primary),
         descriptionColor: safe(colours.secondary),
       };
     case "feature-highlights":

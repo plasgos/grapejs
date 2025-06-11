@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import project1Json from "@/dummy-projects/project-1.json";
 
 const initialState = {
+  isPreviewMode: false,
+  currentDeviceView: "desktop",
   deployData: undefined,
   canvasData: undefined,
   editComponent: "",
@@ -116,6 +118,12 @@ export const landingPageSlice = createSlice({
   name: "landingPage",
   initialState,
   reducers: {
+    setIsPreviewMode: (state, action) => {
+      state.isPreviewMode = action.payload;
+    },
+    setCurrentDeviceView: (state, action) => {
+      state.currentDeviceView = action.payload;
+    },
     setCanvasData: (state, action) => {
       state.canvasData = action.payload;
     },
@@ -168,6 +176,8 @@ export const landingPageSlice = createSlice({
 });
 
 export const {
+  setIsPreviewMode,
+  setCurrentDeviceView,
   setCanvasData,
   setEditComponent,
   setIsDraggingComponent,

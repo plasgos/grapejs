@@ -1,17 +1,24 @@
+import Color from "@tiptap/extension-color";
+import FontFamily from "@tiptap/extension-font-family";
+import Highlight from "@tiptap/extension-highlight";
+import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import TextAlign from "@tiptap/extension-text-align";
-import Highlight from "@tiptap/extension-highlight";
-import TextStyle from "@tiptap/extension-text-style";
-import FontFamily from "@tiptap/extension-font-family";
-import Color from "@tiptap/extension-color";
+import { useEffect } from "react";
+
 import {
   FontSize,
   InsertTextExtension,
 } from "@/components/rich-text-editor/extensions";
 
-export function useRichTextEditor({ content = "", onChange }) {
-  const editor = useEditor({
+export function useRichTextEditor({
+  content = "",
+  onChange,
+  mainEditor,
+  isPreviewMode,
+}) {
+  const editorTiptap = useEditor({
     extensions: [
       StarterKit.configure({
         bulletList: {
@@ -29,7 +36,6 @@ export function useRichTextEditor({ content = "", onChange }) {
         types: ["heading", "paragraph"],
       }),
       Highlight,
-      Text,
       TextStyle,
       FontFamily,
       FontSize,
@@ -39,7 +45,9 @@ export function useRichTextEditor({ content = "", onChange }) {
     content,
     editorProps: {
       attributes: {
-        class: "p-3 focus:outline-none",
+        class: `p-3 border border-transparent focus:border-indigo-500  focus:outline-none ${
+          !isPreviewMode && "hover:border-indigo-300"
+        }`,
       },
     },
     onUpdate: ({ editor }) => {
@@ -47,7 +55,22 @@ export function useRichTextEditor({ content = "", onChange }) {
         onChange(editor.getHTML());
       }
     },
+
+    onBlur: () => {
+      const iframe = document.querySelector(".gjs-frame");
+      const iframeDocument =
+        iframe.contentDocument || iframe.contentWindow.document;
+      iframeDocument.getSelection().empty();
+    },
+    autofocus: "end",
   });
 
-  return editor;
+  useEffect(() => {
+    if (!editorTiptap) return;
+
+    const canEdit = mainEditor !== null && isPreviewMode === false;
+    editorTiptap.setEditable(canEdit);
+  }, [editorTiptap, mainEditor, isPreviewMode]);
+
+  return { editorTiptap };
 }

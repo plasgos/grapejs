@@ -1,10 +1,7 @@
 import { useBackgroundStyles } from "@/hooks/useBackgroundStyle";
 
-import { Fragment } from "react";
-
 const ContainerView = ({
   children,
-  id,
   targetId,
   section,
   customStyles,
@@ -21,45 +18,43 @@ const ContainerView = ({
       : "";
 
   return (
-    <Fragment key={id}>
-      <div
-        className={`${customClassName} mx-auto overflow-hidden`}
-        id={targetId}
-        style={{
-          borderRadius: rounded,
-          padding,
-          marginTop,
-          marginBottom,
-          backgroundColor,
-          position: "relative",
-          maxWidth: isFullWidth ? "100%" : maxWidthPage,
-          ...customStyles,
-        }}
-      >
-        {section?.background?.bgType === "image" ? (
-          <div style={stylesBg.backgroundImgStyle}></div>
-        ) : section?.background?.bgType === "gradients" ? (
-          <div style={stylesBg.gradientStyle}></div>
-        ) : section?.background?.bgType === "pattern" ? (
-          <div style={stylesBg.backgroundPatternStyle}></div>
-        ) : null}
+    <div
+      className={`${customClassName} mx-auto overflow-hidden`}
+      id={targetId}
+      style={{
+        borderRadius: rounded,
+        padding,
+        marginTop,
+        marginBottom,
+        backgroundColor,
+        position: "relative",
+        maxWidth: isFullWidth ? "100%" : maxWidthPage,
+        ...customStyles,
+      }}
+    >
+      {section?.background?.bgType === "image" ? (
+        <div style={stylesBg.backgroundImgStyle}></div>
+      ) : section?.background?.bgType === "gradients" ? (
+        <div style={stylesBg.gradientStyle}></div>
+      ) : section?.background?.bgType === "pattern" ? (
+        <div style={stylesBg.backgroundPatternStyle}></div>
+      ) : null}
 
-        {section?.background?.bgType === "image" &&
-        section.background?.opacity ? (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundColor:
-                section.background?.opacity < 0 ? "black" : "white",
-              opacity: Math.abs(stylesBg.calculateOpacity),
-            }}
-          ></div>
-        ) : null}
+      {section?.background?.bgType === "image" &&
+      section.background?.opacity ? (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundColor:
+              section.background?.opacity < 0 ? "black" : "white",
+            opacity: Math.abs(stylesBg.calculateOpacity),
+          }}
+        ></div>
+      ) : null}
 
-        {children}
-      </div>
-    </Fragment>
+      {children}
+    </div>
   );
 };
 

@@ -20,6 +20,7 @@ export const injectComponents = (editor, options) => {
     label,
     category,
     content: { type },
+
     activate: true,
     media: renderToString(icon),
     attributes: {
@@ -50,8 +51,8 @@ export const injectComponents = (editor, options) => {
         toolbar: [],
         components: [],
 
-        // noMove: true,
-        // noResize: true,
+        noMove: true,
+        noResize: true,
         attributes: {},
         category,
         blockLabel: label,
@@ -105,17 +106,18 @@ export const injectComponents = (editor, options) => {
         }
 
         const childrenModels = this.model.components();
+        const viewId = this.model.cid;
 
         this.root.render(
           <Provider store={store}>
             <WrapperViewComponent
-              id={generateId()}
               ViewComponent={ViewComponent}
               editor={editor}
               section={this.model.get("customComponent")}
               childrenModels={childrenModels}
               buildContainerStyle={null}
               buildChildComponents={null}
+              viewId={viewId}
             />
           </Provider>
         );
@@ -154,12 +156,12 @@ export const injectELements = (editor, options) => {
     model: {
       defaults: {
         tagName: "div",
-        style: {
-          display: "inline-block", // ini penting!
-          maxWidth: "100%",
-          height: "auto", // atau default sesuai kebutuhan
-          position: "relative", // untuk bisa dipindahkan
-        },
+        // style: {
+        //   display: "inline-block", // ini penting!
+        //   maxWidth: "100%",
+        //   height: "auto", // atau default sesuai kebutuhan
+        //   position: "relative", // untuk bisa dipindahkan
+        // },
         draggable: true,
         droppable: false,
         selectable: true,
@@ -169,20 +171,6 @@ export const injectELements = (editor, options) => {
         copyable: false,
         toolbar: [],
         components: [],
-        resizable: {
-          tl: true, // top-left
-          tc: true, // top-center
-          tr: true, // top-right
-          cl: true, // center-left
-          cr: true, // center-right
-          bl: true, // bottom-left
-          bc: true, // bottom-center
-          br: true, // bottom-right
-          keyWidth: "width",
-          keyHeight: "height",
-          currentUnit: "px",
-          minDim: 10,
-        },
 
         noMove: false,
         noResize: true,
