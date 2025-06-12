@@ -17,6 +17,7 @@ import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { TbMinusVertical } from "react-icons/tb";
 import TargetOptions from "@/plugins/plasgos/components/_components-editor/TargetOptions";
+import RangeInputSlider from "../../_components-editor/RangeInputSlider";
 const buttonPosition = [
   { value: "flex-row", label: "Row", icon: <MdOutlineHorizontalRule /> },
   { value: "flex-col", label: "Column", icon: <TbMinusVertical /> },
@@ -122,8 +123,18 @@ const EditorFloatingButton = ({ selectedComponent }) => {
         value="content"
       >
         <div className="flex flex-col gap-y-5 p-3 bg-white rounded-lg">
+          <RangeInputSlider
+            label="Position"
+            value={mainStyle.verticalPosition}
+            onChange={(value) =>
+              handleComponentChange("mainStyle.verticalPosition", value)
+            }
+            min={20}
+            max={500}
+          />
+
           <div className="flex justify-between items-center">
-            <Label className="font-normal">Position</Label>
+            <Label className="font-normal">Align</Label>
 
             <div className="flex items-center gap-x-2">
               {buttonPosition.map((item) => (

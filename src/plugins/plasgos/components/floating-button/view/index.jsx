@@ -4,12 +4,12 @@ import CustomButton from "../../_components-view/CustomButton";
 
 const ViewFLoatingButton = ({ section, editor, maxWidthPage }) => {
   const { buttons } = section;
-  const { position } = section.mainStyle;
+  const { position, verticalPosition = 80 } = section.mainStyle;
 
   return (
     <div
       style={{
-        bottom: 80,
+        bottom: verticalPosition,
         maxWidth: maxWidthPage,
         left: "50%",
         transform: "translateX(-50%)",

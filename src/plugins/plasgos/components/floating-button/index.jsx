@@ -64,6 +64,7 @@ export const floatingButtonComponent = (editor) => {
       ],
       mainStyle: {
         space: 20,
+        verticalPosition: 80,
         position: "flex-row",
         shadow: "shadow",
       },

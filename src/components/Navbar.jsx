@@ -19,12 +19,12 @@ import {
 import { produce } from "immer";
 import { Loader2, Save } from "lucide-react";
 import { useEffect, useState } from "react";
-import { LuRedo2, LuSquareDashed, LuUndo2 } from "react-icons/lu";
+import { renderToString } from "react-dom/server";
+import { LuRedo2, LuUndo2 } from "react-icons/lu";
 import { SlGlobe, SlSizeActual, SlSizeFullscreen } from "react-icons/sl";
+import { VscZoomIn, VscZoomOut } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { VscZoomIn, VscZoomOut } from "react-icons/vsc";
-import { renderToString } from "react-dom/server";
 
 const Navbar = ({ currentProject }) => {
   const editor = useEditor();
@@ -62,11 +62,6 @@ const Navbar = ({ currentProject }) => {
       disabled: () => !UndoManager.hasRedo(),
     },
 
-    // {
-    //   id: "core:component-outline",
-    //   name: "View Components",
-    //   iconPath: <LuSquareDashed />,
-    // },
     {
       id: "core:preview",
       name: "Preview Full Screen",
@@ -119,6 +114,17 @@ const Navbar = ({ currentProject }) => {
     frames.style.transformOrigin = "top center";
     frames.style.transform = `scale(${scale})`;
   };
+
+  useEffect(() => {
+    if (editor) {
+      editor.on("component:selected", (component) => {
+        const type = component.get("type");
+        if (type === "floating-button-circle") {
+          setCurrentZoom(50);
+        }
+      });
+    }
+  }, [editor]);
 
   useEffect(() => {
     updateCanvasHeight(currentZoom);
@@ -261,7 +267,6 @@ const Navbar = ({ currentProject }) => {
         navigate("/deploy");
       }, 300);
     } catch (error) {
-      console.log("🚀 ~ handleDeploy ~ error:", error);
     } finally {
       setIsLoadingDeploy(false);
     }

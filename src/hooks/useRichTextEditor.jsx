@@ -17,6 +17,7 @@ export function useRichTextEditor({
   onChange,
   mainEditor,
   isPreviewMode,
+  setOpen,
 }) {
   const editorTiptap = useEditor({
     extensions: [
@@ -55,8 +56,16 @@ export function useRichTextEditor({
         onChange(editor.getHTML());
       }
     },
-    onFocus: () => {},
-
+    onFocus: () => {
+      if (mainEditor) {
+        setOpen(true);
+      }
+    },
+    onSelectionUpdate: () => {
+      if (mainEditor) {
+        setOpen(true);
+      }
+    },
     onBlur: () => {
       const iframe = document.querySelector(".gjs-frame");
       const iframeDocument =

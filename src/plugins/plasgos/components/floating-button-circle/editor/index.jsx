@@ -15,6 +15,11 @@ import IconPicker from "@/plugins/plasgos/components/_components-editor/IconPick
 import RangeInputSlider from "@/plugins/plasgos/components/_components-editor/RangeInputSlider";
 import SelectOptions from "@/plugins/plasgos/components/_components-editor/SelectOptions";
 import TargetOptions from "@/plugins/plasgos/components/_components-editor/TargetOptions";
+import {
+  FaRegArrowAltCircleLeft,
+  FaRegArrowAltCircleRight,
+} from "react-icons/fa";
+import SelectCircle from "../../_components-editor/SelectCircle";
 
 export const spaceOptions = [
   { value: 5, label: "Very Close" },
@@ -22,6 +27,11 @@ export const spaceOptions = [
   { value: 20, label: "Moderate" },
   { value: 40, label: "Far" },
   { value: 60, label: "Very Far" },
+];
+
+const sideOptions = [
+  { value: "left", label: "Left", icon: <FaRegArrowAltCircleLeft /> },
+  { value: "right", label: "Right", icon: <FaRegArrowAltCircleRight /> },
 ];
 
 const EditorFloatingButtonCircle = ({ selectedComponent }) => {
@@ -115,6 +125,13 @@ const EditorFloatingButtonCircle = ({ selectedComponent }) => {
         value="content"
       >
         <div className="flex flex-col gap-y-5 p-3  rounded-lg bg-white">
+          <SelectCircle
+            label="Side"
+            options={sideOptions}
+            value={mainStyle?.side}
+            onClick={(value) => handleComponentChange("mainStyle.side", value)}
+          />
+
           <RangeInputSlider
             asChild
             label="Position"

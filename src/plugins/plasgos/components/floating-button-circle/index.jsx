@@ -37,7 +37,8 @@ export const floatingButtonCircleComponent = (editor) => {
         },
       ],
       mainStyle: {
-        position: 20,
+        side: "right",
+        position: 80,
         space: 20,
       },
     },

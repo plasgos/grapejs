@@ -6,7 +6,7 @@ import * as Icons from "react-icons/fa";
 
 const ViewFLoatingButtonCircle = ({ section, editor }) => {
   const { buttons } = section;
-  const { position, space } = section.mainStyle;
+  const { position, space, side = "right" } = section.mainStyle;
 
   const sizeClassesMap = {
     sm: 40,
@@ -24,13 +24,23 @@ const ViewFLoatingButtonCircle = ({ section, editor }) => {
     default: 24,
   };
 
+  const sidePosition =
+    side === "right"
+      ? {
+          right: 20,
+        }
+      : {
+          left: 20,
+        };
+
   return (
     <div
       style={{
         bottom: position,
         gap: space,
+        ...sidePosition,
       }}
-      className="fixed  right-5 flex flex-col justify-center items-center z-10    "
+      className="fixed   flex flex-col justify-center items-center z-10    "
     >
       {buttons.map((button) => {
         const size = button.stylesBtn.size;
