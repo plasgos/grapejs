@@ -15,7 +15,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import {
+  setEditComponent,
+  setIsEditTextEditor,
+} from "@/redux/modules/landing-page/landingPageSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,6 +34,10 @@ const ToolbarOptions = ({ editor }) => {
   // const [hasModalPopup, setHasModalPopup] = useState(false);
 
   const dispatch = useDispatch();
+
+  const selectedComponent = editor.getSelected();
+  const type = selectedComponent.get("type");
+  const isFloatingComponent = type?.startsWith("floating-");
 
   const [editElement, setEditElement] = useState("");
 
@@ -50,11 +57,9 @@ const ToolbarOptions = ({ editor }) => {
   // }, [editor]);
 
   const handleRemove = () => {
-    if (editElement == "text-element") {
-      return;
-    } else {
+    setTimeout(() => {
       editor.runCommand("core:component-delete");
-    }
+    }, 300);
   };
 
   const items = [
@@ -62,14 +67,18 @@ const ToolbarOptions = ({ editor }) => {
       icon: <FaPenToSquare />,
       tooltip: "Edit Component",
       onClick: () => {
-        const selectedComponent = editor.getSelected()?.attributes?.blockLabel;
-        dispatch(setEditComponent(selectedComponent));
+        dispatch(setEditComponent(selectedComponent?.attributes?.blockLabel));
       },
     },
     {
       icon: <FiMove />,
       tooltip: "Move",
-      onClick: () => editor.runCommand("tlb-move"),
+      onClick: () => {
+        const selected = editor.getSelected();
+        selected?.set("draggable", true);
+
+        editor.runCommand("tlb-move");
+      },
     },
     {
       icon: <FaRegCopy />,
@@ -82,6 +91,19 @@ const ToolbarOptions = ({ editor }) => {
       onClick: () => handleRemove(),
     },
   ];
+
+  useEffect(() => {
+    const handleDragEnd = () => {
+      const selected = editor.getSelected();
+      selected?.set("draggable", false);
+    };
+
+    editor.on("component:drag:end", handleDragEnd);
+
+    return () => {
+      editor.off("component:drag:end", handleDragEnd);
+    };
+  }, [editor]);
 
   const ToolbarDesktop = () => {
     return (
@@ -196,7 +218,7 @@ const ToolbarOptions = ({ editor }) => {
 
   if (editComponent || editElement) return null;
 
-  return <>{renderToolbar()}</>;
+  return <>{isFloatingComponent ? null : renderToolbar()}</>;
 };
 
 export default ToolbarOptions;

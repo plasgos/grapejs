@@ -10,6 +10,7 @@ const WrapperViewComponent = ({
   buildContainerStyle,
   buildChildComponents,
   viewId,
+  isFloatingComponent,
 }) => {
   const [globalOptions] = useGlobalOptions(editor);
   const currentGlobalOptions = editor ? globalOptions : buildContainerStyle;
@@ -67,13 +68,8 @@ const WrapperViewComponent = ({
   }, [editor]);
 
   return (
-    <ContainerView
-      targetId={section?.scrollTarget?.value || ""}
-      editor={editor}
-      section={section}
-      maxWidthPage={maxWidthPage}
-    >
-      {ViewComponent && (
+    <>
+      {isFloatingComponent ? (
         <ViewComponent
           section={section}
           editor={editor}
@@ -82,8 +78,24 @@ const WrapperViewComponent = ({
           buildContainerStyle={buildContainerStyle}
           viewId={viewId}
         />
+      ) : (
+        <ContainerView
+          targetId={section?.scrollTarget?.value || ""}
+          editor={editor}
+          section={section}
+          maxWidthPage={maxWidthPage}
+        >
+          <ViewComponent
+            section={section}
+            editor={editor}
+            maxWidthPage={maxWidthPage}
+            isFocusContent={isFocusContent}
+            buildContainerStyle={buildContainerStyle}
+            viewId={viewId}
+          />
+        </ContainerView>
       )}
-    </ContainerView>
+    </>
   );
 };
 

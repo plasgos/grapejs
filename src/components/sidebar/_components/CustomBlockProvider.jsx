@@ -25,22 +25,42 @@ export default function CustomBlockManager({
 }) {
   const [openCategories, setOpenCategories] = useState([]);
 
+  // const filteredBlocks = Array.from(mapCategoryBlocks).reduce(
+  //   (acc, [category, blocks]) => {
+  //     const filtered = blocks.filter(
+  //       (block) =>
+  //         block.getLabel().toLowerCase().includes(searchBlock.toLowerCase()) ||
+  //         category.toLowerCase().includes(searchBlock.toLowerCase())
+  //     );
+  //     if (filtered.length > 0) {
+  //       acc.set(category, filtered);
+  //     }
+  //     return acc;
+  //   },
+  //   new Map()
+  // );
+
   const filteredBlocks = Array.from(mapCategoryBlocks).reduce(
     (acc, [category, blocks]) => {
+      // ⛔️ Skip jika kategori floating
+      if (category.toLowerCase().includes("floating")) return acc;
+
       const filtered = blocks.filter(
         (block) =>
-          block.getLabel().toLowerCase().includes(searchBlock.toLowerCase()) ||
-          category.toLowerCase().includes(searchBlock.toLowerCase())
+          !block.get("type")?.startsWith("floating-") && // Extra guard
+          (block.getLabel().toLowerCase().includes(searchBlock.toLowerCase()) ||
+            category.toLowerCase().includes(searchBlock.toLowerCase()))
       );
+
       if (filtered.length > 0) {
         acc.set(category, filtered);
       }
+
       return acc;
     },
     new Map()
   );
 
-  // Inisialisasi semua kategori terbuka pada render pertama
   useEffect(() => {
     const allCategories = Array.from(mapCategoryBlocks.keys());
     setOpenCategories(allCategories); // Semua kategori dibuka saat pertama kali render

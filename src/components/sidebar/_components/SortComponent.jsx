@@ -8,7 +8,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { useEditor } from "@grapesjs/react";
 import { IoCopyOutline } from "react-icons/io5";
 import { RxDragHandleDots2 } from "react-icons/rx";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,19 +16,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cx } from "class-variance-authority";
-import { cloneElement } from "react";
-import { FaTrashAlt } from "react-icons/fa";
-import { PiTargetBold } from "react-icons/pi";
-import { useReducer } from "react";
-import { useEffect } from "react";
-import { MdOutlineFilterCenterFocus } from "react-icons/md";
-import { useDispatch } from "react-redux";
 import {
   setEditComponent,
   setIsDraggingComponent,
 } from "@/redux/modules/landing-page/landingPageSlice";
-import { useSelector } from "react-redux";
+import { cx } from "class-variance-authority";
+import { cloneElement, useEffect, useReducer } from "react";
+import { FaTrashAlt } from "react-icons/fa";
+import { FaPenToSquare } from "react-icons/fa6";
+import { MdOutlineFilterCenterFocus } from "react-icons/md";
+import { PiTargetBold } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
 
 const SortableItem = ({ item, isFloatingComponent }) => {
   const editor = useEditor();
@@ -55,8 +52,11 @@ const SortableItem = ({ item, isFloatingComponent }) => {
 
   const handleSelect = () => {
     if (item) {
-      // Pilih komponen tertentu yang dimaksud
       editor.select(item);
+
+      if (isFloatingComponent) {
+        dispatch(setEditComponent(item.attributes?.blockLabel));
+      }
       // Mendapatkan elemen DOM dari komponen yang dipilih
       const selectedElement = item.view.el;
       if (selectedElement) {
@@ -83,8 +83,10 @@ const SortableItem = ({ item, isFloatingComponent }) => {
 
   const handleDelete = () => {
     if (item) {
+      dispatch(setEditComponent(""));
       item.remove();
       const wrapper = editor.getWrapper();
+
       editor.select(wrapper);
     }
   };
@@ -122,9 +124,13 @@ const SortableItem = ({ item, isFloatingComponent }) => {
 
   const commandNavigation = [
     {
-      action: "Focus",
+      action: isFloatingComponent ? "Edit" : "Focus",
       command: handleSelect,
-      icon: <MdOutlineFilterCenterFocus />,
+      icon: isFloatingComponent ? (
+        <FaPenToSquare />
+      ) : (
+        <MdOutlineFilterCenterFocus />
+      ),
       isDisable: false,
     },
     {
@@ -215,14 +221,12 @@ const SortableItem = ({ item, isFloatingComponent }) => {
   );
 };
 
-const Navigator = ({
+export const Navigator = ({
   editor,
   components,
   handleReorder,
   isFloatingComponent,
 }) => {
-  const dispatch = useDispatch();
-
   return (
     <DndContext
       collisionDetection={closestCenter}
@@ -249,7 +253,7 @@ const Navigator = ({
             ))
           ) : (
             <>
-              <p className="text-sm text-center">Components Empty!</p>
+              <p className="text-sm text-center">Sections Empty!</p>
             </>
           )}
         </div>
@@ -279,8 +283,6 @@ const SortComponent = () => {
   }, [editor]);
 
   const components = editor.getComponents()?.models;
-  console.log("🚀 ~ SortComponent ~ components:", components);
-
   const handleReorder = (event, editor, isFloatingComponent) => {
     if (isFloatingComponent) {
       return;
@@ -320,47 +322,19 @@ const SortComponent = () => {
     (comp) => !comp?.get("category")?.toLowerCase().includes("floating")
   );
 
-  const floatingComponents = components.filter((comp) =>
-    comp?.get("category")?.toLowerCase().includes("floating")
-  );
-
   return (
     <>
-      <Tabs defaultValue="components" className="w-full">
-        <TabsList>
-          <TabsTrigger
-            className="w-full data-[state=active]:border-orange-400 data-[state=active]:border-b-[3px] data-[state=active]:text-orange-400"
-            value="components"
-          >
-            Components
-          </TabsTrigger>
-          <TabsTrigger
-            className="w-full data-[state=active]:border-orange-400 data-[state=active]:border-b-[3px] data-[state=active]:text-orange-400"
-            value="Floating Components"
-          >
-            Floating Components
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="components">
-          <div className="p-3 h-[85vh] overflow-y-auto overflow-x-hidden max-w-full">
-            <Navigator
-              editor={editor}
-              components={mainComponents}
-              handleReorder={handleReorder}
-            />
-          </div>
-        </TabsContent>
-        <TabsContent value="Floating Components">
-          <div className="p-3 h-[93vh]  overflow-y-auto overflow-x-hidden max-w-full">
-            <Navigator
-              editor={editor}
-              components={floatingComponents}
-              handleReorder={handleReorder}
-              isFloatingComponent
-            />
-          </div>
-        </TabsContent>
-      </Tabs>
+      <div className="sticky top-0 z-10  border-b shadow  p-4 bg-orange-200  flex justify-between items-center ">
+        <p className="font-semibold">Sort Sections</p>
+      </div>
+
+      <div className="p-3 h-[86vh] overflow-y-auto">
+        <Navigator
+          editor={editor}
+          components={mainComponents}
+          handleReorder={handleReorder}
+        />
+      </div>
     </>
   );
 };

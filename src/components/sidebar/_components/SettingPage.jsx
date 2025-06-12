@@ -7,7 +7,7 @@ import { produce } from "immer";
 import { ChevronRight } from "lucide-react";
 import { CiExport, CiImport } from "react-icons/ci";
 
-const SettingPage = () => {
+const SettingPage = ({ currentProject }) => {
   const editor = useEditor();
   const { toast } = useToast();
 
@@ -53,7 +53,7 @@ const SettingPage = () => {
       // Simpan file dengan nama "grapesjs-project.json"
       const link = document.createElement("a");
       link.href = url;
-      link.download = "grapesjs-project.json";
+      link.download = `${currentProject?.name}.json`;
       link.click();
 
       // Bersihkan URL setelah download

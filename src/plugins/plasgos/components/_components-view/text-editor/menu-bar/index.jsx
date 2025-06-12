@@ -78,7 +78,9 @@ const MenuBarTextEditor = ({
   const bubbleMenuOptions = [
     {
       icon: <Bold className="size-4" />,
-      onClick: () => editor.chain().focus().toggleBold().run(),
+      onClick: () => {
+        editor.chain().focus().toggleBold().run();
+      },
       preesed: editor.isActive("bold"),
     },
     {

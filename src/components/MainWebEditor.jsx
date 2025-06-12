@@ -161,6 +161,22 @@ const MainWebEditor = () => {
       });
     });
 
+    editor.on("component:selected", (component) => {
+      component.set("draggable", false);
+
+      const type = component.get("type");
+
+      if (type?.startsWith("floating-")) {
+        // component.set("selectable", false);
+        component.set("highlightable", false);
+        component.set("hoverable", false);
+      }
+    });
+
+    // editor.on("component:update", (component) => {
+    //   component.set("draggable", false);
+    // });
+
     editor.on("component:add", () => {
       handleSyncSchemeColor(editor);
     });
@@ -471,7 +487,7 @@ const MainWebEditor = () => {
           >
             <WithEditor>
               <div className={cx("", isPreviewMode && "hidden")}>
-                <Sidebar />
+                <Sidebar currentProject={currentProject} />
               </div>
             </WithEditor>
 

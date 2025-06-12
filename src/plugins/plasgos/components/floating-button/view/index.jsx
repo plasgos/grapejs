@@ -2,19 +2,22 @@ import { onActionClickTarget } from "@/utils/onActionClickTarget";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import CustomButton from "../../_components-view/CustomButton";
 
-const ViewFLoatingButton = ({ section, editor }) => {
+const ViewFLoatingButton = ({ section, editor, maxWidthPage }) => {
   const { buttons } = section;
   const { position } = section.mainStyle;
 
   return (
     <div
       style={{
-        bottom: 20,
+        bottom: 80,
+        maxWidth: maxWidthPage,
+        left: "50%",
+        transform: "translateX(-50%)",
       }}
-      className="fixed z-10 w-full"
+      className="fixed z-10 w-full  "
     >
       <div
-        className={`flex ${position} justify-center items-center w-full ${
+        className={` flex ${position} justify-center items-center w-full ${
           position === "flex-col" ? "gap-y-3" : "gap-x-3"
         } px-2  `}
       >

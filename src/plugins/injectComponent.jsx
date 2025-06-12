@@ -33,16 +33,17 @@ export const injectComponents = (editor, options) => {
       defaults: {
         tagName: "div",
         draggable: true,
-        droppable: (target) => {
-          const allowedParents = [
-            "split-text",
-            "button-content",
-            "custom-text",
-            "text-element",
-          ];
-          const parentType = target?.get("type");
-          return allowedParents.includes(parentType);
-        },
+        droppable: false,
+        // droppable: (target) => {
+        //   const allowedParents = [
+        //     "split-text",
+        //     "button-content",
+        //     "custom-text",
+        //     "text-element",
+        //   ];
+        //   const parentType = target?.get("type");
+        //   return allowedParents.includes(parentType);
+        // },
         selectable: true,
         highlightable: true,
         hoverable: true,
@@ -107,6 +108,8 @@ export const injectComponents = (editor, options) => {
 
         const childrenModels = this.model.components();
         const viewId = this.model.cid;
+        const type = this.model.get("type");
+        const isFloatingComponent = type?.startsWith("floating-");
 
         this.root.render(
           <Provider store={store}>
@@ -118,6 +121,7 @@ export const injectComponents = (editor, options) => {
               buildContainerStyle={null}
               buildChildComponents={null}
               viewId={viewId}
+              isFloatingComponent={isFloatingComponent}
             />
           </Provider>
         );
@@ -156,12 +160,6 @@ export const injectELements = (editor, options) => {
     model: {
       defaults: {
         tagName: "div",
-        // style: {
-        //   display: "inline-block", // ini penting!
-        //   maxWidth: "100%",
-        //   height: "auto", // atau default sesuai kebutuhan
-        //   position: "relative", // untuk bisa dipindahkan
-        // },
         draggable: true,
         droppable: false,
         selectable: true,

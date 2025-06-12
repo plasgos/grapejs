@@ -4,6 +4,7 @@ import project1Json from "@/dummy-projects/project-1.json";
 const initialState = {
   isPreviewMode: false,
   currentDeviceView: "desktop",
+  isEditTextEditor: false,
   deployData: undefined,
   canvasData: undefined,
   editComponent: "",
@@ -124,6 +125,10 @@ export const landingPageSlice = createSlice({
     setCurrentDeviceView: (state, action) => {
       state.currentDeviceView = action.payload;
     },
+    setIsEditTextEditor: (state, action) => {
+      state.isEditTextEditor = action.payload;
+    },
+
     setCanvasData: (state, action) => {
       state.canvasData = action.payload;
     },
@@ -178,6 +183,7 @@ export const landingPageSlice = createSlice({
 export const {
   setIsPreviewMode,
   setCurrentDeviceView,
+  setIsEditTextEditor,
   setCanvasData,
   setEditComponent,
   setIsDraggingComponent,

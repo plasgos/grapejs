@@ -46,7 +46,7 @@ export function useRichTextEditor({
     editorProps: {
       attributes: {
         class: `p-3 border border-transparent focus:border-indigo-500  focus:outline-none ${
-          !isPreviewMode && "hover:border-indigo-300"
+          !isPreviewMode && mainEditor && "hover:border-indigo-300 "
         }`,
       },
     },
@@ -55,6 +55,7 @@ export function useRichTextEditor({
         onChange(editor.getHTML());
       }
     },
+    onFocus: () => {},
 
     onBlur: () => {
       const iframe = document.querySelector(".gjs-frame");

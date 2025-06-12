@@ -19,6 +19,7 @@ import BackgroundEditor from "@/plugins/plasgos/components/_components-editor/ba
 import { Switch } from "@/components/ui/switch";
 import { useDispatch } from "react-redux";
 import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
+import { FaTextHeight } from "react-icons/fa6";
 
 const EditorContentShowcase = ({ selectedComponent }) => {
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -120,7 +121,11 @@ const EditorContentShowcase = ({ selectedComponent }) => {
 
           <div className="flex flex-col gap-y-5 rounded-lg p-3 bg-white">
             <div className="flex items-center justify-between ">
-              <Label>Add Header</Label>
+              <div className="flex items-center  gap-x-2">
+                <FaTextHeight size={20} />
+
+                <Label>Text Header</Label>
+              </div>
               <Switch
                 checked={currentComponent.isAddHeader}
                 onCheckedChange={(checked) => {

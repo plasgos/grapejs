@@ -30,14 +30,12 @@ export const overrideDeleteCommand = (editor) => {
         selected.remove();
 
         // Pilih komponen sebelumnya jika ada, jika tidak pilih wrapper
-        // if (siblings && index > 0) {
-        //   const previousComponent = siblings.at(index - 1);
-        //   editor.select(previousComponent);
-        // } else {
-        //   editor.select(wrapper);
-        // }
-
-        editor.select(null);
+        if (siblings && index > 0) {
+          const previousComponent = siblings.at(index - 1);
+          editor.select(previousComponent);
+        } else {
+          editor.select(wrapper);
+        }
       }
     },
   });

@@ -30,7 +30,7 @@ const ViewFLoatingButtonCircle = ({ section, editor }) => {
         bottom: position,
         gap: space,
       }}
-      className="absolute  right-5 flex flex-col justify-center items-center    "
+      className="fixed  right-5 flex flex-col justify-center items-center z-10    "
     >
       {buttons.map((button) => {
         const size = button.stylesBtn.size;
