@@ -19,22 +19,18 @@ const MenuFontSize = ({ editor }) => {
   const [isOpenFontSizes, setIsOpenFontSizes] = useState(false);
 
   const fontSizes = [
-    "12px",
-    "14px",
-    "16px",
-    "18px",
-    "24px",
-    "32px",
-    "36px",
-    "40px",
-    "48px",
-    "64px",
-    "96px",
-    "128px",
+    { label: "XS", value: "clamp(0.75rem, 1vw, 0.875rem)" },
+    { label: "SM", value: "clamp(0.875rem, 1.2vw, 1rem)" },
+    { label: "Base", value: "clamp(1rem, 1.5vw, 1.125rem)" },
+    { label: "LG", value: "clamp(1.125rem, 2vw, 1.25rem)" },
+    { label: "XL", value: "clamp(1.25rem, 2.5vw, 1.5rem)" },
+    { label: "2XL", value: "clamp(1.5rem, 3vw, 2rem)" },
+    { label: "3XL", value: "clamp(1.875rem, 4vw, 2.25rem)" },
+    { label: "4XL", value: "clamp(2.25rem, 5vw, 3rem)" },
   ];
 
-  const currentFontSize = editor.getAttributes("textStyle")?.fontSize;
-
+  const selected = editor.getAttributes("textStyle")?.fontSize;
+  const currentFontSize = fontSizes.find((font) => font.value === selected);
   return (
     <Popover open={isOpenFontSizes} onOpenChange={setIsOpenFontSizes}>
       <PopoverTrigger asChild className="bg-muted ">
@@ -46,7 +42,7 @@ const MenuFontSize = ({ editor }) => {
         >
           <div className="flex justify-between w-full">
             <p className="truncate max-w-20">
-              {currentFontSize ? currentFontSize : "Font Size"}
+              {currentFontSize?.label ? currentFontSize?.label : "Font Size"}
             </p>
             <ChevronDown className="opacity-50" />
           </div>
@@ -56,21 +52,23 @@ const MenuFontSize = ({ editor }) => {
         <Command>
           <CommandList>
             <CommandGroup>
-              {fontSizes.map((fontSize) => (
+              {fontSizes.map(({ label, value }) => (
                 <CommandItem
-                  key={fontSize}
-                  value={fontSize}
+                  key={value}
+                  value={value}
                   onSelect={(value) => {
                     editor.chain().focus().setFontSize(value).run();
 
                     setIsOpenFontSizes(false);
                   }}
                 >
-                  {fontSize}
+                  {label}
                   <Check
                     className={cn(
                       "ml-auto",
-                      currentFontSize === fontSize ? "opacity-100" : "opacity-0"
+                      currentFontSize?.value === value
+                        ? "opacity-100"
+                        : "opacity-0"
                     )}
                   />
                 </CommandItem>

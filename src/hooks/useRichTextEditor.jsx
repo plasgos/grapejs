@@ -72,7 +72,7 @@ export function useRichTextEditor({
         iframe.contentDocument || iframe.contentWindow.document;
       iframeDocument.getSelection().empty();
     },
-    autofocus: "end",
+    autofocus: "all",
   });
 
   useEffect(() => {

@@ -50,13 +50,20 @@ const StyleSettings = ({ background, onChange }) => {
         />
       )}
       <RangeInputSlider
-        label="Padding Top"
+        label="Padding"
         value={padding}
         min={0}
         max={200}
         onChange={(value) => {
           handelPaddingChange("padding", value);
         }}
+        // responsiveMode={true}
+        // onChange={(value) => {
+        //   const clampPadding = `clamp(${value * 0.3}px, ${
+        //     value * 0.5
+        //   }vw, ${value}px)`;
+        //   handelPaddingChange("padding", clampPadding);
+        // }}
       />
       <div className="p-2 bg-purple-50 rounded-lg">
         <RangeInputSlider

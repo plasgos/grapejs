@@ -1,12 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import { produce } from "immer";
 import BackgroundEditor from "@/plugins/plasgos/components/_components-editor/background";
+import { produce } from "immer";
 
+import SelectCircle from "@/plugins/plasgos/components/_components-editor/SelectCircle";
 import { useEditor } from "@grapesjs/react";
 import { useEffect, useRef, useState } from "react";
-import SelectCircle from "@/plugins/plasgos/components/_components-editor/SelectCircle";
 import StylesTab from "./StylesTab";
 
 import { FaRegEye } from "react-icons/fa";
@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/select";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
-import ListComponents from "@/plugins/plasgos/components/_components-editor/ListComponents";
 
 const modalOpenTypeOptions = [
   {
@@ -66,13 +65,18 @@ const EditorModalPopup = ({ selectedComponent }) => {
     selectedComponent.get("customComponent").popupId
   );
 
-  const handlePreviewModal = (value) => {
-    selectedComponent?.set(
-      "customComponent",
-      produce(selectedComponent?.get("customComponent"), (draft) => {
-        draft.isPreviewModal = value;
-      })
-    );
+  const handlePreviewModal = () => {
+    const parentComponent = selectedComponent?.parent();
+
+    const parentStyle = parentComponent.getStyle();
+
+    const update = (current) => {
+      return produce(current, (draft) => {
+        draft["display"] = "flex";
+      });
+    };
+
+    parentComponent.setStyle(update(parentStyle));
   };
 
   useEffect(() => {
@@ -176,13 +180,6 @@ const EditorModalPopup = ({ selectedComponent }) => {
               Preview
             </Button>
           </div>
-        </div>
-
-        <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg ">
-          <ListComponents
-            editor={editor}
-            selectedComponent={selectedComponent}
-          />
         </div>
       </TabsContent>
 

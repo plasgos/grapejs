@@ -133,6 +133,9 @@ const EditorContentShowcase = ({ selectedComponent }) => {
 
                   if (checked) {
                     dispatch(setEditComponent(""));
+                    handleComponentChange(`background.marginTop`, 50);
+                    handleComponentChange(`background.marginBottom`, 50);
+                    handleComponentChange(`background.padding`, 20);
                   }
                 }}
               />

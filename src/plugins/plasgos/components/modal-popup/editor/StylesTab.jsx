@@ -11,8 +11,15 @@ import {
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import { transitionTypeOptions } from "@/plugins/plasgos/components/_components-editor/TransitionEditor";
+import { produce } from "immer";
+import { useState } from "react";
+import ColorPicker from "@/plugins/plasgos/components/_components-editor/ColorPicker";
 
 const StylesTab = ({ selectedComponent }) => {
+  const [currentStyles, setCurrentStyles] = useState(
+    selectedComponent.getStyle()
+  );
+
   const { currentComponent, setCurrentComponent, handleComponentChange } =
     useChangeComponentValue(selectedComponent);
 
@@ -20,25 +27,47 @@ const StylesTab = ({ selectedComponent }) => {
 
   const { wrapperStyle } = currentComponent;
 
+  const handleStyleWrapperChange = (key, value) => {
+    const update = (current) => {
+      return produce(current, (draft) => {
+        draft[key] = value;
+      });
+    };
+
+    selectedComponent.setStyle(update(currentStyles));
+    setCurrentStyles(update(currentStyles));
+  };
+
   return (
     <div className="flex flex-col gap-y-5 bg-white p-5 rounded-lg ">
+      <ColorPicker
+        label="Background Color"
+        value={currentStyles["background-color"] || "#ffffff"}
+        onChange={(color) =>
+          handleStyleWrapperChange("background-color", color)
+        }
+      />
+
       <RangeInputSlider
         label="Width"
-        value={wrapperStyle.width}
-        min={450}
-        max={1000}
+        value={parseInt(currentStyles.width || "0")}
+        min={10}
+        max={100}
         onChange={(value) => {
-          handleComponentChange("wrapperStyle.width", value);
+          const parsedValue = `${value}%`;
+          handleStyleWrapperChange("width", parsedValue);
         }}
+        unit="%"
       />
 
       <RangeInputSlider
         label="Rounded Corner"
-        value={wrapperStyle.rounded}
+        value={parseInt(currentStyles["border-radius"] || "0")}
         min={0}
         max={40}
         onChange={(value) => {
-          handleComponentChange("wrapperStyle.rounded", value);
+          const parsedValue = `${value}px`;
+          handleStyleWrapperChange("border-radius", parsedValue);
         }}
       />
 

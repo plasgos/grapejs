@@ -2,35 +2,23 @@ import { useMemo } from "react";
 
 export const useBackgroundStyles = (content) => {
   return useMemo(() => {
-    const paddingTop = content.background?.paddingTop
-      ? `calc(0px + ${content.background?.paddingTop}px)`
-      : content.background?.paddingY
-      ? `calc(0px + ${content.background?.paddingY}px)`
-      : "0px";
-
-    const paddingBottom = content.background?.paddingBottom
-      ? `calc(0px + ${content.background?.paddingBottom}px)`
-      : content.background?.paddingY
-      ? `calc(0px + ${content.background?.paddingY}px)`
-      : "0px";
-
     const backgroundImgStyle = {
       position: "absolute",
       top: 0,
       left: 0,
       width: "100%",
       height: "100%",
-      backgroundImage: content.background?.bgImage
-        ? `url(${content.background?.bgImage})`
+      backgroundImage: content?.background?.bgImage
+        ? `url(${content?.background?.bgImage})`
         : "",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      filter: `blur(${content.background?.blur}px)`,
+      filter: `blur(${content?.background?.blur}px)`,
       overflow: "hidden",
     };
 
-    const calculateOpacity = content.background?.opacity / 100;
+    const calculateOpacity = content?.background?.opacity / 100;
 
     const gradientStyle = {
       position: "absolute",
@@ -39,14 +27,14 @@ export const useBackgroundStyles = (content) => {
       width: "100%",
       height: "100%",
       overflow: "hidden",
-      backgroundImage: `linear-gradient(${content.background?.direction}, ${
-        content.background?.isRevert
-          ? content.background?.toColor
-          : content.background?.fromColor
+      backgroundImage: `linear-gradient(${content?.background?.direction}, ${
+        content?.background?.isRevert
+          ? content?.background?.toColor
+          : content?.background?.fromColor
       }, ${
-        content.background?.isRevert
-          ? content.background?.fromColor
-          : content.background?.toColor
+        content?.background?.isRevert
+          ? content?.background?.fromColor
+          : content?.background?.toColor
       })`,
     };
 
@@ -56,8 +44,8 @@ export const useBackgroundStyles = (content) => {
       left: 0,
       width: "100%",
       height: "100%",
-      backgroundImage: content.background?.pattern
-        ? `url(${content.background?.pattern})`
+      backgroundImage: content?.background?.pattern
+        ? `url(${content?.background?.pattern})`
         : "",
       backgroundSize: "cover",
       backgroundPosition: "center",
@@ -65,9 +53,11 @@ export const useBackgroundStyles = (content) => {
       overflow: "hidden",
     };
 
+    if (!content) {
+      return null;
+    }
+
     return {
-      paddingTop,
-      paddingBottom,
       backgroundImgStyle,
       calculateOpacity,
       gradientStyle,

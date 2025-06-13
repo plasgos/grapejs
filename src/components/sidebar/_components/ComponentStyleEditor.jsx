@@ -39,7 +39,6 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
     if (!selectedComponent) return null;
 
     const type = selectedComponent.get("type");
-
     switch (type) {
       case "navbar":
         return <EditorNavbar selectedComponent={selectedComponent} />;
@@ -77,7 +76,7 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       case "content-showcase":
         return <EditorContentShowcase selectedComponent={selectedComponent} />;
 
-      case "modal-popup":
+      case "modal-content":
         return <EditorModalPopup selectedComponent={selectedComponent} />;
 
       case "image-content":

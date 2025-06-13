@@ -98,27 +98,27 @@ const ModalPopup = ({
   const containerRef = useRef(null);
   console.log("🚀 ~ containerRef:", containerRef);
 
-  // useEffect(() => {
-  //   if (editor) {
-  //     editor.on("component:add", () => {
-  //       if (childrenModels && childrenModels.length > 0) {
-  //         // Kosongkan dulu
-  //         containerRef.current.innerHTML = "";
+  useEffect(() => {
+    if (editor) {
+      editor.on("component:add", () => {
+        if (childrenModels && childrenModels.length > 0) {
+          // Kosongkan dulu
+          containerRef.current.innerHTML = "";
 
-  //         // Append semua child component
-  //         childrenModels.forEach((child) => {
-  //           const childEl = child.view?.el;
+          // Append semua child component
+          childrenModels.forEach((child) => {
+            const childEl = child.view?.el;
 
-  //           console.log("🚀 ~ childrenModels.forEach ~ childEl:", childEl);
+            console.log("🚀 ~ childrenModels.forEach ~ childEl:", childEl);
 
-  //           if (childEl) {
-  //             containerRef.current.appendChild(childEl);
-  //           }
-  //         });
-  //       }
-  //     });
-  //   }
-  // }, [childrenModels, editor]);
+            if (childEl) {
+              containerRef.current.appendChild(childEl);
+            }
+          });
+        }
+      });
+    }
+  }, [childrenModels, editor]);
 
   useEffect(() => {
     editor.on("component:add", () => {
@@ -142,18 +142,20 @@ const ModalPopup = ({
     <>
       {isOpen ? (
         <>
-          <div
-            className={`fixed inset-0 bg-black/50  z-50 pointer-events-none ${
+          {/* <div
+            className={`fixed inset-0 bg-black/50  z-50 !pointer-events-none ${
               isDelayAnimate
                 ? "animate__animated animate__fadeOut"
                 : "animate__animated animate__fadeIn"
             }  `}
-          ></div>
+          >
+           
+          </div> */}
 
-          <div className=" relative flex flex-col items-center justify-center h-[500px] overflow-y-auto bg-slate-300">
+          {/* <div className="bg-red-500 relative flex flex-col items-center justify-center h-[500px]  overflow-y-auto ">
             <div
               className={clsx(
-                "relative w-full p-6 m-5 bg-white shadow-lg  sm:max-w-screen-sm md:max-w-screen-md rounded-lg transition-all duration-200 z-[9999]  right-0  ",
+                "relative w-full p-6 m-5 bg-white shadow-lg  sm:max-w-screen-sm md:max-w-screen-md rounded-lg transition-all duration-200 z-[9999]  right-0 h-[500px]  ",
                 ""
               )}
               style={{
@@ -174,10 +176,28 @@ const ModalPopup = ({
                 section={section}
                 maxWidthPage={maxWidthPage}
               >
-                {/* <div ref={containerRef} className="gjs-children-wrapper" /> */}
-
                 <div data-slot="modal-children" />
               </ContainerView>
+            </div>
+          </div> */}
+
+          <div
+            style={{
+              display: "block",
+              position: "fixed",
+              zIndex: 100,
+              paddingTop: 100,
+              left: 0,
+              top: 0,
+              width: "100%",
+              height: "100%",
+              overflow: "auto",
+              backgroundColor: "rgba(0,0,0,0.4)",
+            }}
+            className=""
+          >
+            <div className="bg-white m-auto p-5 border w-[80%]">
+              <p>MODAL</p>
             </div>
           </div>
         </>
@@ -187,3 +207,6 @@ const ModalPopup = ({
 };
 
 export default ModalPopup;
+{
+  /* <div ref={containerRef} className="gjs-children-wrapper" /> */
+}

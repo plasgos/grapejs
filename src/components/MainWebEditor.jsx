@@ -12,6 +12,7 @@ import Navbar from "./Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 
 import {
+  setEditComponent,
   setGoogleFont,
   setIsPreviewMode,
 } from "@/redux/modules/landing-page/landingPageSlice";
@@ -136,7 +137,6 @@ const MainWebEditor = () => {
       deviceManager.remove("mobileLandscape");
 
       injectExternalCSS(editor);
-      handleFocusDropComponent(editor);
       addGlobalOptions(editor);
       handleAddWatermark(editor);
       handleAddGoogleFont();
@@ -163,6 +163,7 @@ const MainWebEditor = () => {
 
     editor.on("component:selected", (component) => {
       component.set("draggable", false);
+      dispatch(setEditComponent(""));
 
       const type = component.get("type");
 
@@ -204,7 +205,7 @@ const MainWebEditor = () => {
 
       // Force re-render canvas
       setTimeout(() => {
-        editor.refresh(); // Memaksa reflow & repaint canvas
+        editor?.refresh(); // Memaksa reflow & repaint canvas
       }, 50);
     });
 
@@ -270,21 +271,6 @@ const MainWebEditor = () => {
     } else {
       return;
     }
-  };
-
-  const handleFocusDropComponent = (editor) => {
-    const canvas = editor.Canvas.getFrameEl();
-    if (!canvas) return;
-
-    // Scroll ke komponen baru setelah ditambahkan
-    editor.on("component:add", (model) => {
-      setTimeout(() => {
-        const el = model?.view?.el; // Ambil elemen DOM dari komponen
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      }, 100);
-    });
   };
 
   const handleAddGoogleFont = () => {
@@ -450,6 +436,7 @@ const MainWebEditor = () => {
   const handleClickOutsideCanvas = () => {
     if (editorInstance) {
       editorInstance.select(null);
+      dispatch(setEditComponent(""));
     }
   };
 

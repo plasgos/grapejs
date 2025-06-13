@@ -44,7 +44,7 @@ const TextEditor = ({
       <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverTrigger
           style={{
-            top: -45,
+            top: -50,
           }}
           className="invisible absolute"
         >

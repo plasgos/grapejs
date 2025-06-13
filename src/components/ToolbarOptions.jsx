@@ -10,15 +10,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import {
-  setEditComponent,
-  setIsEditTextEditor,
-} from "@/redux/modules/landing-page/landingPageSlice";
+import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -28,33 +23,19 @@ import { FiMove } from "react-icons/fi";
 import { IoEllipsisVerticalCircle } from "react-icons/io5";
 
 const ToolbarOptions = ({ editor }) => {
-  const { editComponent, isDraggingComponent, currentDeviceView } = useSelector(
+  const { editComponent, currentDeviceView } = useSelector(
     (state) => state.landingPage
   );
-  // const [hasModalPopup, setHasModalPopup] = useState(false);
 
   const dispatch = useDispatch();
 
   const selectedComponent = editor.getSelected();
-  const type = selectedComponent.get("type");
+  const type = selectedComponent?.get("type");
   const isFloatingComponent = type?.startsWith("floating-");
 
+  const isPopupComponent = type?.toLowerCase().startsWith("modal-");
+
   const [editElement, setEditElement] = useState("");
-
-  // useEffect(() => {
-  //   const checkModalPopup = () => {
-  //     const found = editor?.getWrapper()?.find("[data-gjs-type=modal-popup]");
-  //     setHasModalPopup(found.length > 0);
-  //   };
-
-  //   checkModalPopup(); // initial check
-
-  //   editor.on("component:add component:remove", checkModalPopup);
-
-  //   return () => {
-  //     editor.off("component:add component:remove", checkModalPopup);
-  //   };
-  // }, [editor]);
 
   const handleRemove = () => {
     setTimeout(() => {
@@ -218,7 +199,9 @@ const ToolbarOptions = ({ editor }) => {
 
   if (editComponent || editElement) return null;
 
-  return <>{isFloatingComponent ? null : renderToolbar()}</>;
+  return (
+    <>{isFloatingComponent || isPopupComponent ? null : renderToolbar()}</>
+  );
 };
 
 export default ToolbarOptions;

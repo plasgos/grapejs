@@ -9,13 +9,17 @@ const ContainerView = ({
   maxWidthPage,
 }) => {
   const { padding, marginTop, marginBottom, rounded, isFullWidth } =
-    section.background || {};
+    section?.background || {};
   const stylesBg = useBackgroundStyles(section);
 
   const backgroundColor =
     section?.background?.bgType === "bgColor"
       ? section?.background?.bgColor
       : "";
+
+  if (!section) {
+    return null;
+  }
 
   return (
     <div

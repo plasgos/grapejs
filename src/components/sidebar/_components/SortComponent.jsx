@@ -28,7 +28,7 @@ import { MdOutlineFilterCenterFocus } from "react-icons/md";
 import { PiTargetBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 
-const SortableItem = ({ item, isFloatingComponent }) => {
+const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
   const editor = useEditor();
   const { editComponent } = useSelector((state) => state.landingPage);
 
@@ -42,7 +42,7 @@ const SortableItem = ({ item, isFloatingComponent }) => {
   } = useSortable({
     id: item.getId(),
 
-    disabled: isFloatingComponent,
+    disabled: isFloatingComponent || isPopupComponent,
   });
 
   const style = {
@@ -52,9 +52,10 @@ const SortableItem = ({ item, isFloatingComponent }) => {
 
   const handleSelect = () => {
     if (item) {
-      editor.select(item);
+      const target = isPopupComponent ? item.components()?.at(0) : item;
+      editor.select(target);
 
-      if (isFloatingComponent) {
+      if (isFloatingComponent || isPopupComponent) {
         dispatch(setEditComponent(item.attributes?.blockLabel));
       }
       // Mendapatkan elemen DOM dari komponen yang dipilih
@@ -124,20 +125,21 @@ const SortableItem = ({ item, isFloatingComponent }) => {
 
   const commandNavigation = [
     {
-      action: isFloatingComponent ? "Edit" : "Focus",
+      action: isFloatingComponent || isPopupComponent ? "Edit" : "Focus",
       command: handleSelect,
-      icon: isFloatingComponent ? (
-        <FaPenToSquare />
-      ) : (
-        <MdOutlineFilterCenterFocus />
-      ),
+      icon:
+        isFloatingComponent || isPopupComponent ? (
+          <FaPenToSquare />
+        ) : (
+          <MdOutlineFilterCenterFocus />
+        ),
       isDisable: false,
     },
     {
       action: "Copy",
       command: handleCopy,
       icon: <IoCopyOutline />,
-      isDisable: isFloatingComponent ? true : false,
+      isDisable: isFloatingComponent || isPopupComponent ? true : false,
     },
     {
       action: "Remove",
@@ -148,6 +150,8 @@ const SortableItem = ({ item, isFloatingComponent }) => {
   ];
 
   const itHasScrollTarget = item?.attributes?.customComponent?.scrollTarget;
+
+  const icon = item?.attributes?.blockIcon;
 
   return (
     <div
@@ -184,7 +188,7 @@ const SortableItem = ({ item, isFloatingComponent }) => {
 
       <div className="flex items-center justify-between relative">
         <div className="pl-5 flex items-center gap-x-2">
-          {cloneElement(item?.attributes?.blockIcon, { size: 24 })}
+          {icon && <>{cloneElement(icon, { size: 24 })}</>}
           <div className=" font-semibold text-sm">
             <p>{item?.attributes?.blockLabel}</p>
           </div>
@@ -226,6 +230,7 @@ export const Navigator = ({
   components,
   handleReorder,
   isFloatingComponent,
+  isPopupComponent,
 }) => {
   return (
     <DndContext
@@ -249,6 +254,7 @@ export const Navigator = ({
                 key={item.getId()}
                 item={item}
                 isFloatingComponent={isFloatingComponent}
+                isPopupComponent={isPopupComponent}
               />
             ))
           ) : (
@@ -319,7 +325,9 @@ const SortComponent = () => {
   };
 
   const mainComponents = components.filter(
-    (comp) => !comp?.get("category")?.toLowerCase().includes("floating")
+    (comp) =>
+      !comp?.get("category")?.toLowerCase().includes("floating") &&
+      !comp?.get("category")?.toLowerCase().includes("popup")
   );
 
   return (

@@ -75,6 +75,7 @@ const RenderFromData = ({ projectData }) => {
   const rootComponents =
     projectData?.pages[0].frames?.[0]?.component?.components;
   console.log("🚀 ~ RenderFromData ~ rootComponents:", rootComponents);
+
   const renderComponentRecursively = (comp, key) => {
     const Component = viewComponentsRender[comp.type];
 
@@ -107,42 +108,9 @@ const RenderFromData = ({ projectData }) => {
     }
   }, [navigate, rootComponents]);
 
-  // Flatten recursive components ke dalam array datar
-  const flattenComponents = (components = [], flat = []) => {
-    components.forEach((comp) => {
-      flat.push(comp);
-      if (comp.components?.length > 0) {
-        flattenComponents(comp.components, flat);
-      }
-    });
-    return flat;
-  };
-
-  // return rootComponents?.map((comp) => {
-  //   const parentKey = comp.attributes?.id || generateId();
-  //   return renderComponentRecursively(comp, parentKey);
-  // });
-
-  const flatComponents = flattenComponents(rootComponents);
-  console.log("🚀 ~ RenderFromData ~ flatComponents:", flatComponents);
-
-  return flatComponents.map((comp, i) => {
-    const key = comp.attributes?.id || i;
-    const Component = viewComponentsRender[comp.type];
-
-    if (!Component) return null;
-
-    return (
-      <WrapperViewComponent
-        key={key}
-        ViewComponent={Component}
-        section={comp.customComponent}
-        editor={null}
-        childrenModels={null}
-        buildContainerStyle={frameGlobalOptions}
-        buildChildComponents={[]} // Jangan kirim children, karena kita flatten
-      />
-    );
+  return rootComponents?.map((comp) => {
+    const parentKey = comp.attributes?.id || generateId();
+    return renderComponentRecursively(comp, parentKey);
   });
 };
 
