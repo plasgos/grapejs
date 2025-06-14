@@ -53,14 +53,25 @@ const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
     transition,
   };
 
+  const popupContent = item?.components()?.at(0);
+  const popupName = popupContent
+    ? popupContent.get("customComponent")?.popupName
+    : "";
+
   const handleSelect = () => {
     if (item) {
-      const target = isPopupComponent ? item.components()?.at(0) : item;
+      const target = isPopupComponent ? popupContent : item;
       editor.select(target);
 
-      if (isFloatingComponent || isPopupComponent) {
+      // const popupName = target.get("customComponent")?.popupName;
+      if (isPopupComponent) {
+        dispatch(
+          setEditComponent(`${item.attributes?.blockLabel} - ( ${popupName} )`)
+        );
+      } else if (isFloatingComponent) {
         dispatch(setEditComponent(item.attributes?.blockLabel));
       }
+
       // Mendapatkan elemen DOM dari komponen yang dipilih
       const selectedElement = item.view.el;
       if (selectedElement) {
@@ -140,7 +151,6 @@ const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
 
   const handlePreviewPopup = () => {
     const el = item?.view?.el;
-
     const parentStyle = item.getStyle();
 
     const update = (current) => {
@@ -229,9 +239,21 @@ const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
       <div className="flex items-center justify-between relative">
         <div className="pl-5 flex items-center gap-x-2">
           {icon && <>{cloneElement(icon, { size: 24 })}</>}
-          <div className=" font-semibold text-sm">
-            <p>{item?.attributes?.blockLabel}</p>
-          </div>
+
+          {isPopupComponent ? (
+            <div className="flex items-center gap-x-2 truncate  max-w-36">
+              <div className=" font-semibold text-sm">
+                <p>{item?.attributes?.blockLabel}</p>
+              </div>
+              <div className=" font-semibold text-sm">
+                <p>( {popupName} )</p>
+              </div>
+            </div>
+          ) : (
+            <div className=" font-semibold text-sm">
+              <p>{item?.attributes?.blockLabel}</p>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-x-1">

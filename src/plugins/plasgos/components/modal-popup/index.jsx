@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import { useCallback, useEffect } from "react";
 import { createRoot } from "react-dom/client";
+import { renderToString } from "react-dom/server";
 import { IoCloseSharp } from "react-icons/io5";
 import { VscMultipleWindows } from "react-icons/vsc";
 
@@ -116,21 +117,25 @@ const Popup = ({ component, section, editor, childrenModels }) => {
 };
 
 const defaultCustomComponent = {
-  scrollTarget: undefined,
   isPreviewModal: false,
+  popupName: "popup-01",
   typeOpen: "immediately",
   delayDuration: 3000,
   contents: [],
-  wrapperStyle: {
-    popupName: "popup-01",
-    rounded: 10,
-    isPopupShown: true,
-    width: 700,
-    appearEffect: "animate__fadeInUp",
-  },
+  wrapperStyle: {},
 };
 
 export const modalPopupComponent = (editor) => {
+  editor.BlockManager.add("popup", {
+    label: "Popup",
+    category: "Popup",
+    media: renderToString(<VscMultipleWindows />),
+    attributes: { class: "fa fa-window-maximize" },
+    content: {
+      type: "popup-wrapper",
+    },
+  });
+
   editor.Components.addType("popup-wrapper", {
     model: {
       defaults: {

@@ -15,9 +15,11 @@ import { PiBracketsSquareLight, PiTimerBold } from "react-icons/pi";
 
 import { Button } from "@/components/ui/button";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
 import SelectOptions from "../../_components-editor/SelectOptions";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { useDispatch } from "react-redux";
+import { setEditComponent } from "@/redux/modules/landing-page/landingPageSlice";
 
 const modalOpenTypeOptions = [
   {
@@ -61,7 +63,7 @@ const EditorModalPopup = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { wrapperStyle, typeOpen, delayDuration } = currentComponent;
+  const { popupName, typeOpen, delayDuration } = currentComponent;
 
   const isEffectExecuted = useRef(false);
 
@@ -133,6 +135,8 @@ const EditorModalPopup = ({ selectedComponent }) => {
     setCurrentComponent((prevComponent) => updateValue(prevComponent));
   };
 
+  const dispatch = useDispatch();
+
   return (
     <>
       <TabsContent
@@ -143,10 +147,14 @@ const EditorModalPopup = ({ selectedComponent }) => {
           <div className="space-y-2">
             <Label>Name</Label>
             <Input
-              value={wrapperStyle.popupName || ""}
+              value={popupName || ""}
               onChange={(e) => {
                 const value = e.target.value;
-                handleComponentChange("wrapperStyle.popupName", value);
+                handleComponentChange("popupName", value);
+              }}
+              onBlur={(e) => {
+                const value = e.target.value;
+                dispatch(setEditComponent(`Poupup - ${value}`));
               }}
             />
           </div>

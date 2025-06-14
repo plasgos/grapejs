@@ -4,7 +4,6 @@ import { renderToString } from "react-dom/server";
 
 import { Provider } from "react-redux";
 import WrapperViewComponent from "./WrapperViewComponent";
-import { generateId } from "@/lib/utils";
 
 export const injectComponents = (editor, options) => {
   const {
@@ -20,7 +19,6 @@ export const injectComponents = (editor, options) => {
     label,
     category,
     content: { type },
-
     activate: true,
     media: renderToString(icon),
     attributes: {

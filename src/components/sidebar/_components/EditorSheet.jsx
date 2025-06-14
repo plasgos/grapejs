@@ -75,7 +75,9 @@ const EditorSheet = () => {
     <>
       <div className="flex flex-col h-[94vh] shadow bg-[#FEEBDB] w-full">
         <div className="sticky top-0 z-10 bg-white border-b p-3 flex justify-between items-center rounded-t-lg">
-          <h3 className="text-lg font-semibold">{editComponent}</h3>
+          <h3 className="text-lg truncate max-w-72 font-semibold">
+            {editComponent}
+          </h3>
           <Button
             variant="ghost"
             size="sm"

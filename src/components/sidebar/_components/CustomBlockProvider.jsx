@@ -43,7 +43,11 @@ export default function CustomBlockManager({
   const filteredBlocks = Array.from(mapCategoryBlocks).reduce(
     (acc, [category, blocks]) => {
       // ⛔️ Skip jika kategori floating
-      if (category.toLowerCase().includes("floating")) return acc;
+      if (
+        category.toLowerCase().includes("floating") ||
+        category.toLowerCase().includes("popup")
+      )
+        return acc;
 
       const filtered = blocks.filter(
         (block) =>
