@@ -110,6 +110,7 @@ const TargetOptions = ({
   handleComponentChange,
 }) => {
   const { target } = content;
+  console.log("🚀 ~ target:", target);
   const editor = useEditor();
   const editorModel = editor.getModel();
   const globalOptions = editorModel.get("globalOptions");

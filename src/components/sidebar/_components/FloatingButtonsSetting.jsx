@@ -45,7 +45,7 @@ function FloatingBlockManager({
     .find("*")
     .map((comp) => comp.get("type"));
   return (
-    <div className={`    `}>
+    <div>
       {Array.from(filteredBlocks).length > 0 ? (
         <div className="">
           {Array.from(filteredBlocks).map(([category, blocks]) => {

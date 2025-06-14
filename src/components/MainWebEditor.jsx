@@ -178,7 +178,8 @@ const MainWebEditor = () => {
     //   component.set("draggable", false);
     // });
 
-    editor.on("component:add", () => {
+    editor.on("component:add", (component) => {
+      component.set("draggable", false);
       handleSyncSchemeColor(editor);
     });
     editor.on("component:remove", () => {

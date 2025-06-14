@@ -61,6 +61,17 @@ const StylesTab = ({ selectedComponent }) => {
       />
 
       <RangeInputSlider
+        label="Height"
+        value={parseInt(currentStyles["max-height"] || "0")}
+        min={300}
+        max={1000}
+        onChange={(value) => {
+          const parsedValue = `${value}px`;
+          handleStyleWrapperChange("max-height", parsedValue);
+        }}
+      />
+
+      <RangeInputSlider
         label="Rounded Corner"
         value={parseInt(currentStyles["border-radius"] || "0")}
         min={0}

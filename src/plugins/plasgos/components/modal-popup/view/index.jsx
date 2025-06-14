@@ -1,10 +1,6 @@
-import ContainerView from "@/components/ContainerView";
 import { useGlobalOptions } from "@/hooks/useGlobalOptions";
-import clsx from "clsx";
 import { produce } from "immer";
-import { useRef } from "react";
-import { useEffect, useState } from "react";
-import { MdClose } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 const ModalPopup = ({
@@ -96,8 +92,6 @@ const ModalPopup = ({
   const currentPopup = globalOptions.popup.find((item) => item.id === popupId);
 
   const containerRef = useRef(null);
-  console.log("🚀 ~ containerRef:", containerRef);
-
   useEffect(() => {
     if (editor) {
       editor.on("component:add", () => {
@@ -108,9 +102,6 @@ const ModalPopup = ({
           // Append semua child component
           childrenModels.forEach((child) => {
             const childEl = child.view?.el;
-
-            console.log("🚀 ~ childrenModels.forEach ~ childEl:", childEl);
-
             if (childEl) {
               containerRef.current.appendChild(childEl);
             }
@@ -118,24 +109,6 @@ const ModalPopup = ({
         }
       });
     }
-  }, [childrenModels, editor]);
-
-  useEffect(() => {
-    editor.on("component:add", () => {
-      if (!containerRef.current) return;
-
-      containerRef.current.innerHTML = "";
-
-      childrenModels.forEach((child) => {
-        const childEl = child.view?.el;
-
-        console.log("🚀 ~ childrenModels.forEach ~ childEl:", childEl);
-
-        if (childEl) {
-          containerRef.current.appendChild(childEl);
-        }
-      });
-    });
   }, [childrenModels, editor]);
 
   return (

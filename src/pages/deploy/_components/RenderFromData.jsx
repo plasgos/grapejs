@@ -52,7 +52,7 @@ export const viewComponentsRender = {
   "video-text-banner": ViewVideoText,
   "video-content": ViewVideo,
   "list-images": ViewListImages,
-  "modal-popup": ViewModal,
+  // "modal-popup": ViewModal,
   "image-content": ViewImage,
   "content-showcase": ViewContentShowcase,
   "business-overview": ViewBusinessOverview,

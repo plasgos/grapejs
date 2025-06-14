@@ -4,6 +4,9 @@ export const overrideDeleteCommand = (editor) => {
       const selected = editor.getSelected();
       const wrapper = editor.getWrapper();
 
+      const id = selected.getId();
+      console.log("🚀 ~ run ~ id:", id);
+
       if (selected && selected === wrapper) {
         return;
       }
@@ -17,11 +20,11 @@ export const overrideDeleteCommand = (editor) => {
         const index = siblings?.indexOf(selected);
 
         // Jika type-nya modal-popup, update globalOptions
-        if (selected.get("type") === "modal-popup") {
+        if (selected.get("type") === "popup-wrapper") {
           editorModel.set("globalOptions", {
             ...globalOptions,
             popup: globalOptions.popup.filter(
-              (opt) => opt.id !== selected.get("customComponent")?.popupId
+              (opt) => opt.id !== selected.getId()
             ),
           });
         }

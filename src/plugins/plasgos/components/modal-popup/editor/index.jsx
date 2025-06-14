@@ -6,7 +6,7 @@ import { produce } from "immer";
 
 import SelectCircle from "@/plugins/plasgos/components/_components-editor/SelectCircle";
 import { useEditor } from "@grapesjs/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import StylesTab from "./StylesTab";
 
 import { FaRegEye } from "react-icons/fa";
@@ -14,15 +14,10 @@ import { GiClick } from "react-icons/gi";
 import { PiBracketsSquareLight, PiTimerBold } from "react-icons/pi";
 
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useChangeComponentValue } from "@/hooks/useChangeComponentValue";
 import useSyncWithUndoRedo from "@/hooks/useSyncWithUndoRedo";
+import SelectOptions from "../../_components-editor/SelectOptions";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 
 const modalOpenTypeOptions = [
   {
@@ -31,7 +26,11 @@ const modalOpenTypeOptions = [
     icon: <PiBracketsSquareLight size={20} />,
   },
   { value: "delay", label: "Delay", icon: <PiTimerBold size={20} /> },
-  { value: "onClick", label: "Click Action", icon: <GiClick size={20} /> },
+  {
+    value: "onClick",
+    label: "Click Action ",
+    icon: <GiClick size={20} />,
+  },
 ];
 
 const delayOptions = [
@@ -49,7 +48,12 @@ const delayOptions = [
 ];
 
 const EditorModalPopup = ({ selectedComponent }) => {
+  const parent = selectedComponent.parent();
+  const el = parent.view?.el;
+  const popupId = parent.getId();
+
   const editor = useEditor();
+  const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
   const editorModel = editor.getModel();
 
   const { currentComponent, setCurrentComponent, handleComponentChange } =
@@ -57,13 +61,9 @@ const EditorModalPopup = ({ selectedComponent }) => {
 
   useSyncWithUndoRedo(setCurrentComponent);
 
-  const { wrapperStyle, popupModalOption } = currentComponent;
+  const { wrapperStyle, typeOpen, delayDuration } = currentComponent;
 
   const isEffectExecuted = useRef(false);
-
-  const [popupId, setPopupId] = useState(
-    selectedComponent.get("customComponent").popupId
-  );
 
   const handlePreviewModal = () => {
     const parentComponent = selectedComponent?.parent();
@@ -75,6 +75,9 @@ const EditorModalPopup = ({ selectedComponent }) => {
         draft["display"] = "flex";
       });
     };
+
+    el.classList.remove("animate-out", "fade-out-0");
+    el.classList.add("animate-in", "fade-in-5");
 
     parentComponent.setStyle(update(parentStyle));
   };
@@ -98,21 +101,13 @@ const EditorModalPopup = ({ selectedComponent }) => {
           },
         ],
       });
-
-      setPopupId(newId);
-      selectedComponent.set(
-        "customComponent",
-        produce(selectedComponent.get("customComponent"), (draft) => {
-          draft.popupId = newId;
-        })
-      );
     }
   }, [editorModel, popupId, selectedComponent]);
 
   const handleChangePopupModalOption = (key, value) => {
     const updateValue = (component) => {
       return produce(component, (draft) => {
-        draft.popupModalOption[key] = value;
+        draft[key] = value;
       });
     };
 
@@ -120,6 +115,20 @@ const EditorModalPopup = ({ selectedComponent }) => {
       "customComponent",
       updateValue(selectedComponent?.get("customComponent"))
     );
+
+    if (value === "onClick") {
+      updateGlobalOptions({
+        popup: [
+          ...globalOptions.popup,
+          {
+            id: popupId,
+            value: `Popup ${globalOptions.popup.length + 1}`,
+            label: `Popup ${globalOptions.popup.length + 1}`,
+            isShown: false,
+          },
+        ],
+      });
+    }
 
     setCurrentComponent((prevComponent) => updateValue(prevComponent));
   };
@@ -145,31 +154,20 @@ const EditorModalPopup = ({ selectedComponent }) => {
           <SelectCircle
             label="Modal Open Type"
             options={modalOpenTypeOptions}
-            value={popupModalOption.typeOpen}
+            value={typeOpen}
             onClick={(value) => handleChangePopupModalOption("typeOpen", value)}
           />
 
-          {popupModalOption.typeOpen === "delay" && (
+          {typeOpen === "delay" && (
             <div className="space-y-2">
-              <Label>Delay Time</Label>
-
-              <Select
-                value={popupModalOption.delayDuration}
-                onValueChange={(value) =>
+              <SelectOptions
+                label="Delay Time"
+                options={delayOptions}
+                value={delayDuration}
+                onChange={(value) =>
                   handleChangePopupModalOption("delayDuration", value)
                 }
-              >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="" />
-                </SelectTrigger>
-                <SelectContent>
-                  {delayOptions.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              />
             </div>
           )}
 

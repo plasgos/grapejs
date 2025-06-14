@@ -1,69 +1,125 @@
 import { produce } from "immer";
-import { useState } from "react";
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { IoCloseSharp } from "react-icons/io5";
 import { VscMultipleWindows } from "react-icons/vsc";
 
-const Popup = ({ component, section, editor }) => {
-  const [currentStyles, setCurrentStyles] = useState(component.getStyle());
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
-  useEffect(() => {
-    if (component) {
-      const update = () => forceUpdate();
-      component.on("change:style", update);
+const Popup = ({ component, section, editor, childrenModels }) => {
+  const editorModel = editor.getModel();
+  const globalOptions = editorModel.get("globalOptions");
+  const { typeOpen, delayDuration } = section;
 
-      return () => {
-        component.off("change:style", update);
+  const parent = component.parent();
+  const el = parent.view?.el;
+  const popupId = parent.getId();
+
+  const handleStyleWrapperChange = useCallback(
+    (key, value) => {
+      const parentComponent = component?.parent();
+
+      const parentStyle = parentComponent.getStyle();
+      const update = (current) => {
+        return produce(current, (draft) => {
+          draft[key] = value;
+        });
       };
+
+      parentComponent.setStyle(update(parentStyle));
+
+      if (el && value === "flex") {
+        el.classList.remove("animate-out", "fade-out-5", "duration-300");
+        el.classList.add("animate-in", "fade-in-5", "duration-300");
+      } else {
+        setTimeout(() => {
+          el.classList.remove("animate-in", "fade-in-5", "duration-300");
+          el.classList.add("animate-out", "fade-out-5", "duration-300");
+        }, 300);
+      }
+    },
+    [component, el]
+  );
+
+  useEffect(() => {
+    if (typeOpen === "immediately") {
+      handleStyleWrapperChange("display", "flex");
+    } else if (typeOpen === "delay" && delayDuration) {
+      setTimeout(() => {
+        handleStyleWrapperChange("display", "flex");
+      }, delayDuration);
+    } else if (typeOpen === "onClick" && globalOptions.popup.length > 0) {
+      const selectedPopup = globalOptions.popup.find(
+        (popup) => popup.id === popupId
+      );
+
+      if (selectedPopup?.isShown) {
+        handleStyleWrapperChange("display", "flex");
+      }
     }
-  }, [component]);
+  }, [
+    delayDuration,
+    globalOptions.popup,
+    handleStyleWrapperChange,
+    popupId,
+    section,
+    typeOpen,
+  ]);
 
-  const handleStyleWrapperChange = (key, value) => {
-    const parentComponent = component?.parent();
+  const handleClose = () => {
+    if (typeOpen === "onClick" && globalOptions.popup.length > 0) {
+      const selectedPopup = globalOptions.popup.find(
+        (popup) => popup.id === popupId
+      );
 
-    const parentStyle = parentComponent.getStyle();
-    const update = (current) => {
-      return produce(current, (draft) => {
-        draft[key] = value;
-      });
-    };
+      if (selectedPopup) {
+        editorModel.set("globalOptions", {
+          ...globalOptions,
+          popup: globalOptions.popup.map((item) =>
+            item.id === selectedPopup.id
+              ? {
+                  ...item,
+                  isShown: false,
+                }
+              : item
+          ),
+        });
+      }
 
-    parentComponent.setStyle(update(parentStyle));
-    setCurrentStyles(update(parentStyle));
+      handleStyleWrapperChange("display", "none");
+    } else {
+      handleStyleWrapperChange("display", "none");
+    }
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: currentStyles["background-color"],
-      }}
-      className="  flex justify-between sticky top-0 bg-white z-10 p-3"
-    >
-      <p className="text-4xl font-semibold">Header Modal</p>
-
+    <>
       <IoCloseSharp
-        onClick={() => {
-          handleStyleWrapperChange("display", "none");
-        }}
+        onClick={handleClose}
         style={{
-          right: -10,
+          right: 0,
+          top: 0,
         }}
-        className="absolute text-muted-foreground cursor-pointer hover:scale-125 transition-all ease-out  "
+        className="sticky ml-auto text-muted-foreground cursor-pointer hover:scale-125 transition-all ease-out z-50 shadow-sm  "
         size={32}
       />
-    </div>
+
+      {/* 🔽 Tambahkan ini untuk render children */}
+      {/* <div className="children-wrapper">
+        {childrenModels?.map((child) => {
+          const el = child.view?.el;
+          return el ? (
+            <div key={child.cid} ref={(ref) => ref && ref.appendChild(el)} />
+          ) : null;
+        })}
+      </div> */}
+    </>
   );
 };
 
 const defaultCustomComponent = {
   scrollTarget: undefined,
-  popupId: "",
   isPreviewModal: false,
-  popupModalOption: {
-    typeOpen: "immediately",
-    delayDuration: 3000,
-  },
+  typeOpen: "immediately",
+  delayDuration: 3000,
   contents: [],
   wrapperStyle: {
     popupName: "popup-01",
@@ -72,27 +128,10 @@ const defaultCustomComponent = {
     width: 700,
     appearEffect: "animate__fadeInUp",
   },
-  background: {
-    bgType: null,
-    bgColor: "",
-    bgImage: "",
-    blur: 0,
-    opacity: 0,
-    padding: 0,
-    marginTop: 0,
-    marginBottom: 0,
-    direction: "to right",
-    fromColor: "",
-    toColor: "",
-    isRevert: false,
-    pattern: "",
-    rounded: 0,
-    isFullWidth: false,
-  },
 };
 
 export const modalPopupComponent = (editor) => {
-  editor.Components.addType("modal-popup", {
+  editor.Components.addType("popup-wrapper", {
     model: {
       defaults: {
         tagName: "div",
@@ -104,17 +143,16 @@ export const modalPopupComponent = (editor) => {
         toolbar: [],
         hoverable: false,
         category: "popup",
-        attributes: {},
+        attributes: { class: "transition-opacity" },
         blockLabel: "Popup",
         blockIcon: <VscMultipleWindows />,
-        // customComponent: defaultCustomComponent,
         style: {
           position: "fixed",
           top: "0",
           left: "0",
           width: "100vw",
           height: "100vh",
-          display: "flex",
+          display: "none",
           "justify-content": "center",
           "align-items": "center",
           "background-color": "rgba(0, 0, 0, 0.4)",
@@ -122,14 +160,14 @@ export const modalPopupComponent = (editor) => {
         },
         components: [
           {
-            type: "modal-content",
+            type: "popup-content",
           },
         ],
       },
     },
   });
 
-  editor.Components.addType("modal-content", {
+  editor.Components.addType("popup-content", {
     model: {
       defaults: {
         tagName: "div",
@@ -148,7 +186,7 @@ export const modalPopupComponent = (editor) => {
         customComponent: defaultCustomComponent,
         style: {
           "background-color": "white",
-          padding: "0px 20px 20px 20px",
+          padding: "20px",
           "border-radius": "8px",
           width: "70%",
           "min-height": "300px",
@@ -215,6 +253,7 @@ export const modalPopupComponent = (editor) => {
             editor={editor}
             component={this.model}
             section={this.model.get("customComponent")}
+            childrenModels={this.model.components()}
           />
         );
       },

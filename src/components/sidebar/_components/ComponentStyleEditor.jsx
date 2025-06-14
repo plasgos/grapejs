@@ -76,7 +76,7 @@ const ComponentStyleEditor = ({ selectedComponent }) => {
       case "content-showcase":
         return <EditorContentShowcase selectedComponent={selectedComponent} />;
 
-      case "modal-content":
+      case "popup-content":
         return <EditorModalPopup selectedComponent={selectedComponent} />;
 
       case "image-content":

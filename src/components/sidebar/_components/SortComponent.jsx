@@ -23,14 +23,17 @@ import {
 import { cx } from "class-variance-authority";
 import { cloneElement, useEffect, useReducer } from "react";
 import { FaTrashAlt } from "react-icons/fa";
-import { FaPenToSquare } from "react-icons/fa6";
+import { FaPenToSquare, FaRegEye } from "react-icons/fa6";
 import { MdOutlineFilterCenterFocus } from "react-icons/md";
 import { PiTargetBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
+import { useGlobalOptions } from "@/hooks/useGlobalOptions";
+import { produce } from "immer";
 
 const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
   const editor = useEditor();
   const { editComponent } = useSelector((state) => state.landingPage);
+  const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
 
   const {
     attributes,
@@ -83,7 +86,19 @@ const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
   }, [dispatch, isDragging]);
 
   const handleDelete = () => {
-    if (item) {
+    if (isPopupComponent) {
+      updateGlobalOptions({
+        popup: globalOptions.popup.filter((opt) => opt.id !== item.getId()),
+      });
+
+      dispatch(setEditComponent(""));
+      item.remove();
+      const wrapper = editor.getWrapper();
+
+      editor.select(wrapper);
+
+      return;
+    } else {
       dispatch(setEditComponent(""));
       item.remove();
       const wrapper = editor.getWrapper();
@@ -123,7 +138,30 @@ const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
     }
   };
 
+  const handlePreviewPopup = () => {
+    const el = item?.view?.el;
+
+    const parentStyle = item.getStyle();
+
+    const update = (current) => {
+      return produce(current, (draft) => {
+        draft["display"] = "flex";
+      });
+    };
+
+    el.classList.remove("animate-out", "fade-out-0");
+    el.classList.add("animate-in", "fade-in-5");
+
+    item.setStyle(update(parentStyle));
+  };
+
   const commandNavigation = [
+    {
+      action: "Preview",
+      command: handlePreviewPopup,
+      icon: <FaRegEye />,
+      isDisable: !isPopupComponent,
+    },
     {
       action: isFloatingComponent || isPopupComponent ? "Edit" : "Focus",
       command: handleSelect,
@@ -161,7 +199,9 @@ const SortableItem = ({ item, isFloatingComponent, isPopupComponent }) => {
       className={cx(
         "relative p-4 bg-white shadow rounded-xl",
         isDragging ? "z-20 bg-purple-200 ring-2 ring-purple-700" : "",
-        isFloatingComponent ? "cursor-not-allowed" : "cursor-move "
+        isFloatingComponent || isPopupComponent
+          ? "cursor-not-allowed"
+          : "cursor-move "
       )}
       style={style}
     >

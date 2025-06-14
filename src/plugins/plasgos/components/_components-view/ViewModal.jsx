@@ -26,7 +26,7 @@ const ViewModal = ({ children, isOpen, onClose }) => {
       className={clsx(
         "fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity duration-200",
         {
-          " animate-in fade-in-0": isOpen,
+          " animate-in fade-in-5": isOpen,
           " animate-out fade-out-0": !isOpen,
         }
       )}

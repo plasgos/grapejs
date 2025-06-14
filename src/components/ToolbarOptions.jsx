@@ -33,7 +33,7 @@ const ToolbarOptions = ({ editor }) => {
   const type = selectedComponent?.get("type");
   const isFloatingComponent = type?.startsWith("floating-");
 
-  const isPopupComponent = type?.toLowerCase().startsWith("modal-");
+  const isPopupComponent = type?.toLowerCase().startsWith("popup-");
 
   const [editElement, setEditElement] = useState("");
 

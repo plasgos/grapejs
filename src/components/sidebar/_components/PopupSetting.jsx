@@ -1,29 +1,15 @@
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { useGlobalOptions } from "@/hooks/useGlobalOptions";
 import { useEditor } from "@grapesjs/react";
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
+import { FaPlus } from "react-icons/fa6";
 import { Navigator } from "./SortComponent";
-import { useReducer } from "react";
 
 const PopupSetting = () => {
   const editor = useEditor();
-  const [globalOptions, updateGlobalOptions] = useGlobalOptions(editor);
-  const { isActivePopup } = globalOptions || {};
 
   const handleAddPopup = () => {
-    editor.addComponents({ type: "modal-popup" });
-  };
-
-  const handleRemovePopup = () => {
-    const allComponents = editor.getComponents(); // root-level
-    const modalComponent = allComponents.find(
-      (comp) => comp.get("type") === "modal-popup"
-    );
-
-    if (modalComponent) {
-      modalComponent.remove();
-    }
+    editor.addComponents({ type: "popup-wrapper" });
   };
 
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -48,40 +34,46 @@ const PopupSetting = () => {
   const popupComponents = components.filter((comp) =>
     comp?.get("category")?.toLowerCase().includes("popup")
   );
+
+  const canvasComponentTypes = editor
+    .getWrapper()
+    .find("*")
+    .map((comp) => comp.get("type"));
+
+  const hasPopupComponent = canvasComponentTypes.some((type) =>
+    type?.startsWith("popup-")
+  );
+
   return (
     <>
-      <div className="sticky top-0 z-10  border-b shadow  p-4 bg-orange-200  flex justify-between items-center ">
+      <div className="sticky top-0 z-10  border-b shadow  p-5  bg-orange-200  flex justify-between items-center ">
         <p className="font-semibold">Settings</p>
       </div>
 
-      <div className="p-4 h-[86vh] overflow-y-auto">
-        <div className="flex flex-col gap-y-3 p-3 bg-white rounded-lg">
-          <div className="flex justify-between items-center m-3">
-            <Label className="">Add Popup</Label>
-            <Switch
-              checked={isActivePopup}
-              onCheckedChange={(checked) => {
-                updateGlobalOptions({ isActivePopup: checked });
+      <div className="p-3 h-[86vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-3 bg-white rounded-lg ">
+          <Label className="">Add Popup</Label>
 
-                if (editor) {
-                  if (checked) {
-                    handleAddPopup(editor);
-                  } else {
-                    handleRemovePopup(editor);
-                  }
-                }
-              }}
+          <Button
+            variant="outline"
+            onClick={() => {
+              handleAddPopup();
+            }}
+          >
+            <FaPlus />
+          </Button>
+        </div>
+
+        {hasPopupComponent && (
+          <div className="space-y-2 my-2">
+            <Label>List Popup</Label>
+            <Navigator
+              editor={editor}
+              components={popupComponents}
+              isPopupComponent
             />
           </div>
-        </div>
-
-        <div className="p-3 h-[86vh] overflow-y-auto">
-          <Navigator
-            editor={editor}
-            components={popupComponents}
-            isPopupComponent
-          />
-        </div>
+        )}
       </div>
     </>
   );

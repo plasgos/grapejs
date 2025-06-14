@@ -82,12 +82,11 @@ export const onActionClickTarget = (target, editor) => {
       const selectedPopup = globalOptions.popup.find(
         (popup) => popup.id === target?.options?.value
       );
-
       if (selectedPopup) {
         editorModel.set("globalOptions", {
           ...globalOptions,
           popup: globalOptions.popup.map((item) =>
-            item.id === selectedPopup.id
+            item.id === target?.options?.value
               ? {
                   ...item,
                   isShown: true,
